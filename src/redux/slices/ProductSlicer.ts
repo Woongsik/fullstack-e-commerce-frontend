@@ -1,25 +1,40 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { Product } from "../../misc/types/Product";
+import { AxiosResponse } from "axios";
+
+import Product from "../../misc/types/Product";
+import Category from "../../misc/types/Category";
+import { apiService } from "../../services/APIService";
 
 type InitialState = {
-  products: Product[]
+  products: Product[],
+  filteredProducts: Product[],
+  selectedCategoryId?: number,
+  loading: boolean,
+  error?: string
 }
 
 const initialState: InitialState = {
-  products: []
+  products: [],
+  filteredProducts: [],
+  selectedCategoryId: undefined,
+  loading: false,
+  error: undefined
 };
 
-const url = "https://api.escuelajs.co/api/v1/products";
+type fetchAllCategoriesAsyncParams = {
+  categoryId?: number,
+  page?: number
+};
+
 export const fetchAllProductsAsync = createAsyncThunk(
   "fetchAllProductsAsync", 
-  async () => {
+  async (params: fetchAllCategoriesAsyncParams, { rejectWithValue }) => {
     try {
-      const jsonData = await fetch(url);
-      const data: Product[] = await jsonData.json();
-      return data;
+      const { categoryId, page } = params;
+      const response: AxiosResponse = await apiService.getProduct(categoryId, page);
+      return response.data;
     } catch (e) {
-      const error = e as Error;
-      return error;
+      return rejectWithValue(e);
     }
 });
 
@@ -27,18 +42,29 @@ const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
-    addProduct: (state, actions: PayloadAction<string>) => {
-      console.log('add Product', actions.payload); // Product id
+    filterByName: (state, actions: PayloadAction<string>) => {
+      state.filteredProducts = state.products.filter((product: Product) => 
+        (product.title.toLocaleLowerCase().includes(actions.payload.toLocaleLowerCase())));
+    },
+    sortByPrices: (state, actions: PayloadAction<Category>) => {
+
+    },
+    createProduct: (state, actions: PayloadAction<Product>) => { // for adimin
+
+    },
+    updateProduct: (state, actions: PayloadAction<Product>) => {// for adimin
+
+    },
+    deleteProduct: (state, actions: PayloadAction<Product>) => {// for adimin
+
     }
   },
   extraReducers(builder) {
       builder.addCase(fetchAllProductsAsync.fulfilled, (state, action) => {
-        if (!(action.payload instanceof Error)) {
-          return {
-            ...state,
-            products: action.payload,
-            loading: false
-          }
+        return {
+          ...state,
+          products: action.payload,
+          loading: false
         }
       });
 
@@ -50,18 +76,22 @@ const productSlice = createSlice({
       });
 
       builder.addCase(fetchAllProductsAsync.rejected, (state, action) => {
-        if (action.payload instanceof Error) {
-          return {
+        return {
             ...state,
             loading: false,
-            error: action.payload.message
+            error: action.error.message ?? "Unkown error..."
           }
-        }
       });
   },
 });
 
-export const { addProduct } = productSlice.actions;
+export const { 
+  filterByName, 
+  sortByPrices, 
+  createProduct, 
+  updateProduct, 
+  deleteProduct 
+} = productSlice.actions;
 
 const productReducer = productSlice.reducer;
 export default productReducer;
