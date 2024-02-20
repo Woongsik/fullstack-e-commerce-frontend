@@ -15,8 +15,8 @@ import { fetchAllCategoriesAsync } from '../../redux/slices/CategorySlicer';
 import Category from '../../misc/types/Category';
 
 type Props = {
-  selectedCategoryId: number,
-  onCategoryChange: (categoryId: number) => void
+  selectedCategoryId?: number;
+  onCategoryChanged: (categoryId: number) => void;
 };
 
 export default function Categories(props: Props) {
@@ -31,7 +31,7 @@ export default function Categories(props: Props) {
   
   const handleChange = (e: SelectChangeEvent<number>) => {
     const { value } = e.target;
-    props.onCategoryChange(parseInt(value.toString()));
+    props.onCategoryChanged(parseInt(value.toString()));
   }
 
   return (
@@ -43,7 +43,7 @@ export default function Categories(props: Props) {
           labelId="category-select-label"
           id="category-select"
           value={selectedCategoryId}
-          label="Category"
+          label="Categories"
           onChange={handleChange}>
             <MenuItem value={0} key={0}>All</MenuItem>
             {categories.map((category: Category) => 

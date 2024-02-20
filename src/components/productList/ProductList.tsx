@@ -1,7 +1,7 @@
 import Product from '../../misc/types/Product';
 
 type Props = {
-  products: Product[]
+  products: Product[];
 }
 
 export default function ProductList(props: Props) {
@@ -9,11 +9,15 @@ export default function ProductList(props: Props) {
 
   return (
     <div>
+    { products.length === 0 ? 
+      <h1>No data! Please check all the criteria...</h1>
+      :
       <ol>
         {products.map((product: Product) => 
-          <li key={product.id}>{product.title}</li>
+          <li key={product.id}>{product.title}/{product.price}</li>
         )}
       </ol>
+    }
     </div>
   )
 }

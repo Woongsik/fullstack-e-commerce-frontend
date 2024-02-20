@@ -4,13 +4,13 @@ import {
   Box, 
   FormControl, 
   TextField, 
-  IconButton 
-} from '@mui/material';
+  IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import CancelIcon from '@mui/icons-material/Cancel';
 
 type Props = {
-  onTextChanged: (text:string) => void
+  title: string;
+  onTextChanged: (text:string) => void;
 }
 
 export default function SearchInput(props: Props) {
@@ -39,7 +39,7 @@ export default function SearchInput(props: Props) {
           sx={{ color: 'action.active', mr: 2, mt: 1.5 }} />
         <TextField 
           fullWidth
-          label="Search breweries by name" 
+          label={props.title} 
           variant="standard" 
           value={searchPhrase}
           onChange={handleChange} />
