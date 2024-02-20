@@ -9,14 +9,15 @@ import SearchInput from '../../components/searchInput/SearchInput';
 import ProductList from '../../components/productList/ProductList';
 import Categories from '../../components/cateogries/Categories';
 import PageNavigation from '../../components/pageNavigation/PageNavigation';
+import SortGroup from '../../components/sortGroup/SortGroup';
 
 import Product from '../../misc/types/Product';
 import Filter from '../../misc/types/Filter';
-import PriceSlider from '../../components/priceSlider/PriceSlider';
+import PriceRangeSlider from '../../components/priceRangeSlider/PriceRangeSlider';
 
 export default function Home() {
   const baseCategoryId: number = 0;
-  const basePage: number = 1;
+  const basePage: number = 1; // MUI pagination started from 1
   const baseItemsPerPage: number = 10;
 
   const initialFilter: Filter = {
@@ -86,7 +87,6 @@ export default function Home() {
     }); 
   }
 
-
   return (
     <Box component="div" display="flex" justifyContent="center" alignItems="center">
       <Box component="div" width="50%" minWidth="500px">
@@ -96,6 +96,8 @@ export default function Home() {
         <Categories 
           selectedCategoryId={filter.categoryId} 
           onCategoryChanged={onCategoryChanged} />
+
+          <SortGroup />
         <ProductList products={products} />
         <PageNavigation 
           page={filter.page}
@@ -110,12 +112,13 @@ export default function Home() {
           <Button onClick={() => onPriceChanged(200)}>200</Button>
           <Button onClick={() => onPriceChanged(0)}>Clear</Button>
         </ButtonGroup>
-        <PriceSlider 
+        <PriceRangeSlider 
           start={0}
           end={100}
           minPrice={filter.price_min}
           maxPrice={filter.price_max}
           onPriceRangeChanged={onPriceRangeChanged} />
+
       </Box>
     </Box>
   )

@@ -1,24 +1,32 @@
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { 
+  ActionReducerMapBuilder, 
+  PayloadAction, 
+  createAsyncThunk, 
+  createSlice } from "@reduxjs/toolkit";
 import { AxiosResponse } from "axios";
 
-import Product from "../../misc/types/Product";
 import { apiService } from "../../services/APIService";
+import Product from "../../misc/types/Product";
 import Filter from "../../misc/types/Filter";
+import Sort from "../../misc/types/Sort";
 
 type InitialState = {
   products: Product[];
+  product?: Product;
+  filteredProducts: Product[];
+  sorted?: Sort;
   loading: boolean;
   error?: string;
 }
 
 const initialState: InitialState = {
   products: [],
-  loading: false,
-  error: undefined
+  filteredProducts: [],
+  loading: false
 };
 
 export const fetchProducts = createAsyncThunk(
-  "fetchProducts", // get all products, by categories, by page, by itemsPerPage, sort by prices
+  "fetchProducts", // get all products, by categories, by page, by itemsPerPage
   async (filter: Filter, { rejectWithValue }) => {
     try {
       const response: AxiosResponse = await apiService.getProducts(filter);
@@ -50,6 +58,30 @@ const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
+    sortBy: (state, actions: PayloadAction<Sort>) => {
+      console.log('sort by price', actions.payload);
+      state.sorted = actions.payload;
+      const sortType: Sort = actions.payload;
+
+      if (sortType === Sort.HIGHEST_PRICES) {
+        state.filteredProducts = [...state.products].sort((a: Product, b: Product) => (b.price - a.price));
+      } else if (sortType === Sort.LOWEST_PRICES) {
+        state.filteredProducts = [...state.products].sort((a: Product, b: Product) => (a.price - b.price));
+      } else if (sortType === Sort.LATEST_CREATED) {
+        state.filteredProducts = [...state.products].sort((a: Product, b: Product) => 1);
+      } // else if (sortType === Sort.OLDEST_CREATED) {
+      //   state.filteredProducts = [...state.products].sort((a: Product, b: Product) => 
+      //   (a.creationAt - b.creationAt));
+      // } else if (sortType === Sort.LATEST_UPDATED) {
+      //   state.filteredProducts = [...state.products].sort((a: Product, b: Product) => 
+      //   (b.updatedAt - a.updatedAt));
+      // } else if (sortType === Sort.OLDEST_UPDATED) {
+      //   state.filteredProducts = [...state.products].sort((a: Product, b: Product) => 
+      //   (a.updatedAt - b.updatedAt));
+      // } 
+      
+      console.log('sorted', state.filteredProducts);
+    },
     createProduct: (state, actions: PayloadAction<Product>) => { // for adimin
 
     },
@@ -60,8 +92,9 @@ const productSlice = createSlice({
 
     }
   },
-  extraReducers(builder) {
+  extraReducers(builder: ActionReducerMapBuilder<InitialState>) {
       builder.addCase(fetchProducts.fulfilled, (state, action) => {
+        console.log('this', this, state.sorted);
         return {
           ...state,
           products: action.payload,
@@ -79,10 +112,30 @@ const productSlice = createSlice({
             error: action.error.message ?? "Unkown error..."
           }
       });
+
+      builder.addCase(fetchProduct.fulfilled, (state, action) => {
+        return {
+          ...state,
+          product: action.payload,
+          loading: false
+        }
+      }).addCase(fetchProduct.pending, (state, action) => {
+        return {
+          ...state,
+          loading: true
+        }
+      }).addCase(fetchProduct.rejected, (state, action) => {
+        return {
+            ...state,
+            loading: false,
+            error: action.error.message ?? "Unkown error..."
+          }
+      });
   },
 });
 
 export const { 
+  sortBy,
   createProduct, 
   updateProduct, 
   deleteProduct 

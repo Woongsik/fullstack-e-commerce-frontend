@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/contextAPI/navbar/Navbar';
 import Home from './pages/home/Home';
 import Detail from "./pages/detail/Detail";
@@ -12,11 +12,12 @@ function App() {
     <div>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Home />}></Route>
+        <Route path="/home" element={<Home />}></Route>
         <Route path="/products" element={<Home />}></Route>
         <Route path="/products/:id" element={<Detail />}></Route>
         <Route path="/profile/:id" element={<Profile />}></Route>
         <Route path="/cart/:id" element={<Cart />}></Route>
+        <Route path='*' element={<Navigate to='/home' />} />
       </Routes>
       <Footer />
     </div>
