@@ -1,5 +1,5 @@
 import Product from "../../misc/types/Product";
-import productReducer, { fetchAllProductsAsync } from "../../redux/slices/ProductSlicer";
+import productReducer, { fetchProducts } from "../../redux/slices/ProductSlicer";
 
 const initialState = {
   products: [] as Product[],

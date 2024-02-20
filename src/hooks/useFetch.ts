@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios, { AxiosError, AxiosResponse } from "axios";
 
 import { useAppDispatch } from "../redux/store";
-import { fetchAllProductsAsync } from "../redux/slices/ProductSlicer";
+import { fetchProducts } from "../redux/slices/ProductSlicer";
 
 export function useFetch<T>(url: string) {
   const [data, setData] = useState<T[]>([]);
@@ -12,7 +12,7 @@ export function useFetch<T>(url: string) {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchAllProductsAsync({ categoryId: 1}));
+    // dispatch(fetchProducts());
   }, [dispatch]);
 
   return { data, loading, error };
