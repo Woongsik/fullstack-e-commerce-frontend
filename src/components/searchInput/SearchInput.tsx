@@ -16,7 +16,7 @@ type Props = {
 export default function SearchInput(props: Props) {
   const [searchPhrase, setSearchPhrase] = useState<string>('');
 
-  // Optimization useCallback
+  // Optimization with useCallback & debounce
   const debouce = lodash.debounce((value: string) => props.onTextChanged(value), 1000);
   const debouncedFunction = useCallback(debouce, [props.onTextChanged]);
 

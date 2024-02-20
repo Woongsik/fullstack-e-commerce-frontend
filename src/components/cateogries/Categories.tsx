@@ -1,18 +1,12 @@
 import { useEffect } from 'react';
-import { 
-  Box, 
-  CircularProgress, 
-  FormControl, 
-  InputLabel, 
-  Select, 
-  MenuItem, 
-  SelectChangeEvent } from '@mui/material';
+import { Box, CircularProgress } from '@mui/material';
 import { useSelector } from 'react-redux';
 
 import { useAppDispatch, AppState } from '../../redux/store';
 import { fetchAllCategoriesAsync } from '../../redux/slices/CategorySlicer';
 
 import Category from '../../misc/types/Category';
+import FormSelects from '../ui/FormSelects';
 
 type Props = {
   selectedCategoryId?: number;
@@ -28,28 +22,32 @@ export default function Categories(props: Props) {
   }, [dispatch]);
 
   const { categories, loading, error } = useSelector((state: AppState) => state.categoryReducer);
-  
-  const handleChange = (e: SelectChangeEvent<number>) => {
-    const { value } = e.target;
-    props.onCategoryChanged(parseInt(value.toString()));
+  const allCategory: Category = {
+    id: 0,
+    name: 'All',
+    image: '',
+    creationAt: '',
+    updatedAt: ''
+  }
+
+  const fixedCategories: Category[] = [allCategory, ...categories];
+
+  const handleChange = (value: string) => {
+    props.onCategoryChanged(parseInt(value));
   }
 
   return (
     <Box component="div" display="flex" justifyContent="flex-end" alignItems="center" overflow="auto" padding="10px">
       { loading ? <CircularProgress /> : 
-      <FormControl fullWidth>
-        <InputLabel id="category-select-label">Categories</InputLabel>
-        <Select
-          labelId="category-select-label"
-          id="category-select"
-          value={selectedCategoryId}
-          label="Categories"
-          onChange={handleChange}>
-            <MenuItem value={0} key={0}>All</MenuItem>
-            {categories.map((category: Category) => 
-              <MenuItem value={category.id} key={category.id}>{category.name}</MenuItem>)}
-        </Select>
-      </FormControl>
+      <FormSelects 
+        title='Categories'
+        selectedValue={selectedCategoryId?.toString()}
+        items={fixedCategories}
+        displayKey='name'
+        valueKey='id'
+        size='medium'
+        fullWidth={true}
+        onChange={handleChange} />
       } 
     </Box>
   )

@@ -1,12 +1,8 @@
-import React from 'react';
-import { 
-  Pagination, 
-  FormControl, 
-  InputLabel, 
-  Select, 
-  MenuItem, 
-  SelectChangeEvent, 
-  Grid } from '@mui/material';
+import { ChangeEvent } from 'react';
+import { Pagination, Grid } from '@mui/material';
+
+import FormSelects from '../ui/FormSelects';
+import { FormSelectItem } from '../../misc/types/Forms';
 
 type Props = {
   page: number;
@@ -16,42 +12,45 @@ type Props = {
 }
 
 export default function PageNavigation(props: Props) {
-  const handleSelectChange = (e: SelectChangeEvent) => {
-    const { value } = e.target;
-    props.onItemsPerPageChanged(parseInt(value));  
+  const { page, itemsPerPage } = props;
+  const formSelectItems: FormSelectItem[] = [
+    { key: '10', value: '10' },
+    { key: '30', value: '30' },
+    { key: '50', value: '50' },
+    { key: '100', value: '100' }
+  ]
+
+  const handlePageChange = (e: ChangeEvent<unknown>, value: number) => {
+    props.onPageChanged(value);
   };
 
-  const handlePageChange = (e: React.ChangeEvent<unknown>, value: number) => {
-    props.onPageChanged(value);
+  const handleSelectChange = (value: string) => {
+    props.onItemsPerPageChanged(parseInt(value));  
   };
 
   return (
     <Grid 
       container 
-      justifyContent="space-between"
-      alignItems="center"
+      justifyContent={"space-between"}
+      alignItems={"center"}
       sx={{ my: 5, backgroundColor: 'white', borderTop: '1px solid gray', position: 'sticky', bottom: '0'}}>
       <Grid item>
         <Pagination 
-          page={props.page} 
+          page={page} 
           onChange={handlePageChange}
           count={10} 
           color="primary" />
       </Grid>
       
       <Grid item>
-        <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-          <InputLabel id="items-per-page-label">Items per Page</InputLabel>
-          <Select
-            labelId="items-per-page-label"
-            value={props.itemsPerPage.toString()}
-            label="Items per Page"
-            onChange={handleSelectChange}>
-            <MenuItem value={50}>50</MenuItem>
-            <MenuItem value={30}>30</MenuItem>
-            <MenuItem value={10}>10</MenuItem>
-          </Select>
-        </FormControl>
+        <FormSelects 
+          title='Items per Page'
+          selectedValue={itemsPerPage.toString()}
+          items={formSelectItems}
+          displayKey="value"
+          valueKey="key"
+          size='small'
+          onChange={handleSelectChange} />
       </Grid>
     </Grid>
   )
