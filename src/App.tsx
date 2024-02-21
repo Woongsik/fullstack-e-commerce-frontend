@@ -14,9 +14,9 @@ function App() {
       <Routes>
         <Route path="/home" element={<Home />}></Route>
         <Route path="/products" element={<Home />}></Route>
-        <Route path="/products/:id" element={<Detail />}></Route>
-        <Route path="/profile/:id" element={<Profile />}></Route>
-        <Route path="/cart/:id" element={<Cart />}></Route>
+        <Route path="/product/:id" element={<Detail />}></Route>
+        <Route path="/profile" element={<Profile />}></Route>
+        <Route path="/cart" element={<Cart />}></Route>
         <Route path='*' element={<Navigate to='/home' />} />
       </Routes>
       <Footer />
