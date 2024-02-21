@@ -1,5 +1,15 @@
 import Product from "../../misc/types/Product";
 import productReducer, { fetchProducts } from "../../redux/slices/ProductSlicer";
+import store from "../../redux/store";
+import { productServer } from "../shared/productServer";
+
+beforeAll(() => {
+  productServer.listen();
+});
+
+afterAll(() => {
+  productServer.listen();
+});
 
 const initialState = {
   products: [] as Product[],
@@ -9,7 +19,7 @@ const initialState = {
 };
 
 // // test suit
-// describe("prouct reducer", () => {
+describe("prouct reducer", () => {
 //   // 3 tests
 
 //   // mock data
@@ -82,5 +92,37 @@ const initialState = {
 //       error: error.message
 //     });
 //   });
-// });
+
+
+
+  // Other style from Alia
+  // handy , shorter
+  // shortage : it is not rely on mock data
+  // so the data is not stable
+  // also should be independent from backend as well
+  test("should fetch all products from api", async () => {
+    await store.dispatch(fetchProducts({ page: 0, itemsPerPage: 10 }));
+    expect(store.getState().productReducer.products.length).toBe(10);
+    expect(store.getState().productReducer.error).toBeNull();
+  });
+
+  // when test createNewProduct
+  // id should be omitted since backend will handle
+  // so create new type => here ProductCreate
+  // export type ProductCreate = {
+  //  title, price, description, images, categoryId
+  // }
+
+  // test("should create new product", async () => {
+  //   const createdProduct: ProductCreate = {
+  //     title: "New test product",
+  //     price: 500,
+  //     description: "New test product",
+  //     images: ['product.png']
+  //   }
+
+  //   await store.dispatch(createNewProductAsync(createdProduct));
+  //   expect(store.getState().productReducer.products.length).toBe(5);
+  // });
+});
 
