@@ -15,15 +15,15 @@ import Sort from "../../misc/types/Sort";
 type InitialState = {
   products: Product[];
   product?: Product;
-  filteredProducts: Product[];
-  sorted?: Sort;
+  sort?: Sort;
+  sortedProducts: Product[];
   loading: boolean;
   error?: string;
 }
 
 const initialState: InitialState = {
   products: [],
-  filteredProducts: [],
+  sortedProducts: [],
   loading: false
 };
 
@@ -39,7 +39,7 @@ export const fetchProducts = createAsyncThunk(
 });
 
 export const fetchProduct = createAsyncThunk(
-  "fetchProduct", 
+  "fetchProduct", // get a product
   async (productId: number, { rejectWithValue }) => {
     try {
       const response: AxiosResponse = await apiService.getProduct(productId);
@@ -54,8 +54,8 @@ const productSlice = createSlice({
   initialState,
   reducers: {
     sortBy: (state, actions: PayloadAction<Sort>) => {
-      state.sorted = actions.payload;
-      state.filteredProducts = ProductSliceUtils.sortProducts(state.products, actions.payload);
+      state.sort = actions.payload;
+      state.sortedProducts = ProductSliceUtils.sortProducts(state.products, actions.payload);
     },
     createProduct: (state, actions: PayloadAction<Product>) => { // for adimin
     
@@ -72,7 +72,7 @@ const productSlice = createSlice({
         return {
           ...state,
           products: action.payload,
-          filteredProducts: ProductSliceUtils.sortProducts(action.payload, state.sorted),
+          sortedProducts: ProductSliceUtils.sortProducts(action.payload, state.sort),
           loading: false
         }
       }).addCase(fetchProducts.pending, (state, action) => {

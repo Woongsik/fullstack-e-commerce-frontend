@@ -6,11 +6,10 @@ import { AppState, useAppDispatch } from '../../redux/store';
 import { sortBy } from '../../redux/slices/ProductSlicer';
 import Sort from '../../misc/types/Sort';
 
-export default function SortGroup() {
+export default function SortSelects() {
   const dispatch = useAppDispatch();
   
-  const selectedSortType: Sort | undefined = useSelector((state: AppState) => 
-    state.productReducer.sorted);
+  const selectedSortType: Sort | undefined = useSelector((state: AppState) => state.productReducer.sort);
   const items: { key: string }[] = Object.keys(Sort)
     .map((key: string) => ({ key: key }));
   items.unshift({ key: 'All'});

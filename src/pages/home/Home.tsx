@@ -9,7 +9,7 @@ import SearchInput from '../../components/searchInput/SearchInput';
 import ProductList from '../../components/productList/ProductList';
 import Categories from '../../components/cateogries/Categories';
 import PageNavigation from '../../components/pageNavigation/PageNavigation';
-import SortGroup from '../../components/sortGroup/SortGroup';
+import SortSelects from '../../components/sortSelects/SortSelects';
 
 import Product from '../../misc/types/Product';
 import Filter from '../../misc/types/Filter';
@@ -35,7 +35,7 @@ export default function Home() {
   }, [filter, dispatch]);
   
   const products: Product[] = useSelector((state: AppState): Product[] => 
-  (state.productReducer.sorted ? state.productReducer.filteredProducts : state.productReducer.products));
+    state.productReducer.sort ? state.productReducer.sortedProducts : state.productReducer.products);
   
   const onTextChanged = (text: string): void => {
     setFilter({
@@ -97,7 +97,7 @@ export default function Home() {
         <Categories 
           selectedCategoryId={filter.categoryId} 
           onCategoryChanged={onCategoryChanged} />
-        <SortGroup />
+        <SortSelects />
         <ProductList products={products} />
         <PageNavigation 
           page={filter.page}
