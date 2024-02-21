@@ -34,7 +34,8 @@ export default function Home() {
     dispatch(fetchProducts(filter));
   }, [filter, dispatch]);
   
-  const products: Product[] = useSelector((state: AppState): Product[] => state.productReducer.products);
+  const products: Product[] = useSelector((state: AppState): Product[] => 
+  (state.productReducer.sorted ? state.productReducer.filteredProducts : state.productReducer.products));
   
   const onTextChanged = (text: string): void => {
     setFilter({
@@ -96,8 +97,7 @@ export default function Home() {
         <Categories 
           selectedCategoryId={filter.categoryId} 
           onCategoryChanged={onCategoryChanged} />
-
-          <SortGroup />
+        <SortGroup />
         <ProductList products={products} />
         <PageNavigation 
           page={filter.page}

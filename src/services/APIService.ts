@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 
-import { host, api } from '../utils/urls/Urls';
+import { host, api } from '../utils/Urls';
 import Filter from '../misc/types/Filter';
 
 
