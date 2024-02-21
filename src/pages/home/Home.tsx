@@ -90,7 +90,7 @@ export default function Home() {
 
   return (
     <Box component="div" display="flex" justifyContent="center" alignItems="center">
-      <Box component="div" width="50%" minWidth="500px">
+      <Box component="div" width="75%" minWidth="500px">
         <SearchInput 
           title="Search products by name"
           onTextChanged={onTextChanged}/>      

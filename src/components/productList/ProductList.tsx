@@ -1,3 +1,9 @@
+import { 
+  Box,
+  Grid
+} from '@mui/material';
+
+import ProductCard from '../proudctCard/ProductCard';
 import Product from '../../misc/types/Product';
 
 type Props = {
@@ -8,16 +14,14 @@ export default function ProductList(props: Props) {
   const { products } = props;
 
   return (
-    <div>
-    { products.length === 0 ? 
-      <h1>No data! Please check all the criteria...</h1>
-      :
-      <ol>
+    <Box component={'div'} margin={5}> 
+      <Grid container spacing={2}>
         {products.map((product: Product) => 
-          <li key={product.id}>{product.title}/{product.price}</li>
+        <Grid item key={product.id}>
+          <ProductCard product={product} />
+        </Grid>
         )}
-      </ol>
-    }
-    </div>
+      </Grid>
+    </Box>
   )
 }
