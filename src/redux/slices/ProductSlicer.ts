@@ -1,4 +1,3 @@
-import { AxiosResponse } from "axios";
 import { 
   ActionReducerMapBuilder, 
   PayloadAction, 
@@ -14,7 +13,7 @@ import Sort from "../../misc/types/Sort";
 
 type InitialState = {
   products: Product[];
-  product?: Product;
+  product: Product | null;
   sort?: Sort;
   sortedProducts: Product[];
   loading: boolean;
@@ -24,6 +23,7 @@ type InitialState = {
 const initialState: InitialState = {
   products: [],
   sortedProducts: [],
+  product: null,
   loading: false
 };
 
@@ -31,8 +31,7 @@ export const fetchProducts = createAsyncThunk(
   "fetchProducts", // get all products, by categories, by page, by itemsPerPage
   async (filter: Filter, { rejectWithValue }) => {
     try {
-      const response: AxiosResponse = await apiService.getProducts(filter);
-      return response.data;
+      return apiService.getProducts(filter);
     } catch (e) {
       return rejectWithValue(e);
     }
@@ -40,10 +39,9 @@ export const fetchProducts = createAsyncThunk(
 
 export const fetchProduct = createAsyncThunk(
   "fetchProduct", // get a product
-  async (productId: number, { rejectWithValue }) => {
+  async (productId: string, { rejectWithValue }) => {
     try {
-      const response: AxiosResponse = await apiService.getProduct(productId);
-      return response.data;
+      return apiService.getProduct(productId);
     } catch (e) {
       return rejectWithValue(e);
     }

@@ -1,8 +1,9 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosResponse, Method } from 'axios';
 
 import { host, api } from '../utils/Urls';
 import Filter from '../misc/types/Filter';
-
+import Product from '../misc/types/Product';
+import Category from '../misc/types/Category';
 
 class ApiService {
   readonly baseURL: string = `${host}/${api}`;
@@ -11,7 +12,17 @@ class ApiService {
     return `${this.baseURL}/${fragment}`;
   }
 
-  public getProducts(filter: Filter): Promise<AxiosResponse> {
+  public async request<T>(method: Method, url: string, data?: any): Promise<T> {
+    const response: AxiosResponse = await axios({
+      method: method,
+      url: url,
+      data: data
+    });
+
+    return response.data;
+  }
+
+  public getProducts(filter: Filter): Promise<Product[]> {
     let url: string = this.generateUrl("products");
     let separator: string = "/?";
     const { title, categoryId, price, price_min, price_max, page, itemsPerPage } = filter;
@@ -45,18 +56,18 @@ class ApiService {
     url += `${separator}offset=${(page - 1) * itemsPerPage}&limit=${itemsPerPage}`;
     
     console.log('fetch', url);
-    return axios.get(url); 
+    return this.request<Product[]>('get', url, null); 
   }
 
-  public getProduct(productId: number): Promise<AxiosResponse> {
+  public getProduct(productId: string): Promise<Product> {
     let url: string = this.generateUrl(`products/${productId}`);
     console.log('fetch', url);
-    return axios.get(url); 
+    return this.request<Product>('get', url, null); 
   }
 
-  public getCategories(): Promise<AxiosResponse> {
+  public getCategories(): Promise<Category[]> {
     const url: string = this.generateUrl("categories");
-    return axios.get(url);
+    return this.request<Category[]>('get', url, null); 
   }
 
 }

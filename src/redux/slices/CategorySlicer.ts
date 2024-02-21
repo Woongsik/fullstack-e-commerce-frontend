@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { AxiosResponse } from "axios";
 
 import Category from "../../misc/types/Category";
 import { apiService } from "../../services/APIService";
@@ -20,8 +19,7 @@ export const fetchAllCategoriesAsync = createAsyncThunk(
   "fetchAllCategoriesAsync", 
   async (_, { rejectWithValue }) => {
     try {
-      const response: AxiosResponse = await apiService.getCategories();
-      return response.data;
+      return apiService.getCategories();
     } catch (e) {
       return rejectWithValue(e);
     }
