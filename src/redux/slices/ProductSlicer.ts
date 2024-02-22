@@ -71,7 +71,7 @@ const productSlice = createSlice({
           ...state,
           products: action.payload,
           sortedProducts: ProductSliceUtils.sortProducts(action.payload, state.sort),
-          loading: false
+          loading: false     
         }
       }).addCase(fetchProducts.pending, (state, action) => {
         return {
@@ -95,7 +95,8 @@ const productSlice = createSlice({
       }).addCase(fetchProduct.pending, (state, action) => {
         return {
           ...state,
-          loading: true
+          loading: true,
+          product: null
         }
       }).addCase(fetchProduct.rejected, (state, action) => {
         return {
