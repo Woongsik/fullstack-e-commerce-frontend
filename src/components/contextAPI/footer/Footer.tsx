@@ -7,16 +7,17 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 export default function Footer() {
   return (
     <footer>
-      <Grid container justifyContent='center' alignItems='center' sx={{ py: 2, backgroundColor: 'rgb(157 134 186)' }}>
+      <Grid container justifyContent='center' alignItems='center' 
+        sx={{ py: 2, backgroundColor: 'black' }}>
         <Stack direction="row" spacing={2}>
           <IconButton>
-            <Link to="#"><InstagramIcon /></Link>
+            <Link to="#"><InstagramIcon sx={{ color: 'white' }}/></Link>
           </IconButton>
           <IconButton>
-          <Link to="#"><FacebookIcon /></Link>
+          <Link to="#"><FacebookIcon sx={{ color: 'white' }}/></Link>
           </IconButton>
           <IconButton>
-          <Link to="#"><TwitterIcon /></Link>
+          <Link to="#"><TwitterIcon sx={{ color: 'white' }}/></Link>
           </IconButton>
         </Stack>  
       </Grid>

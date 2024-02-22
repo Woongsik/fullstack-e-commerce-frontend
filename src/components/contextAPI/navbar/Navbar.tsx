@@ -16,7 +16,7 @@ export default function Navbar() {
 
   return (
     <header>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'rgb(157 134 186)', padding: '0 10px'}}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'black', padding: '0 10px'}}>
         <Box component={'div'} display={'flex'} justifyContent={'center'} alignItems={'center'} height={'50px'}>
           <Link to="/home" style={{ textDecoration: 'none', color: 'white' }}>
             <Box component={'div'} display={'flex'} justifyContent={'center'} alignItems={'center'}>
@@ -28,18 +28,18 @@ export default function Navbar() {
         <Divider />
         <List sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <ListItem>
-            <Link to="/home" title="Home" color='white'>
-              <HomeIcon color='inherit' />
+            <Link to="/home" title="Home">
+              <HomeIcon sx={{ color: 'white' }} />
             </Link>
           </ListItem>
           <ListItem>
-            <Link to="/profile/1" title='Profile' color='white'>
-              <AccountCircleIcon color='inherit'/>
+            <Link to="/profile/1" title='Profile'>
+              <AccountCircleIcon sx={{ color: 'white' }} />
             </Link>
           </ListItem>
           <ListItem>
-            <Link to="/cart/1" title='Cart' color='white'>
-              <ShoppingCartCheckoutIcon color='inherit' />
+            <Link to="/cart/1" title='Cart'>
+              <ShoppingCartCheckoutIcon sx={{ color: 'white' }} />
             </Link>
           </ListItem>
           {/* <ListItem disablePadding>
