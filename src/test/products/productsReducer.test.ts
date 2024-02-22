@@ -1,14 +1,20 @@
 import Product from "../../misc/types/Product";
 import productReducer, { fetchProducts } from "../../redux/slices/ProductSlicer";
-import store from "../../redux/store";
+// import store from "../../redux/store";
+import { createNewStore } from "../../redux/store";
 import { productServer } from "../shared/productServer";
 
+let store = createNewStore();
 beforeAll(() => {
   productServer.listen();
 });
 
 afterAll(() => {
-  productServer.listen();
+  productServer.close();
+});
+
+beforeEach(() => {
+  store = createNewStore();
 });
 
 const initialState = {
@@ -124,5 +130,21 @@ describe("prouct reducer", () => {
   //   await store.dispatch(createNewProductAsync(createdProduct));
   //   expect(store.getState().productReducer.products.length).toBe(5);
   // });
+
+  // should return inital state (no proudcts)
+  // if test previously with store,
+  // still some values can be remained from previous test
+  // This means that we need to clean up after every test
+  // createNewStore
+  test('should return initial state', () => {
+    expect(store.getState().productReducer.products).toHaveLength(0);
+  });
+
+
+  //RTK query test
+  test('should fetch all product with RTK query', () => {
+    //await store.dispatch(productQueries.endpoints.fetchAllProducts.initiate());
+    //expect(store.getState().prodcutApi.queries['fetchAllProducts(undefined)'].data).toHavelength(2);
+  });
 });
 
