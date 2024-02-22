@@ -18,7 +18,7 @@ import PriceRangeSlider from '../../components/priceRangeSlider/PriceRangeSlider
 export default function Home() {
   const baseCategoryId: number = 0;
   const basePage: number = 1; // MUI pagination started from 1
-  const baseItemsPerPage: number = 10;
+  const baseItemsPerPage: number = 30;
 
   const initialFilter: Filter = {
     title: '',

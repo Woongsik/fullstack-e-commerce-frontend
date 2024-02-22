@@ -14,7 +14,7 @@ export default function ProductList(props: Props) {
   const { products } = props;
 
   return (
-    <Box component={'div'} margin={5}> 
+    <Box component={'div'} margin={1}> 
       <Grid container spacing={2}>
         {products.map((product: Product) => 
         <Grid item key={product.id}>
