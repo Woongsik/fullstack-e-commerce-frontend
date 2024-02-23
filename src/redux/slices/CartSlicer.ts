@@ -3,14 +3,14 @@ import CartSlicerUtil from "../utils/CartSlicerUtil";
 import CartItem from "../../misc/types/CartItem";
 
 type InitialState = {
-  cartProducts: CartItem[];
+  cartItems: CartItem[];
   cartFavorites: CartItem[];
   loading: boolean;
   error?: string;
 }
 
 const initialState: InitialState = {
-  cartProducts: [],
+  cartItems: [],
   cartFavorites: [],
   loading: false
 };
@@ -22,22 +22,22 @@ const cartSlice = createSlice({
    // - cart reducer: add product to cart, remove products, update products's quantity in cart
     addToCart: (state, actions: PayloadAction<CartItem>) => {
       const cartItem: CartItem = actions.payload;
-      if (!CartSlicerUtil.checkIfAlreadyAdded(state.cartProducts, cartItem)) {
-        state.cartProducts.push(cartItem);
+      if (!CartSlicerUtil.checkIfAlreadyAdded(state.cartItems, cartItem)) {
+        state.cartItems.push(cartItem);
       };
     },
     removeFromCart: (state: InitialState, actions: PayloadAction<CartItem>) => {
       const cartItem: CartItem = actions.payload;      
-      const foundIndex: number = CartSlicerUtil.findIndex(state.cartProducts, cartItem);
+      const foundIndex: number = CartSlicerUtil.findIndex(state.cartItems, cartItem);
       if (foundIndex > -1) {
-        state.cartProducts.splice(foundIndex, 1);
+        state.cartItems.splice(foundIndex, 1);
       }
     },
     updateQuantityInCart: (state, actions: PayloadAction<CartItem>) => {
       const cartItem: CartItem = actions.payload;      
-      const foundIndex: number = CartSlicerUtil.findIndex(state.cartProducts, cartItem);
+      const foundIndex: number = CartSlicerUtil.findIndex(state.cartItems, cartItem);
       if (foundIndex > -1) {
-        state.cartProducts.splice(foundIndex, 1, cartItem);
+        state.cartItems.splice(foundIndex, 1, cartItem);
       }
     },
     addToFavorites: (state, actions: PayloadAction<CartItem>) => { 
