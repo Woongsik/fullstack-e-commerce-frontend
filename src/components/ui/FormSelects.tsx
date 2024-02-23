@@ -1,13 +1,13 @@
 import { FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from '@mui/material';
 
 type Props = {
-  title: string;
+  title?: string;
   selectedValue?: string;
   items: any[];
   displayKey: string;
   valueKey: string;
   size?: "small" | "medium";
-  fullWidth?: boolean
+  fullWidth?: boolean;
   onChange: (value: string) => void;
 }
 
@@ -19,8 +19,8 @@ export default function FormSelects(props: Props) {
   };
 
   return (
-    <FormControl sx={{ m: 1, minWidth: 120 }} size={size} fullWidth={fullWidth}>
-      <InputLabel id="form-select-label">{title}</InputLabel>
+    <FormControl size={size} fullWidth={fullWidth}>
+      {title && <InputLabel id="form-select-label">{title}</InputLabel>}
       <Select
         labelId="form-select-label"
         value={selectedValue?.toString()}
