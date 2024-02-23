@@ -1,13 +1,17 @@
 import { useState } from 'react';
-import { Box, Link, Button, ButtonGroup, Dialog, DialogActions, DialogTitle, Divider, Typography } from '@mui/material';
+import { Box, Link, ButtonGroup, Divider, Typography } from '@mui/material';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
-import CartItem from '../../misc/types/CartItem';
 import { useAppDispatch } from '../../redux/store';
 import { removeFromCart, updateQuantityInCart } from '../../redux/slices/CartSlicer';
 import FormSelects from '../ui/FormSelects';
-import { Link as RouterLink } from 'react-router-dom';
+import Button from '../ui/Button';
+import Dialog from '../ui/Dialog';
+import Image from '../ui/Image';
+import { MUIButtonVariant, MUIColor, MUISize } from '../../misc/types/MUI';
+import CartItem from '../../misc/types/CartItem';
+import Product from '../../misc/types/Product';
 
 type Props = {
   cartItem: CartItem;
@@ -28,7 +32,6 @@ export default function CartItemCard(props: Props) {
   }
 
   const handleClose = (shouldDelete: boolean = false) => {
-    console.log('should delete', shouldDelete);
     setShowDeleteDialog(false);
     if (shouldDelete) {
       dispatch(removeFromCart(props.cartItem));
@@ -36,22 +39,27 @@ export default function CartItemCard(props: Props) {
   }
 
   const handleQuantityChanges = (value: string) => {
-    console.log('handleQuantityChanges', value);
     dispatch(updateQuantityInCart({
       ...props.cartItem,
       quantity: parseInt(value)
     }));
   }
 
+  const dialogTitle = (item: Product) => (
+    <span>Remove
+      <span style={{ fontWeight: 'bold'}}> {item.title} </span> from cart?
+    </span>
+  );
+
   return (
     <>
     <Divider />
-    <Box component={'div'} display={'flex'} my={1}>
-      <Box component={'div'} width={164}>
+    <Box display={'flex'} my={1}>
+      <Box width={164}>
         <Link href={`/product/${item.id}`} underline="none" color={'inherit'}>
-          <img src={item.images && item.images[0] ? item.images[0] :''}
-                width={164}
-                alt={item.title} />
+          <Image 
+            src={item.images && item.images[0] ? item.images[0] :''}
+            alt={item.title} />
         </Link>
       </Box>
       <Box component={'div'} marginLeft={2} width={'100%'}
@@ -81,39 +89,29 @@ export default function CartItemCard(props: Props) {
           </Box>
 
           <ButtonGroup variant="text" aria-label="Basic button group">
-            <Button><FavoriteBorderIcon sx={{ color: 'black' }} /></Button>
-            <Button onClick={handleDeleteItem}><DeleteOutlineIcon sx={{ color: 'black' }} /></Button>
+            <Button 
+              title={<FavoriteBorderIcon sx={{ color: 'black' }} />}
+              variant={MUIButtonVariant.TEXT}
+              size={MUISize.SMALL}
+              color={MUIColor.PRIMARY} />
+            <Button 
+              title={<DeleteOutlineIcon sx={{ color: 'black' }} />}
+              variant={MUIButtonVariant.TEXT}
+              size={MUISize.SMALL}
+              color={MUIColor.PRIMARY}
+              onClick={handleDeleteItem} />
           </ButtonGroup>
           </Box>
       </Box>
     </Box>
-    <Dialog
-        open={showDeleteDialog}
-        onClose={() => handleClose(false)}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description">
-        <DialogTitle id="alert-dialog-title" fontSize={15}>
-          Remove
-          <span style={{ fontWeight: 'bold'}}> {item.title} </span> from cart?
-        </DialogTitle>
-        <DialogActions>
-          <Button 
-            size={'small'}       
-            variant={"text"} 
-            sx={{ fontSize: 12}}
-            onClick={() => handleClose(false)}>
-            Cancel
-          </Button>
-          <Button 
-            size={'small'} 
-            variant="contained" 
-            color="error"
-            sx={{ borderRadius: 15, fontSize: 12 }} 
-            onClick={() => handleClose(true)} autoFocus>
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
+
+    <Dialog 
+      show={showDeleteDialog}
+      onClose={handleClose}
+      title={dialogTitle(item)}
+      cancelTitle='Cancel'
+      proceedTitle='Delete'
+      proceedColor={MUIColor.ERROR} />
     </>
   )
 }

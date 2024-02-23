@@ -5,6 +5,7 @@ import {
   Typography
 } from '@mui/material';
 
+import Image from '../ui/Image';
 import Product from '../../misc/types/Product';
 import { Link } from 'react-router-dom';
 
@@ -25,16 +26,8 @@ export default function ProductCard(props: Props) {
             style={{ textDecoration: 'none', color: 'black'}}>
         <Box component={'div'}>
           <Box component={'div'} width={300} height={300}>
-          { imageFailed ? <Skeleton animation="wave" variant="rectangular" width={'100%'} height={'100%'} />
-            : 
-          <img
-            src={(product.images && product.images[0]) ?? ''}
-            alt={product.title}
-            loading="lazy"
-            onError={handleImageError}
-            height={'auto'}
-            width={'100%'} />
-          }
+            <Image src={product.images && product.images[0] ? product.images[0] :''}
+                  alt={product.title} />
           </Box>
           
           <Box component={'div'}>
