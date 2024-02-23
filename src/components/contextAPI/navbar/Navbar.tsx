@@ -33,12 +33,12 @@ export default function Navbar() {
             </Link>
           </ListItem>
           <ListItem>
-            <Link to="/profile/1" title='Profile'>
+            <Link to="/profile" title='Profile'>
               <AccountCircleIcon sx={{ color: 'white' }} />
             </Link>
           </ListItem>
           <ListItem>
-            <Link to="/cart/1" title='Cart'>
+            <Link to="/cart" title='Cart'>
               <ShoppingCartCheckoutIcon sx={{ color: 'white' }} />
             </Link>
           </ListItem>
