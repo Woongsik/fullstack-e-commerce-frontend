@@ -13,6 +13,11 @@ export enum MUIButtonVariant {
   OUTLINED = "outlined"
 }
 
+export enum MUIButtonType {
+  SUBMIT = 'submit',
+  BUTTON = 'button'
+}
+
 export enum MUISize {
   SMALL = "small",
   MEDIUM = "medium",

@@ -118,7 +118,6 @@ export default function Home() {
           minPrice={filter.price_min}
           maxPrice={filter.price_max}
           onPriceRangeChanged={onPriceRangeChanged} />
-
       </Box>
     </Box>
   )

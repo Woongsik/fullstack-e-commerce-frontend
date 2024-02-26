@@ -4,6 +4,8 @@ import { host, api } from '../utils/Urls';
 import Filter from '../misc/types/Filter';
 import Product from '../misc/types/Product';
 import Category from '../misc/types/Category';
+import { LoginUserInfo, RegisterUserInfo, User, UserToken } from '../misc/types/User';
+import { userSlicerUtil } from '../redux/utils/UserSlicerUtil';
 
 class ApiService {
   readonly baseURL: string = `${host}/${api}`;
@@ -12,11 +14,12 @@ class ApiService {
     return `${this.baseURL}/${fragment}`;
   }
 
-  public async request<T>(method: Method, url: string, data?: any): Promise<T> {
+  public async request<T>(method: Method, url: string, data?: any, headers?: any): Promise<T> {
     const response: AxiosResponse = await axios({
       method: method,
       url: url,
-      data: data
+      data: data,
+      headers: headers
     });
 
     return response.data;
@@ -68,6 +71,26 @@ class ApiService {
   public getCategories(): Promise<Category[]> {
     const url: string = this.generateUrl("categories");
     return this.request<Category[]>('get', url, null); 
+  }
+
+  public registerUser(userInfo: RegisterUserInfo): Promise<User> {
+    const url: string = this.generateUrl("users/");
+    return this.request<User>('post', url, userInfo);
+  }
+
+  public loginUser(loginInfo: LoginUserInfo): Promise<UserToken> {
+    const url: string = this.generateUrl("auth/login/");
+    return this.request<UserToken>('post', url, loginInfo);
+  }
+
+  public getUserWithSession(): Promise<User> {
+    const url: string = this.generateUrl("auth/profile");
+    const tokens: UserToken | null = userSlicerUtil.getTokensToLocalStorage();
+    const headers = {
+      Authorization : `Bearer ${tokens?.access_token ?? ''}`
+    }
+    
+    return this.request<User>('get', url, null, headers);
   }
 
 }

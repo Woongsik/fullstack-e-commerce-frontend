@@ -5,14 +5,18 @@ import {
   List, 
   ListItem
 } from '@mui/material';
-import HomeIcon from '@mui/icons-material/Home';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 
 import { useTheme } from '../ThemeContext';
+import UiButton from '../../ui/UiButton';
+import { MUIButtonVariant, MUIColor } from '../../../misc/types/MUI';
+import { useSelector } from 'react-redux';
+import { AppState } from '../../../redux/store';
 
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
+  const { loading, user } = useSelector((state: AppState) => state.userReducer)
 
   return (
     <header>
@@ -28,15 +32,28 @@ export default function Navbar() {
         <Divider />
         <List sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <ListItem>
-            <Link to="/home" title="Home">
-              <HomeIcon sx={{ color: 'white' }} />
-            </Link>
-          </ListItem>
-          <ListItem>
+          {user ? 
             <Link to="/profile" title='Profile'>
+              {user.name}
+              <AccountCircleIcon sx={{ color: 'white' }} />
+            </Link>
+          :
+            <Link to="/login" title="Log in">
+              <UiButton 
+                title="Log in"
+                variant={MUIButtonVariant.CONTAINED}
+                color={MUIColor.PRIMARY}
+                customStyle={{ minWidth: '120px' }} />
+            </Link>
+          } 
+          </ListItem>
+          
+          <ListItem>
+          <Link to="/profile" title='Profile'>
               <AccountCircleIcon sx={{ color: 'white' }} />
             </Link>
           </ListItem>
+          
           <ListItem>
             <Link to="/cart" title='Cart'>
               <ShoppingCartCheckoutIcon sx={{ color: 'white' }} />

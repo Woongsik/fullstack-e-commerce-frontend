@@ -11,7 +11,7 @@ import { fetchProduct } from '../../redux/slices/ProductSlicer';
 import { addToCart, addToFavorites } from '../../redux/slices/CartSlicer';
 import { MUIButtonVariant, MUISize } from '../../misc/types/MUI';
 import Product from '../../misc/types/Product';
-import UiCarousel from '../../components/ui/UiCarousel';
+import UiCarousel from '../../components/ui/carousel/UiCarousel';
 
 export default function Detail() {
   const { id } = useParams(); // product id
