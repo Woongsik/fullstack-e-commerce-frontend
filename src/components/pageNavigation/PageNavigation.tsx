@@ -1,7 +1,7 @@
 import { ChangeEvent } from 'react';
 import { Pagination, Grid } from '@mui/material';
 
-import FormSelects from '../ui/FormSelects';
+import UiFormSelects from '../ui/UiFormSelects';
 import { FormSelectItem } from '../../misc/types/Forms';
 
 type Props = {
@@ -43,7 +43,7 @@ export default function PageNavigation(props: Props) {
       </Grid>
       
       <Grid item>
-        <FormSelects 
+        <UiFormSelects 
           title='Items per Page'
           selectedValue={itemsPerPage.toString()}
           items={formSelectItems}

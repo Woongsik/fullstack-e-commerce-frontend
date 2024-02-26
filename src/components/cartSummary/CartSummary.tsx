@@ -1,6 +1,7 @@
-import React from 'react'
 import CartItem from '../../misc/types/CartItem'
-import { Box, Button, Divider, Input, Typography } from '@mui/material'
+import { Box, Divider, Input, Typography } from '@mui/material'
+import UiButton from '../ui/UiButton'
+import { MUIButtonVariant, MUIColor, MUISize } from '../../misc/types/MUI'
 
 type Props = {
   cartItems: CartItem[]
@@ -44,28 +45,23 @@ export default function CartSummary(props: Props) {
 
       <Box component={'div'} display={'inline-grid'} justifyContent={'center'} width={'100%'}
             my={5}>
-          <Button
-            disableRipple
-            disableTouchRipple
-            sx={{ my: 1, backgroundColor: 'black', color: 'white', borderRadius: 15, padding: '10px 30px' }}
-            component="label"
-            role={'button'}
-            variant="contained"
-            tabIndex={-1}
-            size={'large'}>
-            Check out
-          </Button>
-          <Button 
-            sx={{ my: 1, backgroundColor: 'white', color: 'black', borderColor: 'black', borderRadius: 15, padding: '10px 30px' }}
-            disableRipple
-            disableTouchRipple
-            component="label"
-            role={'button'}
-            variant="outlined"
-            tabIndex={-1}
-            size={'large'}>
-            Paypal
-          </Button>
+          <UiButton
+            title={'Check out'}
+            variant={MUIButtonVariant.CONTAINED}
+            size={MUISize.LARGE}
+            color={MUIColor.PRIMARY}
+            borderRadius={15}
+            customStyle={{ my: 1, backgroundColor: 'black', color: 'white', padding: '10px 30px' }} />
+         
+          <UiButton 
+            title={'Paypal'}
+            variant={MUIButtonVariant.OUTLINED}
+            size={MUISize.LARGE}
+            color={MUIColor.PRIMARY}
+            borderRadius={15}
+            customStyle={{ 
+              my: 1, backgroundColor: 'white', color: 'black', borderColor: 'black', padding: '10px 30px' 
+            }} />
           </Box>
     </Box>
   )

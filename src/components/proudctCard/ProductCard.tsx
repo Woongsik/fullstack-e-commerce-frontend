@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
 import { 
   Box,
-  Skeleton,
   Typography
 } from '@mui/material';
 
-import Image from '../ui/Image';
+import UiImage from '../ui/UiImage';
 import Product from '../../misc/types/Product';
 import { Link } from 'react-router-dom';
 
@@ -15,10 +13,6 @@ type Props = {
 
 export default function ProductCard(props: Props) {
   const { product } = props;
-  const [imageFailed, setImageFailed] = useState<boolean>(false);
-  const handleImageError = () => {
-    setImageFailed(true);
-  }
 
   return (
     <Box component={'div'} sx={{ minWidth: 100, maxWidth: 300, minHeight: 350 }}>
@@ -26,7 +20,7 @@ export default function ProductCard(props: Props) {
             style={{ textDecoration: 'none', color: 'black'}}>
         <Box component={'div'}>
           <Box component={'div'} width={300} height={300}>
-            <Image src={product.images && product.images[0] ? product.images[0] :''}
+            <UiImage src={product.images && product.images[0] ? product.images[0] :''}
                   alt={product.title} />
           </Box>
           

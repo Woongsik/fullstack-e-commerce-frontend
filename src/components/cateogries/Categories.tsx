@@ -6,7 +6,7 @@ import { useAppDispatch, AppState } from '../../redux/store';
 import { fetchAllCategoriesAsync } from '../../redux/slices/CategorySlicer';
 
 import Category from '../../misc/types/Category';
-import FormSelects from '../ui/FormSelects';
+import UiFormSelects from '../ui/UiFormSelects';
 
 type Props = {
   selectedCategoryId?: number;
@@ -39,7 +39,7 @@ export default function Categories(props: Props) {
   return (
     <Box component="div" display="flex" justifyContent="flex-end" alignItems="center" overflow="auto" padding="10px">
       { loading ? <CircularProgress /> : 
-      <FormSelects 
+      <UiFormSelects 
         title='Categories'
         selectedValue={selectedCategoryId?.toString()}
         items={fixedCategories}

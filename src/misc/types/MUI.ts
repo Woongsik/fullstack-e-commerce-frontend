@@ -15,5 +15,6 @@ export enum MUIButtonVariant {
 
 export enum MUISize {
   SMALL = "small",
-  MEDIUM = "medium"
+  MEDIUM = "medium",
+  LARGE = "large"
 }

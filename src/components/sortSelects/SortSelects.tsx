@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { Box } from '@mui/material';
 
-import FormSelects from '../ui/FormSelects';
+import UiFormSelects from '../ui/UiFormSelects';
 import { AppState, useAppDispatch } from '../../redux/store';
 import { sortBy } from '../../redux/slices/ProductSlicer';
 import Sort from '../../misc/types/Sort';
@@ -20,7 +20,7 @@ export default function SortSelects() {
 
   return (
     <Box>
-      <FormSelects 
+      <UiFormSelects 
         title='Sort by'
         selectedValue={selectedSortType ?? 'All'}
         items={items}

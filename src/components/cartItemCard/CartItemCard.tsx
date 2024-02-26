@@ -5,10 +5,10 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 import { useAppDispatch } from '../../redux/store';
 import { removeFromCart, updateQuantityInCart } from '../../redux/slices/CartSlicer';
-import FormSelects from '../ui/FormSelects';
-import Button from '../ui/Button';
-import Dialog from '../ui/Dialog';
-import Image from '../ui/Image';
+import UiFormSelects from '../ui/UiFormSelects';
+import UiButton from '../ui/UiButton';
+import UiDialog from '../ui/UiDialog';
+import UiImage from '../ui/UiImage';
 import { MUIButtonVariant, MUIColor, MUISize } from '../../misc/types/MUI';
 import CartItem from '../../misc/types/CartItem';
 import Product from '../../misc/types/Product';
@@ -57,7 +57,7 @@ export default function CartItemCard(props: Props) {
     <Box display={'flex'} my={1}>
       <Box width={164}>
         <Link href={`/product/${item.id}`} underline="none" color={'inherit'}>
-          <Image 
+          <UiImage 
             src={item.images && item.images[0] ? item.images[0] :''}
             alt={item.title} />
         </Link>
@@ -79,7 +79,7 @@ export default function CartItemCard(props: Props) {
           <Box display={'flex'} alignItems={'center'}>
             {/* if changed, dispatch the change to redux */}
             Quantity:
-            <FormSelects 
+            <UiFormSelects 
               items={quantityItems}  
               displayKey={'key'} 
               valueKey={'key'} 
@@ -89,23 +89,23 @@ export default function CartItemCard(props: Props) {
           </Box>
 
           <ButtonGroup variant="text" aria-label="Basic button group">
-            <Button 
+            <UiButton 
               title={<FavoriteBorderIcon sx={{ color: 'black' }} />}
               variant={MUIButtonVariant.TEXT}
               size={MUISize.SMALL}
               color={MUIColor.PRIMARY} />
-            <Button 
+            <UiButton 
               title={<DeleteOutlineIcon sx={{ color: 'black' }} />}
               variant={MUIButtonVariant.TEXT}
               size={MUISize.SMALL}
               color={MUIColor.PRIMARY}
               onClick={handleDeleteItem} />
           </ButtonGroup>
-          </Box>
+        </Box>
       </Box>
     </Box>
 
-    <Dialog 
+    <UiDialog 
       show={showDeleteDialog}
       onClose={handleClose}
       title={dialogTitle(item)}
