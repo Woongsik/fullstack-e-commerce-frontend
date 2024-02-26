@@ -40,7 +40,7 @@ export default function CartSummary(props: Props) {
       <Divider />
 
       <Box my={2} display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
-        <Box>Total:</Box> <Box>{total}</Box>
+        <Box>Total:</Box> <Box>€ {total}</Box>
       </Box>
 
       <Box component={'div'} display={'inline-grid'} justifyContent={'center'} width={'100%'}

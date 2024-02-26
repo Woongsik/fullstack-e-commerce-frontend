@@ -1,7 +1,7 @@
 import { ChangeEvent } from 'react';
 import { Pagination, Grid } from '@mui/material';
 
-import UiFormSelects from '../ui/UiFormSelects';
+import UiFormSelects from '../ui/form/UiFormSelects';
 import { FormSelectItem } from '../../misc/types/Forms';
 
 type Props = {

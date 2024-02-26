@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { Box, Link, ButtonGroup, Divider, Typography } from '@mui/material';
+import { Box, ButtonGroup, Divider, Typography } from '@mui/material';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { Link } from 'react-router-dom';
 
 import { useAppDispatch } from '../../redux/store';
 import { removeFromCart, updateQuantityInCart } from '../../redux/slices/CartSlicer';
-import UiFormSelects from '../ui/UiFormSelects';
+import UiFormSelects from '../ui/form/UiFormSelects';
 import UiButton from '../ui/UiButton';
 import UiDialog from '../ui/UiDialog';
 import UiImage from '../ui/UiImage';
@@ -56,7 +57,7 @@ export default function CartItemCard(props: Props) {
     <Divider />
     <Box display={'flex'} my={1}>
       <Box width={164}>
-        <Link href={`/product/${item.id}`} underline="none" color={'inherit'}>
+        <Link to={`/product/${item.id}`}>
           <UiImage 
             src={item.images && item.images[0] ? item.images[0] :''}
             alt={item.title} />
@@ -72,7 +73,7 @@ export default function CartItemCard(props: Props) {
             {item.category.name}
           </Typography>
           <Typography>
-            $ {item.price}
+            € {item.price}
           </Typography>
         </Box>
         <Box display={'flex'} justifyContent={'space-between'} width={'100%'} alignItems={'center'}>

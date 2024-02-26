@@ -1,5 +1,5 @@
 import { Button as MUIButton } from "@mui/material";
-import { MUIColor, MUISize, MUIButtonVariant } from "../../misc/types/MUI";
+import { MUIColor, MUISize, MUIButtonVariant, MUIButtonType } from "../../misc/types/MUI";
 
 type Props = {
   title?: string | any; // Need to fix the type
@@ -10,20 +10,22 @@ type Props = {
   borderRadius?: number;
   customStyle?: Object;
   endIcon?: any // Need to fix type
+  type?: MUIButtonType
   onClick?: () => void 
 }
 
 export default function UiButton(props: Props) {
-  const { endIcon, title, variant, size, color, fontSize, borderRadius, customStyle } = props;
+  const { title, variant, size, color, endIcon, fontSize, borderRadius, customStyle, type } = props;
   
   return (
     <MUIButton
       disableRipple
-      disableTouchRipple 
+      disableTouchRipple
       variant={variant}
       size={size}
       color={color} 
       endIcon={endIcon}
+      type={type}
       sx={{ fontSize: fontSize, borderRadius: borderRadius, ...customStyle }}
       onClick={props.onClick}>
         {title}
