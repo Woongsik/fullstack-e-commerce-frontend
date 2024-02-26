@@ -11,7 +11,7 @@ type Props = {
   onChange: (value: string) => void;
 }
 
-export default function FormSelects(props: Props) {
+export default function UiFormSelects(props: Props) {
   const { title, selectedValue, items, displayKey, valueKey, size, fullWidth } = props; 
 
   const handleSelectChange = (e: SelectChangeEvent) => {

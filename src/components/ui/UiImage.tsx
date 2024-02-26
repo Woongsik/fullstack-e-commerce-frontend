@@ -3,13 +3,21 @@ import { Skeleton } from '@mui/material';
 
 type Props = {
   src: string,
-  alt: string
+  alt: string,
+  borderRadius?: number
 }
 
-export default function Image(props: Props) {
+export default function UiImage(props: Props) {
   const [error, setError] = useState<boolean>(false);
-  const { src, alt } = props;
+  const { src, alt, borderRadius } = props;
+
+  const handleLoad = (loaded: any) => {
+    console.log('===image loaded', loaded);
+    setError(false);
+  }
+
   const handleError = () => {
+    console.log('image load error');
     setError(true);
   }
 
@@ -22,11 +30,12 @@ export default function Image(props: Props) {
         src={src}
         alt={alt}
         loading="lazy"
+        onLoad={handleLoad}
         onError={handleError}
         height={'auto'}
-        width={'100%'} />
+        width={'100%'}
+        style={{ borderRadius: `${borderRadius}px` }} />
       }
     </>
-    
   )
 }

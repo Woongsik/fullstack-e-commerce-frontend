@@ -1,0 +1,10 @@
+.carousel-dot-list {
+  bottom: 25px;
+}
+.container {
+  min-height: 100%;
+}
+
+.react-multi-carousel-item {
+  border-radius: 15px;
+}

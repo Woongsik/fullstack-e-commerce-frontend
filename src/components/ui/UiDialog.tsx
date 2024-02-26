@@ -1,7 +1,7 @@
 import { 
   Dialog as MDialog, 
   DialogTitle, DialogActions } from "@mui/material";
-import Button from './Button';
+import Button from './UiButton';
 import { MUIButtonVariant, MUIColor, MUISize } from '../../misc/types/MUI';
 
 type Props = {
@@ -13,7 +13,7 @@ type Props = {
   onClose: (proceed: boolean) => void
 }
 
-export default function Dialog(props: Props) {
+export default function UiDialog(props: Props) {
   const { show, title, cancelTitle, proceedTitle } = props;
   return (
     <MDialog
