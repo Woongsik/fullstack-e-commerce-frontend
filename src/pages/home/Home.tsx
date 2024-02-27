@@ -30,18 +30,21 @@ export default function Home() {
 
   const [filter, setFilter] = useState<Filter>(initialFilter);
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(getUserWithSession());
+  
+  const { user } = useSelector((state: AppState) => state.userReducer);
+  const products: Product[] = useSelector((state: AppState): Product[] => 
+    state.productReducer.sort ? state.productReducer.sortedProducts : state.productReducer.products);
+  
+  useEffect(() => { // For the user sessoion if no user 
+    if (!user) {
+      dispatch(getUserWithSession());
+    }
   }, [dispatch]);
 
-  useEffect(() => {
-    
+  useEffect(() => { // For the filter changed
     dispatch(fetchProducts(filter));
   }, [filter, dispatch]);
   
-  const products: Product[] = useSelector((state: AppState): Product[] => 
-    state.productReducer.sort ? state.productReducer.sortedProducts : state.productReducer.products);
   
   const onTextChanged = (text: string): void => {
     setFilter({
