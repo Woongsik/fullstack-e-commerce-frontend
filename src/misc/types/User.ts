@@ -10,12 +10,12 @@ export type LoginUserInfo = {
 
 export type RegisterUserInfo = LoginUserInfo & {
   name: string,
-  avatar: string
+  avatar: string,
+  role: UserRole
 }
 
 export type User = RegisterUserInfo & {
-  id: number,
-  role: UserRole
+  id: number
 }
 
 export type UserToken = {

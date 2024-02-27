@@ -63,12 +63,12 @@ const userSlice = createSlice({
       console.log('register user', action.payload);
       return {
         ...state,
-        loading: false
-      }
+        loading: false      }
     }).addCase(registerUser.pending, (state, action: PayloadAction) => {
       return {
         ...state,
-        loading: true
+        loading: true,
+        error: undefined
       }
     }).addCase(registerUser.rejected, (state, action) => {
       return {
@@ -85,12 +85,12 @@ const userSlice = createSlice({
 
       return {
         ...state,
-        loading: false     
-      }
+        loading: false      }
     }).addCase(loginUser.pending, (state, action) => {
       return {
         ...state,
-        loading: true
+        loading: true,
+        error: undefined
       }
     }).addCase(loginUser.rejected, (state, action) => {
       return {
@@ -112,7 +112,8 @@ const userSlice = createSlice({
     }).addCase(getUserWithSession.pending, (state, action) => {
       return {
         ...state,
-        loading: true
+        loading: true,
+        error: undefined
       }
     }).addCase(getUserWithSession.rejected, (state, action) => {
       return {

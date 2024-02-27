@@ -2,6 +2,7 @@ import { Avatar, Box, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 
 import { AppState } from '../../redux/store';
+import { Link } from 'react-router-dom';
 
 export default function Profile() {
   const { user } = useSelector((state: AppState) => state.userReducer)
@@ -14,13 +15,14 @@ export default function Profile() {
     <Box display={'flex'} justifyContent={'center'}>
       <Box  display={'flex'} justifyContent={'center'} width={'75%'}>
         <Box>
-          <h1>Profile</h1>
-
           {user ? 
           <Box>
+            <h1>Moi, {user.name}!</h1>
+            
             <Avatar 
               alt={user.name} 
-              src={user.avatar} />
+              src={user.avatar}
+              sx={{ height: '120px', width: '120px'}} />
             
             <Typography>
               Name: {user.name}
@@ -35,7 +37,10 @@ export default function Profile() {
             </Typography>
           </Box> : 
           <Box> 
-            No user to load...
+            You need to login!
+            <Link to="/login">
+              Go to Log in
+            </Link>
           </Box>
           }
 

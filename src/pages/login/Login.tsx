@@ -2,18 +2,20 @@ import { ChangeEvent, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, Navigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Box, IconButton, InputAdornment, TextField } from '@mui/material';
+import { Box, IconButton, InputAdornment, Switch, TextField } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 import { AppState, useAppDispatch } from '../../redux/store';
 import { getUserWithSession, loginUser, registerUser } from '../../redux/slices/UserSlicer';
 import UiButton from '../../components/ui/UiButton';
 import { MUIButtonType, MUIButtonVariant, MUIColor, MUISize } from '../../misc/types/MUI';
+import { UserRole } from '../../misc/types/User';
 
 type Inputs = {
   name: string
   email: string,
-  password: string
+  password: string,
+  admin: boolean
 }
 
 enum PageMode {
@@ -25,6 +27,7 @@ export default function Login() {
   const [pageMode, setPageMode] = useState<PageMode>(PageMode.LOGIN);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [userPassword, setUserPassword] = useState<string>('');
+  const [showSubmittedMessage, setShowSubmittedMessage] = useState<boolean>(false);
 
   const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
   const dispatch = useAppDispatch();
@@ -41,12 +44,17 @@ export default function Login() {
 
       await dispatch(getUserWithSession());
     } else {
+      
       await dispatch(registerUser({
         name: data.name,
         email: data.email,
         password: data.password,
-        avatar: "https://picsum.photos/800"
+        avatar: "https://picsum.photos/800",
+        role: data.admin ? UserRole.ADMIN : UserRole.CUSTOMER
       }));
+
+      setShowSubmittedMessage(true);
+      setPageMode(PageMode.LOGIN);
     }
   }
 
@@ -65,22 +73,6 @@ export default function Login() {
 
   if (user) {
     return <Navigate to="/home" />
-  }
-
-  if (loading) {
-    return <Box>Loading...</Box>
-  }
-
-  if (error) {
-    return <Box component='div' sx={{ height: '50vh', display: 'flex', alignItems: 'center' }}>
-      <Box component='div' alignItems='center' justifyContent='center' display='ruby' >
-        <h1>Thank you so much, we will contact you soon! </h1>
-        <UiButton 
-          title={<Link to="/home">Back to Home</Link>}
-          variant={MUIButtonVariant.OUTLINED}
-          color={MUIColor.PRIMARY} />
-      </Box>
-    </Box>
   }
 
   return (
@@ -130,7 +122,17 @@ export default function Login() {
               }}
               onChange={onUserPasswordChanged} />
           </Box>
-        
+
+          { pageMode === PageMode.SIGNIN && 
+          <Box display={'flex'} alignItems={'center'} justifyContent={'flex-end'}>
+            <Switch 
+              {...register("admin", { required: false }) }
+              color="primary" 
+            />
+            <Box>Register as Admin</Box>
+          </Box>
+          }
+
           <UiButton 
             title={pageMode === PageMode.LOGIN ? 'Log in' : 'Sign in'}
             variant={MUIButtonVariant.CONTAINED}
@@ -146,8 +148,14 @@ export default function Login() {
               variant={MUIButtonVariant.TEXT}
               onClick={togglePageMode} />
           </Box>
+          
+          <Box display={'flex'} justifyContent={'center'}>
+              {loading && <Box>Loading...</Box>}
+              {error && <Box>Error: {error}</Box>}
+              {showSubmittedMessage && <Box>Successfully registered! You can login to continue!..</Box>}
+          </Box>
         </Box>
-        </Box>
+      </Box>
     </Box> 
   )
 }
