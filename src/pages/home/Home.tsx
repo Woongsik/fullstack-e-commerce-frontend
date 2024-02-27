@@ -14,6 +14,7 @@ import SortSelects from '../../components/sortSelects/SortSelects';
 import Product from '../../misc/types/Product';
 import Filter from '../../misc/types/Filter';
 import PriceRangeSlider from '../../components/priceRangeSlider/PriceRangeSlider';
+import { getUserWithSession } from '../../redux/slices/UserSlicer';
 
 export default function Home() {
   const baseCategoryId: number = 0;
@@ -31,6 +32,11 @@ export default function Home() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    dispatch(getUserWithSession());
+  }, [dispatch]);
+
+  useEffect(() => {
+    
     dispatch(fetchProducts(filter));
   }, [filter, dispatch]);
   
