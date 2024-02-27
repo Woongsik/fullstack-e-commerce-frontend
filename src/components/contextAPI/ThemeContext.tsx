@@ -4,7 +4,10 @@ type Props = {
   children: ReactNode
 }
 
-type Theme = "light" | "dark";
+export enum Theme {
+  LIGHT = 'light',
+  DARK = 'dark'
+}
 
 type ThemeContextType = {
   theme: Theme;
@@ -12,14 +15,14 @@ type ThemeContextType = {
 }
 
 const ThemeContext: Context<ThemeContextType> = createContext<ThemeContextType>({
-  theme: "light",
+  theme: Theme.LIGHT,
   toggleTheme: () => {}
 });
 
 export default function ThemeProvider(props: Props) {
-  const [theme, setTheme] = useState<Theme>("light");
+  const [theme, setTheme] = useState<Theme>(Theme.LIGHT);
   const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
+    setTheme((prevTheme) => (prevTheme === Theme.LIGHT ? Theme.DARK : Theme.LIGHT));
   };
 
   return (
