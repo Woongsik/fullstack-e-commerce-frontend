@@ -32,6 +32,14 @@ class UserSlicerUtil {
       console.log('Set tokens to localstorage failed:', e);
     }
   }
+
+  public removeTokensFromLocalStorage(): void {
+    try {
+      localStorage.removeItem(this.localStorageName);
+    } catch(e: any) {
+      console.log('Remove tokens from localstorage failed', e);
+    }
+  }
 }
 
 export const userSlicerUtil: UserSlicerUtil = new UserSlicerUtil();

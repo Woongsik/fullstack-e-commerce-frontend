@@ -3,7 +3,7 @@ import {
   Grid
 } from '@mui/material';
 
-import ProductCard from '../proudctCard/ProductCard';
+import ProductCard from '../productCard/ProductCard';
 import Product from '../../misc/types/Product';
 
 type Props = {

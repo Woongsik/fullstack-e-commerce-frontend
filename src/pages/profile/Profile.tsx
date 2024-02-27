@@ -1,22 +1,13 @@
-import { Avatar, Box, TextField, Typography } from '@mui/material';
+import { Avatar, Box, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 
-import { AppState, useAppDispatch } from '../../redux/store';
-import { useEffect } from 'react';
-import { getUserWithSession } from '../../redux/slices/UserSlicer';
-import UiImage from '../../components/ui/UiImage';
+import { AppState } from '../../redux/store';
 
 export default function Profile() {
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(getUserWithSession());
-  }, [dispatch]);
-
-  const { loading, error, user } = useSelector((state: AppState) => state.userReducer)
-    if (!user) {
-      console.log('user not existed');
-    // navigate to login
+  const { user } = useSelector((state: AppState) => state.userReducer)
+    
+  if (!user) {
+    console.log('user not existed');
   }
   
   return (

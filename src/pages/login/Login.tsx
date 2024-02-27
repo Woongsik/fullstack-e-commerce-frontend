@@ -1,14 +1,14 @@
 import { ChangeEvent, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Link, Navigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Box, IconButton, InputAdornment, TextField } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
+import { AppState, useAppDispatch } from '../../redux/store';
+import { getUserWithSession, loginUser, registerUser } from '../../redux/slices/UserSlicer';
 import UiButton from '../../components/ui/UiButton';
 import { MUIButtonType, MUIButtonVariant, MUIColor, MUISize } from '../../misc/types/MUI';
-import { AppState, useAppDispatch } from '../../redux/store';
-import { loginUser, registerUser } from '../../redux/slices/UserSlicer';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { useSelector } from 'react-redux';
 
 type Inputs = {
   name: string
@@ -22,49 +22,56 @@ enum PageMode {
 }
 
 export default function Login() {
-  const [submit, setSubmit] = useState<boolean>(false);
   const [pageMode, setPageMode] = useState<PageMode>(PageMode.LOGIN);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [userPassword, setUserPassword] = useState<string>('');
 
   const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const { loading, error, user } = useSelector((state: AppState) => state.userReducer);
 
-  const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => {
+  const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
     console.log('on Submit', data);
 
     if (pageMode === PageMode.LOGIN) {
-      dispatch(loginUser({
+      await dispatch(loginUser({
         email: data.email,
         password: data.password
       }));
+
+      await dispatch(getUserWithSession());
     } else {
-      dispatch(registerUser({
+      await dispatch(registerUser({
         name: data.name,
         email: data.email,
         password: data.password,
         avatar: "https://picsum.photos/800"
       }));
     }
-    
   }
 
-  const togglePassword = () => {
+  const togglePassword = (): void => {
     setShowPassword(!showPassword);
   }
 
-  const togglePageMode = () => {
+  const togglePageMode = (): void => {
     setPageMode(pageMode === PageMode.LOGIN ? PageMode.SIGNIN : PageMode.LOGIN);
     setUserPassword('');
   }
 
-  const onUserPasswordChanged = (e: ChangeEvent<HTMLInputElement>) => {
+  const onUserPasswordChanged = (e: ChangeEvent<HTMLInputElement>): void => {
     setUserPassword(e.target.value);
   }
 
-  if (submit) {
+  if (user) {
+    return <Navigate to="/home" />
+  }
+
+  if (loading) {
+    return <Box>Loading...</Box>
+  }
+
+  if (error) {
     return <Box component='div' sx={{ height: '50vh', display: 'flex', alignItems: 'center' }}>
       <Box component='div' alignItems='center' justifyContent='center' display='ruby' >
         <h1>Thank you so much, we will contact you soon! </h1>
@@ -82,7 +89,6 @@ export default function Login() {
         <Box
           component="form"
           sx={{'& .MuiTextField-root': { m: 1, width: '45ch' } }}
-          autoComplete="off"
           onSubmit={handleSubmit(onSubmit)}>
           <h1>{ pageMode === PageMode.LOGIN ? 'Log in' : 'Sign in'}</h1>
           

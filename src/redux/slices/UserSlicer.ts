@@ -8,7 +8,6 @@ import { userSlicerUtil } from "../utils/UserSlicerUtil";
 type InitialState = {
   user: User | null; // User;
   admin: boolean;
-  tokens: UserToken | null;
   loading: boolean;
   error?: string;
 }
@@ -16,7 +15,6 @@ type InitialState = {
 const initialState: InitialState = {
   user: null,
   admin: false,
-  tokens: null,
   loading: false
 };
 
@@ -54,6 +52,10 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
+    logout: (state) => {
+      userSlicerUtil.removeTokensFromLocalStorage();
+      state.user = null;
+    }
   },
   extraReducers(builder: ActionReducerMapBuilder<InitialState>) {
     // 
@@ -116,15 +118,16 @@ const userSlice = createSlice({
       return {
           ...state,
           user: null,
-          tokens: null,
           loading: false,
           error: action.error.message ?? "Unkown error..."
         }
     });
-    
-    
   }
 });
+
+export const { 
+  logout
+} = userSlice.actions;
 
 const userReducer = userSlice.reducer;
 export default userReducer;
