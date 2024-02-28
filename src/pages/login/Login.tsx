@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Box, IconButton, InputAdornment, Switch, TextField } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
@@ -90,7 +90,7 @@ export default function Login() {
               {...register("name", { required: true, pattern: /^[A-Za-z0-9]+$/i }) }
               error={Boolean(errors.name)}
               label="Name"
-              helperText={errors.name ? 'Incorrect name! No special characters' : ''} />
+              helperText={errors.name && 'Incorrect name! No special characters'} />
           </Box> 
           }
 
@@ -99,7 +99,7 @@ export default function Login() {
               {...register("email", { required: true, pattern: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/ }) }
               error={Boolean(errors.email)}
               label="Email"
-              helperText={errors.email ? 'Incorrect email! Please check again!' : ''} />
+              helperText={errors.email && 'Incorrect email! Please check again!'} />
           </Box>
 
           <Box>
@@ -109,7 +109,7 @@ export default function Login() {
               label="Password"
               value={userPassword}
               type={showPassword ? 'text' : 'password'}
-              helperText={errors.password ? 'Incorrect password! Minimum eight characters, at least one letter and one number!' : ''}
+              helperText={errors.password && 'Incorrect password! Minimum eight characters, at least one letter and one number!'}
               InputProps={{
                 endAdornment: <InputAdornment position="end">
                 <IconButton

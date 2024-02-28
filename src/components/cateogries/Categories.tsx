@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { Box, CircularProgress } from '@mui/material';
 import { useSelector } from 'react-redux';
+import { Box, CircularProgress } from '@mui/material';
 
 import { useAppDispatch, AppState } from '../../redux/store';
 import { fetchAllCategoriesAsync } from '../../redux/slices/CategorySlicer';
@@ -21,7 +21,7 @@ export default function Categories(props: Props) {
     dispatch(fetchAllCategoriesAsync());
   }, [dispatch]);
 
-  const { categories, loading, error } = useSelector((state: AppState) => state.categoryReducer);
+  const { categories, loading } = useSelector((state: AppState) => state.categoryReducer);
   const allCategory: Category = {
     id: 0,
     name: 'All',
@@ -37,7 +37,7 @@ export default function Categories(props: Props) {
   }
 
   return (
-    <Box component="div" display="flex" justifyContent="flex-end" alignItems="center" overflow="auto" padding="10px">
+    <Box display="flex" justifyContent="flex-end" alignItems="center" overflow="auto" padding="10px">
       { loading ? <CircularProgress /> : 
       <UiFormSelects 
         title='Categories'

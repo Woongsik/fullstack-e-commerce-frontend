@@ -5,10 +5,10 @@ import { useSelector } from 'react-redux';
 import { useAppDispatch, AppState } from '../../redux/store';
 import { fetchProducts } from '../../redux/slices/ProductSlicer';
 
-import SearchInput from '../../components/searchInput/SearchInput';
+import SearchInput from '../../components/ui/searchInput/SearchInput';
 import ProductList from '../../components/productList/ProductList';
 import Categories from '../../components/cateogries/Categories';
-import PageNavigation from '../../components/pageNavigation/PageNavigation';
+import PageNavigation from '../../components/ui/pageNavigation/PageNavigation';
 import SortSelects from '../../components/sortSelects/SortSelects';
 
 import Product from '../../misc/types/Product';

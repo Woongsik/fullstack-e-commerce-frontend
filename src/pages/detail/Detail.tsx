@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Box, Typography,Chip, Snackbar } from '@mui/material';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
@@ -16,6 +16,7 @@ import UiCarousel from '../../components/ui/carousel/UiCarousel';
 export default function Detail() {
   const { id } = useParams(); // product id
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [showSnackBar, setShowSnackBar] = useState<boolean>(false);
   
   useEffect(() => {
@@ -51,11 +52,17 @@ export default function Detail() {
     setShowSnackBar(false);
   }
 
+  const handleBack = () => {
+    navigate(-1);
+  }
+
   return (
     <Box component={'div'}>
       <Box component={'div'} margin={5}>
+        <UiButton
+          title={'Back'}
+          onClick={handleBack} />
       {product ?
-      
       <Box component={'div'} display={'flex'} alignItems={'flex-start'}>
         <Box maxWidth={800} width={'50%'}>
           <UiCarousel 

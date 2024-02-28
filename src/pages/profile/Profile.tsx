@@ -12,7 +12,7 @@ export default function Profile() {
   }
   
   return (
-    <Box display={'flex'} justifyContent={'center'}>
+    <Box display={'flex'} justifyContent={'center'} minHeight={'75vh'}>
       <Box  display={'flex'} justifyContent={'center'} width={'75%'}>
         <Box>
           {user ? 
@@ -30,6 +30,10 @@ export default function Profile() {
 
             <Typography>
               Email: {user.email}
+            </Typography>
+
+            <Typography>
+              Role: {user.role.toUpperCase()}
             </Typography>
 
             <Typography>
