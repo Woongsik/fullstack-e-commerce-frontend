@@ -6,6 +6,9 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import UiButton from '../ui/UiButton';
 import { MUIButtonType, MUIButtonVariant, MUIColor } from '../../misc/types/MUI';
 import FileUploader from '../ui/fileUploader/FileUploader';
+import { useAppDispatch } from '../../redux/store';
+import { fetchProductImages, registerProduct } from '../../redux/slices/ProductSlicer';
+import { ProductRegister } from '../../misc/types/Product';
 
 type Inputs = {
   title: string,
@@ -19,15 +22,42 @@ export default function ProductCreate() {
   const [categoryId, setCategoryId] = useState<number>(0);
   const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
   const [images, setImages] = useState<File[]>([]);
+  const dispatch = useAppDispatch();
   
   const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
-    console.log('on submit', data);
+    console.log('on submit', data, images.length);
 
-    const formData = new FormData();
-    images.forEach((image: File) => {
-      formData.append('file', image);
-    });
+    if (images.length > 0) {
+      const formData = new FormData();
+      images.forEach((image: File, index: number) => {
+        formData.append(`file${index + 1}`, image);
+      });
+
+      console.log('fetch images', images.length);
+      await dispatch(fetchProductImages(formData));
+
+    }
     
+    // 
+    const sample = {
+      "title": "New Product",
+      "price": 10,
+      "description": "A description",
+      "categoryId": 2,
+      "images": ['https://placeimg.com/640/480/any']
+    }
+
+    // console.log('fetch register product', sample);
+    // await dispatch(registerProduct(sample));
+    // await dispatch(registerProduct({
+    //   title: data.title,
+    //   price: data.price,
+    //   description: data.description,
+    //   categoryId: data.categoryId,
+    //   'images': ['https://placeimg.com/640/480/any']
+    // }));
+
+
     // upload image
     // get images url
 
@@ -41,7 +71,7 @@ export default function ProductCreate() {
   }
 
   const onFileChange = (files: File[]) => {
-
+    setImages(files);
   }
 
   return (

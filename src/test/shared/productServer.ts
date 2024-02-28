@@ -4,7 +4,7 @@
 import { http, HttpResponse } from "msw";
 import { setupServer } from "msw/node";
 
-import Product from "../../misc/types/Product";
+import { Product } from "../../misc/types/Product";
 
 const mockProducts: Product[] = [
       { id: "1", 

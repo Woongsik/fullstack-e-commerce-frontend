@@ -4,7 +4,7 @@ import {
 } from '@mui/material';
 
 import UiImage from '../ui/UiImage';
-import Product from '../../misc/types/Product';
+import { Product } from '../../misc/types/Product';
 import { Link } from 'react-router-dom';
 
 type Props = {

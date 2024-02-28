@@ -2,7 +2,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import ProductList from '../../components/productList/ProductList';
 import { PropsWithChildren } from 'react';
 import { Provider } from 'react-redux';
-import Product from '../../misc/types/Product';
+import { Product } from '../../misc/types/Product';
 
 // const wrapper = ({children}: PropsWithChildren) => 
 //   <Provider store={store}>{children}</Provider>

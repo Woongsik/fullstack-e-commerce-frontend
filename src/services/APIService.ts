@@ -2,7 +2,7 @@ import axios, { AxiosResponse, Method } from 'axios';
 
 import { host, api } from '../utils/Urls';
 import Filter from '../misc/types/Filter';
-import Product from '../misc/types/Product';
+import { Product, ProductRegister, ProductUpdate } from '../misc/types/Product';
 import Category from '../misc/types/Category';
 import { LoginUserInfo, RegisterUserInfo, User, UserToken } from '../misc/types/User';
 import { userSlicerUtil } from '../redux/utils/UserSlicerUtil';
@@ -91,6 +91,42 @@ class ApiService {
     }
     
     return this.request<User>('get', url, null, headers);
+  }
+
+  public fetchProductImages(formData: FormData) {
+    const url: string = this.generateUrl("files/upload");
+    const headers = {
+      'Content-Type': 'multipart/form-data'
+    }
+
+    this.request('post', url, formData, headers).then((response) => {
+      console.log('response', response);
+    }).catch((e) => {
+      console.log('e', e);
+    });
+  }
+
+  public registerProduct(product: ProductRegister) {
+    const url: string = this.generateUrl("products");
+    this.request('post', url, product).then((response) => {
+      console.log('response', response);
+    }).catch((e) => {
+      console.log('e', e);
+    });
+  }
+
+  public updateProduct(product: ProductUpdate) {
+    const url: string = this.generateUrl(`products/${product.id}`);
+    this.request('put', url, product).then((response) => {
+      console.log('response', response);
+    }).catch((e) => {
+      console.log('e', e);
+    });
+  }
+
+  public deleteProduct(productId: number): Promise<boolean> {
+    const url: string = this.generateUrl(`products/${productId}`);
+    return this.request('delete', url);
   }
 
 }

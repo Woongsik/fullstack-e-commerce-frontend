@@ -7,7 +7,7 @@ import {
 import { apiService } from "../../services/APIService";
 import ProductSliceUtils from "../utils/ProductSliceUtils";
 
-import Product from "../../misc/types/Product";
+import { Product, ProductRegister } from "../../misc/types/Product";
 import Filter from "../../misc/types/Filter";
 import Sort from "../../misc/types/Sort";
 
@@ -42,6 +42,26 @@ export const fetchProduct = createAsyncThunk(
   async (productId: string, { rejectWithValue }) => {
     try {
       return apiService.getProduct(productId);
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+});
+
+export const fetchProductImages = createAsyncThunk(
+  "fetchProductImages", // post product images
+  async (formData: FormData, { rejectWithValue }) => {
+    try {
+      return apiService.fetchProductImages(formData);
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+});
+
+export const registerProduct = createAsyncThunk(
+  "registerProduct", // post product images
+  async (product: ProductRegister, { rejectWithValue }) => {
+    try {
+      return apiService.registerProduct(product);
     } catch (e) {
       return rejectWithValue(e);
     }

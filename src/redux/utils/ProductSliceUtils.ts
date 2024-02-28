@@ -1,4 +1,4 @@
-import Product from "../../misc/types/Product";
+import { Product } from "../../misc/types/Product";
 import Sort from "../../misc/types/Sort";
 import DateUtil from "../../utils/DateUtil";
 

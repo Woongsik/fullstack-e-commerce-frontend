@@ -12,7 +12,7 @@ import UiDialog from '../ui/UiDialog';
 import UiImage from '../ui/UiImage';
 import { MUIButtonVariant, MUIColor, MUISize } from '../../misc/types/MUI';
 import CartItem from '../../misc/types/CartItem';
-import Product from '../../misc/types/Product';
+import { Product } from '../../misc/types/Product';
 
 type Props = {
   cartItem: CartItem;

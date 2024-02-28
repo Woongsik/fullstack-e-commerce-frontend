@@ -11,7 +11,7 @@ import Categories from '../../components/cateogries/Categories';
 import PageNavigation from '../../components/ui/pageNavigation/PageNavigation';
 import SortSelects from '../../components/sortSelects/SortSelects';
 
-import Product from '../../misc/types/Product';
+import { Product } from '../../misc/types/Product';
 import Filter from '../../misc/types/Filter';
 import PriceRangeSlider from '../../components/priceRangeSlider/PriceRangeSlider';
 import { getUserWithSession } from '../../redux/slices/UserSlicer';

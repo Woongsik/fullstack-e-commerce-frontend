@@ -1,5 +1,5 @@
 import React from 'react'
-import Product from '../../misc/types/Product'
+import { Product } from '../../misc/types/Product'
 
 type Props = {
   product: Product

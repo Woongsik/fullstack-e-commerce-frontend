@@ -1,4 +1,4 @@
-import Product from "../../misc/types/Product";
+import { Product } from "../../misc/types/Product";
 import productReducer, { fetchProducts } from "../../redux/slices/ProductSlicer";
 // import store from "../../redux/store";
 import { createNewStore } from "../../redux/store";
