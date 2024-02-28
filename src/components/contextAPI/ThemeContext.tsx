@@ -20,7 +20,7 @@ const ThemeContext: Context<ThemeContextType> = createContext<ThemeContextType>(
 });
 
 export default function ThemeProvider(props: Props) {
-  const [theme, setTheme] = useState<Theme>(Theme.LIGHT);
+  const [theme, setTheme] = useState<Theme>(Theme.DARK);
   const toggleTheme = () => {
     setTheme((prevTheme) => (prevTheme === Theme.LIGHT ? Theme.DARK : Theme.LIGHT));
   };
