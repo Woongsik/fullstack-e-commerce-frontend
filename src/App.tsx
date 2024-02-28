@@ -7,15 +7,19 @@ import Cart from "./pages/cart/Cart";
 import Footer from './components/contextAPI/footer/Footer';
 import Profile from "./pages/profile/Profile";
 import Login from "./pages/login/Login";
+import RoleIndicator from "./components/roleIndicator/RoleIndicator";
+import ProdcutUpdate from "./pages/productUpdate/ProdcutUpdate";
 
 function App() {
   return (
     <div>
       <Navbar />
+      <RoleIndicator />
       <Routes>
         <Route path="/home" element={<Home />}></Route>
         <Route path="/products" element={<Home />}></Route>
         <Route path="/product/:id" element={<Detail />}></Route>
+        <Route path="/productUpdate" element={<ProdcutUpdate />}></Route>
         <Route path="/profile" element={<Profile />}></Route>
         <Route path="/cart" element={<Cart />}></Route>
         <Route path="/login" element={<Login />}></Route>
