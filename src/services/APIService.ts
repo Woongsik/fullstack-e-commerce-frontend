@@ -2,7 +2,7 @@ import axios, { AxiosResponse, Method } from 'axios';
 
 import { host, api } from '../utils/Urls';
 import Filter from '../misc/types/Filter';
-import { Product, ProductRegister, ProductUpdate } from '../misc/types/Product';
+import { Product, ProductRegister, ProductUpdate, ProductUpdateItem } from '../misc/types/Product';
 import Category from '../misc/types/Category';
 import { LoginUserInfo, RegisterUserInfo, User, UserToken } from '../misc/types/User';
 import { userSlicerUtil } from '../redux/utils/UserSlicerUtil';
@@ -59,23 +59,23 @@ class ApiService {
     url += `${separator}offset=${(page - 1) * itemsPerPage}&limit=${itemsPerPage}`;
     
     console.log('fetch', url);
-    return this.request<Product[]>('get', url, null); 
+    return this.request<Product[]>('GET', url, null); 
   }
 
   public getProduct(productId: string): Promise<Product> {
     let url: string = this.generateUrl(`products/${productId}`);
     console.log('fetch', url);
-    return this.request<Product>('get', url, null); 
+    return this.request<Product>('GET', url, null); 
   }
 
   public getCategories(): Promise<Category[]> {
     const url: string = this.generateUrl("categories");
-    return this.request<Category[]>('get', url, null); 
+    return this.request<Category[]>('GET', url, null); 
   }
 
   public registerUser(userInfo: RegisterUserInfo): Promise<User> {
     const url: string = this.generateUrl("users/");
-    return this.request<User>('post', url, userInfo);
+    return this.request<User>('POST', url, userInfo);
   }
 
   public loginUser(loginInfo: LoginUserInfo): Promise<UserToken> {
@@ -90,7 +90,7 @@ class ApiService {
       Authorization : `Bearer ${tokens?.access_token ?? ''}`
     }
     
-    return this.request<User>('get', url, null, headers);
+    return this.request<User>('GET', url, null, headers);
   }
 
   public fetchProductImages(formData: FormData) {
@@ -99,34 +99,30 @@ class ApiService {
       'Content-Type': 'multipart/form-data'
     }
 
-    this.request('post', url, formData, headers).then((response) => {
+    this.request('POST', url, formData, headers).then((response) => {
       console.log('response', response);
     }).catch((e) => {
       console.log('e', e);
     });
   }
 
-  public registerProduct(product: ProductRegister) {
+  public registerProduct(product: ProductRegister) { // Promise<Product>
     const url: string = this.generateUrl("products");
-    this.request('post', url, product).then((response) => {
-      console.log('response', response);
+    this.request('POST', url, product).then((response) => {
+      console.log('registerProduct', response);
     }).catch((e) => {
       console.log('e', e);
     });
   }
 
-  public updateProduct(product: ProductUpdate) {
-    const url: string = this.generateUrl(`products/${product.id}`);
-    this.request('put', url, product).then((response) => {
-      console.log('response', response);
-    }).catch((e) => {
-      console.log('e', e);
-    });
-  }
-
-  public deleteProduct(productId: number): Promise<boolean> {
+  public updateProduct(product: ProductUpdateItem, productId: string): Promise<Product> {
     const url: string = this.generateUrl(`products/${productId}`);
-    return this.request('delete', url);
+    return this.request('PUT', url, product);
+  }
+
+  public deleteProduct(product: Product): Promise<boolean> {
+    const url: string = this.generateUrl(`products/${product.id}`);
+    return this.request('DELETE', url);
   }
 
 }

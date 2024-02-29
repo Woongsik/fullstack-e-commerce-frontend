@@ -18,11 +18,15 @@ export type ProductRegister = ProductBase & {
   categoryId: number;
 }
 
-export type ProductUpdate = {
-  id: string;
+export type ProductUpdateItem = {
   title?: string;
   price?: number;
   description?: string;
   images?: string[];
-  cateogryId?: number;
+  categoryId?: number;
+}
+
+export type ProductUpdate = {
+  id: string;
+  item: ProductUpdateItem
 }

@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
 import { Box, TextField } from '@mui/material';
 
 import Categories from '../cateogries/Categories';
@@ -6,9 +6,10 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import UiButton from '../ui/UiButton';
 import { MUIButtonType, MUIButtonVariant, MUIColor } from '../../misc/types/MUI';
 import FileUploader from '../ui/fileUploader/FileUploader';
-import { useAppDispatch } from '../../redux/store';
-import { fetchProductImages, registerProduct } from '../../redux/slices/ProductSlicer';
-import { ProductRegister } from '../../misc/types/Product';
+import { AppState, useAppDispatch } from '../../redux/store';
+import { fetchProductImages, updateProduct } from '../../redux/slices/ProductSlicer';
+import { Product, ProductUpdateItem } from '../../misc/types/Product';
+import { useSelector } from 'react-redux';
 
 type Inputs = {
   title: string,
@@ -18,15 +19,27 @@ type Inputs = {
   images: string[]
 }
 
-export default function ProductCreate() {
-  const [categoryId, setCategoryId] = useState<number>(0);
-  const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
-  const [images, setImages] = useState<File[]>([]);
-  const dispatch = useAppDispatch();
-  
-  const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
-    console.log('on submit', data, images.length);
+type Props = {
+  product?: Product,
+  onUpdate?: () => void
+}
 
+export default function ProductCreate(props: Props) {
+  const { product } = props;
+  const baseCategoryId: number = product ? product.category.id : 0;
+  const dispatch = useAppDispatch();
+  const { loading , error } = useSelector((state: AppState) => state.productReducer);
+
+  const [categoryId, setCategoryId] = useState<number>(baseCategoryId);
+  const [images, setImages] = useState<File[]>([]);
+  
+  const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
+  
+  const createNewProduct = async (data: Inputs) => {
+    console.log('create new product', data);
+    
+    // upload image => get images url
+    // send product with urls to backend to register
     if (images.length > 0) {
       const formData = new FormData();
       images.forEach((image: File, index: number) => {
@@ -35,16 +48,6 @@ export default function ProductCreate() {
 
       console.log('fetch images', images.length);
       await dispatch(fetchProductImages(formData));
-
-    }
-    
-    // 
-    const sample = {
-      "title": "New Product",
-      "price": 10,
-      "description": "A description",
-      "categoryId": 2,
-      "images": ['https://placeimg.com/640/480/any']
     }
 
     // console.log('fetch register product', sample);
@@ -56,17 +59,42 @@ export default function ProductCreate() {
     //   categoryId: data.categoryId,
     //   'images': ['https://placeimg.com/640/480/any']
     // }));
+  }
 
+  const updateProductInfo = async (data: Inputs) => {
+    console.log('update product', data);
 
-    // upload image
-    // get images url
+    const productUpdateItem: ProductUpdateItem = {
+      title: data.title,
+      price: data.price,
+      description: data.description,
+      categoryId: 2
+    }
 
-    // send product to backend to register
+    if (product) {
+      await dispatch(updateProduct({
+        id: product.id,
+        item: productUpdateItem      
+       }));
 
+       // now change the edit mode 
+       if (props.onUpdate) {
+        props.onUpdate();
+       }
+    }
+    
+  }
+
+  const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => {
+    console.log('on submit', data, images.length);
+    if (product) {
+      updateProductInfo(data);
+    } else {
+      createNewProduct(data);
+    }
   }
   
   const onCategoryChanged = (categoryId: number) => {
-    console.log('category changed', categoryId);
     setCategoryId(categoryId);
   }
 
@@ -76,7 +104,7 @@ export default function ProductCreate() {
 
   return (
     <Box>
-      ProductCreate
+      <h1>{product ? `Edit Product` : `Create Product`}</h1>
       <Box 
         component="form"
         sx={{'& .MuiTextField-root': { m: 1, width: '45ch' } }}
@@ -84,27 +112,30 @@ export default function ProductCreate() {
         
         <Box my={1}>
           <TextField
-            {...register("title", { required: true, pattern: /^[A-Za-z0-9]+$/i }) }
+            {...register("title", { required: true, pattern: /^[A-Za-z0-9?.,=_@\- ]+$/i }) }
             error={Boolean(errors.title)}
             label="Product name"
-            helperText={errors.title && 'Incorrect name! No special characters'} />   
+            defaultValue={product ? product.title : ''}
+            helperText={errors.title && 'Incorrect name! Accept special character only ?.,=-_@'} />   
         </Box>
         <Box my={1}>
           <TextField
-            {...register("price", { required: true, pattern: /^[0-9]+$/i }) }
+            {...register("price", { required: true, pattern: /^[1-9]+$/i }) }
             error={Boolean(errors.price)}
             type="number"
             label="Product price"
+            defaultValue={product ? product.price : 0}
             helperText={errors.price && 'Incorrect price! Only numbers'} />          
         </Box>
         <Box my={1}>
           <TextField
-            {...register("description", { required: true, pattern: /^[A-Za-z0-9]+$/i }) }
+            {...register("description", { required: true, pattern: /^[A-Za-z0-9?.,=_@\- ]+$/i }) }
             error={Boolean(errors.description)}
             label="Product description"
             multiline
             minRows={4}
-            helperText={errors.description && 'Incorrect description! No special character'} />       
+            defaultValue={product ? product.description : ''}
+            helperText={errors.description && 'Incorrect description! Accept special character only ?.,=-_@'} />       
         </Box>
         <Box my={1}>
           <Categories 
@@ -114,11 +145,12 @@ export default function ProductCreate() {
               {...register("categoryId", {required: true, pattern: /^[1-9]+$/i })}
               error={Boolean(errors.categoryId)}
               value={categoryId}
-              helperText={errors.categoryId && 'Incorrect category'} />
-               
+              helperText={errors.categoryId && 'Incorrect category'} />  
         </Box>
         <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'} my={1}>
           <FileUploader onChange={onFileChange}/>
+
+          {/* show  exited images */}
         </Box>
 
         <UiButton
@@ -127,6 +159,8 @@ export default function ProductCreate() {
           color={MUIColor.PRIMARY}
           type={MUIButtonType.SUBMIT} />
       </Box>
+
+      { error && <h1>ErrorL: {error} </h1> }
     </Box>
   )
 }

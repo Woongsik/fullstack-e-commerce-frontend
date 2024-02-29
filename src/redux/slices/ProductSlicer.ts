@@ -7,7 +7,7 @@ import {
 import { apiService } from "../../services/APIService";
 import ProductSliceUtils from "../utils/ProductSliceUtils";
 
-import { Product, ProductRegister } from "../../misc/types/Product";
+import { Product, ProductRegister, ProductUpdate } from "../../misc/types/Product";
 import Filter from "../../misc/types/Filter";
 import Sort from "../../misc/types/Sort";
 
@@ -48,7 +48,7 @@ export const fetchProduct = createAsyncThunk(
 });
 
 export const fetchProductImages = createAsyncThunk(
-  "fetchProductImages", // post product images
+  "fetchProductImages",
   async (formData: FormData, { rejectWithValue }) => {
     try {
       return apiService.fetchProductImages(formData);
@@ -58,10 +58,30 @@ export const fetchProductImages = createAsyncThunk(
 });
 
 export const registerProduct = createAsyncThunk(
-  "registerProduct", // post product images
+  "registerProduct",
   async (product: ProductRegister, { rejectWithValue }) => {
     try {
       return apiService.registerProduct(product);
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+});
+
+export const updateProduct = createAsyncThunk(
+  "updateProduct",
+  async (productUpdate: ProductUpdate, { rejectWithValue }) => {
+    try {
+      return apiService.updateProduct(productUpdate.item, productUpdate.id);
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+});
+
+export const deleteProduct = createAsyncThunk(
+  "deleteProduct",
+  async (product: Product, { rejectWithValue }) => {
+    try {
+      return apiService.deleteProduct(product);
     } catch (e) {
       return rejectWithValue(e);
     }
@@ -74,15 +94,6 @@ const productSlice = createSlice({
     sortBy: (state, actions: PayloadAction<Sort>) => {
       state.sort = actions.payload;
       state.sortedProducts = ProductSliceUtils.sortProducts(state.products, actions.payload);
-    },
-    createProduct: (state, actions: PayloadAction<Product>) => { // for adimin
-    
-    },
-    updateProduct: (state, actions: PayloadAction<Product>) => { // for adimin
-
-    },
-    deleteProduct: (state, actions: PayloadAction<Product>) => { // for adimin
-
     }
   },
   extraReducers(builder: ActionReducerMapBuilder<InitialState>) {
@@ -125,14 +136,68 @@ const productSlice = createSlice({
             error: action.error.message ?? "Unkown error..."
           }
       });
+
+      builder.addCase(fetchProductImages.fulfilled, (state, action) => {
+        // should get the image urls 
+        
+        return {
+          ...state,
+          loading: false
+        }
+      }).addCase(fetchProductImages.pending, (state, action) => {
+        return {
+          ...state,
+          loading: true        
+        }
+      }).addCase(fetchProductImages.rejected, (state, action) => {
+        return {
+          ...state,
+          loading: false,
+          error: action.error.message ?? "Unkown error..."
+        }
+      });
+
+      builder.addCase(updateProduct.fulfilled, (state, action) => {
+        return {
+          ...state,
+          product: action.payload,
+          loading: false
+        }
+      }).addCase(updateProduct.pending, (state, action) => {
+        return {
+          ...state,
+          loading: true        }
+      }).addCase(updateProduct.rejected, (state, action) => {
+        return {
+            ...state,
+            loading: false,
+            error: action.error.message ?? "Unkown error..."
+          }
+      });
+
+      builder.addCase(deleteProduct.fulfilled, (state, action) => {
+        return {
+          ...state,
+          loading: false,
+          product: null
+        }
+      }).addCase(deleteProduct.pending, (state, action) => {
+        return {
+          ...state,
+          loading: true        
+        }
+      }).addCase(deleteProduct.rejected, (state, action) => {
+        return {
+          ...state,
+          loading: false,
+          error: action.error.message ?? "Unknow error..."
+        }
+      });
   },
 });
 
 export const { 
-  sortBy,
-  createProduct, 
-  updateProduct, 
-  deleteProduct 
+  sortBy
 } = productSlice.actions;
 
 const productReducer = productSlice.reducer;

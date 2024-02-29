@@ -22,16 +22,18 @@ export default function ProdcutUpdate() {
     }
   }, [dispatch]);
 
-  const { loading, error, product } = useSelector((state: AppState) => state.productReducer);
+  // const { loading, error, product } = useSelector((state: AppState) => state.productReducer);
 
   return (
     <Box display={'flex'} justifyContent={'center'} width={'75%'}>
       <Box>
-        { loading && <h1>Loading...</h1>}
+        {/* { loading && <h1>Loading...</h1>}
 
         { error && <h1>{error}</h1>}
 
-        { product ?  <ProductEdit product={product}/>: <ProductCreate />}
+        { product ?  <ProductEdit product={product}/>: <ProductCreate />} */}
+
+        <ProductCreate />
       </Box>
     </Box>
   )
