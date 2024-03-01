@@ -2,7 +2,6 @@
   "name": "fs17-fe-project",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://api.escuelajs.co",
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@emotion/react": "^11.11.3",
