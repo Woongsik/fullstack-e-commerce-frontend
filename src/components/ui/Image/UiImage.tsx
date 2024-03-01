@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Skeleton } from '@mui/material';
+import { useState } from 'react';
+import UiBrokenImage from './UiBrokenImage';
 
 type Props = {
   src: string,
@@ -11,31 +11,26 @@ export default function UiImage(props: Props) {
   const [error, setError] = useState<boolean>(false);
   const { src, alt, borderRadius } = props;
 
-  const handleLoad = (loaded: any) => {
-    console.log('===image loaded', loaded);
-    setError(false);
-  }
-
   const handleError = () => {
-    console.log('image load error');
+    console.log('image error', src);
     setError(true);
   }
 
   return (
     <>
-      { error ? 
-      <Skeleton animation="wave" variant="rectangular" width={'100%'} height={'100%'} />
+    {src}
+    {error ?
+      <UiBrokenImage />
       : 
       <img
         src={src}
         alt={alt}
         loading="lazy"
-        onLoad={handleLoad}
         onError={handleError}
         height={'auto'}
         width={'100%'}
         style={{ borderRadius: `${borderRadius}px` }} />
-      }
+    }
     </>
   )
 }

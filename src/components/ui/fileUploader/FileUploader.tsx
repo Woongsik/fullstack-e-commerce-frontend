@@ -4,6 +4,7 @@ import AddAPhotoRounded from '@mui/icons-material/AddAPhotoRounded';
 
 import UiDialog from '../UiDialog';
 import { MUIColor, MUISize } from '../../../misc/types/MUI';
+import UiThumb from '../Image/UiThumb';
 
 type Props = {
   onChange: (files: File[]) => void
@@ -79,12 +80,13 @@ export default function FileUploader(props: Props) {
       
       <Box display={'flex'} alignItems={'center'} marginLeft={2}>
       {previews.map((preview: (string | ArrayBuffer | null), index: number) => 
-        <Box  key={index}>
-          <Box width={50} height={50} marginRight={2} my={1}>
-            <img src={preview as string} width={'100%'} height={'100%'} />
-          </Box>
-          <button onClick={() => askToDelete(index)}>Delete</button>
-        </Box>
+        <UiThumb 
+          key={index}
+          image={preview as string}
+          width={50}
+          height={50}
+          buttonTitle='Delete'
+          onClick={() => askToDelete(index)} />
       )}
       </Box>
 
