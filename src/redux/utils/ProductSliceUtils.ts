@@ -26,6 +26,28 @@ const sortProducts = (products: Product[], sortType?: Sort): Product[] => {
   return duplicatedProducts; 
 }
 
+const checkImagesForProducts = (products: Product[]): Product[] => {
+  products.forEach((product: Product) => {
+    checkImagesForProduct(product);
+  });
+
+  return products;
+}
+
+const checkImagesForProduct = (product: Product): Product => {
+  if (product && product.images && product.images.length > 0) {
+    product.images = product.images.map((image: string) => {
+      if (image.includes('[')) {
+        return image.split('"')[1];
+      }
+      return image;
+    });
+  }
+  return product;
+}
+
 export default {
-  sortProducts
+  sortProducts,
+  checkImagesForProduct,
+  checkImagesForProducts
 }

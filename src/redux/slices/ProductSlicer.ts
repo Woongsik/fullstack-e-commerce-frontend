@@ -98,10 +98,11 @@ const productSlice = createSlice({
   },
   extraReducers(builder: ActionReducerMapBuilder<InitialState>) {
       builder.addCase(fetchProducts.fulfilled, (state, action) => {
+        const imageCheckedProducts: Product[] = ProductSliceUtils.checkImagesForProducts(action.payload)
         return {
           ...state,
-          products: action.payload,
-          sortedProducts: ProductSliceUtils.sortProducts(action.payload, state.sort),
+          products: imageCheckedProducts,
+          sortedProducts: ProductSliceUtils.sortProducts(imageCheckedProducts, state.sort),
           loading: false     
         }
       }).addCase(fetchProducts.pending, (state, action) => {
@@ -118,9 +119,11 @@ const productSlice = createSlice({
       });
 
       builder.addCase(fetchProduct.fulfilled, (state, action) => {
+        const imageCheckedProduct: Product = ProductSliceUtils.checkImagesForProduct(action.payload)
+
         return {
           ...state,
-          product: action.payload,
+          product: imageCheckedProduct,
           loading: false
         }
       }).addCase(fetchProduct.pending, (state, action) => {
@@ -137,30 +140,11 @@ const productSlice = createSlice({
           }
       });
 
-      builder.addCase(fetchProductImages.fulfilled, (state, action) => {
-        // should get the image urls 
-        
-        return {
-          ...state,
-          loading: false
-        }
-      }).addCase(fetchProductImages.pending, (state, action) => {
-        return {
-          ...state,
-          loading: true        
-        }
-      }).addCase(fetchProductImages.rejected, (state, action) => {
-        return {
-          ...state,
-          loading: false,
-          error: action.error.message ?? "Unkown error..."
-        }
-      });
-
       builder.addCase(updateProduct.fulfilled, (state, action) => {
+        const imageCheckedProduct: Product = ProductSliceUtils.checkImagesForProduct(action.payload)
         return {
           ...state,
-          product: action.payload,
+          product: imageCheckedProduct,
           loading: false
         }
       }).addCase(updateProduct.pending, (state, action) => {
