@@ -6,6 +6,7 @@ import { Product, ProductRegister, ProductUpdate, ProductUpdateItem } from '../m
 import Category from '../misc/types/Category';
 import { LoginUserInfo, RegisterUserInfo, User, UserToken } from '../misc/types/User';
 import { userSlicerUtil } from '../redux/utils/UserSlicerUtil';
+import { UploadedImage } from '../misc/types/UploadedImage';
 
 class ApiService {
   readonly baseURL: string = `${host}/${api}`;
@@ -93,17 +94,13 @@ class ApiService {
     return this.request<User>('GET', url, null, headers);
   }
 
-  public fetchProductImages(formData: FormData) {
+  public fetchProductImages(formData: FormData): Promise<UploadedImage> {
     const url: string = this.generateUrl("files/upload");
     const headers = {
       'Content-Type': 'multipart/form-data'
     }
 
-    this.request('POST', url, formData, headers).then((response) => {
-      console.log('response', response);
-    }).catch((e) => {
-      console.log('e', e);
-    });
+    return this.request('POST', url, formData);
   }
 
   public registerProduct(product: ProductRegister) { // Promise<Product>

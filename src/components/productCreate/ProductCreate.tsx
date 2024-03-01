@@ -7,9 +7,12 @@ import UiButton from '../ui/UiButton';
 import { MUIButtonType, MUIButtonVariant, MUIColor } from '../../misc/types/MUI';
 import FileUploader from '../ui/fileUploader/FileUploader';
 import { AppState, useAppDispatch } from '../../redux/store';
-import { fetchProductImages, updateProduct } from '../../redux/slices/ProductSlicer';
+import { registerProduct, updateProduct } from '../../redux/slices/ProductSlicer';
 import { Product, ProductUpdateItem } from '../../misc/types/Product';
 import { useSelector } from 'react-redux';
+import { UploadedImage } from '../../misc/types/UploadedImage';
+import { apiService } from '../../../src/services/APIService';
+import { useNavigate } from 'react-router-dom';
 
 type Inputs = {
   title: string,
@@ -25,40 +28,56 @@ type Props = {
 }
 
 export default function ProductCreate(props: Props) {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const { product } = props;
   const baseCategoryId: number = product ? product.category.id : 0;
-  const dispatch = useAppDispatch();
   const { loading , error } = useSelector((state: AppState) => state.productReducer);
-
-  const [categoryId, setCategoryId] = useState<number>(baseCategoryId);
-  const [images, setImages] = useState<File[]>([]);
-  
   const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
   
-  const createNewProduct = async (data: Inputs) => {
-    console.log('create new product', data);
-    
-    // upload image => get images url
-    // send product with urls to backend to register
-    if (images.length > 0) {
-      const formData = new FormData();
-      images.forEach((image: File, index: number) => {
-        formData.append(`file${index + 1}`, image);
-      });
+  const [categoryId, setCategoryId] = useState<number>(baseCategoryId);
+  const [images, setImages] = useState<File[]>([]);
 
-      console.log('fetch images', images.length);
-      await dispatch(fetchProductImages(formData));
+  const uploadImage = async (image: File): Promise<UploadedImage> => {
+    const formData = new FormData();
+    formData.append('file', image);
+    const uploadedInfo: UploadedImage = await apiService.fetchProductImages(formData);
+    return uploadedInfo;
+  }
+
+  const fetchToRegisterProduct = async (data: Inputs, uploadedImages: string[]) => {
+    await dispatch(registerProduct({
+      title: data.title,
+      price: data.price,
+      description: data.description,
+      categoryId: data.categoryId,
+      images: uploadedImages
+    }));
+
+    if (!error) {
+      navigate('/home');
     }
+  }
 
-    // console.log('fetch register product', sample);
-    // await dispatch(registerProduct(sample));
-    // await dispatch(registerProduct({
-    //   title: data.title,
-    //   price: data.price,
-    //   description: data.description,
-    //   categoryId: data.categoryId,
-    //   'images': ['https://placeimg.com/640/480/any']
-    // }));
+  const deleteImage = (index: number) => {
+
+  }
+
+  const createNewProduct = async (data: Inputs) => {
+    const uploadedImages: string[] = [];
+    if (images.length > 0) {
+      images.forEach(async (image: File, index: number) => {
+        const uploadedImage: UploadedImage = await uploadImage(image);
+        uploadedImages.push(uploadedImage.location);
+
+        if (index === (images.length - 1)) {
+          fetchToRegisterProduct(data, uploadedImages);
+        }
+      });   
+    } else {
+      fetchToRegisterProduct(data, uploadedImages);
+    }
   }
 
   const updateProductInfo = async (data: Inputs) => {
@@ -77,16 +96,13 @@ export default function ProductCreate(props: Props) {
         item: productUpdateItem      
        }));
 
-       // now change the edit mode 
        if (props.onUpdate) {
         props.onUpdate();
        }
     }
-    
   }
 
   const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => {
-    console.log('on submit', data, images.length);
     if (product) {
       updateProductInfo(data);
     } else {
@@ -151,6 +167,14 @@ export default function ProductCreate(props: Props) {
           <FileUploader onChange={onFileChange}/>
 
           {/* show  exited images */}
+          {/* {product?.images.map((image: string, index: number) => {
+          return <UiThumb 
+            image={image}
+            width={50}
+            height={50}
+            buttonTitle='Delete'
+            onClick={() => deleteUploadedImage(index)} />
+          })} */}
         </Box>
 
         <UiButton
@@ -160,7 +184,8 @@ export default function ProductCreate(props: Props) {
           type={MUIButtonType.SUBMIT} />
       </Box>
 
-      { error && <h1>ErrorL: {error} </h1> }
+      { loading && <h1>Error: {error} </h1>}
+      { error && <h1>Error: {error} </h1>}
     </Box>
   )
 }
