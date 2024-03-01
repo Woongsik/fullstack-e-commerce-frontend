@@ -37,10 +37,7 @@ const checkImagesForProducts = (products: Product[]): Product[] => {
 const checkImagesForProduct = (product: Product): Product => {
   if (product && product.images && product.images.length > 0) {
     product.images = product.images.map((image: string) => {
-      if (image.includes('[')) {
-        return image.split('"')[1];
-      }
-      return image;
+      return image.split('"')[1];
     });
   }
   return product;
