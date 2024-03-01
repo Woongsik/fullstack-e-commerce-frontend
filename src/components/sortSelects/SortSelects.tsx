@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 
 import UiFormSelects from '../ui/form/UiFormSelects';
 import { AppState, useAppDispatch } from '../../redux/store';
-import { sortBy } from '../../redux/slices/ProductSlicer';
+import { sortBy } from '../../redux/slices/ProductSlice';
 import Sort from '../../misc/types/Sort';
 
 export default function SortSelects() {

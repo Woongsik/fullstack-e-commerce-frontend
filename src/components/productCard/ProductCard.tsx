@@ -3,10 +3,10 @@ import {
   Typography
 } from '@mui/material';
 
-import UiImage from '../ui/Image/UiImage';
+import UiImage from '../ui/image/UiImage';
 import { Product } from '../../misc/types/Product';
 import { Link } from 'react-router-dom';
-import UiNoImage from '../ui/Image/UiNoImage';
+import UiNoImage from '../ui/image/UiNoImage';
 
 type Props = {
   product: Product

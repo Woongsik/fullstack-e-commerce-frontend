@@ -1,5 +1,5 @@
 import { Product } from "../../misc/types/Product";
-import productReducer, { fetchProducts } from "../../redux/slices/ProductSlicer";
+import productReducer, { fetchProducts } from "../../redux/slices/ProductSlice";
 // import store from "../../redux/store";
 import { createNewStore } from "../../redux/store";
 import { productServer } from "../shared/productServer";

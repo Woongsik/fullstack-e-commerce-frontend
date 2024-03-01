@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Box, Typography,Chip, Snackbar, Divider, IconButton, TextField } from '@mui/material';
+import { Box, Typography,Chip, Snackbar, Divider, IconButton } from '@mui/material';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 
 import UiButton from '../../components/ui/UiButton';
 import { AppState, useAppDispatch } from '../../redux/store';
-import { deleteProduct, fetchProduct } from '../../redux/slices/ProductSlicer';
-import { addToCart, addToFavorites } from '../../redux/slices/CartSlicer';
+import { deleteProduct, fetchProduct } from '../../redux/slices/ProductSlice';
+import { addToCart, addToFavorites } from '../../redux/slices/CartSlice';
 import { MUIButtonVariant, MUIColor, MUISize } from '../../misc/types/MUI';
 import { Product } from '../../misc/types/Product';
 import UiCarousel from '../../components/ui/carousel/UiCarousel';
@@ -17,7 +17,7 @@ import { User, UserRole } from '../../misc/types/User';
 import UiDialog from '../../components/ui/UiDialog';
 import ProductCreate from '../../components/productCreate/ProductCreate';
 
-export default function Detail() {
+export default function ProudctDetail() {
   const { id } = useParams(); // product id
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -36,7 +36,7 @@ export default function Detail() {
   
   const handleAddToCart = async () => {
     if (product) {
-      await dispatch(addToCart({
+      dispatch(addToCart({
         item: product,
         quantity: 1
       }));

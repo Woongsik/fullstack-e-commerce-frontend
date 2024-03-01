@@ -7,7 +7,7 @@ import UiButton from '../ui/UiButton';
 import { MUIButtonType, MUIButtonVariant, MUIColor } from '../../misc/types/MUI';
 import FileUploader from '../ui/fileUploader/FileUploader';
 import { AppState, useAppDispatch } from '../../redux/store';
-import { registerProduct, updateProduct } from '../../redux/slices/ProductSlicer';
+import { registerProduct, updateProduct } from '../../redux/slices/ProductSlice';
 import { Product, ProductUpdateItem } from '../../misc/types/Product';
 import { useSelector } from 'react-redux';
 import { UploadedImage } from '../../misc/types/UploadedImage';

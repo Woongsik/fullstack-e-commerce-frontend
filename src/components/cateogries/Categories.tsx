@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Box, CircularProgress } from '@mui/material';
 
 import { useAppDispatch, AppState } from '../../redux/store';
-import { fetchAllCategoriesAsync } from '../../redux/slices/CategorySlicer';
+import { fetchAllCategoriesAsync } from '../../redux/slices/CategorySlice';
 
 import Category from '../../misc/types/Category';
 import UiFormSelects from '../ui/form/UiFormSelects';

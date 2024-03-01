@@ -18,7 +18,7 @@ import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 
 import { Theme, useTheme } from '../ThemeContext';
 import { AppState, useAppDispatch } from '../../../redux/store';
-import { logout } from '../../../redux/slices/UserSlicer';
+import { logout } from '../../../redux/slices/UserSlice';
 
 enum Pages {
   LOGIN = "login",

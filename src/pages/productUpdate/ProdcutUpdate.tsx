@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom'
 import { AppState, useAppDispatch } from '../../redux/store';
-import { fetchProduct } from '../../redux/slices/ProductSlicer';
+import { fetchProduct } from '../../redux/slices/ProductSlice';
 import { Box } from '@mui/material';
 import ProductEdit from '../../components/productEdit/ProductEdit';
 import ProductCreate from '../../components/productCreate/ProductCreate';

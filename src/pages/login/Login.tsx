@@ -6,7 +6,7 @@ import { Box, IconButton, InputAdornment, Switch, TextField } from '@mui/materia
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 import { AppState, useAppDispatch } from '../../redux/store';
-import { getUserWithSession, loginUser, registerUser } from '../../redux/slices/UserSlicer';
+import { getUserWithSession, loginUser, registerUser } from '../../redux/slices/UserSlice';
 import UiButton from '../../components/ui/UiButton';
 import { MUIButtonType, MUIButtonVariant, MUIColor, MUISize } from '../../misc/types/MUI';
 import { UserRole } from '../../misc/types/User';

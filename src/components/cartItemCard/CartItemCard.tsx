@@ -5,11 +5,11 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { Link } from 'react-router-dom';
 
 import { useAppDispatch } from '../../redux/store';
-import { removeFromCart, updateQuantityInCart } from '../../redux/slices/CartSlicer';
+import { removeFromCart, updateQuantityInCart } from '../../redux/slices/CartSlice';
 import UiFormSelects from '../ui/form/UiFormSelects';
 import UiButton from '../ui/UiButton';
 import UiDialog from '../ui/UiDialog';
-import UiImage from '../ui/Image/UiImage';
+import UiImage from '../ui/image/UiImage';
 import { MUIButtonVariant, MUIColor, MUISize } from '../../misc/types/MUI';
 import CartItem from '../../misc/types/CartItem';
 import { Product } from '../../misc/types/Product';

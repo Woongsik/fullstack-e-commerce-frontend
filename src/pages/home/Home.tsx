@@ -3,7 +3,7 @@ import { Box, ButtonGroup, Button } from '@mui/material';
 import { useSelector } from 'react-redux';
 
 import { useAppDispatch, AppState } from '../../redux/store';
-import { fetchProducts } from '../../redux/slices/ProductSlicer';
+import { fetchProducts } from '../../redux/slices/ProductSlice';
 
 import SearchInput from '../../components/ui/searchInput/SearchInput';
 import ProductList from '../../components/productList/ProductList';
@@ -14,7 +14,7 @@ import SortSelects from '../../components/sortSelects/SortSelects';
 import { Product } from '../../misc/types/Product';
 import Filter from '../../misc/types/Filter';
 import PriceRangeSlider from '../../components/priceRangeSlider/PriceRangeSlider';
-import { getUserWithSession } from '../../redux/slices/UserSlicer';
+import { getUserWithSession } from '../../redux/slices/UserSlice';
 
 export default function Home() {
   const baseCategoryId: number = 0;

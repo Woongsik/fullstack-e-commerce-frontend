@@ -4,7 +4,7 @@ import AddAPhotoRounded from '@mui/icons-material/AddAPhotoRounded';
 
 import UiDialog from '../UiDialog';
 import { MUIColor, MUISize } from '../../../misc/types/MUI';
-import UiThumb from '../Image/UiThumb';
+import UiThumb from '../image/UiThumb';
 
 type Props = {
   onChange: (files: File[]) => void

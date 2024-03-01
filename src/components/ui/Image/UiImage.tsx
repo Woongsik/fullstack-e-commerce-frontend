@@ -18,7 +18,6 @@ export default function UiImage(props: Props) {
 
   return (
     <>
-    {src}
     {error ?
       <UiBrokenImage />
       : 
