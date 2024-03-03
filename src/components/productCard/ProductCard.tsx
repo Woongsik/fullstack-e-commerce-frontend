@@ -2,11 +2,11 @@ import {
   Box,
   Typography
 } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 import UiImage from '../ui/image/UiImage';
-import { Product } from '../../misc/types/Product';
-import { Link } from 'react-router-dom';
 import UiNoImage from '../ui/image/UiNoImage';
+import { Product } from '../../misc/types/Product';
 
 type Props = {
   product: Product
