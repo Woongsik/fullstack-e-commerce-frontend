@@ -11,7 +11,11 @@ export default function Footer() {
   return (
     <footer>
       <Grid container justifyContent='center' alignItems='center' 
-        sx={{ py: 2, backgroundColor: theme === Theme.LIGHT ? 'white' : 'black' }}>
+        height={'75px'}
+        sx={{ 
+          padding: '0 10px', 
+          backgroundColor: theme === Theme.LIGHT ? 'white' : 'black',
+          border: theme === Theme.LIGHT ? '1px solid lightgray' : '' }}>
         <Stack direction="row" spacing={2}>
           <IconButton>
             <Link to="#"><InstagramIcon sx={{ color: theme === Theme.LIGHT ? 'black' : 'white' }}/></Link>

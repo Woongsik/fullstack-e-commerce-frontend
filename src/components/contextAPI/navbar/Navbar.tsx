@@ -58,7 +58,9 @@ export default function Navbar() {
       <CenteredContainer 
         justifyContent={MUILayout.SPACE_BETWEEN}
         padding={'0 10px'}
-        sx={{ backgroundColor: theme === Theme.LIGHT ? 'white' : 'black' }}>
+        sx={{ 
+          backgroundColor: theme === Theme.LIGHT ? 'white' : 'black', 
+          borderBottom: theme === Theme.LIGHT ? '1px solid lightgray' : '' }}>
         <CenteredContainer height={'75px'}>
           <Link to="/home" style={{ textDecoration: 'none', color: 'white' }}>
             <CenteredContainer>
@@ -66,7 +68,7 @@ export default function Navbar() {
                 <UiImage src={"https://fakeapi.platzi.com/_astro/logo.aa139940.png"} alt="logo" />
               </Box>
               <Box component={'h3'} marginLeft={1} 
-                sx={{ color: `${theme === Theme.LIGHT ? 'black' : 'white'}` }}>
+                sx={{ color: theme === Theme.LIGHT ? 'black' : 'white' }}>
                 Platzi store
               </Box> 
             </CenteredContainer>
@@ -74,12 +76,12 @@ export default function Navbar() {
         </CenteredContainer>
 
         <List sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} disablePadding>
-          <ListItem disablePadding>
+          <ListItem disablePadding sx={{ marginLeft: 1 }}>
             <Link to="/cart" title='Cart'>
-              <ShoppingCartCheckoutIcon sx={{ color: `${theme === Theme.LIGHT ? 'black' : 'white'}` }} />
+              <ShoppingCartCheckoutIcon sx={{ color: theme === Theme.LIGHT ? 'black' : 'white' }} />
             </Link>
           </ListItem>
-          <ListItem disablePadding>
+          <ListItem disablePadding sx={{ marginLeft: 1 }}>
             <IconButton
               id="basic-button"
               aria-controls={Boolean(anchorEl) ? 'basic-menu' : undefined}
@@ -89,7 +91,7 @@ export default function Navbar() {
               {user ? 
               <Avatar src={user.avatar} alt={user.name} sx={{ height: '30px', width: '30px'}}/>
                : 
-              <AccountCircleIcon sx={{ color: `${theme === Theme.LIGHT ? 'black' : 'white'}` }} />}
+              <AccountCircleIcon sx={{ color: theme === Theme.LIGHT ? 'black' : 'white' }} />}
             </IconButton>
             <Menu
               id="basic-menu"
@@ -117,14 +119,14 @@ export default function Navbar() {
             }
           </Menu>
         </ListItem>
-        <ListItem disablePadding>
+        <ListItem disablePadding sx={{ marginLeft: 1 }}>
           <Box display={'flex'} alignItems={'center'}>
             <Switch 
               color="primary" 
               checked={theme === Theme.LIGHT}
               onChange={() => toggleTheme()}
             />
-            <Box sx={{ color: `${theme === Theme.LIGHT ? 'black' : 'white'}` }}>{theme}</Box>
+            <Box sx={{ color: theme === Theme.LIGHT ? 'black' : 'white' }}>{theme}</Box>
           </Box>
         </ListItem>
       </List>
