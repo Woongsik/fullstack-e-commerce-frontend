@@ -15,7 +15,8 @@ import { Product } from '../../misc/types/Product';
 import UiCarousel from '../../components/ui/carousel/UiCarousel';
 import { User, UserRole } from '../../misc/types/User';
 import UiDialog from '../../components/ui/UiDialog';
-import ProductCreate from '../../components/productCreate/ProductCreate';
+import ProductCreateOrUpdate from '../../components/productCreateOrUpdate/ProductCreateOrUpdate';
+import CenteredContainer from '../../components/ui/layout/CenteredContainer';
 
 export default function ProudctDetail() {
   const { id } = useParams(); // product id
@@ -93,7 +94,7 @@ export default function ProudctDetail() {
             <ArrowCircleLeftIcon sx={{ fontSize: 40, color: 'black' }} />
           </IconButton>
 
-          {(user && user.role === UserRole.ADMIN) &&
+          {(user && user.role === UserRole.ADMIN) && product &&
           <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'} margin={'0 10px'}>
             <UiButton
               title={'Delete'}
@@ -115,11 +116,11 @@ export default function ProudctDetail() {
         
       {product ?
         (editMode ? 
-        <Box component={'div'} display={'flex'} alignItems={'center'} justifyContent={'center'} margin={'0 10px'}>
-          <ProductCreate 
-            product={product}
-            onUpdate={handleUpdateDone}/> 
-        </Box>
+          <CenteredContainer margin={'0 10px'}>
+            <ProductCreateOrUpdate 
+              product={product}
+              onUpdate={handleUpdateDone}/> 
+          </CenteredContainer>
         :
         <Box component={'div'} display={'flex'} alignItems={'flex-start'} margin={'0 10px'}>
           <Box maxWidth={800} width={'50%'}>
@@ -183,11 +184,15 @@ export default function ProudctDetail() {
 
       <UiDialog 
         show={showDialog}
-        title={<span>Remove <span style={{ fontWeight: 'bold'}}>{product?.title}</span> permanantly? You cannot make it back...</span>}
+        title={dialogTitle(product?.title)}
         cancelTitle='Cancel'
         proceedTitle='Delete'
         proceedColor='red'
         onClose={handleDelete}/>
   </Box>
   )
+}
+
+export const dialogTitle = (title?: string) =>  {
+  return (<span>Remove <span style={{ fontWeight: 'bold'}}>{title}</span> permanantly? You cannot make it back...</span>);
 }

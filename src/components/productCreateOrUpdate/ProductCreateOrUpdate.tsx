@@ -1,18 +1,18 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { Box, TextField } from '@mui/material';
 
 import Categories from '../cateogries/Categories';
-import { SubmitHandler, useForm } from 'react-hook-form';
 import UiButton from '../ui/UiButton';
-import { MUIButtonType, MUIButtonVariant, MUIColor } from '../../misc/types/MUI';
 import FileUploader from '../ui/fileUploader/FileUploader';
 import { AppState, useAppDispatch } from '../../redux/store';
 import { registerProduct, updateProduct } from '../../redux/slices/ProductSlice';
+import { apiService } from '../../services/APIService';
+import { MUIButtonType, MUIButtonVariant, MUIColor } from '../../misc/types/MUI';
 import { Product, ProductUpdateItem } from '../../misc/types/Product';
-import { useSelector } from 'react-redux';
 import { UploadedImage } from '../../misc/types/UploadedImage';
-import { apiService } from '../../../src/services/APIService';
-import { useNavigate } from 'react-router-dom';
 
 type Inputs = {
   title: string,
@@ -27,7 +27,7 @@ type Props = {
   onUpdate?: () => void
 }
 
-export default function ProductCreate(props: Props) {
+export default function ProductCreateOrUpdate(props: Props) {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
