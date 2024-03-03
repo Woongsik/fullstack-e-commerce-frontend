@@ -56,8 +56,15 @@ class ApiService {
       separator = "&";
     }
     
-    // page starated from 1, so need to be 0 
-    url += `${separator}offset=${(page - 1) * itemsPerPage}&limit=${itemsPerPage}`;
+    /* In order to have the toal page correctly,
+      page = 0 try to get the whole products 
+    */
+   console.log('page', page);
+    if (page > 1) {
+      // page starated from 1, so need to be 0 
+      url += `${separator}offset=${(page - 1) * itemsPerPage}&limit=${itemsPerPage}`;
+    }
+    
     
     console.log('fetch', url);
     return this.request<Product[]>('GET', url, null); 

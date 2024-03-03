@@ -1,3 +1,4 @@
+import Filter from "../../misc/types/Filter";
 import { Product } from "../../misc/types/Product";
 import Sort from "../../misc/types/Sort";
 import DateUtil from "../../utils/DateUtil";
@@ -43,8 +44,28 @@ const checkImagesForProduct = (product: Product): Product => {
   return product;
 }
 
+const getTotalAndImageCheckedProducts = (products: Product[], filter?: Filter, previousTotal: number = 0) => {
+  const itemsPerPage: number = filter ? filter.itemsPerPage : 10;
+  const imageCheckedProducts: Product[] = checkImagesForProducts(products.slice(0, itemsPerPage));
+
+  let total: number = previousTotal;
+  if (filter && filter.page === 1) {
+    total = Math.ceil(products.length / itemsPerPage);
+  }
+
+  console.log('itemsPerPage', itemsPerPage)
+  console.log('all', products.length);
+  console.log('image', imageCheckedProducts.length);
+
+  return { 
+    products: imageCheckedProducts, 
+    total: total
+  };
+}
+
 export default {
   sortProducts,
   checkImagesForProduct,
-  checkImagesForProducts
+  checkImagesForProducts,
+  getTotalAndImageCheckedProducts
 }

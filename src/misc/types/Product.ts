@@ -30,3 +30,8 @@ export type ProductUpdate = {
   id: string;
   item: ProductUpdateItem
 }
+
+export type FilteredProducts = {
+  products: Product[],
+  total: number
+}

@@ -7,7 +7,7 @@ import {
 import { apiService } from "../../services/APIService";
 import ProductSliceUtils from "../utils/ProductSliceUtils";
 
-import { Product, ProductRegister, ProductUpdate } from "../../misc/types/Product";
+import { FilteredProducts, Product, ProductRegister, ProductUpdate } from "../../misc/types/Product";
 import Filter from "../../misc/types/Filter";
 import Sort from "../../misc/types/Sort";
 
@@ -16,6 +16,8 @@ type InitialState = {
   product: Product | null;
   sort?: Sort;
   sortedProducts: Product[];
+  total: number;
+  filter?: Filter;
   loading: boolean;
   error?: string;
 }
@@ -24,7 +26,8 @@ const initialState: InitialState = {
   products: [],
   sortedProducts: [],
   product: null,
-  loading: false
+  loading: false,
+  total: 0
 };
 
 export const fetchProducts = createAsyncThunk(
@@ -94,15 +97,19 @@ const productSlice = createSlice({
     sortBy: (state, actions: PayloadAction<Sort>) => {
       state.sort = actions.payload;
       state.sortedProducts = ProductSliceUtils.sortProducts(state.products, actions.payload);
+    },
+    updateFilter: (state, actions: PayloadAction<Filter>) => {
+      state.filter = actions.payload;
     }
   },
   extraReducers(builder: ActionReducerMapBuilder<InitialState>) {
       builder.addCase(fetchProducts.fulfilled, (state, action) => {
-        const imageCheckedProducts: Product[] = ProductSliceUtils.checkImagesForProducts(action.payload)
+        const filteredProducts: FilteredProducts = ProductSliceUtils.getTotalAndImageCheckedProducts(action.payload, state.filter, state.total);
         return {
           ...state,
-          products: imageCheckedProducts,
-          sortedProducts: ProductSliceUtils.sortProducts(imageCheckedProducts, state.sort),
+          products: filteredProducts.products,
+          sortedProducts: ProductSliceUtils.sortProducts(filteredProducts.products, state.sort),
+          total: filteredProducts.total,
           loading: false     
         }
       }).addCase(fetchProducts.pending, (state, action) => {
@@ -181,7 +188,8 @@ const productSlice = createSlice({
 });
 
 export const { 
-  sortBy
+  sortBy,
+  updateFilter
 } = productSlice.actions;
 
 const productReducer = productSlice.reducer;

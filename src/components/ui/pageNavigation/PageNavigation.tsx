@@ -3,6 +3,8 @@ import { Pagination, Grid } from '@mui/material';
 
 import UiFormSelects from '../form/UiFormSelects';
 import { FormSelectItem } from '../../../misc/types/Forms';
+import { useSelector } from 'react-redux';
+import { AppState } from '../../../redux/store';
 
 type Props = {
   page: number;
@@ -20,6 +22,8 @@ export default function PageNavigation(props: Props) {
     { key: '100', value: '100' }
   ]
 
+  const totalPage: number = useSelector((state: AppState) => state.productReducer.total);
+
   const handlePageChange = (e: ChangeEvent<unknown>, value: number) => {
     props.onPageChanged(value);
   };
@@ -35,10 +39,11 @@ export default function PageNavigation(props: Props) {
       alignItems={"center"}
       sx={{ my: 5, backgroundColor: 'white', borderTop: '1px solid gray', position: 'sticky', bottom: '0'}}>
       <Grid item>
+        {totalPage}
         <Pagination 
           page={page} 
           onChange={handlePageChange}
-          count={10} 
+          count={totalPage} 
           color="primary" />
       </Grid>
       

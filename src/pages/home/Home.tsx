@@ -3,7 +3,7 @@ import { Box, ButtonGroup, Button } from '@mui/material';
 import { useSelector } from 'react-redux';
 
 import { useAppDispatch, AppState } from '../../redux/store';
-import { fetchProducts } from '../../redux/slices/ProductSlice';
+import { fetchProducts, updateFilter } from '../../redux/slices/ProductSlice';
 
 import SearchInput from '../../components/ui/searchInput/SearchInput';
 import ProductList from '../../components/productList/ProductList';
@@ -42,6 +42,7 @@ export default function Home() {
   }, [dispatch]);
 
   useEffect(() => { // For the filter changed
+    dispatch(updateFilter(filter));
     dispatch(fetchProducts(filter));
   }, [filter, dispatch]);
   
