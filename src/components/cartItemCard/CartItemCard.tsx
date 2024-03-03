@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../redux/store';
 import { removeFromCart, updateQuantityInCart } from '../../redux/slices/CartSlice';
 import UiFormSelects from '../ui/form/UiFormSelects';
-import UiButton from '../ui/UiButton';
+import UiButton from '../ui/button/UiButton';
 import UiDialog from '../ui/UiDialog';
 import UiImage from '../ui/image/UiImage';
 import { MUIButtonVariant, MUIColor, MUISize } from '../../misc/types/MUI';

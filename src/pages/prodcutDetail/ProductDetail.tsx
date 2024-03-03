@@ -6,17 +6,19 @@ import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 
-import UiButton from '../../components/ui/UiButton';
+import ProductCreateOrUpdate from '../../components/productCreateOrUpdate/ProductCreateOrUpdate';
+import CenteredContainer from '../../components/ui/layout/CenteredContainer';
+import UiCarousel from '../../components/ui/carousel/UiCarousel';
+import UiButton from '../../components/ui/button/UiButton';
+import UiDialog from '../../components/ui/UiDialog';
 import { AppState, useAppDispatch } from '../../redux/store';
 import { deleteProduct, fetchProduct } from '../../redux/slices/ProductSlice';
 import { addToCart, addToFavorites } from '../../redux/slices/CartSlice';
 import { MUIButtonVariant, MUIColor, MUISize } from '../../misc/types/MUI';
 import { Product } from '../../misc/types/Product';
-import UiCarousel from '../../components/ui/carousel/UiCarousel';
 import { User, UserRole } from '../../misc/types/User';
-import UiDialog from '../../components/ui/UiDialog';
-import ProductCreateOrUpdate from '../../components/productCreateOrUpdate/ProductCreateOrUpdate';
-import CenteredContainer from '../../components/ui/layout/CenteredContainer';
+import CartItem from '../../misc/types/CartItem';
+import CartSliceUtil from '../../redux/utils/CartSliceUtil';
 
 export default function ProudctDetail() {
   const { id } = useParams(); // product id
@@ -24,6 +26,7 @@ export default function ProudctDetail() {
   const navigate = useNavigate();
   const [editMode, setEditMode] = useState<boolean>(false);
   const [showSnackBar, setShowSnackBar] = useState<boolean>(false);
+  const [snackBarMessage, setSnackBarMessage] = useState<string>('');
   const [showDialog, setShowDialog] = useState<boolean>(false);
 
   useEffect(() => {
@@ -34,15 +37,23 @@ export default function ProudctDetail() {
 
   const product: Product | null = useSelector((state: AppState) => state.productReducer.product);
   const user: User | null = useSelector((state: AppState) => state.userReducer.user);
-  
+  const cartItems: CartItem[] = useSelector((state: AppState) => state.cartReducer.cartItems); 
+
   const handleAddToCart = async () => {
     if (product) {
-      dispatch(addToCart({
+      const cartItem: CartItem = {
         item: product,
         quantity: 1
-      }));
+      };
 
-      setShowSnackBar(true); 
+      let message = `Already added to Cart! (${product.title})`;
+      if (!CartSliceUtil.checkIfAlreadyAdded(cartItems, cartItem)) {
+        dispatch(addToCart(cartItem));
+        message = `Added to Cart! (${product.title})`;
+      } 
+
+      setSnackBarMessage(message);
+      setShowSnackBar(true);
     }
   }
 
@@ -55,9 +66,13 @@ export default function ProudctDetail() {
     }
   }
 
-  const onSnackbarClose = () => {
+  const onSnackbarClose = (event: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
     setShowSnackBar(false);
-  }
+  };
 
   const handleBack = () => {
     navigate(-1);
@@ -84,6 +99,19 @@ export default function ProudctDetail() {
 
   const handleUpdateDone = () => {
     setEditMode(false);
+  }
+
+  const navigateToCart = () => {
+    navigate('/cart');
+  }
+
+  const snackbarAction = () => {
+    return (
+      <UiButton 
+        title={'Cart'}
+        variant={MUIButtonVariant.CONTAINED}
+        endIcon={<ShoppingCartCheckoutIcon />}
+        onClick={() => navigateToCart()} />)
   }
 
   return (
@@ -177,9 +205,10 @@ export default function ProudctDetail() {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         open={showSnackBar}
         onClose={onSnackbarClose}
-        message={`Added to cart! (${product?.title})`}
+        message={snackBarMessage}
         autoHideDuration={3000}
         key={'bottom' + 'right'}
+        action={snackbarAction()}
       />
 
       <UiDialog 
@@ -193,6 +222,6 @@ export default function ProudctDetail() {
   )
 }
 
-export const dialogTitle = (title?: string) =>  {
+const dialogTitle = (title?: string) =>  {
   return (<span>Remove <span style={{ fontWeight: 'bold'}}>{title}</span> permanantly? You cannot make it back...</span>);
 }

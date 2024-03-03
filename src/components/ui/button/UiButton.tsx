@@ -1,5 +1,5 @@
 import { Button as MUIButton } from "@mui/material";
-import { MUIColor, MUISize, MUIButtonVariant, MUIButtonType } from "../../misc/types/MUI";
+import { MUIColor, MUISize, MUIButtonVariant, MUIButtonType } from "../../../misc/types/MUI";
 
 type Props = {
   title?: string | any; // Need to fix the type

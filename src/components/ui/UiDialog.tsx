@@ -1,7 +1,7 @@
 import { 
   Dialog as MDialog, 
   DialogTitle, DialogActions } from "@mui/material";
-import Button from './UiButton';
+import Button from './button/UiButton';
 import { MUIButtonVariant, MUIColor, MUISize } from '../../misc/types/MUI';
 
 type Props = {
