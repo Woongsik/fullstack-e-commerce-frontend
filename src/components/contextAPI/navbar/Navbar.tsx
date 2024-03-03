@@ -4,8 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { 
   Avatar,
   Box, 
-  Divider, 
-  FormControlLabel, 
   IconButton, 
   List, 
   ListItem,
@@ -19,6 +17,9 @@ import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import { Theme, useTheme } from '../ThemeContext';
 import { AppState, useAppDispatch } from '../../../redux/store';
 import { logout } from '../../../redux/slices/UserSlice';
+import CenteredContainer from '../../ui/layout/CenteredContainer';
+import UiImage from '../../ui/image/UiImage';
+import { MUILayout } from '../../../misc/types/MUI';
 
 enum Pages {
   LOGIN = "login",
@@ -54,26 +55,28 @@ export default function Navbar() {
 
   return (
     <header>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', 
-        backgroundColor: `${theme === Theme.LIGHT ? 'white' : 'black'}`, 
-        padding: '0 10px'}}>
-        <Box display={'flex'} justifyContent={'center'} alignItems={'center'} height={'75px'}>
+      <CenteredContainer 
+        justifyContent={MUILayout.SPACE_BETWEEN}
+        padding={'0 10px'}
+        sx={{ backgroundColor: theme === Theme.LIGHT ? 'white' : 'black' }}>
+        <CenteredContainer height={'75px'}>
           <Link to="/home" style={{ textDecoration: 'none', color: 'white' }}>
-            <Box component={'div'} display={'flex'} justifyContent={'center'} alignItems={'center'}>
-              <Box component={'img'} src={"https://fakeapi.platzi.com/_astro/logo.aa139940.png"} height={'40px'} width={'auto'}/>
+            <CenteredContainer>
+              <Box height={'40px'}>
+                <UiImage src={"https://fakeapi.platzi.com/_astro/logo.aa139940.png"} alt="logo" />
+              </Box>
               <Box component={'h3'} marginLeft={1} 
                 sx={{ color: `${theme === Theme.LIGHT ? 'black' : 'white'}` }}>
                 Platzi store
               </Box> 
-            </Box>
-            </Link>
-        </Box>
-        <Divider />
-        <List sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
-              disablePadding>
+            </CenteredContainer>
+          </Link>
+        </CenteredContainer>
+
+        <List sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} disablePadding>
           <ListItem disablePadding>
             <Link to="/cart" title='Cart'>
-              <ShoppingCartCheckoutIcon sx={{ color: 'white' }} />
+              <ShoppingCartCheckoutIcon sx={{ color: `${theme === Theme.LIGHT ? 'black' : 'white'}` }} />
             </Link>
           </ListItem>
           <ListItem disablePadding>
@@ -86,7 +89,7 @@ export default function Navbar() {
               {user ? 
               <Avatar src={user.avatar} alt={user.name} sx={{ height: '30px', width: '30px'}}/>
                : 
-              <AccountCircleIcon sx={{ color: 'white' }} />}
+              <AccountCircleIcon sx={{ color: `${theme === Theme.LIGHT ? 'black' : 'white'}` }} />}
             </IconButton>
             <Menu
               id="basic-menu"
@@ -125,7 +128,7 @@ export default function Navbar() {
           </Box>
         </ListItem>
       </List>
-    </Box>
+    </CenteredContainer>
   </header>
   )
 }

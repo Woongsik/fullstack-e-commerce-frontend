@@ -1,5 +1,6 @@
 import { Box } from '@mui/material'
 import { MUILayout } from '../../../misc/types/MUI';
+import { ReactNode } from 'react';
 
 type Props = {
   height?: string;
@@ -9,7 +10,7 @@ type Props = {
   margin?: string;
   padding?: string;
   sx?: Object;
-  children?: any;
+  children?: ReactNode;
 }
 
 const defaultProps: Props = {
