@@ -26,9 +26,10 @@ export default function UiImage(props: Props) {
         alt={alt}
         loading="lazy"
         onError={handleError}
-        height={'auto'}
+        height={'100%'}
         width={'100%'}
-        style={{ borderRadius: `${borderRadius}px` }} />
+        style={{ borderRadius: `${borderRadius}px`,
+                 objectFit: 'fill' }} />
     }
     </>
   )
