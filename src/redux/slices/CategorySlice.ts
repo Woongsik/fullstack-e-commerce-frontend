@@ -3,16 +3,15 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import Category from "../../misc/types/Category";
 import { apiService } from "../../services/APIService";
 
-type InitialState = {
+export type InitialState = {
   categories: Category[],
   loading: boolean,
   error?: string
 }
 
-const initialState: InitialState = {
+export const initialState: InitialState = {
   categories: [],
-  loading: true,
-  error:'' 
+  loading: true
 };
 
 export const fetchAllCategoriesAsync = createAsyncThunk(

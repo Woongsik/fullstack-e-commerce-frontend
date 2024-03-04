@@ -11,7 +11,7 @@ import { FilteredProducts, Product, ProductRegister, ProductUpdate } from "../..
 import Filter from "../../misc/types/Filter";
 import Sort from "../../misc/types/Sort";
 
-type InitialState = {
+export type InitialState = {
   products: Product[];
   product: Product | null;
   sort?: Sort;
@@ -22,7 +22,7 @@ type InitialState = {
   error?: string;
 }
 
-const initialState: InitialState = {
+export const initialState: InitialState = {
   products: [],
   sortedProducts: [],
   product: null,

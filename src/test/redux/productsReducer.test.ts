@@ -1,7 +1,7 @@
 import Filter from "../../misc/types/Filter";
 import { FilteredProducts, Product, ProductRegister, ProductUpdate, ProductUpdateItem } from "../../misc/types/Product";
 import Sort from "../../misc/types/Sort";
-import productReducer, { deleteProduct, fetchProduct, fetchProducts, registerProduct, sortBy, updateFilter, updateProduct } from "../../redux/slices/ProductSlice";
+import productReducer, { initialState, InitialState, deleteProduct, fetchProduct, fetchProducts, registerProduct, sortBy, updateFilter, updateProduct } from "../../redux/slices/ProductSlice";
 import ProductSliceUtils from "../../redux/utils/ProductSliceUtils";
 import { createNewStore } from "../../redux/store";
 import { productServer } from "../shared/productServer";
@@ -18,25 +18,6 @@ afterAll(() => {
 beforeEach(() => {
   store = createNewStore();
 });
-
-export type InitialState = {
-  products: Product[];
-  product: Product | null;
-  sort?: Sort;
-  sortedProducts: Product[];
-  total: number;
-  filter?: Filter;
-  loading: boolean;
-  error?: string;
-}
-
-export const initialState: InitialState = {
-  products: [],
-  sortedProducts: [],
-  product: null,
-  loading: false,
-  total: 0
-};
 
 // mock data
 export const mockProducts: Product[] = [
@@ -470,11 +451,11 @@ describe("Products reducer: deleteProduct", () => {
       error: error.message 
     });
   });
-
-
-
 });
 
+
+/* With mocking server  */
+/* msw is not supporting axios  */
 describe("Products reducer with mocking server", () => {
   test("should get 10 products by default pagination", async () => {
     // await store.dispatch(fetchProducts(filter));

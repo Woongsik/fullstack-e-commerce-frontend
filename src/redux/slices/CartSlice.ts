@@ -2,13 +2,13 @@ import { ActionReducerMapBuilder, PayloadAction, createSlice } from "@reduxjs/to
 import CartSliceUtil from "../utils/CartSliceUtil";
 import CartItem from "../../misc/types/CartItem";
 
-type InitialState = {
+export type InitialState = {
   cartItems: CartItem[];
   cartFavorites: CartItem[];
   error?: string;
 }
 
-const initialState: InitialState = {
+export const initialState: InitialState = {
   cartItems: [],
   cartFavorites: []
 };
