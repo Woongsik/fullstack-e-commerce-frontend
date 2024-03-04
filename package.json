@@ -34,7 +34,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!@toolz/allow-react)/\" --env=jsdom",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -58,11 +58,6 @@
   "jest": {
     "moduleNameMapper": {
       "^axios$": "axios/dist/node/axios.cjs"
-    }
-  },
-  "msw": {
-    "moduleNameMapper": {
-      "^msw$": "msw/dist/node/axios.cjs"
     }
   }
 }

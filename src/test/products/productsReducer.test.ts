@@ -3,8 +3,23 @@ import { FilteredProducts, Product, ProductRegister, ProductUpdate, ProductUpdat
 import Sort from "../../misc/types/Sort";
 import productReducer, { deleteProduct, fetchProduct, fetchProducts, registerProduct, sortBy, updateFilter, updateProduct } from "../../redux/slices/ProductSlice";
 import ProductSliceUtils from "../../redux/utils/ProductSliceUtils";
+import { createNewStore } from "../../redux/store";
+import { productServer } from "../shared/productServer";
 
-type InitialState = {
+let store = createNewStore();
+beforeAll(() => {
+  productServer.listen();
+});
+
+afterAll(() => {
+  productServer.close();
+});
+
+beforeEach(() => {
+  store = createNewStore();
+});
+
+export type InitialState = {
   products: Product[];
   product: Product | null;
   sort?: Sort;
@@ -15,7 +30,7 @@ type InitialState = {
   error?: string;
 }
 
-const initialState: InitialState = {
+export const initialState: InitialState = {
   products: [],
   sortedProducts: [],
   product: null,
@@ -24,7 +39,7 @@ const initialState: InitialState = {
 };
 
 // mock data
-const mockProducts: Product[] = [
+export const mockProducts: Product[] = [
   { 
     id: "1", 
     title: "Product 1", 
@@ -459,6 +474,52 @@ describe("Products reducer: deleteProduct", () => {
 
 
 });
+
+describe("Products reducer with mocking server", () => {
+  test("should get 10 products by default pagination", async () => {
+    // await store.dispatch(fetchProducts(filter));
+    // expect(store.getState().productReducer.products.length).toBe(mockProducts.length);
+    // expect(store.getState().productReducer.error).toBeNull();
+    // expect(store.getState().productReducer.loading).toBeFalsy();
+  });
+});
+
+
+//   // when test createNewProduct
+//   // id should be omitted since backend will handle
+//   // so create new type => here ProductCreate
+//   // export type ProductCreate = {
+//   //  title, price, description, images, categoryId
+//   // }
+
+//   // test("should create new product", async () => {
+//   //   const createdProduct: ProductCreate = {
+//   //     title: "New test product",
+//   //     price: 500,
+//   //     description: "New test product",
+//   //     images: ['product.png']
+//   //   }
+
+//   //   await store.dispatch(createNewProductAsync(createdProduct));
+//   //   expect(store.getState().productReducer.products.length).toBe(5);
+//   // });
+
+//   // should return inital state (no proudcts)
+//   // if test previously with store,
+//   // still some values can be remained from previous test
+//   // This means that we need to clean up after every test
+//   // createNewStore
+//   test('should return initial state', () => {
+//     expect(store.getState().productReducer.products).toHaveLength(0);
+//   });
+
+
+//   //RTK query test
+//   test('should fetch all product with RTK query', () => {
+//     //await store.dispatch(productQueries.endpoints.fetchAllProducts.initiate());
+//     //expect(store.getState().prodcutApi.queries['fetchAllProducts(undefined)'].data).toHavelength(2);
+//   });
+// });
 
 
 
