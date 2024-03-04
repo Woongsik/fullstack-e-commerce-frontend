@@ -27,6 +27,7 @@ export default function CenteredContainer(props: Props) {
       height={height} width={width}
       display={'flex'} justifyContent={justifyContent} alignItems={alignItems} 
       margin={margin} padding={padding}
+      flexWrap={'wrap'}
       sx={sx}>
       {children}
     </Box>

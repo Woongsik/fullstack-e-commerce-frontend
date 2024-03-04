@@ -5,11 +5,13 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { Box, IconButton, InputAdornment, Switch, TextField } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
+import UiButton from '../../components/ui/button/UiButton';
 import { AppState, useAppDispatch } from '../../redux/store';
 import { getUserWithSession, loginUser, registerUser } from '../../redux/slices/UserSlice';
-import UiButton from '../../components/ui/button/UiButton';
 import { MUIButtonType, MUIButtonVariant, MUIColor, MUISize } from '../../misc/types/MUI';
 import { UserRole } from '../../misc/types/User';
+import GridContainer from '../../components/ui/layout/GridContainer';
+import CenteredContainer from '../../components/ui/layout/CenteredContainer';
 
 type Inputs = {
   name: string
@@ -29,12 +31,16 @@ export default function Login() {
   const [userPassword, setUserPassword] = useState<string>('');
   const [showSubmittedMessage, setShowSubmittedMessage] = useState<boolean>(false);
 
-  const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
+  const { register, handleSubmit, resetField, formState: { errors }, watch } = useForm<Inputs>();
   const dispatch = useAppDispatch();
   const { loading, error, user } = useSelector((state: AppState) => state.userReducer);
 
+  const watchAll = watch();
+  console.log('watch', watchAll);
+
   const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
     console.log('on Submit', data);
+
 
     if (pageMode === PageMode.LOGIN) {
       await dispatch(loginUser({
@@ -55,6 +61,7 @@ export default function Login() {
 
       setShowSubmittedMessage(true);
       setPageMode(PageMode.LOGIN);
+      resetField("password");    
     }
   }
 
@@ -64,11 +71,7 @@ export default function Login() {
 
   const togglePageMode = (): void => {
     setPageMode(pageMode === PageMode.LOGIN ? PageMode.SIGNIN : PageMode.LOGIN);
-    setUserPassword('');
-  }
-
-  const onUserPasswordChanged = (e: ChangeEvent<HTMLInputElement>): void => {
-    setUserPassword(e.target.value);
+    resetField("password");     
   }
 
   if (user) {
@@ -76,11 +79,11 @@ export default function Login() {
   }
 
   return (
-    <Box display={'flex'} justifyContent={'center'}>
-      <Box display={'flex'} justifyContent={'center'} width={'75%'}>
+    <GridContainer>
+      <Box display={'flex'} justifyContent={'center'} width={'75%'} minWidth={'200px'}>
         <Box
           component="form"
-          sx={{'& .MuiTextField-root': { m: 1, width: '45ch' } }}
+          sx={{'& .MuiTextField-root': { m: 1, maxWidth: '45ch', minWidth: '200px' } }}
           onSubmit={handleSubmit(onSubmit)}>
           <h1>{ pageMode === PageMode.LOGIN ? 'Log in' : 'Sign in'}</h1>
           
@@ -107,7 +110,6 @@ export default function Login() {
               {...register("password", { required: true, pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/ }) }
               error={Boolean(errors.password)}
               label="Password"
-              value={userPassword}
               type={showPassword ? 'text' : 'password'}
               helperText={errors.password && 'Incorrect password! Minimum eight characters, at least one letter and one number!'}
               InputProps={{
@@ -119,8 +121,7 @@ export default function Login() {
                   {showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
               </InputAdornment>
-              }}
-              onChange={onUserPasswordChanged} />
+              }}/>
           </Box>
 
           { pageMode === PageMode.SIGNIN && 
@@ -149,13 +150,15 @@ export default function Login() {
               onClick={togglePageMode} />
           </Box>
           
-          <Box display={'flex'} justifyContent={'center'}>
+          <CenteredContainer margin='3'>
+            <Box></Box>
+
               {loading && <Box>Loading...</Box>}
               {error && <Box>Error: {error}</Box>}
               {showSubmittedMessage && <Box>Successfully registered! You can login to continue!..</Box>}
-          </Box>
+          </CenteredContainer>
         </Box>
       </Box>
-    </Box> 
+    </GridContainer> 
   )
 }
