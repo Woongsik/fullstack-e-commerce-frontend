@@ -1,7 +1,7 @@
 import { 
   Dialog as MDialog, 
   DialogTitle, DialogActions } from "@mui/material";
-import Button from './button/UiButton';
+import UiButton from './button/UiButton';
 import { MUIButtonVariant, MUIColor, MUISize } from '../../misc/types/MUI';
 
 type Props = {
@@ -25,21 +25,23 @@ export default function UiDialog(props: Props) {
           {title}
         </DialogTitle>
         <DialogActions>
-          <Button 
-            title={cancelTitle}
+          <UiButton 
             variant={MUIButtonVariant.TEXT}
             size={MUISize.SMALL}
             color={MUIColor.PRIMARY}
             fontSize={12}
-            onClick={() => props.onClose(false)} />
-          <Button 
-            title={proceedTitle}
+            onClick={() => props.onClose(false)}>
+            {cancelTitle}
+          </UiButton>
+          <UiButton 
             variant={MUIButtonVariant.CONTAINED}
             size={MUISize.SMALL}
             color={MUIColor.ERROR}
             fontSize={12}
             borderRadius={15}
-            onClick={() => props.onClose(true)} />            
+            onClick={() => props.onClose(true)}>
+            {proceedTitle}
+          </UiButton>            
         </DialogActions>
       </MDialog>
   )

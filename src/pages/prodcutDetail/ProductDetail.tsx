@@ -19,6 +19,7 @@ import { Product } from '../../misc/types/Product';
 import { User, UserRole } from '../../misc/types/User';
 import CartItem from '../../misc/types/CartItem';
 import CartSliceUtil from '../../redux/utils/CartSliceUtil';
+import UiRoundButton from '../../components/ui/button/UiRoundButton';
 
 export default function ProudctDetail() {
   const { id } = useParams(); // product id
@@ -108,10 +109,11 @@ export default function ProudctDetail() {
   const snackbarAction = () => {
     return (
       <UiButton 
-        title={'Cart'}
         variant={MUIButtonVariant.CONTAINED}
-        endIcon={<ShoppingCartCheckoutIcon />}
-        onClick={() => navigateToCart()} />)
+        onClick={() => navigateToCart()}>
+        Cart <ShoppingCartCheckoutIcon sx={{ marginLeft: 1}}/>
+      </UiButton>
+    )
   }
 
   return (
@@ -125,17 +127,19 @@ export default function ProudctDetail() {
           {(user && user.role === UserRole.ADMIN) && product &&
           <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'} margin={'0 10px'}>
             <UiButton
-              title={'Delete'}
               variant={MUIButtonVariant.OUTLINED}
               color={MUIColor.ERROR}
               customStyle={{ margin: '0 10px' }}
-              onClick={() => askToDelete()} />
+              onClick={() => askToDelete()}>
+              Delete 
+            </UiButton>
 
             <UiButton
-              title={editMode ? 'Cancel Edit' : 'Edit'}
               variant={MUIButtonVariant.CONTAINED}
               color={MUIColor.INFO}
-              onClick={() => toggleEdit()} />
+              onClick={() => toggleEdit()}>
+              {editMode ? 'Cancel Edit' : 'Edit'}
+            </UiButton>
           </Box>
           }
         </Box>
@@ -172,22 +176,20 @@ export default function ProudctDetail() {
 
             <Box component={'div'} display={'inline-grid'} justifyContent={'center'} width={'100%'}
                 position={'sticky'} bottom={0}>
-              <UiButton 
-                title={'Add to Cart'}
+              <UiRoundButton
                 variant={MUIButtonVariant.CONTAINED}
-                size={MUISize.LARGE}
-                endIcon={<ShoppingCartCheckoutIcon />}
-                borderRadius={15}
-                customStyle={{ my: 1, backgroundColor: 'black', color: 'white', padding: '10px 30px' }}
-                onClick={handleAddToCart} />
-            <UiButton 
-                title={'Favorite'}
+                theme='black'
+                margin='10px 0'
+                onClick={() => handleAddToCart()}>
+                Add to Cart <ShoppingCartCheckoutIcon sx={{ marginLeft: 1}} />
+              </UiRoundButton>
+              <UiRoundButton
                 variant={MUIButtonVariant.OUTLINED}
-                size={MUISize.LARGE}
-                endIcon={<FavoriteIcon />}
-                borderRadius={15}
-                customStyle={{ my: 1, backgroundColor: 'white', color: 'black', borderColor: 'black', padding: '10px 30px' }}
-                onClick={handleAddToFavorites} />
+                theme='white'
+                margin='10px 0'
+                onClick={() => handleAddToFavorites()}>
+                Favorite <FavoriteIcon sx={{ marginLeft: 1}}/>
+              </UiRoundButton>
             </Box>
           </Box>
         </Box>

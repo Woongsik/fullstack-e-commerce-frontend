@@ -39,7 +39,6 @@ export default function PageNavigation(props: Props) {
       alignItems={"center"}
       sx={{ my: 5, backgroundColor: 'white', borderTop: '1px solid gray', position: 'sticky', bottom: '0'}}>
       <Grid item>
-        {totalPage}
         <Pagination 
           page={page} 
           onChange={handlePageChange}

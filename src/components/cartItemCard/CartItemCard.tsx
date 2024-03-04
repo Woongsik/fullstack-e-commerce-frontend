@@ -91,16 +91,18 @@ export default function CartItemCard(props: Props) {
 
           <ButtonGroup variant="text" aria-label="Basic button group">
             <UiButton 
-              title={<FavoriteBorderIcon sx={{ color: 'black' }} />}
               variant={MUIButtonVariant.TEXT}
               size={MUISize.SMALL}
-              color={MUIColor.PRIMARY} />
+              color={MUIColor.PRIMARY}>
+              <FavoriteBorderIcon sx={{ color: 'black' }} />
+            </UiButton>
             <UiButton 
-              title={<DeleteOutlineIcon sx={{ color: 'black' }} />}
               variant={MUIButtonVariant.TEXT}
               size={MUISize.SMALL}
               color={MUIColor.PRIMARY}
-              onClick={handleDeleteItem} />
+              onClick={handleDeleteItem}>
+              <DeleteOutlineIcon sx={{ color: 'black' }} />
+            </UiButton>
           </ButtonGroup>
         </Box>
       </Box>

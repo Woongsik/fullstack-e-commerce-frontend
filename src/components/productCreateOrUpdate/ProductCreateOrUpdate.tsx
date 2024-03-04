@@ -178,10 +178,11 @@ export default function ProductCreateOrUpdate(props: Props) {
         </Box>
 
         <UiButton
-          title={'Submit'}
           variant={MUIButtonVariant.CONTAINED}
           color={MUIColor.PRIMARY}
-          type={MUIButtonType.SUBMIT} />
+          type={MUIButtonType.SUBMIT}>
+          Submit
+        </UiButton>
       </Box>
 
       { loading && <h1>Error: {error} </h1>}

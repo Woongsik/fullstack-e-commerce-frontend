@@ -3,15 +3,16 @@ import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Box, IconButton, InputAdornment, Switch, TextField } from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { InfoOutlined, Visibility, VisibilityOff } from '@mui/icons-material';
 
 import UiButton from '../../components/ui/button/UiButton';
 import { AppState, useAppDispatch } from '../../redux/store';
 import { getUserWithSession, loginUser, registerUser } from '../../redux/slices/UserSlice';
-import { MUIButtonType, MUIButtonVariant, MUIColor, MUISize } from '../../misc/types/MUI';
+import { MUIButtonType, MUIButtonVariant, MUIColor, MUILayout, MUISize } from '../../misc/types/MUI';
 import { UserRole } from '../../misc/types/User';
 import GridContainer from '../../components/ui/layout/GridContainer';
 import CenteredContainer from '../../components/ui/layout/CenteredContainer';
+import UiRoundButton from '../../components/ui/button/UiRoundButton';
 
 type Inputs = {
   name: string
@@ -28,19 +29,14 @@ enum PageMode {
 export default function Login() {
   const [pageMode, setPageMode] = useState<PageMode>(PageMode.LOGIN);
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [userPassword, setUserPassword] = useState<string>('');
   const [showSubmittedMessage, setShowSubmittedMessage] = useState<boolean>(false);
 
-  const { register, handleSubmit, resetField, formState: { errors }, watch } = useForm<Inputs>();
+  const { register, handleSubmit, resetField, formState: { errors } } = useForm<Inputs>();
   const dispatch = useAppDispatch();
   const { loading, error, user } = useSelector((state: AppState) => state.userReducer);
 
-  const watchAll = watch();
-  console.log('watch', watchAll);
-
   const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
     console.log('on Submit', data);
-
 
     if (pageMode === PageMode.LOGIN) {
       await dispatch(loginUser({
@@ -50,7 +46,6 @@ export default function Login() {
 
       await dispatch(getUserWithSession());
     } else {
-      
       await dispatch(registerUser({
         name: data.name,
         email: data.email,
@@ -83,7 +78,7 @@ export default function Login() {
       <Box display={'flex'} justifyContent={'center'} width={'75%'} minWidth={'200px'}>
         <Box
           component="form"
-          sx={{'& .MuiTextField-root': { m: 1, maxWidth: '45ch', minWidth: '200px' } }}
+          sx={{'& .MuiTextField-root': { m: 1, width: '100%', minWidth: '300px' }}}
           onSubmit={handleSubmit(onSubmit)}>
           <h1>{ pageMode === PageMode.LOGIN ? 'Log in' : 'Sign in'}</h1>
           
@@ -133,29 +128,30 @@ export default function Login() {
             <Box>Register as Admin</Box>
           </Box>
           }
-
-          <UiButton 
-            title={pageMode === PageMode.LOGIN ? 'Log in' : 'Sign in'}
+ 
+          <UiRoundButton
             variant={MUIButtonVariant.CONTAINED}
-            color={MUIColor.PRIMARY} 
-            type={MUIButtonType.SUBMIT}
-            borderRadius={15}
-            size={MUISize.LARGE}
-            customStyle={{ width: '100%', marginTop: 5, marginBottom: 1, padding: '10px 20px', backgroundColor: 'black', color: 'white' }} />
+            theme='black'
+            type={MUIButtonType.SUBMIT}>
+            {pageMode === PageMode.LOGIN ? 'Log in' : 'Sign in'}
 
-          <Box display={'flex'} justifyContent={'flex-end'}>
+          </UiRoundButton>
+
+          <CenteredContainer justifyContent={MUILayout.FLEX_END} margin='15px 0'>
             <UiButton 
-              title={pageMode === PageMode.LOGIN ? 'Create new account?' : 'Need to login?'}
               variant={MUIButtonVariant.TEXT}
-              onClick={togglePageMode} />
-          </Box>
+              onClick={togglePageMode}>
+              {pageMode === PageMode.LOGIN ? 'Create new account?' : 'Need to login?'}
+            </UiButton>
+          </CenteredContainer>
           
-          <CenteredContainer margin='3'>
-            <Box></Box>
-
-              {loading && <Box>Loading...</Box>}
-              {error && <Box>Error: {error}</Box>}
-              {showSubmittedMessage && <Box>Successfully registered! You can login to continue!..</Box>}
+          <CenteredContainer margin={'30px 0'}>
+            {showSubmittedMessage || error && <InfoOutlined sx={{ color: error ? 'red' : 'blue', marginRight: 1 }}/>}
+            <Box component={'span'} color={error ? 'red' : (showSubmittedMessage ? 'blue' : 'black')}>
+              {loading && 'Loading...'}
+              {error &&  'You info is not valid! Please login or signin again...'}
+              {showSubmittedMessage && 'Successfully registered! You can login to continue!..'}
+            </Box>
           </CenteredContainer>
         </Box>
       </Box>

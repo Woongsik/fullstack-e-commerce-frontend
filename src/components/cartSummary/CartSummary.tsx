@@ -46,22 +46,24 @@ export default function CartSummary(props: Props) {
       <Box component={'div'} display={'inline-grid'} justifyContent={'center'} width={'100%'}
             my={5}>
           <UiButton
-            title={'Check out'}
             variant={MUIButtonVariant.CONTAINED}
             size={MUISize.LARGE}
             color={MUIColor.PRIMARY}
             borderRadius={15}
-            customStyle={{ my: 1, backgroundColor: 'black', color: 'white', padding: '10px 30px' }} />
+            customStyle={{ my: 1, backgroundColor: 'black', color: 'white', padding: '10px 30px' }}>
+            Check out
+          </UiButton>
          
           <UiButton 
-            title={'Paypal'}
             variant={MUIButtonVariant.OUTLINED}
             size={MUISize.LARGE}
             color={MUIColor.PRIMARY}
             borderRadius={15}
             customStyle={{ 
               my: 1, backgroundColor: 'white', color: 'black', borderColor: 'black', padding: '10px 30px' 
-            }} />
+            }}>
+            Paypal
+            </UiButton>
           </Box>
     </Box>
   )
