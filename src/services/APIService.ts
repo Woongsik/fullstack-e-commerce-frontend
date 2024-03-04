@@ -110,13 +110,9 @@ class ApiService {
     return this.request('POST', url, formData);
   }
 
-  public registerProduct(product: ProductRegister) { // Promise<Product>
+  public registerProduct(product: ProductRegister): Promise<Product> {
     const url: string = this.generateUrl("products");
-    this.request('POST', url, product).then((response) => {
-      console.log('registerProduct', response);
-    }).catch((e) => {
-      console.log('e', e);
-    });
+    return this.request('POST', url, product);
   }
 
   public updateProduct(product: ProductUpdateItem, productId: string): Promise<Product> {

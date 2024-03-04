@@ -53,10 +53,6 @@ const getTotalAndImageCheckedProducts = (products: Product[], filter?: Filter, p
     total = Math.ceil(products.length / itemsPerPage);
   }
 
-  console.log('itemsPerPage', itemsPerPage)
-  console.log('all', products.length);
-  console.log('image', imageCheckedProducts.length);
-
   return { 
     products: imageCheckedProducts, 
     total: total

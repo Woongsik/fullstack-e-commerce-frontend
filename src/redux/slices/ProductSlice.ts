@@ -50,16 +50,6 @@ export const fetchProduct = createAsyncThunk(
     }
 });
 
-export const fetchProductImages = createAsyncThunk(
-  "fetchProductImages",
-  async (formData: FormData, { rejectWithValue }) => {
-    try {
-      return apiService.fetchProductImages(formData);
-    } catch (e) {
-      return rejectWithValue(e);
-    }
-});
-
 export const registerProduct = createAsyncThunk(
   "registerProduct",
   async (product: ProductRegister, { rejectWithValue }) => {
@@ -115,6 +105,9 @@ const productSlice = createSlice({
       }).addCase(fetchProducts.pending, (state, action) => {
         return {
           ...state,
+          products: [],
+          sortedProducts: [],
+          total: 0,
           loading: true
         }
       }).addCase(fetchProducts.rejected, (state, action) => {
@@ -140,6 +133,26 @@ const productSlice = createSlice({
           product: null
         }
       }).addCase(fetchProduct.rejected, (state, action) => {
+        return {
+          ...state,
+          loading: false,
+          error: action.error.message ?? "Unkown error..."
+        }
+      });
+
+      builder.addCase(registerProduct.fulfilled, (state, action) => {
+        const imageCheckedProduct: Product = ProductSliceUtils.checkImagesForProduct(action.payload)
+        return {
+          ...state,
+          product: imageCheckedProduct,
+          loading: false
+        }
+      }).addCase(registerProduct.pending, (state, action) => {
+        return {
+          ...state,
+          loading: true        
+        }
+      }).addCase(registerProduct.rejected, (state, action) => {
         return {
             ...state,
             loading: false,
