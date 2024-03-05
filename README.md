@@ -81,7 +81,7 @@
    - Find all categories: (GET) https://api.escuelajs.co/api/v1/categories 
 
    ### Screenshots or GIFs
-
+   ![screenshot of the site](<Screenshot.png>)
 
    <a name="architecture_design"></a>
    ### Architecture & Design:
@@ -111,5 +111,5 @@
    Detail the steps required for deploying the project to a server.
    Mention any specific hosting platforms, CI/CD pipelines, or other tools used.
 
-   [Netlify][https://www.netlify.com/] is used for the deployment/hosting. 
+   [Netlify](https://www.netlify.com/) is used for the deployment/hosting. 
    Use the continuous 

@@ -17,7 +17,6 @@ import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import { Theme, useTheme } from '../ThemeContext';
 import { AppState, useAppDispatch } from '../../../redux/store';
 import { logout } from '../../../redux/slices/UserSlice';
-import UiImage from '../../ui/image/UiImage';
 import CenteredContainer from '../../ui/layout/CenteredContainer';
 import { MUILayout } from '../../../misc/types/MUI';
 
@@ -65,7 +64,7 @@ export default function Navbar() {
           <Link to="/home" style={{ textDecoration: 'none', color: 'white' }}>
             <CenteredContainer>
               <Box height={'40px'}>
-                <UiImage src={"https://fakeapi.platzi.com/_astro/logo.aa139940.png"} alt="logo" />
+                <img src={"https://fakeapi.platzi.com/_astro/logo.aa139940.png"} alt="logo" />
               </Box>
               <Box component={'h3'} marginLeft={1} 
                 sx={{ color: theme === Theme.LIGHT ? 'black' : 'white' }}>
