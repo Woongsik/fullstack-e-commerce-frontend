@@ -1,18 +1,18 @@
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Box, IconButton, InputAdornment, Switch, TextField } from '@mui/material';
 import { InfoOutlined, Visibility, VisibilityOff } from '@mui/icons-material';
 
-import UiButton from '../../components/ui/button/UiButton';
-import { AppState, useAppDispatch } from '../../redux/store';
-import { getUserWithSession, loginUser, registerUser } from '../../redux/slices/UserSlice';
-import { MUIButtonType, MUIButtonVariant, MUIColor, MUILayout, MUISize } from '../../misc/types/MUI';
-import { UserRole } from '../../misc/types/User';
 import GridContainer from '../../components/ui/layout/GridContainer';
 import CenteredContainer from '../../components/ui/layout/CenteredContainer';
 import UiRoundButton from '../../components/ui/button/UiRoundButton';
+import UiButton from '../../components/ui/button/UiButton';
+import { AppState, useAppDispatch } from '../../redux/store';
+import { getUserWithSession, loginUser, registerUser } from '../../redux/slices/UserSlice';
+import { MUIButtonType, MUIButtonVariant, MUILayout } from '../../misc/types/MUI';
+import { UserRole } from '../../misc/types/User';
 
 type Inputs = {
   name: string
@@ -146,7 +146,7 @@ export default function Login() {
           </CenteredContainer>
           
           <CenteredContainer margin={'30px 0'}>
-            {showSubmittedMessage || error && <InfoOutlined sx={{ color: error ? 'red' : 'blue', marginRight: 1 }}/>}
+            {(showSubmittedMessage || error) && <InfoOutlined sx={{ color: error ? 'red' : 'blue', marginRight: 1 }}/>}
             <Box component={'span'} color={error ? 'red' : (showSubmittedMessage ? 'blue' : 'black')}>
               {loading && 'Loading...'}
               {error &&  'You info is not valid! Please login or signin again...'}

@@ -9,17 +9,17 @@ import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import ProductCreateOrUpdate from '../../components/productCreateOrUpdate/ProductCreateOrUpdate';
 import CenteredContainer from '../../components/ui/layout/CenteredContainer';
 import UiCarousel from '../../components/ui/carousel/UiCarousel';
+import UiRoundButton from '../../components/ui/button/UiRoundButton';
 import UiButton from '../../components/ui/button/UiButton';
 import UiDialog from '../../components/ui/UiDialog';
 import { AppState, useAppDispatch } from '../../redux/store';
 import { deleteProduct, fetchProduct } from '../../redux/slices/ProductSlice';
 import { addToCart, addToFavorites } from '../../redux/slices/CartSlice';
-import { MUIButtonVariant, MUIColor, MUISize } from '../../misc/types/MUI';
+import { MUIButtonVariant, MUIColor } from '../../misc/types/MUI';
 import { Product } from '../../misc/types/Product';
 import { User, UserRole } from '../../misc/types/User';
 import CartItem from '../../misc/types/CartItem';
 import CartSliceUtil from '../../redux/utils/CartSliceUtil';
-import UiRoundButton from '../../components/ui/button/UiRoundButton';
 
 export default function ProudctDetail() {
   const { id } = useParams(); // product id

@@ -12,22 +12,20 @@
 
 <a name="table_of_contents"></a>
 ## Table of Contents
-
-   [Introduction](#intro)
-   [Table of Contents](#table_of_contents)
-   [Getting Started](#getting_started)
+   - [Introduction](#intro)
+   - [Table of Contents](#table_of_contents)
+   - [Getting Started](#getting_started)
       - [Prerequisites](#prerequisites)
       - [Clone the project](#clone)
       - [Install and run](#install)
       - [Navgiate](#navigate)
-   [Usage](#usage)
+   - [Usage](#usage)
       - [Architecture and Design](#architecture_design)
       - [Testing](#testing)
       - [Deployment](#deployment)
 
 <a name="getting_started"></a>
 ## Getting Started
-
    <a name="prerequisites"></a>
    ### Prerequisites
    - node `^19.2.0`
@@ -90,7 +88,7 @@
    Folder Structure: Briefly explain the organization of important directories and files.
 
    Data Flow: Describe how data flows in the application, especially if you’re using tools like Redux or Context API.
-   
+
    Component Structure: Explain the main components and their relationships, possibly using a diagram.
    
    <a name="testing"></a>
@@ -113,5 +111,5 @@
    Detail the steps required for deploying the project to a server.
    Mention any specific hosting platforms, CI/CD pipelines, or other tools used.
 
-   (Netlify)[https://www.netlify.com/] is used for the deployment/hosting. 
+   [Netlify][https://www.netlify.com/] is used for the deployment/hosting. 
    Use the continuous 

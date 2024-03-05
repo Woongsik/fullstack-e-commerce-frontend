@@ -2,7 +2,7 @@ import axios, { AxiosResponse, Method } from 'axios';
 
 import { host, api } from '../utils/Urls';
 import Filter from '../misc/types/Filter';
-import { Product, ProductRegister, ProductUpdate, ProductUpdateItem } from '../misc/types/Product';
+import { Product, ProductRegister, ProductUpdateItem } from '../misc/types/Product';
 import Category from '../misc/types/Category';
 import { LoginUserInfo, RegisterUserInfo, User, UserToken } from '../misc/types/User';
 import { userSlicerUtil } from '../redux/utils/UserSlicerUtil';
@@ -107,7 +107,7 @@ class ApiService {
       'Content-Type': 'multipart/form-data'
     }
 
-    return this.request('POST', url, formData);
+    return this.request('POST', url, formData, headers);
   }
 
   public registerProduct(product: ProductRegister): Promise<Product> {
