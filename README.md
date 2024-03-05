@@ -93,7 +93,7 @@
    
    <a name="testing"></a>
    ### Testing:
-   Mention the testing libraries/frameworks used.
+   Mention the testing libraries/frameworks used
    Explain how to run tests.
    If applicable, describe the structure of your tests (unit, integration, end-to-end).
    
