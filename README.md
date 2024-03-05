@@ -10,7 +10,7 @@
 
    You can check out here [super cool shopping](https://super-cool-shopping.netlify.app)
 
-<a name="table_of_contents"/>
+<a name="table_of_contents"></a>
 ## Table of Contents
    For long READMEs, it’s helpful to have a table of contents to navigate through different sections.
    [Introduction](#intro)
