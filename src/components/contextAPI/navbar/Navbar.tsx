@@ -17,8 +17,8 @@ import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import { Theme, useTheme } from '../ThemeContext';
 import { AppState, useAppDispatch } from '../../../redux/store';
 import { logout } from '../../../redux/slices/UserSlice';
-import CenteredContainer from '../../ui/layout/CenteredContainer';
 import UiImage from '../../ui/image/UiImage';
+import CenteredContainer from '../../ui/layout/CenteredContainer';
 import { MUILayout } from '../../../misc/types/MUI';
 
 enum Pages {
