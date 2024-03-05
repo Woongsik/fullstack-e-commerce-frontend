@@ -15,7 +15,7 @@ export default function RoleIndicator() {
   const showCreateIcon: boolean = !(location.pathname.includes(createNewProductUrl));
   
   return (
-    <Box display={'flex'} justifyContent={'flex-end'} >
+    <Box display={'flex'} justifyContent={'flex-end'} sx={{ position: 'sticky', top: 0 }}>
       { (user && user.role === UserRole.ADMIN) &&
       <Box display={'flex'} alignItems={'center'} sx={{ margin: '10px 10px' }}>
         {showCreateIcon && <Link to="/productUpdate">

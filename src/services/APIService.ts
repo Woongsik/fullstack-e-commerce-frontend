@@ -107,14 +107,17 @@ class ApiService {
     return this.request<UserToken>('post', url, loginInfo);
   }
 
-  public getUserWithSession(): Promise<User> {
+  public getUserWithSession(): Promise<User | null> {
     const url: string = this.generateUrl("auth/profile");
     const tokens: UserToken | null = userSlicerUtil.getTokensToLocalStorage();
     const headers = {
       Authorization : `Bearer ${tokens?.access_token ?? ''}`
     }
     
-    return this.request<User>('GET', url, null, headers);
+    if (tokens) {
+      return this.request<User>('GET', url, null, headers);
+    }
+    return Promise.resolve(null);
   }
 
   public fetchProductImages(formData: FormData): Promise<UploadedImage> {

@@ -21,6 +21,7 @@ import { User, UserRole } from '../../misc/types/User';
 import CartItem from '../../misc/types/CartItem';
 import CartSliceUtil from '../../redux/utils/CartSliceUtil';
 import GridContainer from '../../components/uis/layout/GridContainer';
+import { useUserSession } from '../../hooks/useUserSession';
 
 export default function ProudctDetail() {
   const { id } = useParams(); // product id
@@ -31,6 +32,7 @@ export default function ProudctDetail() {
   const [snackBarMessage, setSnackBarMessage] = useState<string>('');
   const [showDialog, setShowDialog] = useState<boolean>(false);
 
+  useUserSession();
   useEffect(() => {
     if (id) {
       dispatch(fetchProduct(id));

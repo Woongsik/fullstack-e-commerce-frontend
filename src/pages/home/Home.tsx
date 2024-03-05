@@ -4,17 +4,16 @@ import { useSelector } from 'react-redux';
 
 import { useAppDispatch, AppState } from '../../redux/store';
 import { fetchProducts, updateFilter } from '../../redux/slices/ProductSlice';
-
 import SearchInput from '../../components/uis/searchInput/SearchInput';
 import ProductList from '../../components/productList/ProductList';
 import Categories from '../../components/cateogries/Categories';
 import PageNavigation from '../../components/uis/pageNavigation/PageNavigation';
 import SortSelects from '../../components/sortSelects/SortSelects';
-
+import PriceRangeSlider from '../../components/priceRangeSlider/PriceRangeSlider';
+import GridContainer from '../../components/uis/layout/GridContainer';
+import { useUserSession } from '../../hooks/useUserSession';
 import { Product } from '../../misc/types/Product';
 import Filter from '../../misc/types/Filter';
-import PriceRangeSlider from '../../components/priceRangeSlider/PriceRangeSlider';
-import { getUserWithSession } from '../../redux/slices/UserSlice';
 
 export default function Home() {
   const baseCategoryId: number = 0;
@@ -31,21 +30,14 @@ export default function Home() {
   const [filter, setFilter] = useState<Filter>(initialFilter);
   const dispatch = useAppDispatch();
   
-  const { user } = useSelector((state: AppState) => state.userReducer);
   const products: Product[] = useSelector((state: AppState): Product[] => 
     state.productReducer.sort ? state.productReducer.sortedProducts : state.productReducer.products);
   
-  useEffect(() => { // For the user sessoion if no user 
-    if (!user) {
-      dispatch(getUserWithSession());
-    }
-  }, [dispatch]);
-
+  useUserSession();
   useEffect(() => { // For the filter changed
     dispatch(updateFilter(filter));
     dispatch(fetchProducts(filter));
   }, [filter, dispatch]);
-  
   
   const onTextChanged = (text: string): void => {
     setFilter({
@@ -99,8 +91,8 @@ export default function Home() {
   }
 
   return (
-    <Box component="div" display="flex" justifyContent="center" alignItems="center">
-      <Box component="div" width="75%" minWidth="500px">
+    <GridContainer>
+      <Box component="div" width="75%" minWidth="300px">
         <SearchInput 
           title="Search products by name"
           onTextChanged={onTextChanged}/>      
@@ -129,6 +121,6 @@ export default function Home() {
           maxPrice={filter.price_max}
           onPriceRangeChanged={onPriceRangeChanged} />
       </Box>
-    </Box>
+    </GridContainer>
   )
 }

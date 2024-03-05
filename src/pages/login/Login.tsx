@@ -13,6 +13,7 @@ import { AppState, useAppDispatch } from '../../redux/store';
 import { getUserWithSession, loginUser, registerUser } from '../../redux/slices/UserSlice';
 import { MUIButtonType, MUIButtonVariant, MUILayout } from '../../misc/types/MUI';
 import { UserRole } from '../../misc/types/User';
+import { useUserSession } from '../../hooks/useUserSession';
 
 type Inputs = {
   name: string
@@ -34,6 +35,8 @@ export default function Login() {
   const { register, handleSubmit, resetField, formState: { errors } } = useForm<Inputs>();
   const dispatch = useAppDispatch();
   const { loading, error, user } = useSelector((state: AppState) => state.userReducer);
+
+  useUserSession();
 
   const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
     console.log('on Submit', data);
@@ -75,7 +78,7 @@ export default function Login() {
 
   return (
     <GridContainer>
-      <Box display={'flex'} justifyContent={'center'} width={'75%'} minWidth={'200px'}>
+      <CenteredContainer alignItems={MUILayout.FLEX_START} width={'75%'} sx={{ minWidth: '300px', maxWidth: '400px'}}>
         <Box
           component="form"
           sx={{'& .MuiTextField-root': { m: 1, width: '100%', minWidth: '300px' }}}
@@ -88,7 +91,7 @@ export default function Login() {
               {...register("name", { required: true, pattern: /^[A-Za-z0-9]+$/i }) }
               error={Boolean(errors.name)}
               label="Name"
-              helperText={errors.name && 'Incorrect name! No special characters'} />
+              helperText={errors.name && 'No special characters'} />
           </Box> 
           }
 
@@ -97,7 +100,7 @@ export default function Login() {
               {...register("email", { required: true, pattern: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/ }) }
               error={Boolean(errors.email)}
               label="Email"
-              helperText={errors.email && 'Incorrect email! Please check again!'} />
+              helperText={errors.email && 'Incorrect address!'} />
           </Box>
 
           <Box>
@@ -106,7 +109,7 @@ export default function Login() {
               error={Boolean(errors.password)}
               label="Password"
               type={showPassword ? 'text' : 'password'}
-              helperText={errors.password && 'Incorrect password! Minimum eight characters, at least one letter and one number!'}
+              helperText={errors.password && 'Minimum 8 characters, at least 1 letter & 1 number!'}
               InputProps={{
                 endAdornment: <InputAdornment position="end">
                 <IconButton
@@ -154,7 +157,7 @@ export default function Login() {
             </Box>
           </CenteredContainer>
         </Box>
-      </Box>
+      </CenteredContainer>
     </GridContainer> 
   )
 }

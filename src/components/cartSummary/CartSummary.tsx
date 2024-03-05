@@ -17,7 +17,7 @@ export default function CartSummary(props: Props) {
   const total: number = deliveryFee + subTotal;
 
   return (
-    <Box justifyContent={'center'} minWidth={300}>
+    <Box justifyContent={'center'} width={'100%'}>
       <Typography fontSize={22} fontWeight={'bold'}> 
         Summary
       </Typography>

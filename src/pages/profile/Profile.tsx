@@ -1,28 +1,37 @@
 import { Avatar, Box, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
-
-import { AppState } from '../../redux/store';
 import { Link } from 'react-router-dom';
 
+import { AppState } from '../../redux/store';
+import { useUserSession } from '../../hooks/useUserSession';
+import GridContainer from '../../components/uis/layout/GridContainer';
+import CenteredContainer from '../../components/uis/layout/CenteredContainer';
+import { MUILayout } from '../../misc/types/MUI';
+
 export default function Profile() {
-  const { user } = useSelector((state: AppState) => state.userReducer)
+  useUserSession();
+  const { user, loading, error } = useSelector((state: AppState) => state.userReducer)
     
   if (!user) {
     console.log('user not existed');
   }
   
   return (
-    <Box display={'flex'} justifyContent={'center'} minHeight={'75vh'}>
-      <Box  display={'flex'} justifyContent={'center'} width={'75%'}>
+    <GridContainer alignItems={MUILayout.FLEX_START}>
+      <CenteredContainer width={'75%'} alignItems={MUILayout.FLEX_START}>
         <Box>
-          {user ? 
+          {user && 
           <Box>
-            <h1>Moi, {user.name}!</h1>
-            
-            <Avatar 
-              alt={user.name} 
-              src={user.avatar}
-              sx={{ height: '120px', width: '120px'}} />
+            <CenteredContainer width={'100%'}>
+              <Avatar 
+                alt={user.name} 
+                src={user.avatar}
+                sx={{ height: '120px', width: '120px'}} />
+              </CenteredContainer>
+           
+            <CenteredContainer width={'100%'}>
+              <h1>Moi, {user.name}!</h1>
+            </CenteredContainer>
             
             <Typography>
               Name: {user.name}
@@ -39,17 +48,19 @@ export default function Profile() {
             <Typography>
               Avatar URL: {user.avatar}
             </Typography>
-          </Box> : 
+          </Box>
+          }
+          
+          {loading && <Typography>Loading...</Typography>}
+          {(!loading && !user) && 
           <Box> 
             You need to login!
             <Link to="/login">
               Go to Log in
             </Link>
-          </Box>
-          }
-
+          </Box>}
         </Box>
-      </Box>
-    </Box>
+      </CenteredContainer>
+    </GridContainer>
   )
 }

@@ -4,24 +4,28 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { Link } from 'react-router-dom';
 
-import { useAppDispatch } from '../../redux/store';
-import { removeFromCart, updateQuantityInCart } from '../../redux/slices/CartSlice';
+import CenteredContainer from '../uis/layout/CenteredContainer';
 import UiFormSelects from '../uis/form/UiFormSelects';
 import UiButton from '../uis/button/UiButton';
 import UiDialog from '../uis/UiDialog';
 import UiImage from '../uis/image/UiImage';
-import { MUIButtonVariant, MUIColor, MUISize } from '../../misc/types/MUI';
+import UiNoImage from '../uis/image/UiNoImage';
+import { useAppDispatch } from '../../redux/store';
+import { removeFromCart, updateQuantityInCart } from '../../redux/slices/CartSlice';
+import { MUIButtonVariant, MUIColor, MUILayout, MUISize } from '../../misc/types/MUI';
 import CartItem from '../../misc/types/CartItem';
 import { Product } from '../../misc/types/Product';
 
 type Props = {
   cartItem: CartItem;
+  showDivier: boolean;
 }
 
 export default function CartItemCard(props: Props) {
   const dispatch = useAppDispatch();
   const [showDeleteDialog, setShowDeleteDialog] = useState<boolean>(false);
   const { item, quantity } = props.cartItem;
+  const { showDivier } = props;
   
   let quantityItems: {key: number}[] = [];
   for (let i = 0; i < 10; i++) {
@@ -54,27 +58,34 @@ export default function CartItemCard(props: Props) {
 
   return (
     <>
-    <Divider />
-    <Box display={'flex'} my={1}>
-      <Box width={164}>
+    {showDivier && <Divider />}
+    <Box display={'flex'} my={1} width={'100%'} minHeight={150}>
+      <Box width={130}>
         <Link to={`/product/${item.id}`}>
+        {(item.images && item.images[0]) ?
           <UiImage 
-            src={item.images && item.images[0] ? item.images[0] :''}
-            alt={item.title} />
+              src={item.images[0]}
+              alt={item.title} />
+        : <UiNoImage />}
         </Link>
       </Box>
       <Box component={'div'} marginLeft={2} width={'100%'}
             display={'flex'} flexWrap={'wrap'} alignContent={'space-between'}>
         <Box width={'100%'}>
-          <Typography component={'h1'} fontSize={20}>
+          <Typography fontSize={18}>
             {item.title}
           </Typography>
-          <Typography>
+          <Typography fontSize={15} sx={{ color: 'gray'}}>
             {item.category.name}
           </Typography>
-          <Typography>
-            € {item.price}
-          </Typography>
+          <CenteredContainer justifyContent={MUILayout.SPACE_BETWEEN} width={'100%'}>
+            <Typography>
+              € {item.price} x {quantity}
+            </Typography>
+            <Typography>
+              € {item.price * quantity}
+            </Typography>
+          </CenteredContainer>
         </Box>
         <Box display={'flex'} justifyContent={'space-between'} width={'100%'} alignItems={'center'}>
           <Box display={'flex'} alignItems={'center'}>
