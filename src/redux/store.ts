@@ -18,5 +18,13 @@ const store = configureStore ({
 export type AppState = ReturnType<typeof store.getState>;
 export const useAppDispatch = () => useDispatch<typeof store.dispatch>();
 
-export const createNewStore = () => { return store }
+export const createNewStore = () => configureStore ({
+  reducer: {
+    productReducer,
+    cartReducer,
+    userReducer,
+    categoryReducer
+  }
+});
+
 export default store;

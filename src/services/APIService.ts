@@ -1,5 +1,3 @@
-import axios, { AxiosResponse, Method } from 'axios';
-
 import { host, api } from '../utils/Urls';
 import Filter from '../misc/types/Filter';
 import { Product, ProductRegister, ProductUpdateItem } from '../misc/types/Product';
@@ -15,15 +13,36 @@ class ApiService {
     return `${this.baseURL}/${fragment}`;
   }
 
-  public async request<T>(method: Method, url: string, data?: any, headers?: any): Promise<T> {
-    const response: AxiosResponse = await axios({
-      method: method,
-      url: url,
-      data: data,
-      headers: headers
-    });
+  public async request<T>(method: string, url: string, data?: any, headers?: any): Promise<T> {
+    try { // Use fetch for testing and mocking server with msw
+      console.log('Send request:', url);
+      const response: Response = await fetch(url, {
+        method: method,
+        headers: headers,
+        body: data
+      });
+      
+      const jsonResult = await response.json(); 
+      if (!response.ok) { // error handling
+        throw Error(jsonResult);
+      }
 
-    return response.data;
+      return jsonResult;
+    } catch(e) {
+      const error = e as Error;
+      throw new Error(error.message);
+    }
+
+    /* Originally used axios
+       since msw is not supporting axios, changed it to fetch */
+    // const response: AxiosResponse = await axios({
+    //   method: method,
+    //   url: url,
+    //   data: data,
+    //   headers: headers
+    // });
+
+    // return response.data;
   }
 
   public getProducts(filter: Filter): Promise<Product[]> {
@@ -59,20 +78,16 @@ class ApiService {
     /* In order to have the toal page correctly,
       page = 0 try to get the whole products 
     */
-   console.log('page', page);
     if (page > 1) {
       // page starated from 1, so need to be 0 
       url += `${separator}offset=${(page - 1) * itemsPerPage}&limit=${itemsPerPage}`;
     }
     
-    
-    console.log('fetch', url);
     return this.request<Product[]>('GET', url, null); 
   }
 
   public getProduct(productId: string): Promise<Product> {
     let url: string = this.generateUrl(`products/${productId}`);
-    console.log('fetch', url);
     return this.request<Product>('GET', url, null); 
   }
 
