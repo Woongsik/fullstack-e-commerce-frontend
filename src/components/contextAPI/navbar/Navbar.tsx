@@ -14,10 +14,11 @@ import {
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 
+import CenteredContainer from '../../ui/layout/CenteredContainer';
+import UiImage from '../../ui/UiImage';
 import { Theme, useTheme } from '../ThemeContext';
 import { AppState, useAppDispatch } from '../../../redux/store';
 import { logout } from '../../../redux/slices/UserSlice';
-import CenteredContainer from '../../ui/layout/CenteredContainer';
 import { MUILayout } from '../../../misc/types/MUI';
 
 enum Pages {
@@ -64,7 +65,7 @@ export default function Navbar() {
           <Link to="/home" style={{ textDecoration: 'none', color: 'white' }}>
             <CenteredContainer>
               <Box height={'40px'}>
-                <img src={"https://fakeapi.platzi.com/_astro/logo.aa139940.png"} alt="logo" />
+                <UiImage src={"https://fakeapi.platzi.com/_astro/logo.aa139940.png"} alt="logo" />
               </Box>
               <Box component={'h3'} marginLeft={1} 
                 sx={{ color: theme === Theme.LIGHT ? 'black' : 'white' }}>

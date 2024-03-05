@@ -9,7 +9,7 @@ import { removeFromCart, updateQuantityInCart } from '../../redux/slices/CartSli
 import UiFormSelects from '../ui/form/UiFormSelects';
 import UiButton from '../ui/button/UiButton';
 import UiDialog from '../ui/UiDialog';
-import UiImage from '../ui/image/UiImage';
+import UiImage from '../ui/UiImage';
 import { MUIButtonVariant, MUIColor, MUISize } from '../../misc/types/MUI';
 import CartItem from '../../misc/types/CartItem';
 import { Product } from '../../misc/types/Product';

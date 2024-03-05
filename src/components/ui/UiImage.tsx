@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import UiBrokenImage from './UiBrokenImage';
+import UiBrokenImage from './image/UiBrokenImage';
 
 type Props = {
   src: string,
@@ -28,8 +28,10 @@ export default function UiImage(props: Props) {
         onError={handleError}
         height={'100%'}
         width={'100%'}
-        style={{ borderRadius: `${borderRadius}px`,
-                 objectFit: 'fill' }} />
+        style={{ 
+          borderRadius: `${borderRadius}px`,
+          objectFit: 'fill' 
+        }} />
     }
     </>
   )
