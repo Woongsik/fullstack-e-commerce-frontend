@@ -152,7 +152,7 @@ export default function Login() {
             {(showSubmittedMessage || error) && <InfoOutlined sx={{ color: error ? 'red' : 'blue', marginRight: 1 }}/>}
             <Box component={'span'} color={error ? 'red' : (showSubmittedMessage ? 'blue' : 'black')}>
               {loading && 'Loading...'}
-              {error &&  'You info is not valid! Please login or signin again...'}
+              {error &&  'Your info is not valid! Please login or signin again...'}
               {showSubmittedMessage && 'Successfully registered! You can login to continue!..'}
             </Box>
           </CenteredContainer>

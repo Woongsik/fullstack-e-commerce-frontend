@@ -1,18 +1,15 @@
-import { Box } from '@mui/material';
-
 import ProductCreateOrUpdate from '../../components/productCreateOrUpdate/ProductCreateOrUpdate';
-import CenteredContainer from '../../components/uis/layout/CenteredContainer';
+import GridContainer from '../../components/uis/layout/GridContainer';
 import { useUserSession } from '../../hooks/useUserSession';
+import { MUILayout } from '../../misc/types/MUI';
 
 export default function ProdcutUpdate() {
   useUserSession();
 
   return (
-    <CenteredContainer width={'75%'}>
-      <Box>
-        <ProductCreateOrUpdate />
-      </Box>
-    </CenteredContainer>
+    <GridContainer alignItems={MUILayout.FLEX_START}>
+      <ProductCreateOrUpdate />
+    </GridContainer>
   )
 }
 

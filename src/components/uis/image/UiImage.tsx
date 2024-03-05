@@ -20,7 +20,7 @@ export default function UiImage(props: Props) {
     <>
     {error ?
       <UiBrokenImage />
-      : 
+      :
       <img
         src={src}
         alt={alt}

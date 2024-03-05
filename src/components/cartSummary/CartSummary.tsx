@@ -31,10 +31,10 @@ export default function CartSummary(props: Props) {
         </Box>
       </Box>
       <Box my={2} display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
-        <Box>Sub total: </Box> <Box> { subTotal }</Box>
+        <Box>Sub total: </Box> <Box> € { subTotal }</Box>
       </Box>
       <Box my={2} display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
-        <Box>Esitmated delivery & handling: </Box> <Box> {deliveryFee}</Box>
+        <Box>Esitmated delivery & handling: </Box> <Box> € {deliveryFee}</Box>
       </Box>
 
       <Divider />

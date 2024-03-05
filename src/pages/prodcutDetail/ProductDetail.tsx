@@ -22,6 +22,7 @@ import CartItem from '../../misc/types/CartItem';
 import CartSliceUtil from '../../redux/utils/CartSliceUtil';
 import GridContainer from '../../components/uis/layout/GridContainer';
 import { useUserSession } from '../../hooks/useUserSession';
+import LoadingBackdrop from '../../components/uis/loading/LoadingBackdrop';
 
 export default function ProudctDetail() {
   const { id } = useParams(); // product id
@@ -31,6 +32,7 @@ export default function ProudctDetail() {
   const [showSnackBar, setShowSnackBar] = useState<boolean>(false);
   const [snackBarMessage, setSnackBarMessage] = useState<string>('');
   const [showDialog, setShowDialog] = useState<boolean>(false);
+  const [showDeletedMessage, setShowDeletedMessage] = useState<boolean>(false);
 
   useUserSession();
   useEffect(() => {
@@ -39,7 +41,7 @@ export default function ProudctDetail() {
     }
   }, [id, dispatch]);
 
-  let product: Product | null = useSelector((state: AppState) => state.productReducer.product);
+  const { product, loading, error }= useSelector((state: AppState) => state.productReducer);
   const user: User | null = useSelector((state: AppState) => state.userReducer.user);
   const cartItems: CartItem[] = useSelector((state: AppState) => state.cartReducer.cartItems); 
 
@@ -90,6 +92,7 @@ export default function ProudctDetail() {
     setShowDialog(false);
     if (proceed && product) {
       await dispatch(deleteProduct(product));
+      setShowDeletedMessage(true);
     }
   }
 
@@ -166,7 +169,7 @@ export default function ProudctDetail() {
               </Typography> 
               <Chip sx={{ my: 1}} label={product.category.name} color="primary" variant='outlined' size={'medium'} />
               <Typography variant='h5' >
-                $ {product.price}
+              € {product.price}
               </Typography>
               <Typography my={5}>
                 {product.description}
@@ -193,12 +196,13 @@ export default function ProudctDetail() {
           </Box>
         </CenteredContainer>
         )
-        : 
-        <CenteredContainer>
+        :
+        ( showDeletedMessage && <CenteredContainer>
           <Typography>
-            Product not existed to show!
+            Successfully the Product is removed or product not existed!
           </Typography>
         </CenteredContainer>
+        )
         }
     </Box>
 
@@ -219,6 +223,8 @@ export default function ProudctDetail() {
         proceedTitle='Delete'
         proceedColor='red'
         onClose={handleDelete}/>
+
+      <LoadingBackdrop loading={loading} />
   </GridContainer>
   )
 }

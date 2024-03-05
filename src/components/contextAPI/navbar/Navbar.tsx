@@ -9,17 +9,20 @@ import {
   ListItem,
   Menu,
   MenuItem,
-  Switch
+  Switch,
+  ToggleButton,
+  ToggleButtonGroup
 } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
+import Brightness6Icon from '@mui/icons-material/Brightness6';
 
 import CenteredContainer from '../../uis/layout/CenteredContainer';
 import UiImage from '../../uis/image/UiImage';
 import { Theme, useTheme } from '../ThemeContext';
 import { AppState, useAppDispatch } from '../../../redux/store';
 import { logout } from '../../../redux/slices/UserSlice';
-import { MUILayout } from '../../../misc/types/MUI';
+import { MUIColor, MUILayout } from '../../../misc/types/MUI';
 
 enum Pages {
   LOGIN = "login",
@@ -33,6 +36,15 @@ export default function Navbar() {
 
   const { theme, toggleTheme } = useTheme();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [alignment, setAlignment] = useState('web');
+
+  const handleChange = (
+    event: React.MouseEvent<HTMLElement>,
+    newAlignment: string,
+  ) => {
+    console.log('change', newAlignment);
+    setAlignment(newAlignment);
+  };
 
   const { user } = useSelector((state: AppState) => state.userReducer);
 
@@ -119,15 +131,18 @@ export default function Navbar() {
             }
           </Menu>
         </ListItem>
-        <ListItem disablePadding sx={{ marginLeft: 1 }}>
-          <Box display={'flex'} alignItems={'center'}>
-            <Switch 
-              color="primary" 
-              checked={theme === Theme.LIGHT}
-              onChange={() => toggleTheme()}
-            />
-            <Box sx={{ color: theme === Theme.LIGHT ? 'black' : 'white' }}>{theme}</Box>
-          </Box>
+
+        <ListItem color='black'>
+          <ToggleButtonGroup
+            color={MUIColor.SUCCESS}
+            value={theme}
+            exclusive
+            onChange={() => toggleTheme()}
+            aria-label="Theme">
+            <ToggleButton value="dark">
+              <Brightness6Icon />
+            </ToggleButton>
+          </ToggleButtonGroup>
         </ListItem>
       </List>
     </CenteredContainer>

@@ -2,18 +2,19 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Backdrop, Box, CircularProgress, TextField } from '@mui/material';
+import { Box, TextField } from '@mui/material';
 
 import Categories from '../cateogries/Categories';
-import UiButton from '../uis/button/UiButton';
 import FileUploader from '../uis/fileUploader/FileUploader';
+import CenteredContainer from '../uis/layout/CenteredContainer';
+import UiRoundButton from '../uis/button/UiRoundButton';
+import LoadingBackdrop from '../uis/loading/LoadingBackdrop';
 import { AppState, useAppDispatch } from '../../redux/store';
 import { registerProduct, updateProduct } from '../../redux/slices/ProductSlice';
 import { apiService } from '../../services/APIService';
-import { MUIButtonType, MUIButtonVariant, MUIColor, MUILayout } from '../../misc/types/MUI';
+import { MUIButtonType, MUIButtonVariant, MUILayout } from '../../misc/types/MUI';
 import { Product, ProductUpdateItem } from '../../misc/types/Product';
 import { UploadedImage } from '../../misc/types/UploadedImage';
-import CenteredContainer from '../uis/layout/CenteredContainer';
 
 type Inputs = {
   title: string,
@@ -164,25 +165,20 @@ export default function ProductCreateOrUpdate(props: Props) {
             register={{...register("categoryId", { required: true, min: 1, max: 99 }) }}
             error={Boolean(errors.categoryId)} />
         </Box>
+
         <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'} my={1}>
           <FileUploader onChange={onFileChange}/>
         </Box>
 
-        <UiButton
+        <UiRoundButton 
+          theme='black'
           variant={MUIButtonVariant.CONTAINED}
-          color={MUIColor.PRIMARY}
           type={MUIButtonType.SUBMIT}>
-          Submit
-        </UiButton>
+            Submit
+        </UiRoundButton>
       </Box>
 
-      <Backdrop
-        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={loading}>
-        <CircularProgress color="inherit" />
-      </Backdrop>
-
-      { loading && <h1>Loading.... </h1>}
+      <LoadingBackdrop loading={loading} />
       { error && <h1>Error: {error} </h1>}
     </CenteredContainer>
   )
