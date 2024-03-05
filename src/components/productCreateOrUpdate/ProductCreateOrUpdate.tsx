@@ -5,8 +5,8 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { Box, TextField } from '@mui/material';
 
 import Categories from '../cateogries/Categories';
-import UiButton from '../ui/button/UiButton';
-import FileUploader from '../ui/fileUploader/FileUploader';
+import UiButton from '../uis/button/UiButton';
+import FileUploader from '../uis/fileUploader/FileUploader';
 import { AppState, useAppDispatch } from '../../redux/store';
 import { registerProduct, updateProduct } from '../../redux/slices/ProductSlice';
 import { apiService } from '../../services/APIService';

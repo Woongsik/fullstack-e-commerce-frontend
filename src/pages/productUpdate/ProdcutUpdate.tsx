@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import ProductCreateOrUpdate from '../../components/productCreateOrUpdate/ProductCreateOrUpdate';
-import CenteredContainer from '../../components/ui/layout/CenteredContainer';
+import CenteredContainer from '../../components/uis/layout/CenteredContainer';
 
 export default function ProdcutUpdate() {
 

@@ -14,8 +14,8 @@ import {
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 
-import CenteredContainer from '../../ui/layout/CenteredContainer';
-import UiImage from '../../ui/UiImage';
+import CenteredContainer from '../../uis/layout/CenteredContainer';
+import UiImage from '../../uis/image/UiImage';
 import { Theme, useTheme } from '../ThemeContext';
 import { AppState, useAppDispatch } from '../../../redux/store';
 import { logout } from '../../../redux/slices/UserSlice';

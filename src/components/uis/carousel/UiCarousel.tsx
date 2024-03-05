@@ -3,7 +3,7 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import './UiCarousel.css';
 import { Box } from '@mui/material';
-import UiImage from '../UiImage';
+import UiImage from '../image/UiImage';
 
 type Props = {
   images: string[],

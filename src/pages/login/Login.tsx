@@ -5,10 +5,10 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { Box, IconButton, InputAdornment, Switch, TextField } from '@mui/material';
 import { InfoOutlined, Visibility, VisibilityOff } from '@mui/icons-material';
 
-import GridContainer from '../../components/ui/layout/GridContainer';
-import CenteredContainer from '../../components/ui/layout/CenteredContainer';
-import UiRoundButton from '../../components/ui/button/UiRoundButton';
-import UiButton from '../../components/ui/button/UiButton';
+import GridContainer from '../../components/uis/layout/GridContainer';
+import CenteredContainer from '../../components/uis/layout/CenteredContainer';
+import UiRoundButton from '../../components/uis/button/UiRoundButton';
+import UiButton from '../../components/uis/button/UiButton';
 import { AppState, useAppDispatch } from '../../redux/store';
 import { getUserWithSession, loginUser, registerUser } from '../../redux/slices/UserSlice';
 import { MUIButtonType, MUIButtonVariant, MUILayout } from '../../misc/types/MUI';

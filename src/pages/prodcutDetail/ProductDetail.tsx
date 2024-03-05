@@ -7,11 +7,11 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 
 import ProductCreateOrUpdate from '../../components/productCreateOrUpdate/ProductCreateOrUpdate';
-import CenteredContainer from '../../components/ui/layout/CenteredContainer';
-import UiCarousel from '../../components/ui/carousel/UiCarousel';
-import UiRoundButton from '../../components/ui/button/UiRoundButton';
-import UiButton from '../../components/ui/button/UiButton';
-import UiDialog from '../../components/ui/UiDialog';
+import CenteredContainer from '../../components/uis/layout/CenteredContainer';
+import UiCarousel from '../../components/uis/carousel/UiCarousel';
+import UiRoundButton from '../../components/uis/button/UiRoundButton';
+import UiButton from '../../components/uis/button/UiButton';
+import UiDialog from '../../components/uis/UiDialog';
 import { AppState, useAppDispatch } from '../../redux/store';
 import { deleteProduct, fetchProduct } from '../../redux/slices/ProductSlice';
 import { addToCart, addToFavorites } from '../../redux/slices/CartSlice';

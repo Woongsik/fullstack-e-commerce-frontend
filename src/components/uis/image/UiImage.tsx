@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import UiBrokenImage from './image/UiBrokenImage';
+import UiBrokenImage from '.UiBrokenImage';
 
 type Props = {
   src: string,
