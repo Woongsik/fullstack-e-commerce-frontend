@@ -10,7 +10,7 @@ type Props = {
 }
 
 export default function UiThumb(props: Props) {
-  const { image, width, height, buttonTitle } = props; 
+  const { image, width, height, buttonTitle, alt } = props; 
   return (
     <Box>
       <Box width={width} height={height} marginRight={2} my={1}>
