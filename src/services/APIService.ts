@@ -5,6 +5,7 @@ import Category from '../misc/types/Category';
 import { LoginUserInfo, RegisterUserInfo, User, UserToken } from '../misc/types/User';
 import { userSlicerUtil } from '../redux/utils/UserSlicerUtil';
 import { UploadedImage } from '../misc/types/UploadedImage';
+import axios, { AxiosResponse } from 'axios';
 
 class ApiService {
   readonly baseURL: string = `${host}/${api}`;
@@ -14,35 +15,35 @@ class ApiService {
   }
 
   public async request<T>(method: string, url: string, data?: any, headers?: any): Promise<T> {
-    try { // Use fetch for testing and mocking server with msw
-      console.log('Send request:', url);
-      const response: Response = await fetch(url, {
-        method: method,
-        headers: headers,
-        body: data
-      });
+    // try { // Use fetch for testing and mocking server with msw
+    //   console.log('Send request:', url);
+    //   const response: Response = await fetch(url, {
+    //     method: method,
+    //     headers: headers,
+    //     body: data
+    //   });
       
-      const jsonResult = await response.json(); 
-      if (!response.ok) { // error handling
-        throw Error(jsonResult);
-      }
+    //   const jsonResult = await response.json(); 
+    //   if (!response.ok) { // error handling
+    //     throw Error(jsonResult);
+    //   }
 
-      return jsonResult;
-    } catch(e) {
-      const error = e as Error;
-      throw new Error(error.message);
-    }
+    //   return jsonResult;
+    // } catch(e) {
+    //   const error = e as Error;
+    //   throw new Error(error.message);
+    // }
 
     /* Originally used axios
        since msw is not supporting axios, changed it to fetch */
-    // const response: AxiosResponse = await axios({
-    //   method: method,
-    //   url: url,
-    //   data: data,
-    //   headers: headers
-    // });
+    const response: AxiosResponse = await axios({
+      method: method,
+      url: url,
+      data: data,
+      headers: headers
+    });
 
-    // return response.data;
+    return response.data;
   }
 
   public getProducts(filter: Filter): Promise<Product[]> {

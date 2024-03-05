@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Box, TextField } from '@mui/material';
+import { Backdrop, Box, CircularProgress, TextField } from '@mui/material';
 
 import Categories from '../cateogries/Categories';
 import UiButton from '../uis/button/UiButton';
@@ -10,9 +10,10 @@ import FileUploader from '../uis/fileUploader/FileUploader';
 import { AppState, useAppDispatch } from '../../redux/store';
 import { registerProduct, updateProduct } from '../../redux/slices/ProductSlice';
 import { apiService } from '../../services/APIService';
-import { MUIButtonType, MUIButtonVariant, MUIColor } from '../../misc/types/MUI';
+import { MUIButtonType, MUIButtonVariant, MUIColor, MUILayout } from '../../misc/types/MUI';
 import { Product, ProductUpdateItem } from '../../misc/types/Product';
 import { UploadedImage } from '../../misc/types/UploadedImage';
+import CenteredContainer from '../uis/layout/CenteredContainer';
 
 type Inputs = {
   title: string,
@@ -33,7 +34,7 @@ export default function ProductCreateOrUpdate(props: Props) {
 
   const { product } = props;
   const baseCategoryId: number = product ? product.category.id : 0;
-  const { loading , error } = useSelector((state: AppState) => state.productReducer);
+  const { loading, error } = useSelector((state: AppState) => state.productReducer);
   const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
   
   const [categoryId, setCategoryId] = useState<number>(baseCategoryId);
@@ -47,7 +48,7 @@ export default function ProductCreateOrUpdate(props: Props) {
   }
 
   const fetchToRegisterProduct = async (data: Inputs, uploadedImages: string[]) => {
-    await dispatch(registerProduct({
+    const result = await dispatch(registerProduct({
       title: data.title,
       price: data.price,
       description: data.description,
@@ -55,13 +56,10 @@ export default function ProductCreateOrUpdate(props: Props) {
       images: uploadedImages
     }));
 
-    if (!error) {
-      navigate('/home');
+    const newProduct: Product = result.payload as Product;
+    if (!error && newProduct) {
+      navigate(`/product/${newProduct.id}`);
     }
-  }
-
-  const deleteImage = (index: number) => {
-
   }
 
   const createNewProduct = async (data: Inputs) => {
@@ -87,7 +85,7 @@ export default function ProductCreateOrUpdate(props: Props) {
       title: data.title,
       price: data.price,
       description: data.description,
-      categoryId: 2
+      categoryId: data.categoryId
     }
 
     if (product) {
@@ -119,16 +117,21 @@ export default function ProductCreateOrUpdate(props: Props) {
   }
 
   return (
-    <Box>
-      <h1>{product ? `Edit Product` : `Create Product`}</h1>
+    <CenteredContainer 
+      width={'50%'}
+      alignItems={MUILayout.FLEX_START}
+      sx={{ minWidth: '300px'}}>
       <Box 
         component="form"
-        sx={{'& .MuiTextField-root': { m: 1, width: '45ch' } }}
+        width={'100%'}
+        sx={{'& .MuiTextField-root': { m: 1, width: '100%' } }}
         onSubmit={handleSubmit(onSubmit)}>
+
+        <h1>{product ? `Edit Product` : `Create Product`}</h1>
         
         <Box my={1}>
           <TextField
-            {...register("title", { required: true, pattern: /^[A-Za-z0-9?.,=_@\- ]+$/i }) }
+            {...register("title", { required: true, pattern: /^[A-Za-z0-9?.,=_@&\- ]+$/i }) }
             error={Boolean(errors.title)}
             label="Product name"
             defaultValue={product ? product.title : ''}
@@ -145,7 +148,7 @@ export default function ProductCreateOrUpdate(props: Props) {
         </Box>
         <Box my={1}>
           <TextField
-            {...register("description", { required: true, pattern: /^[A-Za-z0-9?.,=_@\- ]+$/i }) }
+            {...register("description", { required: true, pattern: /^[A-Za-z0-9?.,=_@&\- ]+$/i }) }
             error={Boolean(errors.description)}
             label="Product description"
             multiline
@@ -153,28 +156,16 @@ export default function ProductCreateOrUpdate(props: Props) {
             defaultValue={product ? product.description : ''}
             helperText={errors.description && 'Incorrect description! Accept special character only ?.,=-_@'} />       
         </Box>
-        <Box my={1}>
+        <Box my={1} marginLeft={1}>
           <Categories 
             selectedCategoryId={categoryId}
-            onCategoryChanged={onCategoryChanged} />
-            <TextField sx={{ display: 'block'}} // hidden
-              {...register("categoryId", {required: true, pattern: /^[1-9]+$/i })}
-              error={Boolean(errors.categoryId)}
-              value={categoryId}
-              helperText={errors.categoryId && 'Incorrect category'} />  
+            onCategoryChanged={onCategoryChanged}
+            helpertext={'Please select a category'}
+            register={{...register("categoryId", { required: true, min: 1, max: 99 }) }}
+            error={Boolean(errors.categoryId)} />
         </Box>
         <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'} my={1}>
           <FileUploader onChange={onFileChange}/>
-
-          {/* show  exited images */}
-          {/* {product?.images.map((image: string, index: number) => {
-          return <UiThumb 
-            image={image}
-            width={50}
-            height={50}
-            buttonTitle='Delete'
-            onClick={() => deleteUploadedImage(index)} />
-          })} */}
         </Box>
 
         <UiButton
@@ -185,8 +176,14 @@ export default function ProductCreateOrUpdate(props: Props) {
         </UiButton>
       </Box>
 
-      { loading && <h1>Error: {error} </h1>}
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loading}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
+
+      { loading && <h1>Loading.... </h1>}
       { error && <h1>Error: {error} </h1>}
-    </Box>
+    </CenteredContainer>
   )
 }

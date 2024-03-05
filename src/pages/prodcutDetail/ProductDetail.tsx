@@ -15,11 +15,12 @@ import UiDialog from '../../components/uis/UiDialog';
 import { AppState, useAppDispatch } from '../../redux/store';
 import { deleteProduct, fetchProduct } from '../../redux/slices/ProductSlice';
 import { addToCart, addToFavorites } from '../../redux/slices/CartSlice';
-import { MUIButtonVariant, MUIColor } from '../../misc/types/MUI';
+import { MUIButtonVariant, MUIColor, MUILayout } from '../../misc/types/MUI';
 import { Product } from '../../misc/types/Product';
 import { User, UserRole } from '../../misc/types/User';
 import CartItem from '../../misc/types/CartItem';
 import CartSliceUtil from '../../redux/utils/CartSliceUtil';
+import GridContainer from '../../components/uis/layout/GridContainer';
 
 export default function ProudctDetail() {
   const { id } = useParams(); // product id
@@ -36,7 +37,7 @@ export default function ProudctDetail() {
     }
   }, [id, dispatch]);
 
-  const product: Product | null = useSelector((state: AppState) => state.productReducer.product);
+  let product: Product | null = useSelector((state: AppState) => state.productReducer.product);
   const user: User | null = useSelector((state: AppState) => state.userReducer.user);
   const cartItems: CartItem[] = useSelector((state: AppState) => state.cartReducer.cartItems); 
 
@@ -76,7 +77,7 @@ export default function ProudctDetail() {
   };
 
   const handleBack = () => {
-    navigate(-1);
+    navigate("/home");
   }
 
   const askToDelete = () => {
@@ -92,10 +93,6 @@ export default function ProudctDetail() {
 
   const toggleEdit = () => {
     setEditMode(!editMode);
-  }
-
-  const onCategoryChanged = (categoryId: number) => {
-    console.log('category chagned');
   }
 
   const handleUpdateDone = () => {
@@ -117,8 +114,8 @@ export default function ProudctDetail() {
   }
 
   return (
-    <Box component={'div'}>
-      <Box component={'div'} sx={{ my: 1 }}>
+    <GridContainer alignItems={MUILayout.FLEX_START}>
+      <Box width={'100%'}>
         <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'} width={'100%'}>
           <IconButton onClick={() => handleBack()}>
             <ArrowCircleLeftIcon sx={{ fontSize: 40, color: 'black' }} />
@@ -148,19 +145,19 @@ export default function ProudctDetail() {
         
       {product ?
         (editMode ? 
-          <CenteredContainer margin={'0 10px'}>
+          <CenteredContainer margin={'0 10px'} alignItems={MUILayout.FLEX_START}>
             <ProductCreateOrUpdate 
               product={product}
               onUpdate={handleUpdateDone}/> 
           </CenteredContainer>
         :
-        <Box component={'div'} display={'flex'} alignItems={'flex-start'} margin={'0 10px'}>
-          <Box maxWidth={800} width={'50%'}>
+        <CenteredContainer alignItems={MUILayout.FLEX_START} justifyContent={MUILayout.SPACE_BETWEEN} margin={'0 10px'}>
+          <Box width={'50%'} minWidth={'350px'}>
             <UiCarousel 
               images={product.images}
               alt={product.title} />
           </Box>
-          <Box component={'div'} marginLeft={5} overflow={'auto'} height={'77vh'}>
+          <Box component={'div'} overflow={'auto'} width={'45%'} minWidth={'350px'}>
             <Box component={'div'}>              
               <Typography variant='h4'>
                 {product.title}
@@ -192,14 +189,14 @@ export default function ProudctDetail() {
               </UiRoundButton>
             </Box>
           </Box>
-        </Box>
+        </CenteredContainer>
         )
         : 
-        <Box display={'flex'} justifyContent={'center'}>
+        <CenteredContainer>
           <Typography>
             Product not existed to show!
           </Typography>
-        </Box>
+        </CenteredContainer>
         }
     </Box>
 
@@ -220,7 +217,7 @@ export default function ProudctDetail() {
         proceedTitle='Delete'
         proceedColor='red'
         onClose={handleDelete}/>
-  </Box>
+  </GridContainer>
   )
 }
 

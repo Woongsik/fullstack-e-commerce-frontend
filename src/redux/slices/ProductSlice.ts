@@ -108,7 +108,8 @@ const productSlice = createSlice({
           products: [],
           sortedProducts: [],
           total: 0,
-          loading: true
+          loading: true,
+          error: undefined
         }
       }).addCase(fetchProducts.rejected, (state, action) => {
         return {
@@ -129,8 +130,9 @@ const productSlice = createSlice({
       }).addCase(fetchProduct.pending, (state, action) => {
         return {
           ...state,
+          product: null,
           loading: true,
-          product: null
+          error: undefined
         }
       }).addCase(fetchProduct.rejected, (state, action) => {
         return {
@@ -140,7 +142,7 @@ const productSlice = createSlice({
         }
       });
 
-      builder.addCase(registerProduct.fulfilled, (state, action) => {
+      builder.addCase(registerProduct.fulfilled, (state, action: PayloadAction<Product>) => {
         const imageCheckedProduct: Product = ProductSliceUtils.checkImagesForProduct(action.payload)
         return {
           ...state,
@@ -150,14 +152,16 @@ const productSlice = createSlice({
       }).addCase(registerProduct.pending, (state, action) => {
         return {
           ...state,
-          loading: true        
+          product: null,
+          loading: true,
+          error: undefined        
         }
       }).addCase(registerProduct.rejected, (state, action) => {
         return {
-            ...state,
-            loading: false,
-            error: action.error.message ?? "Unkown error..."
-          }
+          ...state,
+          loading: false,
+          error: action.error.message ?? "Unkown error..."
+        }
       });
 
       builder.addCase(updateProduct.fulfilled, (state, action) => {
@@ -170,13 +174,16 @@ const productSlice = createSlice({
       }).addCase(updateProduct.pending, (state, action) => {
         return {
           ...state,
-          loading: true        }
+          product: null,
+          loading: true,
+          error: undefined        
+        }
       }).addCase(updateProduct.rejected, (state, action) => {
         return {
-            ...state,
-            loading: false,
-            error: action.error.message ?? "Unkown error..."
-          }
+          ...state,
+          loading: false,
+          error: action.error.message ?? "Unkown error..."
+        }
       });
 
       builder.addCase(deleteProduct.fulfilled, (state, action) => {
@@ -188,7 +195,8 @@ const productSlice = createSlice({
       }).addCase(deleteProduct.pending, (state, action) => {
         return {
           ...state,
-          loading: true        
+          loading: true,
+          error: undefined        
         }
       }).addCase(deleteProduct.rejected, (state, action) => {
         return {

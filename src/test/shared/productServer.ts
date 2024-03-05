@@ -9,9 +9,9 @@ export const handler = [
   http.get('https://api.escuelajs.co/api/v1/products', ({ request }) => {
     if (request.url.includes('products/')) {
       console.log('with something');
-      return HttpResponse.json(mockProducts[0]);
+      // return HttpResponse.json(mockProducts[0]);
     }
-    
+
     return HttpResponse.json(mockProducts);  // fetch all products 
   })
 ];

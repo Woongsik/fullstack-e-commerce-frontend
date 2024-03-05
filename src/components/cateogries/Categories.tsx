@@ -11,6 +11,9 @@ import UiFormSelects from '../uis/form/UiFormSelects';
 type Props = {
   selectedCategoryId?: number;
   onCategoryChanged: (categoryId: number) => void;
+  register?: any;
+  error?: boolean;
+  helpertext?: string;
 };
 
 export default function Categories(props: Props) {
@@ -37,9 +40,12 @@ export default function Categories(props: Props) {
   }
 
   return (
-    <Box display="flex" justifyContent="flex-end" alignItems="center" overflow="auto" padding="10px">
+    <Box width={'100%'}>
       { loading ? <CircularProgress /> : 
       <UiFormSelects 
+        register={props.register}
+        error={props.error}
+        helpertext={props.helpertext}
         title='Categories'
         selectedValue={selectedCategoryId?.toString()}
         items={fixedCategories}
