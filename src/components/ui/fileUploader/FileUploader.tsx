@@ -83,6 +83,7 @@ export default function FileUploader(props: Props) {
         <UiThumb 
           key={index}
           image={preview as string}
+          alt={`preview_${index}`}
           width={50}
           height={50}
           buttonTitle='Delete'

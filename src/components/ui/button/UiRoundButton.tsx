@@ -1,8 +1,5 @@
-import React, { ReactNode } from 'react'
+import { ReactNode } from 'react'
 import { MUIButtonType, MUIButtonVariant, MUISize } from '../../../misc/types/MUI';
-import { type } from '@testing-library/user-event/dist/type';
-import { size } from 'lodash';
-import { title } from 'process';
 import UiButton from './UiButton';
 
 type Props = {
@@ -27,9 +24,9 @@ export default function UiRoundButton(props: Props) {
       customStyle={{ 
         width: '100%', 
         padding: '10px 20px', 
-        color: theme == 'black' ? 'white' : 'black',
-        backgroundColor: theme == 'black' ? 'black' : 'white',
-        borderColor: theme == 'black' ? '' : 'black',
+        color: theme === 'black' ? 'white' : 'black',
+        backgroundColor: theme === 'black' ? 'black' : 'white',
+        borderColor: theme === 'black' ? '' : 'black',
         border: theme === 'black' ? '' : '1px solid',
         margin: margin  }}
         onClick={props.onClick}>

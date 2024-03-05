@@ -2,6 +2,7 @@ import { Box } from '@mui/material'
 
 type Props = {
   image: (string | ArrayBuffer | null);
+  alt?: string;
   width: number;
   height: number;
   buttonTitle: string;
@@ -13,7 +14,7 @@ export default function UiThumb(props: Props) {
   return (
     <Box>
       <Box width={width} height={height} marginRight={2} my={1}>
-        <img src={image as string} width={'100%'} height={'100%'} />
+        <img src={image as string} width={'100%'} height={'100%'} alt={alt} />
       </Box>
       <button onClick={() => props.onClick()}>{buttonTitle}</button>
     </Box>
