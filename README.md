@@ -1,50 +1,92 @@
-# Frontend project
+<a name="intro"></a>
+# Introduction
+   Deveoping a e-commerce web site using open api, [platzi store](https://fakeapi.platzi.com/).
+   This api provids wide range of stuff that is used in real e-commerce web site.
+   ie. able to get all the products or find a product with title, price, category parameters.
+   also allow us to register/update product as a admin role. (including file image upload to server well) 
 
-This repository for the Frontend project to build an e-commerce website.
+   JWT is also avaialbe for user session, the access token is valid for 20 days, and the refresh token is valid for 10 hours.
+   Once you are logged in, JWT token is saved in localStroage and will be used for user session.
 
-## Requirements
+   You can check out here [super cool shopping](https://super-cool-shopping.netlify.app)
 
-### Basic requirements
+<a name="table_of_contents"/>
+## Table of Contents
+   For long READMEs, it’s helpful to have a table of contents to navigate through different sections.
+   [Introduction](#intro)
+   [Table of Contents](#table_of_contents)
+   [Getting Started](#getting_started)
+      - [Prerequisites](#prerequisites)
+      - [Clone the project](#clone)
+      - [Install and run](#install)
+      - [Navgiate](#navigate)
+   [Usage](#usage)
+      - [Architecture and Design](#architecture_design)
+      - [Testing](#testing)
+      - [Deployment](#deployment)
 
-The Front end project must use TypeScript and Redux toolkit.
+<a name="getting_started"/>
+## Getting Started
+   Prerequisites: List the software, tools, and versions you need to run the project.
+   Installation:Clone the repo: Provide the git command to clone your project.
+   Set up the environment: Mention if there are any environment variables to set, config files to update, etc.
+   Installation steps: Detailed steps to install dependencies, for example using npm install or yarn.
 
-1. Use the API endpoint `https://fakeapi.platzi.com/`.
+   <a name="prerequisites"/>
+   ### Prerequisites
+   - node `^19.2.0`
+   - npm `^9.2.0`
+   Make sure you have [npm](https://www.npmjs.com/get-npm) installed globally.
 
-2. Create at lease 4 pages (can be more if you want): Page for all products, product page, profile page (only available if user logins), and cart page (cart page could be a page or a modal)
+   <a name="clone"/>
+   #### 1.Clone the project:
+   ```bash
+   $ git clone https://github.com/Woongsik/fs17-Frontend-project.git
+   $ cd fs17-Frontend-project
+   ```
+   <a name="intall"/>
+   #### 2.Install and run:
 
-3. Create Redux store for following features:
+   ```bash
+   $ npm install   # Install project dependencies
+   $ npm start     # Compile and launch on local environment
+   ```
 
-   - product reducer: get all products, find a single products, filter products by categories, sort products by price. Create, update and delete a product (enable update & delete features only for admin of the webapp)
-   - user reducer: register and login
-   - cart reducer: add product to cart, remove products, update products's quantity in cart
+   <a name="navigate"/>
+   #### 3. Navigate to [http://localhost:3000](http://localhost:3000)
 
-4. When adding routers to your application, set certain routes to be private. For example, route to user profile page should not be accessible if user has not logged in.
 
-5. Styling: must have responsive
+<a name="usage"/>
+# Usage:
+   Scripts: List the available scripts in package.json like start, build, test, and what they do.
+   Features: Break down the main features of your application and how to use them.
+   Screenshots or GIFs: Visual aids can help users quickly understand what the project looks like in action.
+   
+   <a name="architecture_design"/>
+   # Architecture & Design:
+   Folder Structure: Briefly explain the organization of important directories and files.
+   Data Flow: Describe how data flows in the application, especially if you’re using tools like Redux or Context API.
+   Component Structure: Explain the main components and their relationships, possibly using a diagram.
+   
+   <a name="testing"/>
+   # Testing:
+   Mention the testing libraries/frameworks used.
+   Explain how to run tests.
+   If applicable, describe the structure of your tests (unit, integration, end-to-end).
+   
+   Testing code is done by _Jest_
+   This stage, all the reducers tested (productSlice, userSlice, cartSlice, categorySlice)
+   Total 70 tests runs and succeeded.
+   Testing code src/test/reducers
+   ```bash
+   $ npm test   # Test
+   ```
 
-6. Implement unit testing for the reducers
 
-7. **Deploy** the application and rewrite README file.
+   <a name="deployment"/>
+   # Deployment:
+   Detail the steps required for deploying the project to a server.
+   Mention any specific hosting platforms, CI/CD pipelines, or other tools used.
 
-### Additional features:
-
-- Use Context API to switch theme
-- Use pagination when fetching/displaying all the products
-- Implement performance optimization where applicable
-
-## Grading (1-5)
-
-1: Late submission or not complete basic requirements
-
-2: Basic requirement + Presentation
-
-3: Folder structure + follow convention(naming convention ,loading, error) + some additional features
-
-4: All additional features + reusable logic + custom hook
-
-5: UI-UX (for example: send alert when user add same product) + styling (animation or transition, scroll to top) + advanced feature (google log in)
-
-## Deadline
-
-- Presentation: **7/3** and **8/3/ 2024**
-- Submitting Front-end project **10am 8/3/2024**
+   (Netlify)[https://www.netlify.com/] is used for the deployment/hosting. 
+   Use the continuous 
