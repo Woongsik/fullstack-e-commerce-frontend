@@ -25,26 +25,27 @@
       - [Testing](#testing)
       - [Deployment](#deployment)
 
-<a name="getting_started"/>
+<a name="getting_started"></a>
 ## Getting Started
    Prerequisites: List the software, tools, and versions you need to run the project.
    Installation:Clone the repo: Provide the git command to clone your project.
    Set up the environment: Mention if there are any environment variables to set, config files to update, etc.
    Installation steps: Detailed steps to install dependencies, for example using npm install or yarn.
 
-   <a name="prerequisites"/>
+   <a name="prerequisites"></a>
    ### Prerequisites
    - node `^19.2.0`
    - npm `^9.2.0`
    Make sure you have [npm](https://www.npmjs.com/get-npm) installed globally.
 
-   <a name="clone"/>
+   <a name="clone"></a>
    #### 1.Clone the project:
    ```bash
    $ git clone https://github.com/Woongsik/fs17-Frontend-project.git
    $ cd fs17-Frontend-project
    ```
-   <a name="intall"/>
+   
+   <a name="install"></a>
    #### 2.Install and run:
 
    ```bash
@@ -52,23 +53,23 @@
    $ npm start     # Compile and launch on local environment
    ```
 
-   <a name="navigate"/>
+   <a name="navigate"></a>
    #### 3. Navigate to [http://localhost:3000](http://localhost:3000)
 
 
-<a name="usage"/>
+<a name="usage"></a>
 # Usage:
    Scripts: List the available scripts in package.json like start, build, test, and what they do.
    Features: Break down the main features of your application and how to use them.
    Screenshots or GIFs: Visual aids can help users quickly understand what the project looks like in action.
    
-   <a name="architecture_design"/>
+   <a name="architecture_design"></a>
    # Architecture & Design:
    Folder Structure: Briefly explain the organization of important directories and files.
    Data Flow: Describe how data flows in the application, especially if you’re using tools like Redux or Context API.
    Component Structure: Explain the main components and their relationships, possibly using a diagram.
    
-   <a name="testing"/>
+   <a name="testing"></a>
    # Testing:
    Mention the testing libraries/frameworks used.
    Explain how to run tests.
@@ -83,7 +84,7 @@
    ```
 
 
-   <a name="deployment"/>
+   <a name="deployment"></a>
    # Deployment:
    Detail the steps required for deploying the project to a server.
    Mention any specific hosting platforms, CI/CD pipelines, or other tools used.
