@@ -15,7 +15,7 @@ export default function ProductList(props: Props) {
 
   return (
     <Box component={'div'} margin={1}> 
-      <Grid container spacing={2}>
+      <Grid container spacing={2} justifyContent={'center'}>
         {products.map((product: Product) => 
         <Grid item key={product.id}>
           <ProductCard product={product} />

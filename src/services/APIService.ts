@@ -38,6 +38,7 @@ class ApiService {
 
     /* Originally used axios
        since msw is not supporting axios */
+    console.log('Send request:', method, url);
     const response: AxiosResponse = await axios({
       method: method,
       url: url,

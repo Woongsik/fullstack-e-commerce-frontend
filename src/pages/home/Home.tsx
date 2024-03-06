@@ -45,7 +45,6 @@ export default function Home() {
   useEffect(() => { // For the filter changed
     dispatch(updateFilter(filter));
     dispatch(fetchProducts(filter));
-    console.log('fetch products', filter);
   }, [filter, dispatch]);
   
   const onTextChanged = (text: string): void => {
@@ -95,7 +94,6 @@ export default function Home() {
 
   return (
     <GridContainer alignItems={MUILayout.FLEX_START}>
-
       <CenteredContainer alignItems={MUILayout.FLEX_START} width='75%' sx={{ minWidth: '300px', overflow: 'auto', margin: '50px 0' }}>
         <ProductList products={products} />
         <PageNavigation 

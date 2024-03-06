@@ -97,6 +97,7 @@ const productSlice = createSlice({
   extraReducers(builder: ActionReducerMapBuilder<InitialState>) {
       builder.addCase(fetchProducts.fulfilled, (state, action) => {
         const filteredProducts: FilteredProducts = ProductSliceUtils.getTotalAndImageCheckedProducts(action.payload, state.filter, state.total, state.minMaxPrice);
+        
         return {
           ...state,
           products: filteredProducts.products,
@@ -110,16 +111,15 @@ const productSlice = createSlice({
           ...state,
           products: [],
           sortedProducts: [],
-          total: 0,
           loading: true,
           error: undefined
         }
       }).addCase(fetchProducts.rejected, (state, action) => {
         return {
-            ...state,
-            loading: false,
-            error: action.error.message ?? "Unkown error..."
-          }
+          ...state,
+          loading: false,
+          error: action.error.message ?? "Unkown error..."
+        }
       });
 
       builder.addCase(fetchProduct.fulfilled, (state, action) => {
