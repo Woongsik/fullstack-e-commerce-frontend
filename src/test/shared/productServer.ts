@@ -3,7 +3,8 @@
 import { http, HttpResponse } from "msw";
 import { setupServer } from "msw/node";
 
-import { mockCategories, mockProducts } from "../redux/ProductsReducer.test";
+import { mockProducts } from "../redux/ProductsReducer.test";
+import { mockCategories } from "../redux/CategoryReducer.test";
 import { Product, ProductRegister, ProductUpdateItem } from "../../misc/types/Product";
 import Category from "../../misc/types/Category";
 import { getUrlAsObject } from "../../utils/Urls";

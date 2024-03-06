@@ -8,7 +8,7 @@
    JWT is used for user session, the access token is valid for 20 days, and the refresh token is valid for 10 hours.
    Once you are logged in, JWT token is saved in localStroage and will be used for user session.
 
-   You can check out here [super cool shopping](https://super-cool-shopping.netlify.app)
+   You can check out here [Live link](https://super-cool-shopping.netlify.app)
 
 <a name="table_of_contents"></a>
 ## Table of Contents
@@ -127,7 +127,7 @@
    Just comment axios and remove fetch's comment.
 
    Currently all the reducers tested (productSlice, userSlice, cartSlice, categorySlice)
-   Total 128 tests runs and succeeded in 7 tst suites.
+   Total 140 tests runs and passed in 7 test suites.
 
    Testing code src/test/redux
    Testing server src/test/shared

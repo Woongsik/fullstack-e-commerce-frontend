@@ -56,7 +56,6 @@ const getTotalAndImageCheckedProducts = (products: Product[], filter?: Filter, p
     if (minMaxPrice.length === 0) { // Only set one time
       const newProducts: Product[] = [...products];
       newProducts.sort((a, b) => a.price > b.price ? 1 : -1);
-      console.log('price', newProducts[0].price, newProducts[newProducts.length -1].price)
       minMaxPrice = [newProducts[0].price, newProducts[newProducts.length -1].price];
     }
   }

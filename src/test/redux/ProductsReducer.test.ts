@@ -72,7 +72,7 @@ export const mockProducts: Product[] = [
   },
 ];
 
-export const mockCategories: Category[] = [
+const mockCategories: Category[] = [
   {
     id: 1,
     name: "Category 1",
