@@ -12,8 +12,9 @@ import UiButton from '../../components/uis/button/UiButton';
 import { AppState, useAppDispatch } from '../../redux/store';
 import { getUserWithSession, loginUser, registerUser } from '../../redux/slices/UserSlice';
 import { MUIButtonType, MUIButtonVariant, MUILayout } from '../../misc/types/MUI';
-import { UserRole } from '../../misc/types/User';
+import { UserRole, UserToken } from '../../misc/types/User';
 import { useUserSession } from '../../hooks/useUserSession';
+import { userSlicerUtil } from '../../redux/utils/UserSlicerUtil';
 
 type Inputs = {
   name: string
@@ -47,7 +48,10 @@ export default function Login() {
         password: data.password
       }));
 
-      await dispatch(getUserWithSession());
+      const tokens: UserToken | null = userSlicerUtil.getTokensToLocalStorage();
+      if (tokens) {
+        await dispatch(getUserWithSession(tokens));
+      }
     } else {
       await dispatch(registerUser({
         name: data.name,
@@ -150,11 +154,11 @@ export default function Login() {
           </CenteredContainer>
           
           <CenteredContainer margin={'30px 0'}>
-            {(showSubmittedMessage || error) && <InfoOutlined sx={{ color: error ? 'red' : 'blue', marginRight: 1 }}/>}
+            {(!loading && (showSubmittedMessage || error)) && <InfoOutlined sx={{ color: error ? 'red' : 'blue', marginRight: 1 }}/>}
             <Box component={'span'} color={error ? 'red' : (showSubmittedMessage ? 'blue' : 'black')}>
               {loading && 'Loading...'}
-              {error &&  'Your info is not valid! Please login or signin again...'}
-              {showSubmittedMessage && 'Successfully registered! You can login to continue!..'}
+              {(!loading && error) &&  'Your info is not valid! Please login or signin again...'}
+              {(!loading && showSubmittedMessage) && 'Successfully registered! You can login to continue!..'}
             </Box>
           </CenteredContainer>
         </Box>

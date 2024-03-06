@@ -68,7 +68,7 @@ describe("User reducer with mocking server: login user", () => {
       const savedTokens: UserToken | null = userSlicerUtil.getTokensToLocalStorage();
       expect(savedTokens).toEqual(userToken);
 
-      await store.dispatch(getUserWithSession());
+      await store.dispatch(getUserWithSession(userToken));
       const { user, error, loading } = store.getState().userReducer;
 
       expect(user).toEqual(registeredInfo);

@@ -3,7 +3,6 @@ import Filter from '../misc/types/Filter';
 import { Product, ProductRegister, ProductUpdateItem } from '../misc/types/Product';
 import Category from '../misc/types/Category';
 import { LoginUserInfo, RegisterUserInfo, User, UserToken } from '../misc/types/User';
-import { userSlicerUtil } from '../redux/utils/UserSlicerUtil';
 import { UploadedImage } from '../misc/types/UploadedImage';
 import axios, { AxiosResponse } from 'axios';
 
@@ -15,21 +14,22 @@ class ApiService {
   }
 
   public async request<T>(method: string, url: string, data?: any, headers?: any): Promise<T> {
-    // try { // Use fetch for testing and mocking server with msw
+    // Use fetch for testing and mocking server with msw
+    // Please remove comment for testing
+    // try { 
     //   console.log('Send request:', method, url);
     //   const response: Response = await fetch(url, {
     //     method: method,
     //     headers: headers,
     //     body: data ? JSON.stringify(data) : ''
     //   });
-    //   console.log('fetch', response);
       
     //   const jsonResult = await response.json(); 
+    //   console.log('json result', response.ok, jsonResult)
     //   if (!response.ok) { // error handling
     //     throw Error(jsonResult);
     //   }
 
-    //   console.log('response', jsonResult);
     //   return jsonResult;
     // } catch(e) {
     //   const error = e as Error;
@@ -37,7 +37,7 @@ class ApiService {
     // }
 
     /* Originally used axios
-       since msw is not supporting axios, changed it to fetch */
+       since msw is not supporting axios */
     const response: AxiosResponse = await axios({
       method: method,
       url: url,
@@ -109,9 +109,8 @@ class ApiService {
     return this.request<UserToken>('post', url, loginInfo);
   }
 
-  public getUserWithSession(): Promise<User | null> {
+  public getUserWithSession(tokens: UserToken): Promise<User> {
     const url: string = this.generateUrl("auth/profile");
-    const tokens: UserToken | null = userSlicerUtil.getTokensToLocalStorage();
     const headers = {
       Authorization : `Bearer ${tokens?.access_token ?? ''}`
     }
@@ -119,7 +118,7 @@ class ApiService {
     if (tokens) {
       return this.request<User>('GET', url, undefined, headers);
     }
-    return Promise.resolve(null);
+    return Promise.reject(new Error('User session is not valid'));
   }
 
   public fetchProductImages(formData: FormData): Promise<UploadedImage> {

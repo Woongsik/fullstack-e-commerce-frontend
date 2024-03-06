@@ -129,6 +129,7 @@ describe("Products reducer: update Filter", () => {
       sortedProducts: mockProducts,
       filter: newFilter,
       total: 0,
+      minMaxPrice: []
     });
   });
 });
@@ -157,6 +158,7 @@ describe("Products reducer: sort by", () => {
       products: mockProducts,
       sort: sort,
       total: 0,
+      minMaxPrice: [],
       sortedProducts: ProductSliceUtils.sortProducts(mockProducts, sort)
     });
   });
@@ -203,6 +205,7 @@ describe("Products reducer: fetchProducts", () => {
       sortedProducts: [],
       product: null,
       total: 0,
+      minMaxPrice: [],
       loading: true    
     });
   });
@@ -220,6 +223,7 @@ describe("Products reducer: fetchProducts", () => {
       sortedProducts: [],
       product: null,
       total: 0,
+      minMaxPrice: [],
       loading: false,
       error: error.message 
     });
@@ -247,6 +251,7 @@ describe("Products reducer: fetchProduct", () => {
       products: [],
       sortedProducts: [],
       total: 0,
+      minMaxPrice: [],
       product: imageCheckedProduct,
       loading: false     
     });
@@ -263,6 +268,7 @@ describe("Products reducer: fetchProduct", () => {
       products: [],
       sortedProducts: [],
       total: 0,
+      minMaxPrice: [],
       product: null,
       loading: true    
     });
@@ -280,6 +286,7 @@ describe("Products reducer: fetchProduct", () => {
       products: [],
       sortedProducts: [],
       total: 0,
+      minMaxPrice: [],
       product: null,
       loading: false,
       error: error.message 
@@ -322,6 +329,7 @@ describe("Products reducer: registerProduct", () => {
       products: [],
       sortedProducts: [],
       total: 0,
+      minMaxPrice: [],
       product: imageCheckedProduct,
       loading: false     
     });
@@ -338,6 +346,7 @@ describe("Products reducer: registerProduct", () => {
       products: [],
       sortedProducts: [],
       total: 0,
+      minMaxPrice: [],
       product: null,
       loading: true    
     });
@@ -355,6 +364,7 @@ describe("Products reducer: registerProduct", () => {
       products: [],
       sortedProducts: [],
       total: 0,
+      minMaxPrice: [],
       product: null,
       loading: false,
       error: error.message 
@@ -395,6 +405,7 @@ describe("Products reducer: updateProduct", () => {
       products: [],
       sortedProducts: [],
       total: 0,
+      minMaxPrice: [],
       product: imageCheckedProduct,
       loading: false     
     });
@@ -411,6 +422,7 @@ describe("Products reducer: updateProduct", () => {
       products: [],
       sortedProducts: [],
       total: 0,
+      minMaxPrice: [],
       product: null,
       loading: true    
     });
@@ -428,6 +440,7 @@ describe("Products reducer: updateProduct", () => {
       products: [],
       sortedProducts: [],
       total: 0,
+      minMaxPrice: [],
       product: null,
       loading: false,
       error: error.message 
@@ -455,6 +468,7 @@ describe("Products reducer: deleteProduct", () => {
       products: [],
       sortedProducts: [],
       total: 0,
+      minMaxPrice: [],
       product: null,
       loading: false     
     });
@@ -471,6 +485,7 @@ describe("Products reducer: deleteProduct", () => {
       products: [],
       sortedProducts: [],
       total: 0,
+      minMaxPrice: [],
       product: null,
       loading: true    
     });
@@ -488,6 +503,7 @@ describe("Products reducer: deleteProduct", () => {
       products: [],
       sortedProducts: [],
       total: 0,
+      minMaxPrice: [],
       product: null,
       loading: false,
       error: error.message 

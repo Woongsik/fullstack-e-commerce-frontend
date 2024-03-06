@@ -143,7 +143,7 @@ describe("User reducer:  user with session", () => {
     
     const state: InitialState = userReducer(
       initialState,
-      getUserWithSession.fulfilled(registeredInfo, 'getUserWithSession')
+      getUserWithSession.fulfilled(registeredInfo, 'getUserWithSession', userToken)
     );
 
     expect(state).toEqual({
@@ -156,7 +156,7 @@ describe("User reducer:  user with session", () => {
   test("should have loading truthy when it is pending", () => {
     const state = userReducer(
       initialState,
-      getUserWithSession.pending('getUserWithSession')
+      getUserWithSession.pending('getUserWithSession', userToken)
     );
 
     expect(state).toEqual({
@@ -171,7 +171,7 @@ describe("User reducer:  user with session", () => {
     const error: Error = new Error('error'); 
     const state = userReducer(
       initialState,
-      getUserWithSession.rejected(error, 'getUserWithSession')
+      getUserWithSession.rejected(error, 'getUserWithSession', userToken)
     );
 
     expect(state).toEqual({
