@@ -1,7 +1,7 @@
 import Category from "../../misc/types/Category";
 import categoryReducer, { fetchAllCategoriesAsync, initialState, InitialState } from "../../redux/slices/CategorySlice";
 
-const mockCategories: Category[] = [
+export const mockCategories: Category[] = [
   {
     id: 1,
     name: 'Category1',
@@ -12,6 +12,13 @@ const mockCategories: Category[] = [
   {
     id: 2,
     name: 'Category2',
+    image: '',
+    creationAt: '',
+    updatedAt: ''
+  },
+  {
+    id: 3,
+    name: 'Category3',
     image: '',
     creationAt: '',
     updatedAt: ''

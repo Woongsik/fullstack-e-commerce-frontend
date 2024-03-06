@@ -15,35 +15,35 @@ class ApiService {
   }
 
   public async request<T>(method: string, url: string, data?: any, headers?: any): Promise<T> {
-    // try { // Use fetch for testing and mocking server with msw
-    //   console.log('Send request:', url);
-    //   const response: Response = await fetch(url, {
-    //     method: method,
-    //     headers: headers,
-    //     body: data
-    //   });
+    try { // Use fetch for testing and mocking server with msw
+      // console.log('Send request:', method, url);
+      const response: Response = await fetch(url, {
+        method: method,
+        headers: headers,
+        body: data ? JSON.stringify(data) : ''
+      });
       
-    //   const jsonResult = await response.json(); 
-    //   if (!response.ok) { // error handling
-    //     throw Error(jsonResult);
-    //   }
+      const jsonResult = await response.json(); 
+      if (!response.ok) { // error handling
+        throw Error(jsonResult);
+      }
 
-    //   return jsonResult;
-    // } catch(e) {
-    //   const error = e as Error;
-    //   throw new Error(error.message);
-    // }
+      return jsonResult;
+    } catch(e) {
+      const error = e as Error;
+      throw new Error(error.message);
+    }
 
     /* Originally used axios
        since msw is not supporting axios, changed it to fetch */
-    const response: AxiosResponse = await axios({
-      method: method,
-      url: url,
-      data: data,
-      headers: headers
-    });
+    // const response: AxiosResponse = await axios({
+    //   method: method,
+    //   url: url,
+    //   data: data,
+    //   headers: headers
+    // });
 
-    return response.data;
+    // return response.data;
   }
 
   public getProducts(filter: Filter): Promise<Product[]> {
@@ -79,22 +79,22 @@ class ApiService {
     /* In order to have the toal page correctly,
       page = 0 try to get the whole products 
     */
-    if (page > 1) {
+    if (page && page > 1 && itemsPerPage) {
       // page starated from 1, so need to be 0 
       url += `${separator}offset=${(page - 1) * itemsPerPage}&limit=${itemsPerPage}`;
     }
     
-    return this.request<Product[]>('GET', url, null); 
+    return this.request<Product[]>('GET', url); 
   }
 
   public getProduct(productId: string): Promise<Product> {
     let url: string = this.generateUrl(`products/${productId}`);
-    return this.request<Product>('GET', url, null); 
+    return this.request<Product>('GET', url); 
   }
 
   public getCategories(): Promise<Category[]> {
     const url: string = this.generateUrl("categories");
-    return this.request<Category[]>('GET', url, null); 
+    return this.request<Category[]>('GET', url); 
   }
 
   public registerUser(userInfo: RegisterUserInfo): Promise<User> {
@@ -115,7 +115,7 @@ class ApiService {
     }
     
     if (tokens) {
-      return this.request<User>('GET', url, null, headers);
+      return this.request<User>('GET', url, undefined, headers);
     }
     return Promise.resolve(null);
   }

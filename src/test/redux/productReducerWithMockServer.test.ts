@@ -1,10 +1,10 @@
+import Category from "../../misc/types/Category";
 import Filter from "../../misc/types/Filter";
-import { FilteredProducts, Product, ProductRegister } from "../../misc/types/Product";
-import { fetchProduct, fetchProducts, registerProduct } from "../../redux/slices/ProductSlice";
+import { Product, ProductRegister, ProductUpdate, ProductUpdateItem } from "../../misc/types/Product";
+import { deleteProduct, fetchProduct, fetchProducts, registerProduct, updateProduct } from "../../redux/slices/ProductSlice";
 import { createNewStore } from "../../redux/store";
-import ProductSliceUtils from "../../redux/utils/ProductSliceUtils";
-import { productServer } from "../shared/productServer";
-import { mockProducts } from "./productsReducer.testing";
+import { productServer } from "../shared/ProductServer";
+import { mockCategories, mockProducts } from "./ProductsReducer.testing";
 
 let store = createNewStore();
 
@@ -22,7 +22,7 @@ afterAll(() => {
 
 
 // For the filtering products
-const filter: Filter = { page: 1, itemsPerPage: 10 };
+const filter: Filter = { page: 2, itemsPerPage: 1 };
 
 describe("Products reducer with mocking server: fetch all product", () => {
   // check init
@@ -30,17 +30,49 @@ describe("Products reducer with mocking server: fetch all product", () => {
     expect(store.getState().productReducer.products).toHaveLength(0);
   }); 
 
-  test("should get 2 products by default pagination", async () => {
-    await store.dispatch(fetchProducts(filter));
-    
-    // Sorting/pagination when new products
-    const filteredProducts: FilteredProducts = ProductSliceUtils.getTotalAndImageCheckedProducts(mockProducts); 
-    const { products, sortedProducts, error, loading } = store.getState().productReducer;
+  test("should get all products", async () => {
+    await store.dispatch(fetchProducts({}));
+
+    const { products, error, loading } = store.getState().productReducer;
 
     expect(products.length).toBe(mockProducts.length);
-    expect(sortedProducts.length).toBe(filteredProducts.products.length);
     expect(error).toBeUndefined();
-    expect(loading).toBeFalsy();
+    expect(loading).toBeFalsy(); 
+  });
+
+  test("should get a list of products by pagination", async () => {
+    await store.dispatch(fetchProducts(filter));
+    
+    const { products, error, loading } = store.getState().productReducer;
+
+    let pagedMockProducts: Product[] = mockProducts;
+    if (filter.page && filter.itemsPerPage) {
+      pagedMockProducts = mockProducts.slice((filter.page - 1) * filter.itemsPerPage, filter.page + filter.itemsPerPage);
+    }
+
+    expect(products.length).toBe(pagedMockProducts.length);
+    expect(error).toBeUndefined();
+    expect(loading).toBeFalsy(); 
+  });
+
+  test("should get a list of products by filter, title='Product 1'", async () => {
+    const newFilter = {
+      ...filter,
+      title: 'Product 1'
+    }
+    await store.dispatch(fetchProducts(newFilter));
+    
+    const { products, error, loading } = store.getState().productReducer;
+
+    let filteredByTitleMockProducts: Product[] = mockProducts;
+    if (newFilter.title) {
+      const title = newFilter.title;
+      filteredByTitleMockProducts = mockProducts.filter((p: Product) => p.title.toLowerCase().includes(title.toLowerCase()));
+    }
+
+    expect(products.length).toBe(filteredByTitleMockProducts.length);
+    expect(error).toBeUndefined();
+    expect(loading).toBeFalsy(); 
   });
 });
 
@@ -55,74 +87,94 @@ describe("Products reducer with mocking server: fetch a product", () => {
     await store.dispatch(fetchProduct(targetProduct.id));
     const { product, error, loading } = store.getState().productReducer;
 
-    expect(product).toBe(targetProduct);
+    expect(product).toEqual(targetProduct);
     expect(error).toBeUndefined();
     expect(loading).toBeFalsy();
   });
 });
 
-// describe("Products reducer with mocking server: register a product", () => {
-//   // Check init
-//   test('should return initial state', () => {
-//     expect(store.getState().productReducer.products).toHaveLength(0);
-//   });
+describe("Products reducer with mocking server: register a product", () => {
+  // Check init
+  test('should return initial state', () => {
+    expect(store.getState().productReducer.products).toHaveLength(0);
+  });
 
-//   const tobeRegisteredProduct: ProductRegister = {
-//     title: "Newly registered product",
-//     price: 1,
-//     description: "New description",
-//     images: [],
-//     categoryId: 1
-//   };
+  const tobeRegisteredProduct: ProductRegister = {
+    title: "Newly registered product",
+    price: 1,
+    description: "New description",
+    images: [],
+    categoryId: 2
+  };
   
-//   const registeredProuct: Product = {
-//     ...mockProducts[0],
-//     ...tobeRegisteredProduct  
-//   }
+  const category: Category | undefined = mockCategories.find((category: Category) => category.id === Number(tobeRegisteredProduct.categoryId));
+  let registeredProuct: Product | null = null;
+  if (category) {
+    registeredProuct = {
+      ...tobeRegisteredProduct,
+      creationAt: '',
+      updatedAt: '',
+      category,
+      id: '4'
+    }
+  }
   
-//   test("should get the registered product", async () => {
-//     await store.dispatch(registerProduct(tobeRegisteredProduct));
-//     const { product, error, loading } = store.getState().productReducer;
+  test("should get the registered product", async () => {
+    await store.dispatch(registerProduct(tobeRegisteredProduct));
+    const { product, error, loading } = store.getState().productReducer;
 
-//     expect(product).toBe(registeredProuct);
-//     expect(error).toBeUndefined();
-//     expect(loading).toBeFalsy();
-//   });
-// });
+    expect(product).toEqual(registeredProuct);
+    expect(error).toBeUndefined();
+    expect(loading).toBeFalsy();
+  });
+});
 
-//   // when test createNewProduct
-//   // id should be omitted since backend will handle
-//   // so create new type => here ProductCreate
-//   // export type ProductCreate = {
-//   //  title, price, description, images, categoryId
-//   // }
+describe("Products reducer with mocking server: update a product", () => {
+  // Check init
+  test('should return initial state', () => {
+    expect(store.getState().productReducer.products).toHaveLength(0);
+  });
 
-//   // test("should create new product", async () => {
-//   //   const createdProduct: ProductCreate = {
-//   //     title: "New test product",
-//   //     price: 500,
-//   //     description: "New test product",
-//   //     images: ['product.png']
-//   //   }
+  const updateItem: ProductUpdateItem = {
+    title: "Product updated",
+    price: 100  
+  }
 
-//   //   await store.dispatch(createNewProductAsync(createdProduct));
-//   //   expect(store.getState().productReducer.products.length).toBe(5);
-//   // });
+  const targetProduct: Product = mockProducts[0];  
+  const tobeUpdatedProduct: ProductUpdate = {
+    item: updateItem,
+    id: targetProduct.id
+  };
 
-//   // should return inital state (no proudcts)
-//   // if test previously with store,
-//   // still some values can be remained from previous test
-//   // This means that we need to clean up after every test
-//   // createNewStore
-//   test('should return initial state', () => {
-//     expect(store.getState().productReducer.products).toHaveLength(0);
-//   });
+  const updatedProduct: Product = {
+    ...targetProduct,
+    ...updateItem
+  }
+  
+  test("should get the updated product", async () => {
+    await store.dispatch(updateProduct(tobeUpdatedProduct));
+    const { product, error, loading } = store.getState().productReducer;
 
+    expect(product).toEqual(updatedProduct);
+    expect(error).toBeUndefined();
+    expect(loading).toBeFalsy();
+  });
+});
 
-//   //RTK query test
-//   test('should fetch all product with RTK query', () => {
-//     //await store.dispatch(productQueries.endpoints.fetchAllProducts.initiate());
-//     //expect(store.getState().prodcutApi.queries['fetchAllProducts(undefined)'].data).toHavelength(2);
-//   });
-// });
+describe("Products reducer with mocking server: delete a product", () => {
+  // Check init
+  test('should return initial state', () => {
+    expect(store.getState().productReducer.products).toHaveLength(0);
+  });
 
+  const targetProduct: Product = mockProducts[mockProducts.length - 1]; 
+
+  test("should get the product as null", async () => {
+    await store.dispatch(deleteProduct(targetProduct));
+    const { product, error, loading } = store.getState().productReducer;
+
+    expect(product).toEqual(null);
+    expect(error).toBeUndefined();
+    expect(loading).toBeFalsy();
+  });
+});

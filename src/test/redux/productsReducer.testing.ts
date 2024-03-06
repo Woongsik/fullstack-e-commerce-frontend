@@ -4,7 +4,8 @@ import Sort from "../../misc/types/Sort";
 import productReducer, { initialState, InitialState, deleteProduct, fetchProduct, fetchProducts, registerProduct, sortBy, updateFilter, updateProduct } from "../../redux/slices/ProductSlice";
 import ProductSliceUtils from "../../redux/utils/ProductSliceUtils";
 import { createNewStore } from "../../redux/store";
-import { productServer } from "../shared/productServer";
+import { productServer } from "../shared/ProductServer";
+import Category from "../../misc/types/Category";
 
 let store = createNewStore();
 beforeAll(() => {
@@ -31,7 +32,7 @@ export const mockProducts: Product[] = [
     creationAt: "2024-03-04T11:58:47.000Z",
     category: {
       id: 1,
-      name: "",
+      name: "Category 1",
       image: "",
       creationAt: "",
       updatedAt: ""
@@ -47,13 +48,53 @@ export const mockProducts: Product[] = [
     creationAt: "2024-03-03T10:58:47.000Z",
     category: {
       id: 2,
-      name: "",
+      name: "Category 2",
+      image: "",
+      creationAt: "",
+      updatedAt: ""
+    }
+  },
+  { 
+    id: "3", 
+    title: "Product 3", 
+    price: 2, 
+    description: "Description 3", 
+    images: [], 
+    updatedAt: "2024-03-01T10:58:47.000Z", 
+    creationAt: "2024-03-01T10:58:47.000Z",
+    category: {
+      id: 3,
+      name: "Category 3",
       image: "",
       creationAt: "",
       updatedAt: ""
     }
   },
 ];
+
+export const mockCategories: Category[] = [
+  {
+    id: 1,
+    name: "Category 1",
+    image: "",
+    creationAt: "",
+    updatedAt: ""
+  },
+  {
+    id: 2,
+    name: "Category 2",
+    image: "",
+    creationAt: "",
+    updatedAt: ""
+  },
+  {
+    id: 3,
+    name: "Category 3",
+    image: "",
+    creationAt: "",
+    updatedAt: ""
+  }
+]
 
 const filter: Filter = { page: 1, itemsPerPage: 10 };
 

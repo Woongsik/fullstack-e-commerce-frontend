@@ -4,8 +4,8 @@ type Filter = {
   price?: number;
   price_min?: number;
   price_max?: number;
-  page: number;
-  itemsPerPage: number;
+  page?: number;
+  itemsPerPage?: number;
 }
 
 export default Filter;

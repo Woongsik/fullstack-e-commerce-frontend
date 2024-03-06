@@ -2,7 +2,7 @@ import { LoginUserInfo, RegisterUserInfo, User, UserRole, UserToken } from "../.
 import userReducer, { getUserWithSession, initialState, InitialState, loginUser, registerUser } from "../../redux/slices/UserSlice";
 import { userSlicerUtil } from "../../redux/utils/UserSlicerUtil";
 
-const registerInfo: RegisterUserInfo = {
+export const registerInfo: RegisterUserInfo = {
   name: 'testUserName',
   email: 'testUserEmail@mail.com',
   password: 'testUserPassword',
@@ -10,22 +10,22 @@ const registerInfo: RegisterUserInfo = {
   role: UserRole.CUSTOMER
 }
 
-const registeredInfo: User = {
+export const registeredInfo: User = {
   ...registerInfo,
   id: 1
 }
 
-const loginInfo: LoginUserInfo = {
+export const loginInfo: LoginUserInfo = {
   email: 'testUserEmail@mail.com',
   password: 'testUserPassword'
 }
 
-const userToken: UserToken = {
+export const userToken: UserToken = {
   access_token: 'access_token',
   refresh_token: 'refresh_token'
 }
 
-describe("Products reducer: register user", () => {
+describe("User reducer: register user", () => {
   // inital state
   test("should return initial state", () => {
     const state = userReducer(undefined, { type: ""});
@@ -44,7 +44,7 @@ describe("Products reducer: register user", () => {
     });
   });
 
-  // test: fetchProducts.pending
+  // test: registerUser.pending
   test("should have loading truthy when it is pending", () => {
     const state = userReducer(
       initialState,
@@ -74,7 +74,7 @@ describe("Products reducer: register user", () => {
   });
 });
 
-describe("Products reducer: login user", () => {
+describe("User reducer: login user", () => {
   // inital state
   test("should return initial state", () => {
     const state = userReducer(undefined, { type: ""});
@@ -129,7 +129,7 @@ describe("Products reducer: login user", () => {
   });
 });
 
-describe("Products reducer:  user with session", () => {
+describe("User reducer:  user with session", () => {
   // inital state
   test("should return initial state", () => {
     const state = userReducer(undefined, { type: ""});
