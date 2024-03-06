@@ -15,35 +15,37 @@ class ApiService {
   }
 
   public async request<T>(method: string, url: string, data?: any, headers?: any): Promise<T> {
-    try { // Use fetch for testing and mocking server with msw
-      // console.log('Send request:', method, url);
-      const response: Response = await fetch(url, {
-        method: method,
-        headers: headers,
-        body: data ? JSON.stringify(data) : ''
-      });
+    // try { // Use fetch for testing and mocking server with msw
+    //   console.log('Send request:', method, url);
+    //   const response: Response = await fetch(url, {
+    //     method: method,
+    //     headers: headers,
+    //     body: data ? JSON.stringify(data) : ''
+    //   });
+    //   console.log('fetch', response);
       
-      const jsonResult = await response.json(); 
-      if (!response.ok) { // error handling
-        throw Error(jsonResult);
-      }
+    //   const jsonResult = await response.json(); 
+    //   if (!response.ok) { // error handling
+    //     throw Error(jsonResult);
+    //   }
 
-      return jsonResult;
-    } catch(e) {
-      const error = e as Error;
-      throw new Error(error.message);
-    }
+    //   console.log('response', jsonResult);
+    //   return jsonResult;
+    // } catch(e) {
+    //   const error = e as Error;
+    //   throw new Error(error.message);
+    // }
 
     /* Originally used axios
        since msw is not supporting axios, changed it to fetch */
-    // const response: AxiosResponse = await axios({
-    //   method: method,
-    //   url: url,
-    //   data: data,
-    //   headers: headers
-    // });
+    const response: AxiosResponse = await axios({
+      method: method,
+      url: url,
+      data: data,
+      headers: headers
+    });
 
-    // return response.data;
+    return response.data;
   }
 
   public getProducts(filter: Filter): Promise<Product[]> {

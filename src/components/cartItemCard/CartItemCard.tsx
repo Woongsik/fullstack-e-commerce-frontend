@@ -72,14 +72,16 @@ export default function CartItemCard(props: Props) {
       <Box component={'div'} marginLeft={2} width={'100%'}
             display={'flex'} flexWrap={'wrap'} alignContent={'space-between'}>
         <Box width={'100%'}>
-          <Typography fontSize={18}>
-            {item.title}
-          </Typography>
+          <Link to={`/product/${item.id}`} style={{ textDecoration: 'none'}}>
+            <Typography fontSize={18} color={'black'}>
+              {item.title}
+            </Typography>
+          </Link>
           <Typography fontSize={15} sx={{ color: 'gray'}}>
             {item.category.name}
           </Typography>
           <CenteredContainer justifyContent={MUILayout.SPACE_BETWEEN} width={'100%'}>
-            <Typography>
+            <Typography fontSize={13}>
               € {item.price} x {quantity}
             </Typography>
             <Typography>

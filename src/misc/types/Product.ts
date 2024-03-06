@@ -33,5 +33,6 @@ export type ProductUpdate = {
 
 export type FilteredProducts = {
   products: Product[],
-  total: number
+  total: number,
+  minMaxPrice: number[]
 }

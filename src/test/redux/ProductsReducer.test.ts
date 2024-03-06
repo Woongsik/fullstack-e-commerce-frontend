@@ -179,13 +179,14 @@ describe("Products reducer: fetchProducts", () => {
       fetchProducts.fulfilled(mockProducts, 'fetchProducts', filter)
     );
 
-    const filteredProducts: FilteredProducts = ProductSliceUtils.getTotalAndImageCheckedProducts(mockProducts, state.filter, state.total);
+    const filteredProducts: FilteredProducts = ProductSliceUtils.getTotalAndImageCheckedProducts(mockProducts, state.filter, state.total, state.minMaxPrice);
     expect(state).toEqual({
       products: mockProducts,
       sortedProducts:  ProductSliceUtils.sortProducts(filteredProducts.products, state.sort),
       filter: filter,
       product: null,
       total: filteredProducts.total,
+      minMaxPrice: filteredProducts.minMaxPrice,
       loading: false     
     });
   });

@@ -18,7 +18,7 @@ export default function Profile() {
   
   return (
     <GridContainer alignItems={MUILayout.FLEX_START}>
-      <CenteredContainer width={'75%'} alignItems={MUILayout.FLEX_START}>
+      <CenteredContainer width={'75%'} alignItems={MUILayout.FLEX_START} margin={'50px 0'}>
         <Box>
           {user && 
           <Box>

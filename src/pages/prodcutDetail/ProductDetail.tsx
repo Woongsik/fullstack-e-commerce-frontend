@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Box, Typography,Chip, Snackbar, Divider, IconButton } from '@mui/material';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
+import { InfoOutlined } from '@mui/icons-material';
 
 import ProductCreateOrUpdate from '../../components/productCreateOrUpdate/ProductCreateOrUpdate';
 import CenteredContainer from '../../components/uis/layout/CenteredContainer';
@@ -156,48 +157,51 @@ export default function ProudctDetail() {
               onUpdate={handleUpdateDone}/> 
           </CenteredContainer>
         :
-        <CenteredContainer alignItems={MUILayout.FLEX_START} justifyContent={MUILayout.SPACE_BETWEEN} margin={'0 10px'}>
-          <Box width={'50%'} minWidth={'350px'}>
-            <UiCarousel 
-              images={product.images}
-              alt={product.title} />
-          </Box>
-          <Box component={'div'} overflow={'auto'} width={'45%'} minWidth={'350px'}>
-            <Box component={'div'}>              
-              <Typography variant='h4'>
-                {product.title}
-              </Typography> 
-              <Chip sx={{ my: 1}} label={product.category.name} color="primary" variant='outlined' size={'medium'} />
-              <Typography variant='h5' >
-              € {product.price}
-              </Typography>
-              <Typography my={5}>
-                {product.description}
-              </Typography>
+        <CenteredContainer>
+          <CenteredContainer alignItems={MUILayout.FLEX_START} justifyContent={MUILayout.SPACE_BETWEEN} margin={'0 10px'}  width='75%'>
+            <Box width={'50%'} minWidth={'300px'}>
+              <UiCarousel 
+                images={product.images}
+                alt={product.title} />
             </Box>
+            <Box component={'div'} overflow={'auto'} width={'40%'} minWidth={'300px'}>
+              <Box component={'div'}>              
+                <Typography variant='h4'>
+                  {product.title}
+                </Typography> 
+                <Chip sx={{ my: 1}} label={product.category.name} color="primary" variant='outlined' size={'medium'} />
+                <Typography variant='h5' >
+                € {product.price}
+                </Typography>
+                <Typography my={5}>
+                  {product.description}
+                </Typography>
+              </Box>
 
-            <Box component={'div'} display={'inline-grid'} justifyContent={'center'} width={'100%'}
-                position={'sticky'} bottom={0}>
-              <UiRoundButton
-                variant={MUIButtonVariant.CONTAINED}
-                theme='black'
-                margin='10px 0'
-                onClick={() => handleAddToCart()}>
-                Add to Cart <ShoppingCartCheckoutIcon sx={{ marginLeft: 1}} />
-              </UiRoundButton>
-              <UiRoundButton
-                variant={MUIButtonVariant.OUTLINED}
-                theme='white'
-                margin='10px 0'
-                onClick={() => handleAddToFavorites()}>
-                Favorite <FavoriteIcon sx={{ marginLeft: 1}}/>
-              </UiRoundButton>
+              <Box component={'div'} display={'inline-grid'} justifyContent={'center'} width={'100%'}
+                  position={'sticky'} bottom={0}>
+                <UiRoundButton
+                  variant={MUIButtonVariant.CONTAINED}
+                  theme='black'
+                  margin='10px 0'
+                  onClick={() => handleAddToCart()}>
+                  Add to Cart <ShoppingCartCheckoutIcon sx={{ marginLeft: 1}} />
+                </UiRoundButton>
+                <UiRoundButton
+                  variant={MUIButtonVariant.OUTLINED}
+                  theme='white'
+                  margin='10px 0'
+                  onClick={() => handleAddToFavorites()}>
+                  Favorite <FavoriteIcon sx={{ marginLeft: 1}}/>
+                </UiRoundButton>
+              </Box>
             </Box>
-          </Box>
+          </CenteredContainer>
         </CenteredContainer>
         )
         :
-        ( showDeletedMessage && <CenteredContainer>
+        ( showDeletedMessage && 
+        <CenteredContainer>
           <Typography>
             Successfully the Product is removed or product not existed!
           </Typography>
@@ -207,12 +211,13 @@ export default function ProudctDetail() {
     </Box>
 
     <Snackbar
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         open={showSnackBar}
         onClose={onSnackbarClose}
         message={snackBarMessage}
         autoHideDuration={3000}
-        key={'bottom' + 'right'}
+        key={'top' + 'right'}
+        sx={{ marginTop: '60px' }}
         action={snackbarAction()}
       />
 
@@ -225,6 +230,18 @@ export default function ProudctDetail() {
         onClose={handleDelete}/>
 
       <LoadingBackdrop loading={loading} />
+      { error && 
+      <CenteredContainer>
+        <InfoOutlined sx={{ fontSize: 60 }} />
+        <Typography fontWeight={'bold'} fontSize={22} width={'100%'} textAlign={'center'}>
+            Something went wrong or prodcut not existed! 
+        </Typography>
+        <Link to={'/home'}>
+            <UiButton variant={MUIButtonVariant.CONTAINED} color={MUIColor.PRIMARY} customStyle={{ margin: '15px' }}>
+              Back home
+            </UiButton>
+          </Link>     
+      </CenteredContainer>}
   </GridContainer>
   )
 }

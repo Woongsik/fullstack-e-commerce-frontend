@@ -1,5 +1,5 @@
 import Filter from "../../misc/types/Filter";
-import { Product } from "../../misc/types/Product";
+import { FilteredProducts, Product } from "../../misc/types/Product";
 import Sort from "../../misc/types/Sort";
 import DateUtil from "../../utils/DateUtil";
 
@@ -44,18 +44,27 @@ const checkImagesForProduct = (product: Product): Product => {
   return product;
 }
 
-const getTotalAndImageCheckedProducts = (products: Product[], filter?: Filter, previousTotal: number = 0) => {
-  const itemsPerPage: number = filter ? filter.itemsPerPage : 10;
+const getTotalAndImageCheckedProducts = (products: Product[], filter?: Filter, previousTotal: number = 0, previousMinMaxPrice: number[] = []): FilteredProducts => {
+  const itemsPerPage: number = (filter && filter.itemsPerPage) ? filter.itemsPerPage : 10;
   const imageCheckedProducts: Product[] = checkImagesForProducts(products.slice(0, itemsPerPage));
 
   let total: number = previousTotal;
+  let minMaxPrice: number[] = previousMinMaxPrice;
   if (filter && filter.page === 1) {
     total = Math.ceil(products.length / itemsPerPage);
+    
+    if (minMaxPrice.length === 0) { // Only set one time
+      const newProducts: Product[] = [...products];
+      newProducts.sort((a, b) => a.price > b.price ? 1 : -1);
+      console.log('price', newProducts[0].price, newProducts[newProducts.length -1].price)
+      minMaxPrice = [newProducts[0].price, newProducts[newProducts.length -1].price];
+    }
   }
 
   return { 
     products: imageCheckedProducts, 
-    total: total
+    total: total,
+    minMaxPrice: minMaxPrice
   };
 }
 

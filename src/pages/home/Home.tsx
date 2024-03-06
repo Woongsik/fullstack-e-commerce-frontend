@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
-import { Box, ButtonGroup, Button } from '@mui/material';
+import { Box, Drawer } from '@mui/material';
 import { useSelector } from 'react-redux';
+import SearchIcon from '@mui/icons-material/Search';
+
 
 import { useAppDispatch, AppState } from '../../redux/store';
 import { fetchProducts, updateFilter } from '../../redux/slices/ProductSlice';
@@ -9,14 +11,15 @@ import ProductList from '../../components/productList/ProductList';
 import Categories from '../../components/cateogries/Categories';
 import PageNavigation from '../../components/uis/pageNavigation/PageNavigation';
 import SortSelects from '../../components/sortSelects/SortSelects';
-import PriceRangeSlider from '../../components/priceRangeSlider/PriceRangeSlider';
+import PriceRangeSlider from '../../components/uis/priceRangeSlider/PriceRangeSlider';
 import GridContainer from '../../components/uis/layout/GridContainer';
 import { useUserSession } from '../../hooks/useUserSession';
 import { Product } from '../../misc/types/Product';
 import Filter from '../../misc/types/Filter';
 import CenteredContainer from '../../components/uis/layout/CenteredContainer';
-import { MUILayout } from '../../misc/types/MUI';
+import { MUIColor, MUILayout, MUISize } from '../../misc/types/MUI';
 import PageCounter from '../../components/uis/pageCounter/PageCounter';
+import UiButton from '../../components/uis/button/UiButton';
 
 export default function Home() {
   const baseCategoryId: number = 0;
@@ -31,6 +34,8 @@ export default function Home() {
   }
 
   const [filter, setFilter] = useState<Filter>(initialFilter);
+  const [openDrawer, setOpenDrawer] = useState<boolean>(false);
+
   const dispatch = useAppDispatch();
   
   const products: Product[] = useSelector((state: AppState): Product[] => 
@@ -40,6 +45,7 @@ export default function Home() {
   useEffect(() => { // For the filter changed
     dispatch(updateFilter(filter));
     dispatch(fetchProducts(filter));
+    console.log('fetch products', filter);
   }, [filter, dispatch]);
   
   const onTextChanged = (text: string): void => {
@@ -73,16 +79,6 @@ export default function Home() {
     });
   };
 
-  const onPriceChanged = (value: number) => {
-    setFilter({
-      ...filter,
-      price_min: undefined,
-      price_max: undefined,
-      price: value,
-      page: basePage
-    });
-  }
-
   const onPriceRangeChanged = (range: number[]) => {
     setFilter({
       ...filter,
@@ -93,39 +89,54 @@ export default function Home() {
     }); 
   }
 
+  const toggleDrawer = (open: boolean) => {
+    setOpenDrawer(open);
+  }
+
   return (
     <GridContainer alignItems={MUILayout.FLEX_START}>
-      <CenteredContainer width="75%" alignItems={MUILayout.FLEX_START} justifyContent={MUILayout.SPACE_BETWEEN}>
-        <CenteredContainer alignItems={MUILayout.FLEX_START} width='25%' sx={{ minWidth: '200px' }}>
-          <Box>
+
+      <CenteredContainer alignItems={MUILayout.FLEX_START} width='75%' sx={{ minWidth: '300px', overflow: 'auto', margin: '50px 0' }}>
+        <ProductList products={products} />
+        <PageNavigation 
+          page={filter.page ?? basePage}
+          onPageChanged={onPageChanged}
+        />
+      </CenteredContainer>
+      <UiButton color={MUIColor.PRIMARY} size={MUISize.LARGE} customStyle={{ position: 'sticky' }}
+      onClick={() => toggleDrawer(true)}>
+        <SearchIcon />
+      </UiButton>
+      <Drawer open={openDrawer} onClose={() => toggleDrawer(false)}>
+        <Box margin={3}>
+          <h1>Filters</h1>
+
+          <Box my={2}>
             <SearchInput 
               title="Search products by name"
-              onTextChanged={onTextChanged}/>      
+              onTextChanged={onTextChanged}/>  
+          </Box>
+
+          <Box my={3}> 
             <Categories 
               selectedCategoryId={filter.categoryId} 
               onCategoryChanged={onCategoryChanged} />
-            <SortSelects />
-            <PriceRangeSlider 
-              start={0}
-              end={100}
-              minPrice={filter.price_min}
-              maxPrice={filter.price_max}
-              onPriceRangeChanged={onPriceRangeChanged} />
-            <PageCounter itemsPerPage={filter.itemsPerPage} onItemsPerPageChanged={onItemsPerPageChanged} />
-        </Box>
+          </Box>
           
-        </CenteredContainer>
-        
-        <CenteredContainer alignItems={MUILayout.FLEX_START} width='70%' sx={{ minWidth: '300px', overflow: 'auto' }}>
-          <ProductList products={products} />
-          <PageNavigation 
-            page={filter.page}
-            onPageChanged={onPageChanged}
-          />
-        </CenteredContainer>
-        
-        
-      </CenteredContainer>
+          <Box my={3}>
+            <SortSelects />
+          </Box>
+          
+          <PriceRangeSlider 
+            minPrice={filter.price_min}
+            maxPrice={filter.price_max}
+            onPriceRangeChanged={onPriceRangeChanged} />
+          
+          <Box my={3}>
+            <PageCounter itemsPerPage={filter.itemsPerPage ?? baseItemsPerPage} onItemsPerPageChanged={onItemsPerPageChanged} />
+          </Box>
+        </Box>
+      </Drawer>
     </GridContainer>
   )
 }

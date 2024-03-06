@@ -19,7 +19,7 @@ export default function PageNavigation(props: Props) {
   };
 
   return (
-    <CenteredContainer sx={{ my: 5, backgroundColor: 'white' }}>
+    <CenteredContainer sx={{ my: 5, backgroundColor: 'white' }} width={'100%'}>
       <Pagination 
         page={page} 
         onChange={handlePageChange}

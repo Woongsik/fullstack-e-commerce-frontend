@@ -17,6 +17,7 @@ export type InitialState = {
   sort?: Sort;
   sortedProducts: Product[];
   total: number;
+  minMaxPrice: number[];
   filter?: Filter;
   loading: boolean;
   error?: string;
@@ -27,7 +28,8 @@ export const initialState: InitialState = {
   sortedProducts: [],
   product: null,
   loading: false,
-  total: 0
+  total: 0,
+  minMaxPrice: []
 };
 
 export const fetchProducts = createAsyncThunk(
@@ -94,12 +96,13 @@ const productSlice = createSlice({
   },
   extraReducers(builder: ActionReducerMapBuilder<InitialState>) {
       builder.addCase(fetchProducts.fulfilled, (state, action) => {
-        const filteredProducts: FilteredProducts = ProductSliceUtils.getTotalAndImageCheckedProducts(action.payload, state.filter, state.total);
+        const filteredProducts: FilteredProducts = ProductSliceUtils.getTotalAndImageCheckedProducts(action.payload, state.filter, state.total, state.minMaxPrice);
         return {
           ...state,
           products: filteredProducts.products,
           sortedProducts: ProductSliceUtils.sortProducts(filteredProducts.products, state.sort),
           total: filteredProducts.total,
+          minMaxPrice: filteredProducts.minMaxPrice,
           loading: false     
         }
       }).addCase(fetchProducts.pending, (state, action) => {
