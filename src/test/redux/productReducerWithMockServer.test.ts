@@ -4,7 +4,8 @@ import { Product, ProductRegister, ProductUpdate, ProductUpdateItem } from "../.
 import { deleteProduct, fetchProduct, fetchProducts, registerProduct, updateProduct } from "../../redux/slices/ProductSlice";
 import { createNewStore } from "../../redux/store";
 import { productServer } from "../shared/ProductServer";
-import { mockCategories, mockProducts } from "./ProductsReducer.test";
+import { mockProducts } from "./ProductsReducer.test";
+import { mockCategories } from "./CategoryReducer.test";
 
 let store = createNewStore();
 
