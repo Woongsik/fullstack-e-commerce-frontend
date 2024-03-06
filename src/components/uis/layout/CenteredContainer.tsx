@@ -11,6 +11,7 @@ type Props = {
   padding?: string;
   sx?: Object;
   children?: ReactNode;
+  onClick?: () => void
 }
 
 const defaultProps: Props = {
@@ -28,7 +29,8 @@ export default function CenteredContainer(props: Props) {
       display={'flex'} justifyContent={justifyContent} alignItems={alignItems} 
       margin={margin} padding={padding}
       flexWrap={'wrap'}
-      sx={sx}>
+      sx={sx}
+      onClick={props.onClick}>
       {children}
     </Box>
   )

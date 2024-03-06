@@ -94,17 +94,21 @@ export default function Home() {
 
   return (
     <GridContainer alignItems={MUILayout.FLEX_START}>
-      <CenteredContainer alignItems={MUILayout.FLEX_START} width='75%' sx={{ minWidth: '300px', overflow: 'auto', margin: '50px 0' }}>
+
+      <CenteredContainer height={'50px'}  width={'100%'} sx={{ position: 'sticky', top: 0}}>
+        <CenteredContainer onClick={() => toggleDrawer(true)} sx={{ backgroundColor: 'black', borderRadius: '15px'}} margin={'5px'}>
+          <Box display={'flex'} alignItems={'center'} sx={{ color: 'white', padding: '5px 20px'}} >
+            <SearchIcon /> Seach
+          </Box>
+        </CenteredContainer>
+      </CenteredContainer>
+      <CenteredContainer alignItems={MUILayout.FLEX_START} width='75%' sx={{ minWidth: '300px', overflow: 'auto', margin: '10px 0' }}>
         <ProductList products={products} />
         <PageNavigation 
           page={filter.page ?? basePage}
           onPageChanged={onPageChanged}
         />
       </CenteredContainer>
-      <UiButton color={MUIColor.PRIMARY} size={MUISize.LARGE} customStyle={{ position: 'sticky' }}
-      onClick={() => toggleDrawer(true)}>
-        <SearchIcon />
-      </UiButton>
       <Drawer open={openDrawer} onClose={() => toggleDrawer(false)}>
         <Box margin={3}>
           <h1>Filters</h1>

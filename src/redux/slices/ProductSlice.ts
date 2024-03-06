@@ -97,7 +97,6 @@ const productSlice = createSlice({
   extraReducers(builder: ActionReducerMapBuilder<InitialState>) {
       builder.addCase(fetchProducts.fulfilled, (state, action) => {
         const filteredProducts: FilteredProducts = ProductSliceUtils.getTotalAndImageCheckedProducts(action.payload, state.filter, state.total, state.minMaxPrice);
-        
         return {
           ...state,
           products: filteredProducts.products,
