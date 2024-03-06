@@ -3,22 +3,7 @@ import { FilteredProducts, Product, ProductRegister, ProductUpdate, ProductUpdat
 import Sort from "../../misc/types/Sort";
 import productReducer, { initialState, InitialState, deleteProduct, fetchProduct, fetchProducts, registerProduct, sortBy, updateFilter, updateProduct } from "../../redux/slices/ProductSlice";
 import ProductSliceUtils from "../../redux/utils/ProductSliceUtils";
-import { createNewStore } from "../../redux/store";
 import Category from "../../misc/types/Category";
-import { productServer } from "../shared/ProductServer";
-
-let store = createNewStore();
-beforeAll(() => {
-  productServer.listen();
-});
-
-afterAll(() => {
-  productServer.close();
-});
-
-beforeEach(() => {
-  store = createNewStore();
-});
 
 // mock data
 export const mockProducts: Product[] = [

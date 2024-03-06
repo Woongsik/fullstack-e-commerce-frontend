@@ -10,11 +10,13 @@ import CancelIcon from '@mui/icons-material/Cancel';
 
 type Props = {
   title: string;
+  preText?: string;
   onTextChanged: (text:string) => void;
 }
 
 export default function SearchInput(props: Props) {
-  const [searchPhrase, setSearchPhrase] = useState<string>('');
+  const { title, preText } = props;
+  const [searchPhrase, setSearchPhrase] = useState<string>(preText ?? '');
 
   // Optimization with useCallback & debounce
   const debouce = lodash.debounce((value: string) => props.onTextChanged(value), 1000);
@@ -39,7 +41,7 @@ export default function SearchInput(props: Props) {
           sx={{ color: 'action.active', mr: 2, mt: 1.5 }} />
         <TextField 
           fullWidth
-          label={props.title} 
+          label={title} 
           variant="standard" 
           value={searchPhrase}
           onChange={handleChange} />

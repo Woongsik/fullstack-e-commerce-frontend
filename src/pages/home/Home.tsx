@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Box, Drawer } from '@mui/material';
 import { useSelector } from 'react-redux';
 import SearchIcon from '@mui/icons-material/Search';
-
+import CancelIcon from '@mui/icons-material/Cancel';
 
 import { useAppDispatch, AppState } from '../../redux/store';
 import { fetchProducts, updateFilter } from '../../redux/slices/ProductSlice';
@@ -17,9 +17,8 @@ import { useUserSession } from '../../hooks/useUserSession';
 import { Product } from '../../misc/types/Product';
 import Filter from '../../misc/types/Filter';
 import CenteredContainer from '../../components/uis/layout/CenteredContainer';
-import { MUIColor, MUILayout, MUISize } from '../../misc/types/MUI';
+import { MUILayout } from '../../misc/types/MUI';
 import PageCounter from '../../components/uis/pageCounter/PageCounter';
-import UiButton from '../../components/uis/button/UiButton';
 
 export default function Home() {
   const baseCategoryId: number = 0;
@@ -33,7 +32,8 @@ export default function Home() {
     itemsPerPage: baseItemsPerPage
   }
 
-  const [filter, setFilter] = useState<Filter>(initialFilter);
+  const filterFromStore: Filter | undefined = useSelector((state: AppState) => state.productReducer.filter);
+  const [filter, setFilter] = useState<Filter>(filterFromStore ?? initialFilter);
   const [openDrawer, setOpenDrawer] = useState<boolean>(false);
 
   const dispatch = useAppDispatch();
@@ -92,14 +92,22 @@ export default function Home() {
     setOpenDrawer(open);
   }
 
+  const clearFilter = () => {
+    setFilter(initialFilter);
+  }
+
   return (
     <GridContainer alignItems={MUILayout.FLEX_START}>
-
       <CenteredContainer height={'50px'}  width={'100%'} sx={{ position: 'sticky', top: 0}}>
-        <CenteredContainer onClick={() => toggleDrawer(true)} sx={{ backgroundColor: 'black', borderRadius: '15px'}} margin={'5px'}>
-          <Box display={'flex'} alignItems={'center'} sx={{ color: 'white', padding: '5px 20px'}} >
-            <SearchIcon /> Seach
-          </Box>
+        <CenteredContainer  sx={{ backgroundColor: 'black', borderRadius: '15px' }} margin={'5px'}>
+          <CenteredContainer sx={{ color: 'white', padding: '5px 20px'}} >
+            <CenteredContainer onClick={() => toggleDrawer(true)} sx={{ cursor: 'pointer', marginRight: 1 }}>
+              <SearchIcon /> Search
+            </CenteredContainer>
+            <Box onClick={() => clearFilter()} sx={{ cursor: 'pointer', marginLeft: 1 }}>
+              <CancelIcon sx={{ color: 'wthite'}}/>
+            </Box>
+          </CenteredContainer>
         </CenteredContainer>
       </CenteredContainer>
       <CenteredContainer alignItems={MUILayout.FLEX_START} width='75%' sx={{ minWidth: '300px', overflow: 'auto', margin: '10px 0' }}>
@@ -116,6 +124,7 @@ export default function Home() {
           <Box my={2}>
             <SearchInput 
               title="Search products by name"
+              preText={filter.title}
               onTextChanged={onTextChanged}/>  
           </Box>
 
