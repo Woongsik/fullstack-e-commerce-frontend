@@ -4,7 +4,7 @@ import { Product, ProductRegister, ProductUpdate, ProductUpdateItem } from "../.
 import { deleteProduct, fetchProduct, fetchProducts, registerProduct, updateProduct } from "../../redux/slices/ProductSlice";
 import { createNewStore } from "../../redux/store";
 import { productServer } from "../shared/ProductServer";
-import { mockCategories, mockProducts } from "./ProductsReducer.testing";
+import { mockCategories, mockProducts } from "./ProductsReducer.test";
 
 let store = createNewStore();
 
@@ -173,7 +173,7 @@ describe("Products reducer with mocking server: delete a product", () => {
     await store.dispatch(deleteProduct(targetProduct));
     const { product, error, loading } = store.getState().productReducer;
 
-    expect(product).toEqual(null);
+    expect(product).toBeNull();
     expect(error).toBeUndefined();
     expect(loading).toBeFalsy();
   });

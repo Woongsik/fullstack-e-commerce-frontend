@@ -2,7 +2,7 @@
 // mocking the server
 import { http, HttpResponse } from "msw";
 import { setupServer } from "msw/node";
-import { mockCategories } from "../redux/CategoryReducer.testing";
+import { mockCategories } from "../redux/CategoryReducer.test";
 
 export const handler = [
   http.get('https://api.escuelajs.co/api/v1/categories', async () => {   

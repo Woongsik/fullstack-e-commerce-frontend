@@ -3,7 +3,7 @@
 import { http, HttpResponse } from "msw";
 import { setupServer } from "msw/node";
 
-import { mockCategories, mockProducts } from "../redux/ProductsReducer.testing";
+import { mockCategories, mockProducts } from "../redux/ProductsReducer.test";
 import { Product, ProductRegister, ProductUpdateItem } from "../../misc/types/Product";
 import Category from "../../misc/types/Category";
 import { getUrlAsObject } from "../../utils/Urls";
@@ -74,10 +74,10 @@ export const handler = [
     const matcehdIndex: number = mockProducts.findIndex((product: Product) => product.id === productId);
     
     if (matcehdIndex > -1) {
-      mockProducts.splice(matcehdIndex, 1);
+      // backend doing something 
     }
 
-    // even if no matched product, return true
+    // even if matched/no-matched product, return true unless error
     return HttpResponse.json(true, {status: 200 });    
   }),
 

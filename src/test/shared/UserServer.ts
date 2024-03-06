@@ -3,9 +3,9 @@
 import { http, HttpResponse } from "msw";
 import { setupServer } from "msw/node";
 import { LoginUserInfo, RegisterUserInfo, UserToken } from "../../misc/types/User";
-import { registeredInfo, registerInfo, userToken } from "../redux/UserReducer.testing";
+import { registeredInfo, registerInfo, userToken } from "../redux/UserReducer.test";
 import { userSlicerUtil } from "../../redux/utils/UserSlicerUtil";
-import { mockCategories } from "../redux/CategoryReducer.testing";
+import { mockCategories } from "../redux/CategoryReducer.test";
 
 export const handler = [
   http.post('https://api.escuelajs.co/api/v1/users/', async ({ request }) => { 

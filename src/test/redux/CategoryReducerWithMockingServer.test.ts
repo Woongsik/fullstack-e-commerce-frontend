@@ -1,7 +1,7 @@
 import { createNewStore } from "../../redux/store";
 import { fetchAllCategoriesAsync } from "../../redux/slices/CategorySlice";
 import { categoryServer } from "../shared/CategoryServer";
-import { mockCategories } from "./CategoryReducer.testing";
+import { mockCategories } from "./CategoryReducer.test";
 
 let store = createNewStore();
 

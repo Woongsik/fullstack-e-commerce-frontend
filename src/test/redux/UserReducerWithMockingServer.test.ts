@@ -1,7 +1,7 @@
 import { createNewStore } from "../../redux/store";
 import { userServer } from "../shared/UserServer";
 import { getUserWithSession, loginUser, registerUser } from "../../redux/slices/UserSlice";
-import { loginInfo, registerInfo, registeredInfo, userToken } from "./UserReducer.testing";
+import { loginInfo, registerInfo, registeredInfo, userToken } from "./UserReducer.test";
 import { userSlicerUtil } from "../../redux/utils/UserSlicerUtil";
 import { UserToken } from "../../misc/types/User";
 

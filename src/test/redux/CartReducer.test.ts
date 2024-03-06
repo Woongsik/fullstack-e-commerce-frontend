@@ -1,7 +1,7 @@
 import CartItem from "../../misc/types/CartItem";
 import { Product } from "../../misc/types/Product";
 import cartReducer, { initialState, InitialState, addToCart, removeFromCart, updateQuantityInCart } from "../../redux/slices/CartSlice";
-import { mockProducts } from "./ProductsReducer.testing";
+import { mockProducts } from "./ProductsReducer.test";
 
 describe("Cart reducer: add to cart", () => {
   // inital state
