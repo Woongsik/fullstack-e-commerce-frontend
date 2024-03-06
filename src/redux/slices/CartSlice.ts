@@ -38,6 +38,9 @@ const cartSlice = createSlice({
         state.cartItems.splice(foundIndex, 1, cartItem);
       }
     },
+    clearCart: (state) => {
+      state.cartItems = [];
+    },
     addToFavorites: (state, actions: PayloadAction<CartItem>) => { 
       const cartItem: CartItem = actions.payload;
       if (!CartSliceUtil.checkIfAlreadyAdded(state.cartFavorites, cartItem)) {
@@ -62,6 +65,7 @@ export const {
   addToCart,
   removeFromCart,
   updateQuantityInCart,
+  clearCart,
   addToFavorites,
   removeFromFavorites
 } = cartSlice.actions;

@@ -2,9 +2,11 @@ import CartItem from '../../misc/types/CartItem'
 import { Box, Divider, Input, Typography } from '@mui/material'
 import UiButton from '../uis/button/UiButton'
 import { MUIButtonVariant, MUIColor, MUISize } from '../../misc/types/MUI'
+import UiRoundButton from '../uis/button/UiRoundButton'
 
 type Props = {
-  cartItems: CartItem[]
+  cartItems: CartItem[],
+  onCheckout: () => void
 }
 
 export default function CartSummary(props: Props) {
@@ -45,26 +47,20 @@ export default function CartSummary(props: Props) {
 
       <Box component={'div'} display={'inline-grid'} justifyContent={'center'} width={'100%'}
             my={5}>
-          <UiButton
-            variant={MUIButtonVariant.CONTAINED}
-            size={MUISize.LARGE}
-            color={MUIColor.PRIMARY}
-            borderRadius={15}
-            customStyle={{ my: 1, backgroundColor: 'black', color: 'white', padding: '10px 30px' }}>
-            Check out
-          </UiButton>
-         
-          <UiButton 
-            variant={MUIButtonVariant.OUTLINED}
-            size={MUISize.LARGE}
-            color={MUIColor.PRIMARY}
-            borderRadius={15}
-            customStyle={{ 
-              my: 1, backgroundColor: 'white', color: 'black', borderColor: 'black', padding: '10px 30px' 
-            }}>
-            Paypal
-            </UiButton>
-          </Box>
+        <UiRoundButton 
+          variant={MUIButtonVariant.CONTAINED}
+          theme='black'
+          onClick={() => props.onCheckout()}>
+          Check out
+        </UiRoundButton>
+
+        <UiRoundButton 
+          variant={MUIButtonVariant.OUTLINED}
+          theme='white'
+          margin={'20px 0'}>
+          Paypal
+        </UiRoundButton>
+      </Box>
     </Box>
   )
 }

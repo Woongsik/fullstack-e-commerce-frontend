@@ -14,6 +14,9 @@ import GridContainer from '../../components/uis/layout/GridContainer';
 import { useUserSession } from '../../hooks/useUserSession';
 import { Product } from '../../misc/types/Product';
 import Filter from '../../misc/types/Filter';
+import CenteredContainer from '../../components/uis/layout/CenteredContainer';
+import { MUILayout } from '../../misc/types/MUI';
+import PageCounter from '../../components/uis/pageCounter/PageCounter';
 
 export default function Home() {
   const baseCategoryId: number = 0;
@@ -91,36 +94,38 @@ export default function Home() {
   }
 
   return (
-    <GridContainer>
-      <Box component="div" width="75%" minWidth="300px">
-        <SearchInput 
-          title="Search products by name"
-          onTextChanged={onTextChanged}/>      
-        <Categories 
-          selectedCategoryId={filter.categoryId} 
-          onCategoryChanged={onCategoryChanged} />
-        <SortSelects />
-        <ProductList products={products} />
-        <PageNavigation 
-          page={filter.page}
-          itemsPerPage={filter.itemsPerPage}
-          onPageChanged={onPageChanged}
-          onItemsPerPageChanged={onItemsPerPageChanged} />
-        <ButtonGroup variant="text" aria-label="Basic button group">
-          <Button onClick={() => onPriceChanged(10)}>10</Button>
-          <Button onClick={() => onPriceChanged(30)}>30</Button>
-          <Button onClick={() => onPriceChanged(50)}>50</Button>
-          <Button onClick={() => onPriceChanged(100)}>100</Button>
-          <Button onClick={() => onPriceChanged(200)}>200</Button>
-          <Button onClick={() => onPriceChanged(0)}>Clear</Button>
-        </ButtonGroup>
-        <PriceRangeSlider 
-          start={0}
-          end={100}
-          minPrice={filter.price_min}
-          maxPrice={filter.price_max}
-          onPriceRangeChanged={onPriceRangeChanged} />
-      </Box>
+    <GridContainer alignItems={MUILayout.FLEX_START}>
+      <CenteredContainer width="75%" alignItems={MUILayout.FLEX_START} justifyContent={MUILayout.SPACE_BETWEEN}>
+        <CenteredContainer alignItems={MUILayout.FLEX_START} width='25%' sx={{ minWidth: '200px' }}>
+          <Box>
+            <SearchInput 
+              title="Search products by name"
+              onTextChanged={onTextChanged}/>      
+            <Categories 
+              selectedCategoryId={filter.categoryId} 
+              onCategoryChanged={onCategoryChanged} />
+            <SortSelects />
+            <PriceRangeSlider 
+              start={0}
+              end={100}
+              minPrice={filter.price_min}
+              maxPrice={filter.price_max}
+              onPriceRangeChanged={onPriceRangeChanged} />
+            <PageCounter itemsPerPage={filter.itemsPerPage} onItemsPerPageChanged={onItemsPerPageChanged} />
+        </Box>
+          
+        </CenteredContainer>
+        
+        <CenteredContainer alignItems={MUILayout.FLEX_START} width='70%' sx={{ minWidth: '300px', overflow: 'auto' }}>
+          <ProductList products={products} />
+          <PageNavigation 
+            page={filter.page}
+            onPageChanged={onPageChanged}
+          />
+        </CenteredContainer>
+        
+        
+      </CenteredContainer>
     </GridContainer>
   )
 }

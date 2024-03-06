@@ -128,19 +128,20 @@ export default function Login() {
               {...register("admin", { required: false }) }
               color="primary" 
             />
-            <Box>Register as Admin</Box>
+            <Box>I am Admin!</Box>
           </Box>
           }
  
           <UiRoundButton
             variant={MUIButtonVariant.CONTAINED}
             theme='black'
-            type={MUIButtonType.SUBMIT}>
+            type={MUIButtonType.SUBMIT}
+            margin={'20px 0'}>
             {pageMode === PageMode.LOGIN ? 'Log in' : 'Sign in'}
 
           </UiRoundButton>
 
-          <CenteredContainer justifyContent={MUILayout.FLEX_END} margin='15px 0'>
+          <CenteredContainer justifyContent={MUILayout.FLEX_END}>
             <UiButton 
               variant={MUIButtonVariant.TEXT}
               onClick={togglePageMode}>

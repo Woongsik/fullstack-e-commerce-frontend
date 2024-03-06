@@ -19,14 +19,15 @@ export default function SortSelects() {
   }
 
   return (
-    <Box>
+    <Box width={'100%'}>
       <UiFormSelects 
         title='Sort by'
         selectedValue={selectedSortType ?? 'All'}
         items={items}
         displayKey='key'
         valueKey='key'
-        size='small'
+        size='medium'
+        fullWidth={true}
         onChange={handleSelectChange} /> 
     </Box>
   );

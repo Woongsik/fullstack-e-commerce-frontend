@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { 
   Avatar,
+  Badge,
   Box, 
   IconButton, 
   List, 
@@ -36,17 +37,8 @@ export default function Navbar() {
 
   const { theme, toggleTheme } = useTheme();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [alignment, setAlignment] = useState('web');
-
-  const handleChange = (
-    event: React.MouseEvent<HTMLElement>,
-    newAlignment: string,
-  ) => {
-    console.log('change', newAlignment);
-    setAlignment(newAlignment);
-  };
-
   const { user } = useSelector((state: AppState) => state.userReducer);
+  const { cartItems } = useSelector((state: AppState) => state.cartReducer);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -90,7 +82,10 @@ export default function Navbar() {
         <List sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} disablePadding>
           <ListItem disablePadding sx={{ marginLeft: 1 }}>
             <Link to="/cart" title='Cart'>
-              <ShoppingCartCheckoutIcon sx={{ color: theme === Theme.LIGHT ? 'black' : 'white' }} />
+              <Badge badgeContent={cartItems.length} color="primary">
+                <ShoppingCartCheckoutIcon sx={{ color: theme === Theme.LIGHT ? 'black' : 'white' }} />
+              </Badge>
+              
             </Link>
           </ListItem>
           <ListItem disablePadding sx={{ marginLeft: 1 }}>
