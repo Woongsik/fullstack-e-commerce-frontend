@@ -17,7 +17,6 @@ import { AppState, useAppDispatch } from '../../redux/store';
 import { deleteProduct, fetchProduct } from '../../redux/slices/ProductSlice';
 import { addToCart, addToFavorites } from '../../redux/slices/CartSlice';
 import { MUIButtonVariant, MUIColor, MUILayout } from '../../misc/types/MUI';
-import { Product } from '../../misc/types/Product';
 import { User, UserRole } from '../../misc/types/User';
 import CartItem from '../../misc/types/CartItem';
 import CartSliceUtil from '../../redux/utils/CartSliceUtil';

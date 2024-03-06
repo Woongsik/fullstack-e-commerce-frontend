@@ -4,8 +4,8 @@ import Sort from "../../misc/types/Sort";
 import productReducer, { initialState, InitialState, deleteProduct, fetchProduct, fetchProducts, registerProduct, sortBy, updateFilter, updateProduct } from "../../redux/slices/ProductSlice";
 import ProductSliceUtils from "../../redux/utils/ProductSliceUtils";
 import { createNewStore } from "../../redux/store";
-import { productServer } from "../shared/ProductServer";
 import Category from "../../misc/types/Category";
+import { productServer } from "../shared/ProductServer";
 
 let store = createNewStore();
 beforeAll(() => {

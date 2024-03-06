@@ -10,7 +10,7 @@ import { MUILayout } from '../../misc/types/MUI';
 
 export default function Profile() {
   useUserSession();
-  const { user, loading, error } = useSelector((state: AppState) => state.userReducer)
+  const { user, loading } = useSelector((state: AppState) => state.userReducer)
     
   if (!user) {
     console.log('user not existed');
