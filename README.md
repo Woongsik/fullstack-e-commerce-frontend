@@ -101,129 +101,129 @@
    ![screenshot of the site home](<Screenshot_home.png>)
    ![screenshot of the site details](<Screenshot_detail.png>)
    ![screenshot of the site cart](<Screenshot_cart.png>)
-   ![screenshot of the site responsive](<Screenshot_mobile.png>)
+   ![screenshot of the site filter](<Screenshot_filter.png>)
 
    <a name="architecture_design"></a>
    ### Architecture & Design:
       #### Folter structure: App > Router & Store > Redux & ContextAPI > Pages > Components 
-      📦src
-      ┣ 📂components
-      ┃ ┣ 📂cartItemCard
-      ┃ ┃ ┗ 📜CartItemCard.tsx
-      ┃ ┣ 📂cartSummary
-      ┃ ┃ ┗ 📜CartSummary.tsx
-      ┃ ┣ 📂cateogries
-      ┃ ┃ ┗ 📜Categories.tsx
-      ┃ ┣ 📂contextAPI
-      ┃ ┃ ┣ 📂footer
-      ┃ ┃ ┃ ┗ 📜Footer.tsx
-      ┃ ┃ ┣ 📂navbar
-      ┃ ┃ ┃ ┗ 📜Navbar.tsx
-      ┃ ┃ ┗ 📜ThemeContext.tsx
-      ┃ ┣ 📂productCard
-      ┃ ┃ ┗ 📜ProductCard.tsx
-      ┃ ┣ 📂productCreateOrUpdate
-      ┃ ┃ ┗ 📜ProductCreateOrUpdate.tsx
-      ┃ ┣ 📂productEdit
-      ┃ ┃ ┗ 📜ProductEdit.tsx
-      ┃ ┣ 📂productList
-      ┃ ┃ ┗ 📜ProductList.tsx
-      ┃ ┣ 📂roleIndicator
-      ┃ ┃ ┗ 📜RoleIndicator.tsx
-      ┃ ┣ 📂sortSelects
-      ┃ ┃ ┗ 📜SortSelects.tsx
-      ┃ ┗ 📂uis // UI that make the components reusable 
-      ┃ ┃ ┣ 📂button
-      ┃ ┃ ┃ ┣ 📜UiButton.tsx
-      ┃ ┃ ┃ ┗ 📜UiRoundButton.tsx
-      ┃ ┃ ┣ 📂carousel
-      ┃ ┃ ┃ ┣ 📜UiCarousel.css
-      ┃ ┃ ┃ ┗ 📜UiCarousel.tsx
-      ┃ ┃ ┣ 📂fileUploader
-      ┃ ┃ ┃ ┗ 📜FileUploader.tsx
-      ┃ ┃ ┣ 📂form
-      ┃ ┃ ┃ ┗ 📜UiFormSelects.tsx
-      ┃ ┃ ┣ 📂image
-      ┃ ┃ ┃ ┣ 📜UiBrokenImage.tsx
-      ┃ ┃ ┃ ┣ 📜UiImage.tsx
-      ┃ ┃ ┃ ┣ 📜UiNoImage.tsx
-      ┃ ┃ ┃ ┗ 📜UiThumb.tsx
-      ┃ ┃ ┣ 📂layout
-      ┃ ┃ ┃ ┣ 📜CenteredContainer.tsx
-      ┃ ┃ ┃ ┗ 📜GridContainer.tsx
-      ┃ ┃ ┣ 📂loading
-      ┃ ┃ ┃ ┗ 📜LoadingBackdrop.tsx
-      ┃ ┃ ┣ 📂pageCounter
-      ┃ ┃ ┃ ┗ 📜PageCounter.tsx
-      ┃ ┃ ┣ 📂pageNavigation
-      ┃ ┃ ┃ ┗ 📜PageNavigation.tsx
-      ┃ ┃ ┣ 📂priceRangeSlider
-      ┃ ┃ ┃ ┗ 📜PriceRangeSlider.tsx
-      ┃ ┃ ┣ 📂searchInput
-      ┃ ┃ ┃ ┗ 📜SearchInput.tsx
-      ┃ ┃ ┗ 📜UiDialog.tsx
-      ┣ 📂hooks
-      ┃ ┗ 📜useUserSession.ts
-      ┣ 📂misc
-      ┃ ┗ 📂types
-      ┃ ┃ ┣ 📜CartItem.ts
-      ┃ ┃ ┣ 📜Category.ts
-      ┃ ┃ ┣ 📜Filter.ts
-      ┃ ┃ ┣ 📜Forms.ts
-      ┃ ┃ ┣ 📜MUI.ts
-      ┃ ┃ ┣ 📜Product.ts
-      ┃ ┃ ┣ 📜Sort.ts
-      ┃ ┃ ┣ 📜UploadedImage.ts
-      ┃ ┃ ┗ 📜User.ts
-      ┣ 📂pages
-      ┃ ┣ 📂cart
-      ┃ ┃ ┗ 📜Cart.tsx
-      ┃ ┣ 📂home
-      ┃ ┃ ┗ 📜Home.tsx
-      ┃ ┣ 📂login
-      ┃ ┃ ┗ 📜Login.tsx
-      ┃ ┣ 📂prodcutDetail
-      ┃ ┃ ┗ 📜ProductDetail.tsx
-      ┃ ┣ 📂productUpdate
-      ┃ ┃ ┗ 📜ProdcutUpdate.tsx
-      ┃ ┗ 📂profile
-      ┃ ┃ ┗ 📜Profile.tsx
-      ┣ 📂redux
-      ┃ ┣ 📂slices // Using reducers, data can go further
-      ┃ ┃ ┣ 📜CartSlice.ts
-      ┃ ┃ ┣ 📜CategorySlice.ts
-      ┃ ┃ ┣ 📜ProductSlice.ts
-      ┃ ┃ ┗ 📜UserSlice.ts
-      ┃ ┣ 📂utils // Help reducers and do dirty work behind the scene :) 
-      ┃ ┃ ┣ 📜CartSliceUtil.ts
-      ┃ ┃ ┣ 📜ProductSliceUtils.ts
-      ┃ ┃ ┗ 📜UserSlicerUtil.ts
-      ┃ ┗ 📜store.ts
-      ┣ 📂services
-      ┃ ┗ 📜APIService.ts // Centralized apiService
-      ┣ 📂test // Testing server & Reducers 
-      ┃ ┣ 📂redux
-      ┃ ┃ ┣ 📜CartReducer.test.ts
-      ┃ ┃ ┣ 📜CategoryReducer.test.ts
-      ┃ ┃ ┣ 📜CategoryReducerWithMockingServer.test.ts
-      ┃ ┃ ┣ 📜ProductReducerWithMockServer.test.ts
-      ┃ ┃ ┣ 📜ProductsReducer.test.ts
-      ┃ ┃ ┣ 📜UserReducer.test.ts
-      ┃ ┃ ┗ 📜UserReducerWithMockingServer.test.ts
-      ┃ ┗ 📂shared
-      ┃ ┃ ┣ 📜CategoryServer.ts
-      ┃ ┃ ┣ 📜ProductServer.ts
-      ┃ ┃ ┗ 📜UserServer.ts
-      ┣ 📂utils
-      ┃ ┣ 📜DateUtil.ts
-      ┃ ┗ 📜Urls.ts
-      ┣ 📜App.tsx
-      ┣ 📜index.css
-      ┣ 📜index.tsx
-      ┣ 📜logo.svg
-      ┣ 📜react-app-env.d.ts
-      ┣ 📜reportWebVitals.ts
-      ┗ 📜setupTests.ts
+      src
+      ┣ components
+      ┃ ┣ cart
+      ┃ ┃ ┣ cartItemCard
+      ┃ ┃ ┃ ┗ CartItemCard.tsx
+      ┃ ┃ ┗ cartSummary
+      ┃ ┃ ┃ ┗ CartSummary.tsx
+      ┃ ┣ cateogries
+      ┃ ┃ ┗ Categories.tsx
+      ┃ ┣ contextAPI
+      ┃ ┃ ┣ footer
+      ┃ ┃ ┃ ┗ Footer.tsx
+      ┃ ┃ ┣ navbar
+      ┃ ┃ ┃ ┗ Navbar.tsx
+      ┃ ┃ ┗ ThemeContext.tsx
+      ┃ ┣ product
+      ┃ ┃ ┣ productCard
+      ┃ ┃ ┃ ┗ ProductCard.tsx
+      ┃ ┃ ┣ productCreateOrUpdate
+      ┃ ┃ ┃ ┗ ProductCreateOrUpdate.tsx
+      ┃ ┃ ┣ productEdit
+      ┃ ┃ ┃ ┗ ProductEdit.tsx
+      ┃ ┃ ┗ productList
+      ┃ ┃ ┃ ┗ ProductList.tsx
+      ┃ ┗ ui // UI that make the components reusable 
+      ┃ ┃ ┣ button
+      ┃ ┃ ┃ ┣ UiButton.tsx
+      ┃ ┃ ┃ ┗ UiRoundButton.tsx
+      ┃ ┃ ┣ carousel
+      ┃ ┃ ┃ ┣ UiCarousel.css
+      ┃ ┃ ┃ ┗ UiCarousel.tsx
+      ┃ ┃ ┣ fileUploader
+      ┃ ┃ ┃ ┗ FileUploader.tsx
+      ┃ ┃ ┣ form
+      ┃ ┃ ┃ ┗ UiFormSelects.tsx
+      ┃ ┃ ┣ image
+      ┃ ┃ ┃ ┣ UiBrokenImage.tsx
+      ┃ ┃ ┃ ┣ UiImage.tsx
+      ┃ ┃ ┃ ┣ UiNoImage.tsx
+      ┃ ┃ ┃ ┗ UiThumb.tsx
+      ┃ ┃ ┣ layout
+      ┃ ┃ ┃ ┣ CenteredContainer.tsx
+      ┃ ┃ ┃ ┗ GridContainer.tsx
+      ┃ ┃ ┣ loading
+      ┃ ┃ ┃ ┗ LoadingBackdrop.tsx
+      ┃ ┃ ┣ pageCounter
+      ┃ ┃ ┃ ┗ PageCounter.tsx
+      ┃ ┃ ┣ pageNavigation
+      ┃ ┃ ┃ ┗ PageNavigation.tsx
+      ┃ ┃ ┣ priceRangeSlider
+      ┃ ┃ ┃ ┗ PriceRangeSlider.tsx
+      ┃ ┃ ┣ searchInput
+      ┃ ┃ ┃ ┗ SearchInput.tsx
+      ┃ ┃ ┣ sortSelects
+      ┃ ┃ ┃ ┗ SortSelects.tsx
+      ┃ ┃ ┗ UiDialog.tsx
+      ┣ hooks
+      ┃ ┗ useUserSession.ts
+      ┣ misc
+      ┃ ┣ types
+      ┃ ┃ ┣ CartItem.ts
+      ┃ ┃ ┣ Category.ts
+      ┃ ┃ ┣ Filter.ts
+      ┃ ┃ ┣ Forms.ts
+      ┃ ┃ ┣ MUI.ts
+      ┃ ┃ ┣ Product.ts
+      ┃ ┃ ┣ Sort.ts
+      ┃ ┃ ┣ UploadedImage.ts
+      ┃ ┃ ┗ User.ts
+      ┃ ┗ utils
+      ┃ ┃ ┣ DateUtil.ts
+      ┃ ┃ ┗ Urls.ts
+      ┣ pages
+      ┃ ┣ cart
+      ┃ ┃ ┗ Cart.tsx
+      ┃ ┣ home
+      ┃ ┃ ┗ Home.tsx
+      ┃ ┣ login
+      ┃ ┃ ┗ Login.tsx
+      ┃ ┣ prodcutDetail
+      ┃ ┃ ┗ ProductDetail.tsx
+      ┃ ┣ productUpdate
+      ┃ ┃ ┗ ProdcutUpdate.tsx
+      ┃ ┗ profile
+      ┃ ┃ ┗ Profile.tsx
+      ┣ redux // Using reducers, data can go further
+      ┃ ┣ slices 
+      ┃ ┃ ┣ CartSlice.ts
+      ┃ ┃ ┣ CategorySlice.ts
+      ┃ ┃ ┣ ProductSlice.ts
+      ┃ ┃ ┗ UserSlice.ts
+      ┃ ┣ utils // Help reducers that do the dirty work behind the scene :) 
+      ┃ ┃ ┣ CartSliceUtil.ts
+      ┃ ┃ ┣ ProductSliceUtils.ts
+      ┃ ┃ ┗ UserSlicerUtil.ts
+      ┃ ┗ store.ts
+      ┣ services
+      ┃ ┗ APIService.ts // Centralized apiService
+      ┣ test  // Testing server & Reducers 
+      ┃ ┣ redux
+      ┃ ┃ ┣ CartReducer.test.ts
+      ┃ ┃ ┣ CategoryReducer.test.ts
+      ┃ ┃ ┣ CategoryReducerWithMockingServer.test.ts
+      ┃ ┃ ┣ ProductReducerWithMockServer.test.ts
+      ┃ ┃ ┣ ProductsReducer.test.ts
+      ┃ ┃ ┣ UserReducer.test.ts
+      ┃ ┃ ┗ UserReducerWithMockingServer.test.ts
+      ┃ ┗ shared
+      ┃ ┃ ┣ CategoryServer.ts
+      ┃ ┃ ┣ ProductServer.ts
+      ┃ ┃ ┗ UserServer.ts
+      ┣ App.tsx
+      ┣ index.css
+      ┣ index.tsx
+      ┣ logo.svg
+      ┣ react-app-env.d.ts
+      ┣ reportWebVitals.ts
+      ┗ setupTests.ts
    
    <a name="testing"></a>
    ### Testing:   
@@ -233,8 +233,8 @@
 
    To avoid, potential error, axios is used for the application.
    In order to test with server, use fetch in src/services/apiService.ts 
-   Just comment out axios part. (Remove comments line 22 to line 37 , add comment line 41 to 49 )
-   Also src/test/redux/productReducerWithMockServer.ts(line 3) 
+   Just comment out axios part (Remove comments line 22 to line 37 , add comment line 41 to 49 )
+   Also src/test/redux/productReducerWithMockServer.ts(line 3, 13, 21) 
 
    Currently all the reducers are tested (productSlice, userSlice, cartSlice, categorySlice)
    Total 132 tests runs and passed in 7 test suites.
