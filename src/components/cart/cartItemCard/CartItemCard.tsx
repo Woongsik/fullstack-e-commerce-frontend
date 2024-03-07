@@ -69,7 +69,7 @@ export default function CartItemCard(props: Props) {
         : <UiNoImage />}
         </Link>
       </Box>
-      <Box component={'div'} marginLeft={2} width={'100%'}
+      <Box component={'div'} marginLeft={2} width={'65%'}
             display={'flex'} flexWrap={'wrap'} alignContent={'space-between'}>
         <Box width={'100%'}>
           <Link to={`/product/${item.id}`} style={{ textDecoration: 'none'}}>

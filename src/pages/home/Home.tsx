@@ -14,6 +14,7 @@ import CenteredContainer from '../../components/ui/layout/CenteredContainer';
 import GridContainer from '../../components/ui/layout/GridContainer';
 import PageCounter from '../../components/ui/pageCounter/PageCounter';
 import UiButton from '../../components/ui/button/UiButton';
+import ScrollToTop from '../../components/ui/scrollToTop/ScrollToTop';
 import { useAppDispatch, AppState } from '../../redux/store';
 import { fetchProducts, updateFilter } from '../../redux/slices/ProductSlice';
 import { useUserSession } from '../../hooks/useUserSession';
@@ -156,6 +157,8 @@ export default function Home() {
           </Box>
         </Box>
       </Drawer>
+
+      <ScrollToTop />
     </GridContainer>
   )
 }
