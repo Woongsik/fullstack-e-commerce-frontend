@@ -132,7 +132,7 @@
       ┃ ┃ ┗ 📜RoleIndicator.tsx
       ┃ ┣ 📂sortSelects
       ┃ ┃ ┗ 📜SortSelects.tsx
-      ┃ ┗ 📂uis
+      ┃ ┗ 📂uis // UI that make the components reusable 
       ┃ ┃ ┣ 📂button
       ┃ ┃ ┃ ┣ 📜UiButton.tsx
       ┃ ┃ ┃ ┗ 📜UiRoundButton.tsx
@@ -189,19 +189,19 @@
       ┃ ┗ 📂profile
       ┃ ┃ ┗ 📜Profile.tsx
       ┣ 📂redux
-      ┃ ┣ 📂slices
+      ┃ ┣ 📂slices // Using reducers, data can go further
       ┃ ┃ ┣ 📜CartSlice.ts
       ┃ ┃ ┣ 📜CategorySlice.ts
       ┃ ┃ ┣ 📜ProductSlice.ts
       ┃ ┃ ┗ 📜UserSlice.ts
-      ┃ ┣ 📂utils
+      ┃ ┣ 📂utils // Help reducers and do dirty work behind the scene :) 
       ┃ ┃ ┣ 📜CartSliceUtil.ts
       ┃ ┃ ┣ 📜ProductSliceUtils.ts
       ┃ ┃ ┗ 📜UserSlicerUtil.ts
       ┃ ┗ 📜store.ts
       ┣ 📂services
-      ┃ ┗ 📜APIService.ts
-      ┣ 📂test
+      ┃ ┗ 📜APIService.ts // Centralized apiService
+      ┣ 📂test // Testing server & Reducers 
       ┃ ┣ 📂redux
       ┃ ┃ ┣ 📜CartReducer.test.ts
       ┃ ┃ ┣ 📜CategoryReducer.test.ts
