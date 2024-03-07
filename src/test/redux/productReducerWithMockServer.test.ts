@@ -1,6 +1,6 @@
 import Category from "../../misc/types/Category";
 import Filter from "../../misc/types/Filter";
-import { productMockServer } from "../shared/ProductServer";
+// import { productMockServer } from "../shared/ProductServer";
 import { Product, ProductRegister, ProductUpdate, ProductUpdateItem } from "../../misc/types/Product";
 import { deleteProduct, fetchProduct, fetchProducts, registerProduct, updateProduct } from "../../redux/slices/ProductSlice";
 import { createNewStore } from "../../redux/store";
@@ -10,7 +10,7 @@ import { mockCategories } from "./CategoryReducer.test";
 let store = createNewStore();
 
 beforeAll(() => {
-  productMockServer.listen();
+  // productMockServer.listen();
 });
 
 beforeEach(() => {
@@ -18,7 +18,7 @@ beforeEach(() => {
 });
 
 afterAll(() => {
-  productMockServer.close();
+  // productMockServer.close();
 });
 
 
