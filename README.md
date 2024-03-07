@@ -236,7 +236,7 @@
    Just comment out axios part. (You will easily know what to do in code)
 
    Currently all the reducers are tested (productSlice, userSlice, cartSlice, categorySlice)
-   Total 140 tests runs and passed in 7 test suites.
+   Total 132 tests runs and passed in 7 test suites.
 
    Testing code src/test/redux
    Testing server src/test/shared

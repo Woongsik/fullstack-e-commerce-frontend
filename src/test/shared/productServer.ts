@@ -84,4 +84,4 @@ export const handler = [
 
 ];
 
-export const productServer = setupServer(...handler);
+export const productMockServer = setupServer(...handler);
