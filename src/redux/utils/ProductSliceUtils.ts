@@ -38,7 +38,20 @@ const checkImagesForProducts = (products: Product[]): Product[] => {
 const checkImagesForProduct = (product: Product): Product => {
   if (product && product.images && product.images.length > 0) {
     product.images = product.images.map((image: string) => {
-      return image.split('"')[1];
+      if (image.startsWith('http')) {
+        return image;
+      }
+
+      image = image.replaceAll('"', '');
+      if (image.startsWith('[')) {
+        image = image.slice(1, image.length);
+      }
+
+      if (image.includes(']')) {
+        image = image.slice(0, image.length -1);
+      }
+
+      return image;
     });
   }
   return product;

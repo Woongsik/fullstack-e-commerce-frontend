@@ -17,8 +17,9 @@ import { useUserSession } from '../../hooks/useUserSession';
 import { Product } from '../../misc/types/Product';
 import Filter from '../../misc/types/Filter';
 import CenteredContainer from '../../components/uis/layout/CenteredContainer';
-import { MUILayout } from '../../misc/types/MUI';
+import { MUIButtonType, MUIButtonVariant, MUIColor, MUILayout } from '../../misc/types/MUI';
 import PageCounter from '../../components/uis/pageCounter/PageCounter';
+import UiButton from '../../components/uis/button/UiButton';
 
 export default function Home() {
   const baseCategoryId: number = 0;
@@ -119,6 +120,13 @@ export default function Home() {
       </CenteredContainer>
       <Drawer open={openDrawer} onClose={() => toggleDrawer(false)}>
         <Box margin={3}>
+          <Box width={'100%'} display={'flex'} justifyContent={MUILayout.FLEX_END}>
+            <UiButton color={MUIColor.PRIMARY} variant={MUIButtonVariant.OUTLINED}
+              onClick={() => toggleDrawer(false)}>
+              Close
+            </UiButton>
+          </Box>
+          
           <h1>Filters</h1>
 
           <Box my={2}>

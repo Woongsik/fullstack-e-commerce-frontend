@@ -3,6 +3,8 @@ import * as lodash from 'lodash';
 import { Box, Slider, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../../redux/store';
+import CenteredContainer from '../layout/CenteredContainer';
+import { MUILayout } from '../../../misc/types/MUI';
 
 type Props = {
   minPrice?: number,
@@ -15,9 +17,6 @@ export default function PriceRangeSlider(props: Props) {
   const { minMaxPrice } = useSelector((state: AppState) => state.productReducer);
   const baseMinPrice: number = minPrice ?? minMaxPrice[0];
   const baseMaxPrice: number = maxPrice ?? minMaxPrice[1];
-
-  console.log('minMax from selector', minMaxPrice);
-
   const [value, setValue] = useState<number[]>([baseMinPrice, baseMaxPrice]);
   
   // Optimization with useCallback & debounce
@@ -34,16 +33,18 @@ export default function PriceRangeSlider(props: Props) {
       <Typography>
         Price range
       </Typography>
-      <Box sx={{ width: 300 }} component={'div'} display={'flex'} alignItems={'center'}>
-        <Box component={'div'} margin={'0 15px'}>{value[0]}</Box>
+      <CenteredContainer width={'300px'} justifyContent={MUILayout.SPACE_BETWEEN}>
+        <Box marginLeft={'5px'}>€ {value[0]}</Box>
+        <Box marginRight={'5px'}>€ {value[1]}</Box>
+      </CenteredContainer> 
+      <CenteredContainer margin={'0 15px'}>
         <Slider
-          value={value}
-          onChange={handleChange}
-          valueLabelDisplay="auto"
-          min={minMaxPrice[0]}
-          max={minMaxPrice[1]} />
-        <Box component={'div'} margin={'0 15px'}>{value[1]}</Box>
-      </Box>  
+            value={value}
+            onChange={handleChange}
+            valueLabelDisplay="auto"
+            min={minMaxPrice[0]}
+            max={minMaxPrice[1]} />
+        </CenteredContainer> 
     </Box>
     
   );

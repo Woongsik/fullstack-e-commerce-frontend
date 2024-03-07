@@ -26,6 +26,8 @@ export default function FileUploader(props: Props) {
   }
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+
     if (e.target.files) {
       const fileList: FileList = e.target.files;
       const fileListAsArray = Array.from(fileList);
@@ -86,14 +88,13 @@ export default function FileUploader(props: Props) {
           alt={`preview_${index}`}
           width={50}
           height={50}
-          buttonTitle='Delete'
           onClick={() => askToDelete(index)} />
       )}
       </Box>
 
       <UiDialog 
         show={showDialog}
-        title={<span>Remove the picutre, <span style={{ fontWeight: 'bold'}}>{files[deleteApplicantIndex]?.name}</span>?</span>}
+        title={<span>Remove the picutre <span style={{ fontWeight: 'bold'}}>{files[deleteApplicantIndex]?.name}</span>?</span>}
         cancelTitle='Cancel'
         proceedTitle='Remove'
         proceedColor='red'

@@ -145,17 +145,22 @@ export default function ProductCreateOrUpdate(props: Props) {
             type="number"
             label="Product price"
             defaultValue={product ? product.price : 0}
+            InputProps={{
+              inputProps: { 
+                min: 0 
+              }
+            }}
             helperText={errors.price && 'Incorrect price! Only numbers'} />          
         </Box>
         <Box my={1}>
           <TextField
-            {...register("description", { required: true, pattern: /^[A-Za-z0-9?.,=_@&\- ]+$/i }) }
+            {...register("description", { required: true, pattern: /^[A-Za-z0-9?.,=_@&!'\- ]+$/i }) }
             error={Boolean(errors.description)}
             label="Product description"
             multiline
             minRows={4}
             defaultValue={product ? product.description : ''}
-            helperText={errors.description && 'Incorrect description! Accept special character only ?.,=-_@'} />       
+            helperText={errors.description && 'Incorrect description! Accept special character only ?.,=-_@&!'} />       
         </Box>
         <Box my={1} marginLeft={1}>
           <Categories 
@@ -166,14 +171,17 @@ export default function ProductCreateOrUpdate(props: Props) {
             error={Boolean(errors.categoryId)} />
         </Box>
 
-        <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'} my={1}>
-          <FileUploader onChange={onFileChange}/>
-        </Box>
+        { !product && 
+          <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'} my={1}>
+            <FileUploader onChange={onFileChange}/>
+          </Box> 
+        }
 
         <UiRoundButton 
           theme='black'
           variant={MUIButtonVariant.CONTAINED}
-          type={MUIButtonType.SUBMIT}>
+          type={MUIButtonType.SUBMIT}
+          margin={'30px 0'}>
             Submit
         </UiRoundButton>
       </Box>

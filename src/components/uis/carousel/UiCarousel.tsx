@@ -64,7 +64,7 @@ export default function UiCarousel(props: Props) {
       slidesToSlide={1}
       swipeable>
       {images.map((image: string, index: number) =>
-        <Box component={'div'} key={index} minWidth={500}>
+        <Box component={'div'} key={index}>
           <UiImage 
             src={image}
             alt={`${alt}_${index}`}

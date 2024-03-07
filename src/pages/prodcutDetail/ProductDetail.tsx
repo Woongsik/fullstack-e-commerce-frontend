@@ -148,7 +148,7 @@ export default function ProudctDetail() {
 
         <Divider sx={{ my: 1 }} />
         
-      {product ?
+      {product &&
         (editMode ? 
           <CenteredContainer margin={'0 10px'} alignItems={MUILayout.FLEX_START}>
             <ProductCreateOrUpdate 
@@ -197,16 +197,7 @@ export default function ProudctDetail() {
             </Box>
           </CenteredContainer>
         </CenteredContainer>
-        )
-        :
-        ( showDeletedMessage && 
-        <CenteredContainer>
-          <Typography>
-            Successfully the Product is removed or product not existed!
-          </Typography>
-        </CenteredContainer>
-        )
-        }
+        )}
     </Box>
 
     <Snackbar
@@ -229,11 +220,11 @@ export default function ProudctDetail() {
         onClose={handleDelete}/>
 
       <LoadingBackdrop loading={loading} />
-      { error && 
-      <CenteredContainer>
+      { (error || showDeletedMessage) && 
+      <CenteredContainer margin={'-150px 0 0 0'}>
         <InfoOutlined sx={{ fontSize: 60 }} />
         <Typography fontWeight={'bold'} fontSize={22} width={'100%'} textAlign={'center'}>
-            Something went wrong or prodcut not existed! 
+            {showDeletedMessage ? 'Successfully Product removed!' : 'Something went wrong or prodcut not existed!'}
         </Typography>
         <Link to={'/home'}>
             <UiButton variant={MUIButtonVariant.CONTAINED} color={MUIColor.PRIMARY} customStyle={{ margin: '15px' }}>
