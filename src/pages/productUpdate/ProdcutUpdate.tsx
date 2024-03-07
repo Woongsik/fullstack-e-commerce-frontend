@@ -1,6 +1,6 @@
-import ProductCreateOrUpdate from '../../components/productCreateOrUpdate/ProductCreateOrUpdate';
-import CenteredContainer from '../../components/uis/layout/CenteredContainer';
-import GridContainer from '../../components/uis/layout/GridContainer';
+import ProductCreateOrUpdate from '../../components/product/productCreateOrUpdate/ProductCreateOrUpdate';
+import CenteredContainer from '../../components/ui/layout/CenteredContainer';
+import GridContainer from '../../components/ui/layout/GridContainer';
 import { useUserSession } from '../../hooks/useUserSession';
 import { MUILayout } from '../../misc/types/MUI';
 

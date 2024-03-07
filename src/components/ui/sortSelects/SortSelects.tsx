@@ -1,10 +1,10 @@
 import { useSelector } from 'react-redux';
 import { Box } from '@mui/material';
 
-import UiFormSelects from '../uis/form/UiFormSelects';
-import { AppState, useAppDispatch } from '../../redux/store';
-import { sortBy } from '../../redux/slices/ProductSlice';
-import Sort from '../../misc/types/Sort';
+import UiFormSelects from '../form/UiFormSelects';
+import { AppState, useAppDispatch } from '../../../redux/store';
+import { sortBy } from '../../../redux/slices/ProductSlice';
+import Sort from '../../../misc/types/Sort';
 
 export default function SortSelects() {
   const dispatch = useAppDispatch();

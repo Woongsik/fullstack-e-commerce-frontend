@@ -7,12 +7,12 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import { InfoOutlined } from '@mui/icons-material';
 
-import ProductCreateOrUpdate from '../../components/productCreateOrUpdate/ProductCreateOrUpdate';
-import CenteredContainer from '../../components/uis/layout/CenteredContainer';
-import UiCarousel from '../../components/uis/carousel/UiCarousel';
-import UiRoundButton from '../../components/uis/button/UiRoundButton';
-import UiButton from '../../components/uis/button/UiButton';
-import UiDialog from '../../components/uis/UiDialog';
+import ProductCreateOrUpdate from '../../components/product/productCreateOrUpdate/ProductCreateOrUpdate';
+import CenteredContainer from '../../components/ui/layout/CenteredContainer';
+import UiCarousel from '../../components/ui/carousel/UiCarousel';
+import UiRoundButton from '../../components/ui/button/UiRoundButton';
+import UiButton from '../../components/ui/button/UiButton';
+import UiDialog from '../../components/ui/UiDialog';
 import { AppState, useAppDispatch } from '../../redux/store';
 import { deleteProduct, fetchProduct } from '../../redux/slices/ProductSlice';
 import { addToCart, addToFavorites } from '../../redux/slices/CartSlice';
@@ -20,9 +20,9 @@ import { MUIButtonVariant, MUIColor, MUILayout } from '../../misc/types/MUI';
 import { User, UserRole } from '../../misc/types/User';
 import CartItem from '../../misc/types/CartItem';
 import CartSliceUtil from '../../redux/utils/CartSliceUtil';
-import GridContainer from '../../components/uis/layout/GridContainer';
+import GridContainer from '../../components/ui/layout/GridContainer';
 import { useUserSession } from '../../hooks/useUserSession';
-import LoadingBackdrop from '../../components/uis/loading/LoadingBackdrop';
+import LoadingBackdrop from '../../components/ui/loading/LoadingBackdrop';
 
 export default function ProudctDetail() {
   const { id } = useParams(); // product id

@@ -2,22 +2,22 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Box, Divider, Typography } from '@mui/material';
 
-import CartItemCard from '../../components/cartItemCard/CartItemCard';
-import CartSummary from '../../components/cartSummary/CartSummary';
+import CartItemCard from '../../components/cart/cartItemCard/CartItemCard';
+import CartSummary from '../../components/cart/cartSummary/CartSummary';
 import CartItem from '../../misc/types/CartItem';
 import { AppState, useAppDispatch } from '../../redux/store';
 import { useUserSession } from '../../hooks/useUserSession';
-import GridContainer from '../../components/uis/layout/GridContainer';
-import CenteredContainer from '../../components/uis/layout/CenteredContainer';
+import GridContainer from '../../components/ui/layout/GridContainer';
+import CenteredContainer from '../../components/ui/layout/CenteredContainer';
 import { MUIButtonVariant, MUIColor, MUILayout } from '../../misc/types/MUI';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import { clearCart } from '../../redux/slices/CartSlice';
 import { Link } from 'react-router-dom';
-import UiButton from '../../components/uis/button/UiButton';
+import UiButton from '../../components/ui/button/UiButton';
 
 export default function Cart() {
   const [checkedout, setCheckedout] = useState<boolean>(false);
-  const { cartItems, cartFavorites } = useSelector((state: AppState) => state.cartReducer);
+  const { cartItems } = useSelector((state: AppState) => state.cartReducer);
   useUserSession();
 
   const dispatch = useAppDispatch();

@@ -4,17 +4,17 @@ import { useNavigate } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Box, TextField } from '@mui/material';
 
-import Categories from '../cateogries/Categories';
-import FileUploader from '../uis/fileUploader/FileUploader';
-import CenteredContainer from '../uis/layout/CenteredContainer';
-import UiRoundButton from '../uis/button/UiRoundButton';
-import LoadingBackdrop from '../uis/loading/LoadingBackdrop';
-import { AppState, useAppDispatch } from '../../redux/store';
-import { registerProduct, updateProduct } from '../../redux/slices/ProductSlice';
-import { apiService } from '../../services/APIService';
-import { MUIButtonType, MUIButtonVariant, MUILayout } from '../../misc/types/MUI';
-import { Product, ProductUpdateItem } from '../../misc/types/Product';
-import { UploadedImage } from '../../misc/types/UploadedImage';
+import Categories from '../../cateogries/Categories';
+import FileUploader from '../../ui/fileUploader/FileUploader';
+import CenteredContainer from '../../ui/layout/CenteredContainer';
+import UiRoundButton from '../../ui/button/UiRoundButton';
+import LoadingBackdrop from '../../ui/loading/LoadingBackdrop';
+import { AppState, useAppDispatch } from '../../../redux/store';
+import { registerProduct, updateProduct } from '../../../redux/slices/ProductSlice';
+import { apiService } from '../../../services/APIService';
+import { MUIButtonType, MUIButtonVariant, MUILayout } from '../../../misc/types/MUI';
+import { Product, ProductUpdateItem } from '../../../misc/types/Product';
+import { UploadedImage } from '../../../misc/types/UploadedImage';
 
 type Inputs = {
   title: string,

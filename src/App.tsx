@@ -1,7 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 import Navbar from './components/contextAPI/navbar/Navbar';
-import RoleIndicator from "./components/roleIndicator/RoleIndicator";
 import Home from './pages/home/Home';
 import ProductDetail from "./pages/prodcutDetail/ProductDetail";
 import ProdcutUpdate from "./pages/productUpdate/ProdcutUpdate";
@@ -24,7 +23,6 @@ function App() {
           <Route path="/login" element={<Login />}></Route>
           <Route path='*' element={<Navigate to='/home' />} />
         </Routes>
-        {/* <RoleIndicator /> */}
       <Footer />
     </div>
   );

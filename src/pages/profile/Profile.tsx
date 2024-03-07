@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 
 import { AppState } from '../../redux/store';
 import { useUserSession } from '../../hooks/useUserSession';
-import GridContainer from '../../components/uis/layout/GridContainer';
-import CenteredContainer from '../../components/uis/layout/CenteredContainer';
+import GridContainer from '../../components/ui/layout/GridContainer';
+import CenteredContainer from '../../components/ui/layout/CenteredContainer';
 import { MUILayout } from '../../misc/types/MUI';
 
 export default function Profile() {

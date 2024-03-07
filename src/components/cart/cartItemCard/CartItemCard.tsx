@@ -4,17 +4,17 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { Link } from 'react-router-dom';
 
-import CenteredContainer from '../uis/layout/CenteredContainer';
-import UiFormSelects from '../uis/form/UiFormSelects';
-import UiButton from '../uis/button/UiButton';
-import UiDialog from '../uis/UiDialog';
-import UiImage from '../uis/image/UiImage';
-import UiNoImage from '../uis/image/UiNoImage';
-import { useAppDispatch } from '../../redux/store';
-import { removeFromCart, updateQuantityInCart } from '../../redux/slices/CartSlice';
-import { MUIButtonVariant, MUIColor, MUILayout, MUISize } from '../../misc/types/MUI';
-import CartItem from '../../misc/types/CartItem';
-import { Product } from '../../misc/types/Product';
+import CenteredContainer from '../../ui/layout/CenteredContainer';
+import UiFormSelects from '../../ui/form/UiFormSelects';
+import UiButton from '../../ui/button/UiButton';
+import UiDialog from '../../ui/UiDialog';
+import UiImage from '../../ui/image/UiImage';
+import UiNoImage from '../../ui/image/UiNoImage';
+import { useAppDispatch } from '../../../redux/store';
+import { removeFromCart, updateQuantityInCart } from '../../../redux/slices/CartSlice';
+import { MUIButtonVariant, MUIColor, MUILayout, MUISize } from '../../../misc/types/MUI';
+import CartItem from '../../../misc/types/CartItem';
+import { Product } from '../../../misc/types/Product';
 
 type Props = {
   cartItem: CartItem;

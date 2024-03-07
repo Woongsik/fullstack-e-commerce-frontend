@@ -4,7 +4,7 @@ import {
 } from '@mui/material';
 
 import ProductCard from '../productCard/ProductCard';
-import { Product } from '../../misc/types/Product';
+import { Product } from '../../../misc/types/Product';
 
 type Props = {
   products: Product[];

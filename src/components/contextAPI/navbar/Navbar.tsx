@@ -21,8 +21,8 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import LogoutIcon from '@mui/icons-material/Logout';
 
-import CenteredContainer from '../../uis/layout/CenteredContainer';
-import UiImage from '../../uis/image/UiImage';
+import CenteredContainer from '../../ui/layout/CenteredContainer';
+import UiImage from '../../ui/image/UiImage';
 import { Theme, useTheme } from '../ThemeContext';
 import { AppState, useAppDispatch } from '../../../redux/store';
 import { logout } from '../../../redux/slices/UserSlice';

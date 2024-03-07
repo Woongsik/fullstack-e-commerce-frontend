@@ -1,7 +1,7 @@
 import Filter from "../../misc/types/Filter";
 import { FilteredProducts, Product } from "../../misc/types/Product";
 import Sort from "../../misc/types/Sort";
-import DateUtil from "../../utils/DateUtil";
+import DateUtil from "../../misc/utils/DateUtil";
 
 const sortProducts = (products: Product[], sortType?: Sort): Product[] => {
   const duplicatedProducts = [...products];

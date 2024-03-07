@@ -7,7 +7,7 @@ import { mockProducts } from "../redux/ProductsReducer.test";
 import { mockCategories } from "../redux/CategoryReducer.test";
 import { Product, ProductRegister, ProductUpdateItem } from "../../misc/types/Product";
 import Category from "../../misc/types/Category";
-import { getUrlAsObject } from "../../utils/Urls";
+import { getUrlAsObject } from "../../misc/utils/Urls";
 
 export const handler = [
   http.get('https://api.escuelajs.co/api/v1/products', ({ request }) => { // fetch all products or queries

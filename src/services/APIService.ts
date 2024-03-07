@@ -1,4 +1,4 @@
-import { host, api } from '../utils/Urls';
+import { host, api } from '../misc/utils/Urls';
 import Filter from '../misc/types/Filter';
 import { Product, ProductRegister, ProductUpdateItem } from '../misc/types/Product';
 import Category from '../misc/types/Category';

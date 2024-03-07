@@ -4,22 +4,22 @@ import { useSelector } from 'react-redux';
 import SearchIcon from '@mui/icons-material/Search';
 import CancelIcon from '@mui/icons-material/Cancel';
 
+import SearchInput from '../../components/ui/searchInput/SearchInput';
+import ProductList from '../../components/product/productList/ProductList';
+import Categories from '../../components/cateogries/Categories';
+import PageNavigation from '../../components/ui/pageNavigation/PageNavigation';
+import SortSelects from '../../components/ui/sortSelects/SortSelects';
+import PriceRangeSlider from '../../components/ui/priceRangeSlider/PriceRangeSlider';
+import CenteredContainer from '../../components/ui/layout/CenteredContainer';
+import GridContainer from '../../components/ui/layout/GridContainer';
+import PageCounter from '../../components/ui/pageCounter/PageCounter';
+import UiButton from '../../components/ui/button/UiButton';
 import { useAppDispatch, AppState } from '../../redux/store';
 import { fetchProducts, updateFilter } from '../../redux/slices/ProductSlice';
-import SearchInput from '../../components/uis/searchInput/SearchInput';
-import ProductList from '../../components/productList/ProductList';
-import Categories from '../../components/cateogries/Categories';
-import PageNavigation from '../../components/uis/pageNavigation/PageNavigation';
-import SortSelects from '../../components/sortSelects/SortSelects';
-import PriceRangeSlider from '../../components/uis/priceRangeSlider/PriceRangeSlider';
-import GridContainer from '../../components/uis/layout/GridContainer';
 import { useUserSession } from '../../hooks/useUserSession';
 import { Product } from '../../misc/types/Product';
 import Filter from '../../misc/types/Filter';
-import CenteredContainer from '../../components/uis/layout/CenteredContainer';
-import { MUIButtonType, MUIButtonVariant, MUIColor, MUILayout } from '../../misc/types/MUI';
-import PageCounter from '../../components/uis/pageCounter/PageCounter';
-import UiButton from '../../components/uis/button/UiButton';
+import { MUIButtonVariant, MUIColor, MUILayout } from '../../misc/types/MUI';
 
 export default function Home() {
   const baseCategoryId: number = 0;

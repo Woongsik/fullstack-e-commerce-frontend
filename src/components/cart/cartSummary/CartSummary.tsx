@@ -1,7 +1,7 @@
-import CartItem from '../../misc/types/CartItem'
+import CartItem from '../../../misc/types/CartItem'
 import { Box, Divider, Input, Typography } from '@mui/material'
-import { MUIButtonVariant } from '../../misc/types/MUI'
-import UiRoundButton from '../uis/button/UiRoundButton'
+import { MUIButtonVariant } from '../../../misc/types/MUI'
+import UiRoundButton from '../../ui/button/UiRoundButton'
 
 type Props = {
   cartItems: CartItem[],

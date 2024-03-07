@@ -6,7 +6,7 @@ import { useAppDispatch, AppState } from '../../redux/store';
 import { fetchAllCategoriesAsync } from '../../redux/slices/CategorySlice';
 
 import Category from '../../misc/types/Category';
-import UiFormSelects from '../uis/form/UiFormSelects';
+import UiFormSelects from '../ui/form/UiFormSelects';
 
 type Props = {
   selectedCategoryId?: number;
