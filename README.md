@@ -233,7 +233,8 @@
 
    To avoid, potential error, axios is used for the application.
    In order to test with server, use fetch in src/services/apiService.ts 
-   Just comment out axios part. (You will easily know what to do in code)
+   Just comment out axios part. (Remove comments line 22 to line 37 , add comment line 41 to 49 )
+   Also src/test/redux/productReducerWithMockServer.ts(line 3) 
 
    Currently all the reducers are tested (productSlice, userSlice, cartSlice, categorySlice)
    Total 132 tests runs and passed in 7 test suites.
