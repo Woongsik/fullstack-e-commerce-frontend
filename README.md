@@ -157,6 +157,8 @@
       ┃ ┃ ┃ ┗ PageNavigation.tsx
       ┃ ┃ ┣ priceRangeSlider
       ┃ ┃ ┃ ┗ PriceRangeSlider.tsx
+      ┃ ┃ ┣ scrollToTop
+      ┃ ┃ ┃ ┗ ScrollToTop.tsx
       ┃ ┃ ┣ searchInput
       ┃ ┃ ┃ ┗ SearchInput.tsx
       ┃ ┃ ┣ sortSelects
