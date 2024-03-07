@@ -101,7 +101,7 @@ export default function Home() {
   return (
     <GridContainer alignItems={MUILayout.FLEX_START}>
       <CenteredContainer height={'50px'}  width={'100%'} sx={{ position: 'sticky', top: 0}}>
-        <CenteredContainer  sx={{ backgroundColor: 'black', borderRadius: '15px' }} margin={'5px'}>
+        <CenteredContainer  sx={{ backgroundColor: 'black', borderRadius: '30px' }} margin={'5px'}>
           <CenteredContainer sx={{ color: 'white', padding: '5px 20px'}} >
             <CenteredContainer onClick={() => toggleDrawer(true)} sx={{ cursor: 'pointer', marginRight: 1 }}>
               <SearchIcon /> Search

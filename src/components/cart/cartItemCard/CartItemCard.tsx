@@ -59,7 +59,7 @@ export default function CartItemCard(props: Props) {
   return (
     <>
     {showDivier && <Divider />}
-    <Box display={'flex'} my={1} width={'100%'} minHeight={150}>
+    <Box display={'flex'} my={1} width={'100%'} minHeight={130}>
       <Box width={130}>
         <Link to={`/product/${item.id}`}>
         {(item.images && item.images[0]) ?

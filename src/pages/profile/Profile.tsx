@@ -1,4 +1,4 @@
-import { Avatar, Box, Typography } from '@mui/material';
+import { Avatar, Box, Card, Chip, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -8,6 +8,9 @@ import GridContainer from '../../components/ui/layout/GridContainer';
 import CenteredContainer from '../../components/ui/layout/CenteredContainer';
 import { MUILayout } from '../../misc/types/MUI';
 
+const titleChip = (title: string) => {
+  return (<Chip label={title} variant="outlined" sx={{ minWidth: '100px', color: 'black', backgroundColor: 'white', marginRight: 1 }}></Chip>);
+}
 export default function Profile() {
   useUserSession();
   const { user, loading } = useSelector((state: AppState) => state.userReducer)
@@ -19,35 +22,40 @@ export default function Profile() {
   return (
     <GridContainer alignItems={MUILayout.FLEX_START}>
       <CenteredContainer width={'75%'} alignItems={MUILayout.FLEX_START} margin={'50px 0'}>
-        <Box>
+        <Box width={'100%'}>
           {user && 
-          <Box>
+          <Box width={'100%'}>
             <CenteredContainer width={'100%'}>
               <Avatar 
                 alt={user.name} 
                 src={user.avatar}
-                sx={{ height: '120px', width: '120px'}} />
-              </CenteredContainer>
-           
-            <CenteredContainer width={'100%'}>
-              <h1>Moi, {user.name}!</h1>
+                sx={{ height: '120px', width: '120px'}} />              
             </CenteredContainer>
-            
-            <Typography>
-              Name: {user.name}
-            </Typography>
 
-            <Typography>
-              Email: {user.email}
-            </Typography>
+            <Card sx={{ marginTop: '-50px', display: 'flex', minWidth: '300px', justifyContent: 'center'}}>
+              <CenteredContainer width={'30%'} sx={{ minWidth: '300px', margin: '50px 30px' }}>
+                <CenteredContainer width={'100%'}>
+                  <h1>Moi, {user.name}!</h1>
+                </CenteredContainer>
+                <CenteredContainer width={'100%'} justifyContent={MUILayout.FLEX_START}>
+                  <Typography my={2}>
+                    {titleChip('Username')} {user.name}
+                  </Typography>
 
-            <Typography>
-              Role: {user.role.toUpperCase()}
-            </Typography>
+                  <Typography my={2}>
+                    {titleChip('Contact')} {user.email}
+                  </Typography>
 
-            <Typography>
-              Avatar URL: {user.avatar}
-            </Typography>
+                  <Typography my={2}>
+                    {titleChip('Role')} {user.role.toUpperCase()}
+                  </Typography>
+
+                  <Typography my={2}>
+                    {titleChip('Avatar')} {user.avatar}
+                  </Typography>
+                </CenteredContainer>
+              </CenteredContainer>
+            </Card>
           </Box>
           }
           

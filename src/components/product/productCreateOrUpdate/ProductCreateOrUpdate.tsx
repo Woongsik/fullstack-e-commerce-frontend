@@ -140,7 +140,9 @@ export default function ProductCreateOrUpdate(props: Props) {
         </Box>
         <Box my={1}>
           <TextField
-            {...register("price", { required: true, pattern: /^[1-9]+$/i }) }
+            {...register("price", { required: true, 
+              valueAsNumber: true,
+              validate: (value) => value > 0 }) }
             error={Boolean(errors.price)}
             type="number"
             label="Product price"
