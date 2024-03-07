@@ -8,7 +8,7 @@
    JWT is used for user session, the access token is valid for 20 days, and the refresh token is valid for 10 hours.
    Once you are logged in, JWT token is saved in localStroage and will be used for user session.
 
-   You can check out here [Live link](https://super-cool-shopping.netlify.app)
+   You can check out here [Live link](https://awesome-shopping.netlify.app/)
 
 <a name="table_of_contents"></a>
 ## Table of Contents
@@ -53,13 +53,10 @@
 
 <a name="usage"></a>
 ## Usage:
-   Scripts: List the available scripts in package.json like start, build, test, and what they do.
-   Features: Break down the main features of your application and how to use them.
-   Screenshots or GIFs: Visual aids can help users quickly understand what the project looks like in action.
-
    ### Scripts
-   In the package.json, scripts are used for start, build , test
-   Since msw doesn't support axios, additional scripts required for test
+   In the package.json, below scripts are used.
+   Since _msw_ doesn't support axios, additional scripts required for test
+   (For the testing purpose, use _fetch_ for mocking server), otherwise axios is used.
 
    ```bash
      "scripts": {
@@ -69,35 +66,31 @@
          "eject": "react-scripts eject"
       },
    ```
+
    ### Features
-   - Find all products: (GET) https://api.escuelajs.co/api/v1/products
-      - pagination: ?offset=0&limit=10
-   - Find a product: 
-      - base url: (GET) https://api.escuelajs.co/api/v1/products
-         - by title: /?title=Generic
-         - by price range: /?price_min=900&price_max=1000
-         - by category: /?categoryId=1
-         - by joinning filters: /?title=Generic&price_min=900&price_max=1000&categoryId=1
-   - Find all categories: (GET) https://api.escuelajs.co/api/v1/categories 
+   - Sending queries to server for filtering
+      - Find all products: (GET) https://api.escuelajs.co/api/v1/products
+         - pagination: ?offset=0&limit=10
+      - Find a product: 
+         - base url: (GET) https://api.escuelajs.co/api/v1/products
+            - by title: /?title=Generic
+            - by price range: /?price_min=900&price_max=1000
+            - by category: /?categoryId=1
+            - by joinning filters: /?title=Generic&price_min=900&price_max=1000&categoryId=1
+      - Find all categories: (GET) https://api.escuelajs.co/api/v1/categories 
 
-   All the features will be handled in a filter of the website 
-
-   - Upload image: (POST) https://api.escuelajs.co/api/v1/files/upload
+   - Upload image: 
+      (POST) https://api.escuelajs.co/api/v1/files/upload
       ```bash
       # Body
       {
          "file": "<Binary File>"
       }
       ```
-   - Login: (POST) https://api.escuelajs.co/api/v1/auth/login
-      ```bash
-      # Body
-      {
-         "email": "john@mail.com",
-         "password": "changeme"
-      }
-      ```
-   - Get user with session: (GET) https://api.escuelajs.co/api/v1/auth/profile
+
+   - Validations with React-hook-form
+   - General style with Material UI
+   - JWT for session: (GET) https://api.escuelajs.co/api/v1/auth/profile
       ```bash
       # Headers
       {
@@ -105,38 +98,154 @@
       }
       ```
    ### Screenshots or GIFs
-   ![screenshot of the site](<Screenshot.png>)
+   ![screenshot of the site home](<Screenshot_home.png>)
+   ![screenshot of the site details](<Screenshot_detail.png>)
+   ![screenshot of the site cart](<Screenshot_cart.png>)
+   ![screenshot of the site responsive](<Screenshot_mobile.png>)
 
    <a name="architecture_design"></a>
    ### Architecture & Design:
-   Folder Structure: Briefly explain the organization of important directories and files.
-
-   Data Flow: Describe how data flows in the application, especially if you’re using tools like Redux or Context API.
-
-   Component Structure: Explain the main components and their relationships, possibly using a diagram.
+      #### Folter structure: App > Router & Store > Redux & ContextAPI > Pages > Components 
+      📦src
+      ┣ 📂components
+      ┃ ┣ 📂cartItemCard
+      ┃ ┃ ┗ 📜CartItemCard.tsx
+      ┃ ┣ 📂cartSummary
+      ┃ ┃ ┗ 📜CartSummary.tsx
+      ┃ ┣ 📂cateogries
+      ┃ ┃ ┗ 📜Categories.tsx
+      ┃ ┣ 📂contextAPI
+      ┃ ┃ ┣ 📂footer
+      ┃ ┃ ┃ ┗ 📜Footer.tsx
+      ┃ ┃ ┣ 📂navbar
+      ┃ ┃ ┃ ┗ 📜Navbar.tsx
+      ┃ ┃ ┗ 📜ThemeContext.tsx
+      ┃ ┣ 📂productCard
+      ┃ ┃ ┗ 📜ProductCard.tsx
+      ┃ ┣ 📂productCreateOrUpdate
+      ┃ ┃ ┗ 📜ProductCreateOrUpdate.tsx
+      ┃ ┣ 📂productEdit
+      ┃ ┃ ┗ 📜ProductEdit.tsx
+      ┃ ┣ 📂productList
+      ┃ ┃ ┗ 📜ProductList.tsx
+      ┃ ┣ 📂roleIndicator
+      ┃ ┃ ┗ 📜RoleIndicator.tsx
+      ┃ ┣ 📂sortSelects
+      ┃ ┃ ┗ 📜SortSelects.tsx
+      ┃ ┗ 📂uis
+      ┃ ┃ ┣ 📂button
+      ┃ ┃ ┃ ┣ 📜UiButton.tsx
+      ┃ ┃ ┃ ┗ 📜UiRoundButton.tsx
+      ┃ ┃ ┣ 📂carousel
+      ┃ ┃ ┃ ┣ 📜UiCarousel.css
+      ┃ ┃ ┃ ┗ 📜UiCarousel.tsx
+      ┃ ┃ ┣ 📂fileUploader
+      ┃ ┃ ┃ ┗ 📜FileUploader.tsx
+      ┃ ┃ ┣ 📂form
+      ┃ ┃ ┃ ┗ 📜UiFormSelects.tsx
+      ┃ ┃ ┣ 📂image
+      ┃ ┃ ┃ ┣ 📜UiBrokenImage.tsx
+      ┃ ┃ ┃ ┣ 📜UiImage.tsx
+      ┃ ┃ ┃ ┣ 📜UiNoImage.tsx
+      ┃ ┃ ┃ ┗ 📜UiThumb.tsx
+      ┃ ┃ ┣ 📂layout
+      ┃ ┃ ┃ ┣ 📜CenteredContainer.tsx
+      ┃ ┃ ┃ ┗ 📜GridContainer.tsx
+      ┃ ┃ ┣ 📂loading
+      ┃ ┃ ┃ ┗ 📜LoadingBackdrop.tsx
+      ┃ ┃ ┣ 📂pageCounter
+      ┃ ┃ ┃ ┗ 📜PageCounter.tsx
+      ┃ ┃ ┣ 📂pageNavigation
+      ┃ ┃ ┃ ┗ 📜PageNavigation.tsx
+      ┃ ┃ ┣ 📂priceRangeSlider
+      ┃ ┃ ┃ ┗ 📜PriceRangeSlider.tsx
+      ┃ ┃ ┣ 📂searchInput
+      ┃ ┃ ┃ ┗ 📜SearchInput.tsx
+      ┃ ┃ ┗ 📜UiDialog.tsx
+      ┣ 📂hooks
+      ┃ ┗ 📜useUserSession.ts
+      ┣ 📂misc
+      ┃ ┗ 📂types
+      ┃ ┃ ┣ 📜CartItem.ts
+      ┃ ┃ ┣ 📜Category.ts
+      ┃ ┃ ┣ 📜Filter.ts
+      ┃ ┃ ┣ 📜Forms.ts
+      ┃ ┃ ┣ 📜MUI.ts
+      ┃ ┃ ┣ 📜Product.ts
+      ┃ ┃ ┣ 📜Sort.ts
+      ┃ ┃ ┣ 📜UploadedImage.ts
+      ┃ ┃ ┗ 📜User.ts
+      ┣ 📂pages
+      ┃ ┣ 📂cart
+      ┃ ┃ ┗ 📜Cart.tsx
+      ┃ ┣ 📂home
+      ┃ ┃ ┗ 📜Home.tsx
+      ┃ ┣ 📂login
+      ┃ ┃ ┗ 📜Login.tsx
+      ┃ ┣ 📂prodcutDetail
+      ┃ ┃ ┗ 📜ProductDetail.tsx
+      ┃ ┣ 📂productUpdate
+      ┃ ┃ ┗ 📜ProdcutUpdate.tsx
+      ┃ ┗ 📂profile
+      ┃ ┃ ┗ 📜Profile.tsx
+      ┣ 📂redux
+      ┃ ┣ 📂slices
+      ┃ ┃ ┣ 📜CartSlice.ts
+      ┃ ┃ ┣ 📜CategorySlice.ts
+      ┃ ┃ ┣ 📜ProductSlice.ts
+      ┃ ┃ ┗ 📜UserSlice.ts
+      ┃ ┣ 📂utils
+      ┃ ┃ ┣ 📜CartSliceUtil.ts
+      ┃ ┃ ┣ 📜ProductSliceUtils.ts
+      ┃ ┃ ┗ 📜UserSlicerUtil.ts
+      ┃ ┗ 📜store.ts
+      ┣ 📂services
+      ┃ ┗ 📜APIService.ts
+      ┣ 📂test
+      ┃ ┣ 📂redux
+      ┃ ┃ ┣ 📜CartReducer.test.ts
+      ┃ ┃ ┣ 📜CategoryReducer.test.ts
+      ┃ ┃ ┣ 📜CategoryReducerWithMockingServer.test.ts
+      ┃ ┃ ┣ 📜ProductReducerWithMockServer.test.ts
+      ┃ ┃ ┣ 📜ProductsReducer.test.ts
+      ┃ ┃ ┣ 📜UserReducer.test.ts
+      ┃ ┃ ┗ 📜UserReducerWithMockingServer.test.ts
+      ┃ ┗ 📂shared
+      ┃ ┃ ┣ 📜CategoryServer.ts
+      ┃ ┃ ┣ 📜ProductServer.ts
+      ┃ ┃ ┗ 📜UserServer.ts
+      ┣ 📂utils
+      ┃ ┣ 📜DateUtil.ts
+      ┃ ┗ 📜Urls.ts
+      ┣ 📜App.tsx
+      ┣ 📜index.css
+      ┣ 📜index.tsx
+      ┣ 📜logo.svg
+      ┣ 📜react-app-env.d.ts
+      ┣ 📜reportWebVitals.ts
+      ┗ 📜setupTests.ts
    
    <a name="testing"></a>
    ### Testing:   
-   Testing is done by _Jest_ and _msw_ for mocking the server.
-   Since msw is not supporting axios, there are two types of testing code.
-   xxx.test.ts is for axios (Focused on reducer)
-   xxxWithMockingServert.test.ts is for fetch (Focused on server)
+   Testing is done by _Jest_ and _msw_. Since msw is not supporting axios, there are two types of testing code.
+   xxx.test.ts is for axios (Focused on testing reducers)
+   xxxWithMockingServer.test.ts is for fetch (Focused on testing with server)
 
-   To avoid, potential error, axios is used for the site.
-   If you want to fully check the test code, please use fetch in src/services/apiService.ts 
-   Just comment axios and remove fetch's comment.
+   To avoid, potential error, axios is used for the application.
+   In order to test with server, use fetch in src/services/apiService.ts 
+   Just comment out axios part. (You will easily know what to do in code)
 
-   Currently all the reducers tested (productSlice, userSlice, cartSlice, categorySlice)
+   Currently all the reducers are tested (productSlice, userSlice, cartSlice, categorySlice)
    Total 140 tests runs and passed in 7 test suites.
 
    Testing code src/test/redux
    Testing server src/test/shared
 
    ```bash
-      $ npm test   # Test
+      $ npm test   # Testing reducers
    ```
    
    <a name="deployment"></a>
    ### Deployment:
-   One of most popular deployment: [Netlify](https://www.netlify.com/) used for the deployment/hosting. 
-   Use the continuous integration
+   One of most popular deployment [Netlify](https://www.netlify.com/) used for the deployment and hosting. 
+   Continuous integration and deploy for further fixes and improvements.
