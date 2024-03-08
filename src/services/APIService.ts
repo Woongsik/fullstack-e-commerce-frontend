@@ -18,7 +18,6 @@ class ApiService {
        Please remove comment for testing */
        
     // try { 
-    //   console.log('Send request:', method, url);
     //   const response: Response = await fetch(url, {
     //     method: method,
     //     headers: headers,
@@ -38,7 +37,6 @@ class ApiService {
 
     /* Originally used axios
        since msw is not supporting axios */
-    console.log('Send request:', method, url);
     const response: AxiosResponse = await axios({
       method: method,
       url: url,

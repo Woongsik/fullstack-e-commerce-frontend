@@ -127,37 +127,30 @@ export default function Home() {
               Close
             </UiButton>
           </Box>
-          
           <h1>Filters</h1>
-
           <Box my={2}>
             <SearchInput 
               title="Search products by name"
               preText={filter.title}
               onTextChanged={onTextChanged}/>  
           </Box>
-
           <Box my={3}> 
             <Categories 
               selectedCategoryId={filter.categoryId} 
               onCategoryChanged={onCategoryChanged} />
           </Box>
-          
           <Box my={3}>
             <SortSelects />
           </Box>
-          
           <PriceRangeSlider 
             minPrice={filter.price_min}
             maxPrice={filter.price_max}
             onPriceRangeChanged={onPriceRangeChanged} />
-          
           <Box my={3}>
             <PageCounter itemsPerPage={filter.itemsPerPage ?? baseItemsPerPage} onItemsPerPageChanged={onItemsPerPageChanged} />
           </Box>
         </Box>
       </Drawer>
-
       <ScrollToTop />
     </GridContainer>
   )

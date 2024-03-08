@@ -31,8 +31,9 @@ export default function FileUploader(props: Props) {
     if (e.target.files) {
       const fileList: FileList = e.target.files;
       const fileListAsArray = Array.from(fileList);
-      setFiles(fileListAsArray);
-      emitFiles(fileListAsArray);
+      const bindFiles = [...files, ...fileListAsArray];
+      setFiles(bindFiles);
+      emitFiles(bindFiles);
 
       fileListAsArray.forEach((file: File) => {
         preparePreview(file);
@@ -62,7 +63,6 @@ export default function FileUploader(props: Props) {
   }
 
   const emitFiles = (files: File[]) => {
-    console.log('files', files);
     props.onChange(files);
   }
 

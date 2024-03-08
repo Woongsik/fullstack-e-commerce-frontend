@@ -40,8 +40,6 @@ export default function Login() {
   useUserSession();
 
   const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
-    console.log('on Submit', data);
-
     if (pageMode === PageMode.LOGIN) {
       await dispatch(loginUser({
         email: data.email,

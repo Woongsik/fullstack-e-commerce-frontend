@@ -16,7 +16,6 @@ class UserSlicerUtil {
         return JSON.parse(rawTokens);
       }
 
-      console.log("No tokens saved!");
       return null;
     } catch (e: any) {
       console.log("Get tokens from localstorage failed:", e);

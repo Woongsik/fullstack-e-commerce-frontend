@@ -29,7 +29,6 @@ export default function SearchInput(props: Props) {
   }
 
   const clear = () => {
-    console.log('Clear');
     setSearchPhrase('');
     props.onTextChanged('');
   }

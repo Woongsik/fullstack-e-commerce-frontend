@@ -80,8 +80,6 @@ export default function ProductCreateOrUpdate(props: Props) {
   }
 
   const updateProductInfo = async (data: Inputs) => {
-    console.log('update product', data);
-
     const productUpdateItem: ProductUpdateItem = {
       title: data.title,
       price: data.price,

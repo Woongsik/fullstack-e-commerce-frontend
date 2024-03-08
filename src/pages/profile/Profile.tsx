@@ -13,11 +13,7 @@ const titleChip = (title: string) => {
 }
 export default function Profile() {
   useUserSession();
-  const { user, loading } = useSelector((state: AppState) => state.userReducer)
-    
-  if (!user) {
-    console.log('user not existed');
-  }
+  const { user, loading } = useSelector((state: AppState) => state.userReducer);
   
   return (
     <GridContainer alignItems={MUILayout.FLEX_START}>
@@ -38,19 +34,19 @@ export default function Profile() {
                   <h1>Moi, {user.name}!</h1>
                 </CenteredContainer>
                 <CenteredContainer width={'100%'} justifyContent={MUILayout.FLEX_START}>
-                  <Typography my={2}>
+                  <Typography my={2} width={'100%'}>
                     {titleChip('Username')} {user.name}
                   </Typography>
 
-                  <Typography my={2}>
+                  <Typography my={2} width={'100%'}>
                     {titleChip('Contact')} {user.email}
                   </Typography>
 
-                  <Typography my={2}>
+                  <Typography my={2} width={'100%'}>
                     {titleChip('Role')} {user.role.toUpperCase()}
                   </Typography>
 
-                  <Typography my={2}>
+                  <Typography my={2} width={'100%'}>
                     {titleChip('Avatar')} {user.avatar}
                   </Typography>
                 </CenteredContainer>

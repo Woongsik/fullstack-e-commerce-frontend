@@ -21,6 +21,8 @@ export default function ProductList(props: Props) {
           <ProductCard product={product} />
         </Grid>
         )}
+        
+        { products.length === 0 && <h1>No matched items...</h1>}
       </Grid>
     </Box>
   )

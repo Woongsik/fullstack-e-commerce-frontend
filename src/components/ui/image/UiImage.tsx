@@ -12,7 +12,6 @@ export default function UiImage(props: Props) {
   const { src, alt, borderRadius } = props;
 
   const handleError = () => {
-    console.log('image error', src);
     setError(true);
   }
 
