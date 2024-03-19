@@ -98,10 +98,10 @@
       }
       ```
    ### Screenshots or GIFs
-   ![screenshot of the site home](<Screenshot_home.png>)
-   ![screenshot of the site details](<Screenshot_detail.png>)
-   ![screenshot of the site cart](<Screenshot_cart.png>)
-   ![screenshot of the site filter](<Screenshot_filter.png>)
+   ![screenshot of the site home](<./src/assets/images/Screenshot_home.png>)
+   ![screenshot of the site details](<./src/assets/images/Screenshot_detail.png>)
+   ![screenshot of the site cart](<./src/assets/images/Screenshot_cart.png>)
+   ![screenshot of the site filter](<./src/assets/images/Screenshot_filter.png>)
 
    <a name="architecture_design"></a>
    ### Architecture & Design:
@@ -247,7 +247,7 @@
    ```bash
       $ npm test   # Testing reducers
    ```
-   
+   ![screenshot of the testing result](<./src/assets/images/Screenshot_test.png>)
    <a name="deployment"></a>
    ### Deployment:
    One of most popular deployment [Netlify](https://www.netlify.com/) used for the deployment and hosting. 

@@ -86,7 +86,7 @@ export default function Navbar() {
         </CenteredContainer>
 
         <List sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} disablePadding>
-        <ListItem disablePadding sx={{ marginLeft: 2 }}>
+          <ListItem disablePadding sx={{ marginLeft: 2 }}>
             <Link to="/home" title='Home'>
               <Home sx={{ color: theme === Theme.LIGHT ? 'black' : 'white' }} />
             </Link>
