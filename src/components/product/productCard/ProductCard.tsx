@@ -3,6 +3,7 @@ import {
   Typography
 } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { styled } from '@mui/system';
 
 import UiImage from '../../ui/image/UiImage';
 import UiNoImage from '../../ui/image/UiNoImage';
@@ -12,15 +13,32 @@ type Props = {
   product: Product
 }
 
+const TitleComponent = styled(Typography)({
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  display: 'block'
+});
+
+const ProductCardWrapper = styled(Box)({
+  minWidth: 100,
+  maxWidth: 300,
+  minHeight: 350
+});
+
+const ProductCardLink = styled(Link)({
+  textDecoration: 'none', 
+  color: 'black'
+});
+
 export default function ProductCard(props: Props) {
   const { product } = props;
 
   return (
-    <Box component={'div'} sx={{ minWidth: 100, maxWidth: 300, minHeight: 350 }}>
-      <Link to={`/product/${product.id}`}
-            style={{ textDecoration: 'none', color: 'black'}}>
-        <Box component={'div'}>
-          <Box component={'div'} width={300} height={300}>
+    <ProductCardWrapper>
+      <ProductCardLink to={`/product/${product.id}`}>
+        <Box>
+          <Box width={300} height={300}>
             {(product.images && product.images[0]) ?
               <UiImage 
                 src={product.images && product.images[0] ? product.images[0] :''}
@@ -29,13 +47,13 @@ export default function ProductCard(props: Props) {
             }
           </Box>
           
-          <Box component={'div'}>
-            <Typography>{product.title}</Typography>
+          <Box>
+            <TitleComponent>{product.title}</TitleComponent>
             <Typography color={'gray'}>{product.category.name}</Typography>
             <Typography>€ {product.price}</Typography>
           </Box>
         </Box>
-      </Link>
-    </Box>
+      </ProductCardLink>
+    </ProductCardWrapper>
   )
 }
