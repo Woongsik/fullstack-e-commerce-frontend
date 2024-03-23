@@ -29,7 +29,7 @@ export default function UiImage(props: Props) {
         width={'100%'}
         style={{ 
           borderRadius: `${borderRadius}px`,
-          objectFit: 'fill' 
+          objectFit: 'cover' 
         }} />
     }
     </>

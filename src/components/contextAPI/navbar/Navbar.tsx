@@ -72,7 +72,7 @@ export default function Navbar() {
           backgroundColor: theme === Theme.LIGHT ? 'white' : 'black', 
           borderBottom: theme === Theme.LIGHT ? '1px solid lightgray' : '' }}>
         <CenteredContainer height={'75px'}>
-          <Link to="/home" style={{ textDecoration: 'none', color: 'white' }}>
+          <Link to="/" style={{ textDecoration: 'none', color: 'white' }}>
             <CenteredContainer>
               <Box height={'40px'}>
                 <UiImage src={"https://fakeapi.platzi.com/_astro/logo.aa139940.png"} alt="logo" />
