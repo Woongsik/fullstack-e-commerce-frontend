@@ -32,6 +32,7 @@ export default function ProudctDetail() {
   const [editMode, setEditMode] = useState<boolean>(false);
   const [showSnackBar, setShowSnackBar] = useState<boolean>(false);
   const [snackBarMessage, setSnackBarMessage] = useState<string>('');
+  const [snackBarTarget, setSnackBarTarget] = useState<'cart' | 'favorite'>('cart');
   const [showDialog, setShowDialog] = useState<boolean>(false);
   const [showDeletedMessage, setShowDeletedMessage] = useState<boolean>(false);
 
@@ -44,7 +45,13 @@ export default function ProudctDetail() {
 
   const { product, filter, loading, error }= useSelector((state: AppState) => state.productReducer);
   const user: User | null = useSelector((state: AppState) => state.userReducer.user);
-  const cartItems: CartItem[] = useSelector((state: AppState) => state.cartReducer.cartItems); 
+  const { cartItems, cartFavorites } = useSelector((state: AppState) => state.cartReducer); 
+
+  const showSnakcBarMessage = (message: string, target: 'cart' | 'favorite') => {
+    setSnackBarTarget(target);
+    setSnackBarMessage(message);
+    setShowSnackBar(true);
+  }
 
   const handleAddToCart = async () => {
     if (product) {
@@ -59,17 +66,25 @@ export default function ProudctDetail() {
         message = `Added to Cart! (${product.title})`;
       } 
 
-      setSnackBarMessage(message);
-      setShowSnackBar(true);
+      showSnakcBarMessage(message, 'cart');
     }
   }
 
   const handleAddToFavorites = () => {
+    console.log('add to favorite');
     if (product) {
-      dispatch(addToFavorites({
+      const cartItem: CartItem = {
         item: product,
         quantity: 1
-      }));
+      };
+
+      let message = `Already added to Favorites! (${product.title})`;
+      if (!CartSliceUtil.checkIfAlreadyAdded(cartFavorites, cartItem)) {
+        dispatch(addToFavorites(cartItem));
+        message = `Added to Favorites! (${product.title})`;
+      } 
+
+      showSnakcBarMessage(message, 'favorite');
     }
   }
 

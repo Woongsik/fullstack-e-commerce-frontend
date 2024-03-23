@@ -18,14 +18,14 @@ import { Product } from '../../../misc/types/Product';
 
 type Props = {
   cartItem: CartItem;
-  showDivier: boolean;
+  showDivider: boolean;
 }
 
 export default function CartItemCard(props: Props) {
   const dispatch = useAppDispatch();
   const [showDeleteDialog, setShowDeleteDialog] = useState<boolean>(false);
   const { item, quantity } = props.cartItem;
-  const { showDivier } = props;
+  const { showDivider } = props;
   
   let quantityItems: {key: number}[] = [];
   for (let i = 0; i < 10; i++) {
@@ -58,7 +58,7 @@ export default function CartItemCard(props: Props) {
 
   return (
     <>
-    {showDivier && <Divider />}
+    {showDivider && <Divider />}
     <Box display={'flex'} my={1} width={'100%'} minHeight={130}>
       <Box width={130}>
         <Link to={`/product/${item.id}`}>

@@ -28,8 +28,14 @@ export default function UiRoundButton(props: Props) {
         backgroundColor: theme === 'black' ? 'black' : 'white',
         borderColor: theme === 'black' ? '' : 'black',
         border: theme === 'black' ? '' : '1px solid',
-        margin: margin  }}
-        onClick={props.onClick}>
+        margin: margin,
+        '&:hover': {
+          backgroundColor: theme === 'black' ? 'white' : 'black',
+          borderColor: theme === 'black' ? 'black' : 'black',
+          color: theme === 'black' ? 'black' : 'white'
+        }  
+      }}
+      onClick={props.onClick}>
       {children}
     </UiButton>  
   )

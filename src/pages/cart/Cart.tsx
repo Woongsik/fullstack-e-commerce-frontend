@@ -56,10 +56,10 @@ export default function Cart() {
                 <CartItemCard 
                   key={cartItem.item.id} 
                   cartItem={cartItem}
-                  showDivier={index !== 0} />   
+                  showDivider={index !== 0} />   
               )}
               {cartItems.length === 0 && <h4>No items yet...</h4>}
-              </Box>
+            </Box>
           </CenteredContainer>
 
           <CenteredContainer width={'40%'} sx={{ minWidth: '300px', maxWidth: '400px'}}>
