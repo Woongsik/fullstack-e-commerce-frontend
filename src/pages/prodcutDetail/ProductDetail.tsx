@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Box, Typography,Chip, Snackbar, Divider, IconButton } from '@mui/material';
+import { Box, Typography,Chip, Snackbar, Divider, IconButton, Breadcrumbs, Link as MUILink } from '@mui/material';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
@@ -13,16 +13,17 @@ import UiCarousel from '../../components/ui/carousel/UiCarousel';
 import UiRoundButton from '../../components/ui/button/UiRoundButton';
 import UiButton from '../../components/ui/button/UiButton';
 import UiDialog from '../../components/ui/UiDialog';
+import LoadingBackdrop from '../../components/ui/loading/LoadingBackdrop';
+import GridContainer from '../../components/ui/layout/GridContainer';
 import { AppState, useAppDispatch } from '../../redux/store';
-import { deleteProduct, fetchProduct } from '../../redux/slices/ProductSlice';
+import { deleteProduct, fetchProduct, updateFilter } from '../../redux/slices/ProductSlice';
 import { addToCart, addToFavorites } from '../../redux/slices/CartSlice';
 import { MUIButtonVariant, MUIColor, MUILayout } from '../../misc/types/MUI';
 import { User, UserRole } from '../../misc/types/User';
 import CartItem from '../../misc/types/CartItem';
 import CartSliceUtil from '../../redux/utils/CartSliceUtil';
-import GridContainer from '../../components/ui/layout/GridContainer';
 import { useUserSession } from '../../hooks/useUserSession';
-import LoadingBackdrop from '../../components/ui/loading/LoadingBackdrop';
+import Filter from '../../misc/types/Filter';
 
 export default function ProudctDetail() {
   const { id } = useParams(); // product id
@@ -41,7 +42,7 @@ export default function ProudctDetail() {
     }
   }, [id, dispatch]);
 
-  const { product, loading, error }= useSelector((state: AppState) => state.productReducer);
+  const { product, filter, loading, error }= useSelector((state: AppState) => state.productReducer);
   const user: User | null = useSelector((state: AppState) => state.userReducer.user);
   const cartItems: CartItem[] = useSelector((state: AppState) => state.cartReducer.cartItems); 
 
@@ -108,6 +109,18 @@ export default function ProudctDetail() {
     navigate('/cart');
   }
 
+  const handleCategoryClick = (categoryId: number) => {
+    console.log('category id', categoryId);
+    const newFilter: Filter = {
+      categoryId: categoryId,
+      page: 1,
+      itemsPerPage: filter?.itemsPerPage    
+    }
+
+    dispatch(updateFilter(newFilter));
+    navigate('/');
+  }
+
   const snackbarAction = () => {
     return (
       <UiButton 
@@ -164,14 +177,30 @@ export default function ProudctDetail() {
                 alt={product.title} />
             </Box>
             <Box component={'div'} overflow={'auto'} width={'40%'} minWidth={'300px'}>
+              <Box width='100%' margin='0 0 15px 0'>
+                <Breadcrumbs aria-label="breadcrumb">
+                  <MUILink underline="hover" color="inherit" href="/">
+                    Product
+                  </MUILink>
+                  <MUILink
+                    underline="hover"
+                    color="inherit"
+                    href="#"
+                    onClick={() => handleCategoryClick(product.category.id)}>
+                    {product.category.name}
+                  </MUILink>
+                  <Typography color="text.primary">{product.title}</Typography>
+                </Breadcrumbs>
+              </Box>
+
               <Box component={'div'}>              
                 <Typography variant='h4'>
                   {product.title}
-                </Typography> 
-                <Chip sx={{ my: 1}} label={product.category.name} color="primary" variant='outlined' size={'medium'} />
-                <Typography variant='h5' >
-                € {product.price}
                 </Typography>
+                <Typography variant='h5' >
+                  € {product.price}
+                </Typography>
+                
                 <Typography my={5}>
                   {product.description}
                 </Typography>

@@ -1,15 +1,11 @@
-import { 
-  Box,
-  Typography
-} from '@mui/material';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Box, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 
 import UiImage from '../../ui/image/UiImage';
 import UiNoImage from '../../ui/image/UiNoImage';
 import { Product } from '../../../misc/types/Product';
-import { Widgets } from '@mui/icons-material';
-import { useState } from 'react';
 
 type Props = {
   product: Product
