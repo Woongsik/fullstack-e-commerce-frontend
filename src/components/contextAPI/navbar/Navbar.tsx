@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { 
@@ -37,6 +37,12 @@ enum Pages {
   LOGOUT = 'logout'
 }
 
+type ListItemInfo = {
+  to: string,
+  title: string,
+  item: ReactNode
+}
+
 export default function Navbar() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -46,11 +52,114 @@ export default function Navbar() {
   const { user } = useSelector((state: AppState) => state.userReducer);
   const { cartItems } = useSelector((state: AppState) => state.cartReducer);
 
+  const listItem = (theme: Theme, listInfo: ListItemInfo, index: number) => {
+    if (listInfo.to) {
+      return (<Link to={listInfo.to} title={listInfo.title} key={`nav_item_${index}`}>
+        <ListItem disablePadding sx={{ marginLeft: 2, color: theme === Theme.LIGHT ? 'black' : 'white' }}>
+        {listInfo.item}
+        </ListItem>
+      </Link>);
+    } 
+    
+    return (
+      <ListItem disablePadding sx={{ marginLeft: 2, color: theme === Theme.LIGHT ? 'black' : 'white' }} key={`nav_item_${index}`}>
+        {listInfo.item}
+      </ListItem>
+    );
+  };
+
+  const homeItem = () => ({
+    to: '/home',
+    title: 'Home',
+    item: (
+      <Home />
+    )
+  });
+  
+  const cartItem = () => ({
+    to: '/cart',
+    title: 'Cart',
+    item: (
+      <Badge badgeContent={cartItems.length} color="primary">
+        <ShoppingCartCheckoutIcon />
+      </Badge>
+    )
+  });
+  
+  const userItem = () => ({
+    to: '',
+    title: 'User',
+    item: (
+      <>
+        <IconButton
+          id="basic-button"
+          aria-controls={Boolean(anchorEl) ? 'basic-menu' : undefined}
+          aria-haspopup="true"
+          aria-expanded={Boolean(anchorEl) ? 'true' : undefined}
+          onClick={handleClick}>
+        {user ? 
+        <Avatar src={user.avatar} alt={user.name} sx={{ height: '30px', width: '30px', backgroundColor: 'white' }}/>
+        : 
+        <AccountCircleIcon sx={{ color: theme === Theme.LIGHT ? 'black' : 'white' }} />}
+      </IconButton>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={() => handleClose()}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}>
+        { user ? 
+        <Box width={'100%'}>
+          <MenuItem onClick={() => handleClose(Pages.PROFILE)}>
+            <AccountBoxIcon sx={{ margin: '0 5px'}}/> Profile 
+          </MenuItem>
+        {user.role === UserRole.ADMIN && 
+          <MenuItem onClick={() => handleClose(Pages.PRODUCT_CREATION)}>
+            <AddBoxIcon sx={{ margin: '0 5px'}}/> Product
+          </MenuItem>
+        }
+          <Divider />
+          <MenuItem onClick={() => handleClose(Pages.LOGOUT)}>
+            <LogoutIcon sx={{ margin: '0 5px'}}/> Logout 
+          </MenuItem>
+        </Box>
+        :
+        <MenuItem onClick={() => handleClose(Pages.LOGIN)}>
+          Login 
+        </MenuItem>
+      }
+      </Menu>
+    </>
+    )
+  });
+  
+  const themeItem = () => ({
+    to: '',
+    title: 'Theme',
+    item: (
+      <ToggleButtonGroup
+        color={MUIColor.SUCCESS}
+        value={theme}
+        exclusive
+        onChange={() => toggleTheme()}
+        aria-label="Theme">
+        <ToggleButton value="dark">
+          <Brightness6Icon />
+        </ToggleButton>
+      </ToggleButtonGroup>
+    )
+  });
+
+  const listItems = [homeItem,cartItem,userItem,themeItem];
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
   const handleClose = (targetPage?: Pages) => {
+    console.log('handle clsoe',targetPage);
     setAnchorEl(null);
 
     if (targetPage) {
@@ -86,77 +195,9 @@ export default function Navbar() {
         </CenteredContainer>
 
         <List sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} disablePadding>
-          <ListItem disablePadding sx={{ marginLeft: 2 }}>
-            <Link to="/home" title='Home'>
-              <Home sx={{ color: theme === Theme.LIGHT ? 'black' : 'white' }} />
-            </Link>
-          </ListItem>
-          <ListItem disablePadding sx={{ marginLeft: 2 }}>
-            <Link to="/cart" title='Cart'>
-              <Badge badgeContent={cartItems.length} color="primary">
-                <ShoppingCartCheckoutIcon sx={{ color: theme === Theme.LIGHT ? 'black' : 'white' }} />
-              </Badge>
-            </Link>
-          </ListItem>
-          <ListItem disablePadding sx={{ marginLeft: 2 }}>
-            <IconButton
-              id="basic-button"
-              aria-controls={Boolean(anchorEl) ? 'basic-menu' : undefined}
-              aria-haspopup="true"
-              aria-expanded={Boolean(anchorEl) ? 'true' : undefined}
-              onClick={handleClick}>
-              {user ? 
-              <Avatar src={user.avatar} alt={user.name} sx={{ height: '30px', width: '30px', backgroundColor: 'white' }}/>
-               : 
-              <AccountCircleIcon sx={{ color: theme === Theme.LIGHT ? 'black' : 'white' }} />}
-            </IconButton>
-            <Menu
-              id="basic-menu"
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={() => handleClose()}
-              MenuListProps={{
-                'aria-labelledby': 'basic-button',
-              }}
-            >
-            { user 
-            ? 
-            <Box width={'100%'}>
-              <MenuItem onClick={() => handleClose(Pages.PROFILE)}>
-               <AccountBoxIcon sx={{ margin: '0 5px'}}/> Profile 
-              </MenuItem>
-            {user.role === UserRole.ADMIN && 
-              <MenuItem onClick={() => handleClose(Pages.PRODUCT_CREATION)}>
-                <AddBoxIcon sx={{ margin: '0 5px'}}/> Product
-              </MenuItem>
-            }
-              <Divider />
-              <MenuItem onClick={() => handleClose(Pages.LOGOUT)}>
-                <LogoutIcon sx={{ margin: '0 5px'}}/> Logout 
-              </MenuItem>
-            </Box>
-            :
-            <MenuItem onClick={() => handleClose(Pages.LOGIN)}>
-              Login 
-            </MenuItem>
-            }
-          </Menu>
-        </ListItem>
-
-        <ListItem color='black' sx={{ padding: 0 }}>
-          <ToggleButtonGroup
-            color={MUIColor.SUCCESS}
-            value={theme}
-            exclusive
-            onChange={() => toggleTheme()}
-            aria-label="Theme">
-            <ToggleButton value="dark">
-              <Brightness6Icon />
-            </ToggleButton>
-          </ToggleButtonGroup>
-        </ListItem>
-      </List>
-    </CenteredContainer>
-  </header>
+          {listItems.map((item, index) => listItem(theme, item(), index)) }
+        </List>
+      </CenteredContainer>
+    </header>
   )
 }
