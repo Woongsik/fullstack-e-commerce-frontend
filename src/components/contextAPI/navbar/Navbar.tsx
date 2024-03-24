@@ -47,22 +47,22 @@ export default function Navbar() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const { theme, toggleTheme } = useTheme();
+  const { theme, toggleTheme, isThemeLight } = useTheme();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { user } = useSelector((state: AppState) => state.userReducer);
   const { cartItems } = useSelector((state: AppState) => state.cartReducer);
 
-  const listItem = (theme: Theme, listInfo: ListItemInfo, index: number) => {
+  const listItem = (listInfo: ListItemInfo, index: number) => {
     if (listInfo.to) {
       return (<Link to={listInfo.to} title={listInfo.title} key={`nav_item_${index}`}>
-        <ListItem disablePadding sx={{ marginLeft: 2, color: theme === Theme.LIGHT ? 'black' : 'white' }}>
+        <ListItem disablePadding sx={{ marginLeft: 2, color: isThemeLight ? 'black' : 'white' }}>
         {listInfo.item}
         </ListItem>
       </Link>);
     } 
     
     return (
-      <ListItem disablePadding sx={{ marginLeft: 2, color: theme === Theme.LIGHT ? 'black' : 'white' }} key={`nav_item_${index}`}>
+      <ListItem disablePadding sx={{ marginLeft: 2, color: isThemeLight ? 'black' : 'white' }} key={`nav_item_${index}`}>
         {listInfo.item}
       </ListItem>
     );
@@ -100,7 +100,7 @@ export default function Navbar() {
         {user ? 
         <Avatar src={user.avatar} alt={user.name} sx={{ height: '30px', width: '30px', backgroundColor: 'white' }}/>
         : 
-        <AccountCircleIcon sx={{ color: theme === Theme.LIGHT ? 'black' : 'white' }} />}
+        <AccountCircleIcon sx={{ color: isThemeLight ? 'black' : 'white' }} />}
       </IconButton>
       <Menu
         id="basic-menu"
@@ -178,8 +178,8 @@ export default function Navbar() {
         justifyContent={MUILayout.SPACE_BETWEEN}
         padding={'0 10px'}
         sx={{ 
-          backgroundColor: theme === Theme.LIGHT ? 'white' : 'black', 
-          borderBottom: theme === Theme.LIGHT ? '1px solid lightgray' : '' }}>
+          backgroundColor: isThemeLight ? 'white' : 'black', 
+          borderBottom: isThemeLight ? '1px solid lightgray' : '' }}>
         <CenteredContainer height={'75px'}>
           <Link to="/" style={{ textDecoration: 'none', color: 'white' }}>
             <CenteredContainer>
@@ -187,7 +187,7 @@ export default function Navbar() {
                 <UiImage src={"https://fakeapi.platzi.com/_astro/logo.aa139940.png"} alt="logo" />
               </Box>
               <Box component={'h3'} marginLeft={1} 
-                sx={{ color: theme === Theme.LIGHT ? 'black' : 'white' }}>
+                sx={{ color: isThemeLight ? 'black' : 'white' }}>
                 Platzi store
               </Box> 
             </CenteredContainer>
@@ -195,7 +195,7 @@ export default function Navbar() {
         </CenteredContainer>
 
         <List sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} disablePadding>
-          {listItems.map((item, index) => listItem(theme, item(), index)) }
+          {listItems.map((item, index) => listItem(item(), index)) }
         </List>
       </CenteredContainer>
     </header>

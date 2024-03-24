@@ -1,7 +1,8 @@
 import CartItem from '../../../misc/types/CartItem'
-import { Box, Divider, Input, Typography } from '@mui/material'
+import { Box, Divider, Input, Typography, styled } from '@mui/material'
 import { MUIButtonVariant } from '../../../misc/types/MUI'
 import UiRoundButton from '../../ui/button/UiRoundButton'
+import { useTheme } from '../../contextAPI/ThemeContext'
 
 type Props = {
   cartItems: CartItem[],
@@ -9,6 +10,7 @@ type Props = {
 }
 
 export default function CartSummary(props: Props) {
+  const { isThemeLight } = useTheme();
   const subTotal: number = props.cartItems.reduce((acc, cartItem) => {
     acc += (cartItem.item.price * cartItem.quantity);
     return acc;
@@ -17,18 +19,27 @@ export default function CartSummary(props: Props) {
   const deliveryFee: number = subTotal > 0 ? 5 : 0;
   const total: number = deliveryFee + subTotal;
 
+  const ThemeDivider = styled(Divider)({
+    borderColor: isThemeLight ? 'white' : 'black'
+  });
+
   return (
     <Box justifyContent={'center'} width={'100%'}>
       <Typography fontSize={22} fontWeight={'bold'}> 
         Summary
       </Typography>
 
-      <Divider />
+      <ThemeDivider />
       
       <Box my={2} display={'block'} justifyContent={'space-between'} alignItems={'center'}>
         <Box>Do you have a promo code? </Box> 
         <Box>
-          <Input fullWidth/>
+          <Input fullWidth sx={{
+            color: isThemeLight ? 'white' : 'black',
+            '&.MuiInputBase-root': {
+              borderBottom: isThemeLight ? '1px solid white': '1px solid black'
+            }
+          }}/>
         </Box>
       </Box>
       <Box my={2} display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
@@ -38,7 +49,7 @@ export default function CartSummary(props: Props) {
         <Box>Esitmated delivery & handling: </Box> <Box> € {deliveryFee}</Box>
       </Box>
 
-      <Divider />
+      <ThemeDivider />
 
       <Box my={2} display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
         <Box>Total:</Box> <Box>€ {total}</Box>

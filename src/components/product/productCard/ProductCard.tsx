@@ -6,6 +6,7 @@ import { styled } from '@mui/system';
 import UiImage from '../../ui/image/UiImage';
 import UiNoImage from '../../ui/image/UiNoImage';
 import { Product } from '../../../misc/types/Product';
+import { useTheme } from '../../contextAPI/ThemeContext';
 
 type Props = {
   product: Product
@@ -57,7 +58,23 @@ const ProductDetailIndicator = styled('div')({
 
 export default function ProductCard(props: Props) {
   const { product } = props;
+  const { isThemeLight } = useTheme();
   const [hovered, setHovered] = useState<boolean>(false);
+
+  const productInfoTitle = (text: string) => {
+    return (
+      <TitleComponent sx={{ color: isThemeLight ? 'white' : 'black'}}>
+        {text}
+      </TitleComponent>
+    )
+  }
+  const productInfoText = (text: string, color?: string) => {
+    return (
+      <Typography sx={{ color: color ?? (isThemeLight ? 'white' : 'black')}}>
+        {text}
+      </Typography>
+    )
+  }
 
   const handleHover = (hover: boolean) => {
     setHovered(hover);
@@ -87,9 +104,9 @@ export default function ProductCard(props: Props) {
           </ProductImageBox>
           
           <Box>
-            <TitleComponent>{product.title}</TitleComponent>
-            <Typography color={'gray'}>{product.category.name}</Typography>
-            <Typography>€ {product.price}</Typography>
+            {productInfoTitle(product.title)}
+            {productInfoText(product.category.name, 'gray')}
+            {productInfoText(`€ ${product.price}`)}
           </Box>
         </Box>
       </ProductCardLink>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Box, Typography,Chip, Snackbar, Divider, IconButton, Breadcrumbs, Link as MUILink } from '@mui/material';
+import { Box, Typography,Chip, Snackbar, Divider, IconButton, Breadcrumbs, Link as MUILink, styled } from '@mui/material';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
@@ -24,6 +24,7 @@ import CartItem from '../../misc/types/CartItem';
 import CartSliceUtil from '../../redux/utils/CartSliceUtil';
 import { useUserSession } from '../../hooks/useUserSession';
 import Filter from '../../misc/types/Filter';
+import { useTheme } from '../../components/contextAPI/ThemeContext';
 
 export default function ProudctDetail() {
   const { id } = useParams(); // product id
@@ -35,6 +36,8 @@ export default function ProudctDetail() {
   const [snackBarTarget, setSnackBarTarget] = useState<'cart' | 'favorite'>('cart');
   const [showDialog, setShowDialog] = useState<boolean>(false);
   const [showDeletedMessage, setShowDeletedMessage] = useState<boolean>(false);
+  const { isThemeLight } = useTheme();
+
 
   useUserSession();
   useEffect(() => {
@@ -46,6 +49,10 @@ export default function ProudctDetail() {
   const { product, filter, loading, error }= useSelector((state: AppState) => state.productReducer);
   const user: User | null = useSelector((state: AppState) => state.userReducer.user);
   const { cartItems, cartFavorites } = useSelector((state: AppState) => state.cartReducer); 
+
+  const DetailInfoText = styled(Typography)({
+    color: isThemeLight ? 'white': 'black'
+  });
 
   const showSnakcBarMessage = (message: string, target: 'cart' | 'favorite') => {
     setSnackBarTarget(target);
@@ -151,13 +158,13 @@ export default function ProudctDetail() {
       <Box width={'100%'}>
         <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'} width={'100%'}>
           <IconButton onClick={() => handleBack()}>
-            <ArrowCircleLeftIcon sx={{ fontSize: 40, color: 'black' }} />
+            <ArrowCircleLeftIcon sx={{ fontSize: 40, color: isThemeLight ? 'white' : 'black' }} />
           </IconButton>
 
           {(user && user.role === UserRole.ADMIN) && product &&
           <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'} margin={'0 10px'}>
             <UiButton
-              variant={MUIButtonVariant.OUTLINED}
+              variant={isThemeLight ? MUIButtonVariant.CONTAINED : MUIButtonVariant.OUTLINED}
               color={MUIColor.ERROR}
               customStyle={{ margin: '0 10px' }}
               onClick={() => askToDelete()}>
@@ -193,7 +200,7 @@ export default function ProudctDetail() {
             </Box>
             <Box component={'div'} overflow={'auto'} width={'40%'} minWidth={'300px'}>
               <Box width='100%' margin='0 0 15px 0'>
-                <Breadcrumbs aria-label="breadcrumb">
+                <Breadcrumbs aria-label="breadcrumb" sx={{ color: isThemeLight ? 'white' : 'black' }}>
                   <MUILink underline="hover" color="inherit" href="/">
                     Product
                   </MUILink>
@@ -204,21 +211,21 @@ export default function ProudctDetail() {
                     onClick={() => handleCategoryClick(product.category.id)}>
                     {product.category.name}
                   </MUILink>
-                  <Typography color="text.primary">{product.title}</Typography>
+                  <Typography color="text.primary" sx={{ color: 'inherit'}}>{product.title}</Typography>
                 </Breadcrumbs>
               </Box>
 
               <Box component={'div'}>              
-                <Typography variant='h4'>
+                <DetailInfoText variant='h4'>
                   {product.title}
-                </Typography>
-                <Typography variant='h5' >
+                </DetailInfoText>
+                <DetailInfoText variant='h5' >
                   € {product.price}
-                </Typography>
+                </DetailInfoText>
                 
-                <Typography my={5}>
+                <DetailInfoText my={5}>
                   {product.description}
-                </Typography>
+                </DetailInfoText>
               </Box>
 
               <Box component={'div'} display={'inline-grid'} justifyContent={'center'} width={'100%'}

@@ -15,6 +15,7 @@ import { removeFromCart, updateQuantityInCart } from '../../../redux/slices/Cart
 import { MUIButtonVariant, MUIColor, MUILayout, MUISize } from '../../../misc/types/MUI';
 import CartItem from '../../../misc/types/CartItem';
 import { Product } from '../../../misc/types/Product';
+import { useTheme } from '../../contextAPI/ThemeContext';
 
 type Props = {
   cartItem: CartItem;
@@ -26,6 +27,7 @@ export default function CartItemCard(props: Props) {
   const [showDeleteDialog, setShowDeleteDialog] = useState<boolean>(false);
   const { item, quantity } = props.cartItem;
   const { showDivider } = props;
+  const { isThemeLight } = useTheme();
   
   let quantityItems: {key: number}[] = [];
   for (let i = 0; i < 10; i++) {
@@ -58,8 +60,8 @@ export default function CartItemCard(props: Props) {
 
   return (
     <>
-    {showDivider && <Divider />}
-    <Box display={'flex'} my={1} width={'100%'} minHeight={130}>
+    {showDivider && <Divider sx={{ borderColor: isThemeLight ? 'white' : 'black'}}/>}
+    <Box display={'flex'} my={1} width={'100%'} minHeight={130} sx={{ color: isThemeLight ? 'white' : 'black'}}>
       <Box width={130}>
         <Link to={`/product/${item.id}`}>
         {(item.images && item.images[0]) ?
@@ -73,7 +75,7 @@ export default function CartItemCard(props: Props) {
             display={'flex'} flexWrap={'wrap'} alignContent={'space-between'}>
         <Box width={'100%'}>
           <Link to={`/product/${item.id}`} style={{ textDecoration: 'none'}}>
-            <Typography fontSize={18} color={'black'}>
+            <Typography fontSize={18} color={isThemeLight ? 'white' : 'black'}>
               {item.title}
             </Typography>
           </Link>
@@ -91,7 +93,6 @@ export default function CartItemCard(props: Props) {
         </Box>
         <Box display={'flex'} justifyContent={'space-between'} width={'100%'} alignItems={'center'}>
           <Box display={'flex'} alignItems={'center'}>
-            {/* if changed, dispatch the change to redux */}
             Quantity:
             <UiFormSelects 
               items={quantityItems}  
@@ -107,14 +108,14 @@ export default function CartItemCard(props: Props) {
               variant={MUIButtonVariant.TEXT}
               size={MUISize.SMALL}
               color={MUIColor.PRIMARY}>
-              <FavoriteBorderIcon sx={{ color: 'black' }} />
+              <FavoriteBorderIcon sx={{ color: (isThemeLight ? 'white' : 'black') }} />
             </UiButton>
             <UiButton 
               variant={MUIButtonVariant.TEXT}
               size={MUISize.SMALL}
               color={MUIColor.PRIMARY}
               onClick={handleDeleteItem}>
-              <DeleteOutlineIcon sx={{ color: 'black' }} />
+              <DeleteOutlineIcon sx={{ color: (isThemeLight ? 'white' : 'black') }} />
             </UiButton>
           </ButtonGroup>
         </Box>

@@ -12,11 +12,13 @@ export enum Theme {
 type ThemeContextType = {
   theme: Theme;
   toggleTheme: () => void;
+  isThemeLight: boolean;
 }
 
 const ThemeContext: Context<ThemeContextType> = createContext<ThemeContextType>({
   theme: Theme.LIGHT,
-  toggleTheme: () => {}
+  toggleTheme: () => {},
+  isThemeLight: true
 });
 
 export default function ThemeProvider(props: Props) {
@@ -24,9 +26,10 @@ export default function ThemeProvider(props: Props) {
   const toggleTheme = () => {
     setTheme((prevTheme) => (prevTheme === Theme.LIGHT ? Theme.DARK : Theme.LIGHT));
   };
+  const isThemeLight = theme === Theme.LIGHT;
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme, toggleTheme, isThemeLight }}>
       {props.children}
     </ThemeContext.Provider>
   );

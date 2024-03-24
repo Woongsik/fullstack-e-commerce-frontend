@@ -14,6 +14,7 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import { clearCart } from '../../redux/slices/CartSlice';
 import { Link } from 'react-router-dom';
 import UiButton from '../../components/ui/button/UiButton';
+import { useTheme } from '../../components/contextAPI/ThemeContext';
 
 export default function Cart() {
   const [checkedout, setCheckedout] = useState<boolean>(false);
@@ -21,6 +22,7 @@ export default function Cart() {
   useUserSession();
 
   const dispatch = useAppDispatch();
+  const { isThemeLight } = useTheme();
 
   const handleCheckout = () => {
     setCheckedout(true);
@@ -28,7 +30,7 @@ export default function Cart() {
   }
 
   return (
-    <GridContainer alignItems={checkedout ? MUILayout.CENTER : MUILayout.FLEX_START}>
+    <GridContainer alignItems={checkedout ? MUILayout.CENTER : MUILayout.FLEX_START} sx={{ color: isThemeLight ? 'white' : 'black' }}>
       {
         checkedout ? 
         <CenteredContainer width={'75%'}>
@@ -45,13 +47,13 @@ export default function Cart() {
           </CenteredContainer>
         </CenteredContainer> 
         :
-        <CenteredContainer alignItems={MUILayout.FLEX_START} justifyContent={MUILayout.SPACE_BETWEEN} width={'75%'} sx={{ maxWidth: '1000px' }} margin='50px 0'>
+        <CenteredContainer alignItems={MUILayout.FLEX_START} justifyContent={MUILayout.SPACE_BETWEEN} width={'75%'} sx={{ maxWidth: '1000px'}} margin='50px 0'>
           <CenteredContainer width={'50%'} justifyContent={MUILayout.FLEX_START} sx={{ minWidth: '300px', maxWidth: '450px', marginBottom: '30px'}}>
             <Box width={'100%'}>
               <Typography fontSize={22} fontWeight={'bold'}>
                 Cart
               </Typography>
-              <Divider />
+              <Divider sx={{ borderColor: isThemeLight ? 'white' : 'black' }}/>
               {cartItems.map((cartItem: CartItem, index: number) =>
                 <CartItemCard 
                   key={cartItem.item.id} 

@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
 import { MUIButtonType, MUIButtonVariant, MUISize } from '../../../misc/types/MUI';
 import UiButton from './UiButton';
+import { useTheme } from '../../contextAPI/ThemeContext';
 
 type Props = {
   variant?: MUIButtonVariant;
@@ -14,6 +15,7 @@ type Props = {
 
 export default function UiRoundButton(props: Props) {
   const { variant, theme, type, margin, children } = props;
+  const { isThemeLight } = useTheme();
 
   return (
     <UiButton 
@@ -25,13 +27,12 @@ export default function UiRoundButton(props: Props) {
         width: '100%', 
         padding: '10px 20px', 
         color: theme === 'black' ? 'white' : 'black',
-        backgroundColor: theme === 'black' ? 'black' : 'white',
-        borderColor: theme === 'black' ? '' : 'black',
-        border: theme === 'black' ? '' : '1px solid',
+        backgroundColor: theme === 'black' ? (isThemeLight ? 'lightgray': 'black') : 'white',
+        border: '1px solid black',
         margin: margin,
         '&:hover': {
-          backgroundColor: theme === 'black' ? 'white' : 'black',
-          borderColor: theme === 'black' ? 'black' : 'black',
+          backgroundColor: theme === 'black' ? 'white' : (isThemeLight ? 'lightgray': 'black'),
+          borderColor: theme === 'black' ? 'black' : 'white',
           color: theme === 'black' ? 'black' : 'white'
         }  
       }}

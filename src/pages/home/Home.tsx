@@ -21,6 +21,7 @@ import { useUserSession } from '../../hooks/useUserSession';
 import { Product } from '../../misc/types/Product';
 import Filter from '../../misc/types/Filter';
 import { MUIButtonVariant, MUIColor, MUILayout } from '../../misc/types/MUI';
+import { useTheme } from '../../components/contextAPI/ThemeContext';
 
 export default function Home() {
   const baseCategoryId: number = 0;
@@ -39,6 +40,7 @@ export default function Home() {
   const [openDrawer, setOpenDrawer] = useState<boolean>(false);
 
   const dispatch = useAppDispatch();
+  const { isThemeLight } = useTheme();
   
   const products: Product[] = useSelector((state: AppState): Product[] => 
     state.productReducer.sort ? state.productReducer.sortedProducts : state.productReducer.products);
@@ -98,20 +100,24 @@ export default function Home() {
     setFilter(initialFilter);
   }
 
-  return (
-    <GridContainer alignItems={MUILayout.FLEX_START}>
-      <CenteredContainer height={'50px'}  width={'100%'} sx={{ position: 'sticky', top: 0}}>
-        <CenteredContainer  sx={{ backgroundColor: 'black', borderRadius: '30px' }} margin={'5px'}>
-          <CenteredContainer sx={{ color: 'white', padding: '5px 20px'}} >
-            <CenteredContainer onClick={() => toggleDrawer(true)} sx={{ cursor: 'pointer', marginRight: 1 }}>
-              <SearchIcon /> Search
-            </CenteredContainer>
-            <Box onClick={() => clearFilter()} sx={{ cursor: 'pointer', marginLeft: 1 }}>
-              <CancelIcon sx={{ color: 'wthite'}}/>
-            </Box>
+  const FilterIndicator = () => (
+    <CenteredContainer height={'50px'}  width={'100%'} sx={{ position: 'sticky', top: 0}}>
+      <CenteredContainer  sx={{ backgroundColor: isThemeLight ? 'white' : 'black', borderRadius: '30px' }} margin={'5px'}>
+        <CenteredContainer sx={{ color: isThemeLight ? 'black' : 'white', padding: '5px 20px'}} >
+          <CenteredContainer onClick={() => toggleDrawer(true)} sx={{ cursor: 'pointer', marginRight: 1 }}>
+            <SearchIcon /> Search
           </CenteredContainer>
+          <Box onClick={() => clearFilter()} sx={{ cursor: 'pointer', marginLeft: 1 }}>
+            <CancelIcon sx={{ color: isThemeLight ? 'black' : 'white' }}/>
+          </Box>
         </CenteredContainer>
       </CenteredContainer>
+    </CenteredContainer>
+  );
+
+  return (
+    <GridContainer alignItems={MUILayout.FLEX_START}>
+      <FilterIndicator />
       <CenteredContainer alignItems={MUILayout.FLEX_START} width='75%' sx={{ minWidth: '300px', overflow: 'auto', margin: '10px 0' }}>
         <ProductList products={products} />
         <PageNavigation 

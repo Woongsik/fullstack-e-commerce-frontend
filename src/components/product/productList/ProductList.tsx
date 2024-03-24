@@ -13,7 +13,7 @@ type Props = {
 
 export default function ProductList(props: Props) {
   const { products } = props;
-  const { minMaxPrice, loading } = useSelector((state: AppState) => state.productReducer)
+  const { minMaxPrice, loading } = useSelector((state: AppState) => state.productReducer);
 
   return (
     <Box component={'div'} margin={1}> 
