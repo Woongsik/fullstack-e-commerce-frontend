@@ -27,11 +27,11 @@ export default function UiRoundButton(props: Props) {
         width: '100%', 
         padding: '10px 20px', 
         color: theme === 'black' ? 'white' : 'black',
-        backgroundColor: theme === 'black' ? (isThemeLight ? 'lightgray': 'black') : 'white',
+        backgroundColor: theme === 'black' ? (isThemeLight ? '#1976d2': 'black') : 'white',
         border: '1px solid black',
         margin: margin,
         '&:hover': {
-          backgroundColor: theme === 'black' ? 'white' : (isThemeLight ? 'lightgray': 'black'),
+          backgroundColor: theme === 'black' ? 'white' : (isThemeLight ? '#1976d2': 'black'),
           borderColor: theme === 'black' ? 'black' : 'white',
           color: theme === 'black' ? 'black' : 'white'
         }  

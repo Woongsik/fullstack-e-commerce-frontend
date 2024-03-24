@@ -25,16 +25,16 @@ export default function UiFormSelects(props: Props) {
 
   return (
     <FormControl size={size} fullWidth={fullWidth} error={error}>
-      {title && <InputLabel id="form-select-label">{title}</InputLabel>}
+      {title && <InputLabel id="form-select-label" sx={{ color: isThemeLight ? 'white !important' : 'black' }}>{title}</InputLabel>}
       <Select
         {...register}
         labelId="form-select-label"
         value={selectedValue?.toString()}
         label={title}
         sx={{ color: isThemeLight ? 'white' : 'black',
-          border: isThemeLight ? '1px solid white' : '',
           '&.MuiInputBase-root > *': {
-            color: isThemeLight ? 'white' : 'black'
+            color: isThemeLight ? 'white' : 'black',
+            borderColor: isThemeLight ? 'white !important' : 'black'
           }
         }}
         onChange={handleSelectChange}>

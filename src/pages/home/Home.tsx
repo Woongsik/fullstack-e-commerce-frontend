@@ -103,7 +103,7 @@ export default function Home() {
   const FilterIndicator = () => (
     <CenteredContainer height={'50px'}  width={'100%'} sx={{ position: 'sticky', top: 0}}>
       <CenteredContainer  sx={{ backgroundColor: isThemeLight ? 'white' : 'black', borderRadius: '30px' }} margin={'5px'}>
-        <CenteredContainer sx={{ color: isThemeLight ? 'black' : 'white', padding: '5px 20px'}} >
+        <CenteredContainer sx={{ color: isThemeLight ? 'black' : 'white', padding: '5px 20px'}}>
           <CenteredContainer onClick={() => toggleDrawer(true)} sx={{ cursor: 'pointer', marginRight: 1 }}>
             <SearchIcon /> Search
           </CenteredContainer>
@@ -125,10 +125,18 @@ export default function Home() {
           onPageChanged={onPageChanged}
         />
       </CenteredContainer>
-      <Drawer open={openDrawer} onClose={() => toggleDrawer(false)}>
-        <Box margin={3}>
+      <Drawer open={openDrawer} onClose={() => toggleDrawer(false)}
+        sx={{
+          '&.MuiDrawer-root > .MuiPaper-root': {
+            backgroundColor: isThemeLight ? 'black' : 'white'
+          }
+        }}>
+        <Box margin={3}
+         sx={{
+          color: isThemeLight ? 'white' : 'black'
+        }}>
           <Box width={'100%'} display={'flex'} justifyContent={MUILayout.FLEX_END}>
-            <UiButton color={MUIColor.PRIMARY} variant={MUIButtonVariant.OUTLINED}
+            <UiButton color={MUIColor.PRIMARY} variant={isThemeLight ? MUIButtonVariant.CONTAINED : MUIButtonVariant.OUTLINED}
               onClick={() => toggleDrawer(false)}>
               Close
             </UiButton>

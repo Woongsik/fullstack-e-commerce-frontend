@@ -7,6 +7,7 @@ import {
   IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import CancelIcon from '@mui/icons-material/Cancel';
+import { useTheme } from '../../contextAPI/ThemeContext';
 
 type Props = {
   title: string;
@@ -16,6 +17,7 @@ type Props = {
 
 export default function SearchInput(props: Props) {
   const { title, preText } = props;
+  const { isThemeLight } = useTheme();
   const [searchPhrase, setSearchPhrase] = useState<string>(preText ?? '');
 
   // Optimization with useCallback & debounce
@@ -34,23 +36,29 @@ export default function SearchInput(props: Props) {
   }
 
   return (
-    <FormControl fullWidth>
-      <Box sx={{ display: 'flex', alignItems: 'center', margin: '5px 10px' }}>
+    <FormControl fullWidth sx={{ color: 'white'}}>
+      <Box sx={{ display: 'flex', alignItems: 'center', margin: '5px 10px', color: 'white' }}>
         <SearchIcon 
-          sx={{ color: 'action.active', mr: 2, mt: 1.5 }} />
+          sx={{ color: isThemeLight ? 'white' : 'action.active', mr: 2, mt: 1.5 }} />
         <TextField 
           fullWidth
           label={title} 
           variant="standard" 
           value={searchPhrase}
-          onChange={handleChange} />
+          onChange={handleChange}
+          sx={{
+            '&.MuiFormControl-root > *': {
+              color: isThemeLight ? 'white': 'black',
+              borderColor: isThemeLight ? 'black': 'white',
+            }
+          }} />
 
         <IconButton 
           onClick={clear}
-          color="default" 
+          color={"default"} 
           aria-label="Clear the search"
           sx={{ mt: 1.5 }}>
-          <CancelIcon />
+          <CancelIcon sx={{ color: isThemeLight ? 'white' : ''}} />
         </IconButton>
       </Box>
     </FormControl>

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Box, TextField } from '@mui/material';
+import { Box, TextField, styled } from '@mui/material';
 
 import Categories from '../../cateogries/Categories';
 import FileUploader from '../../ui/fileUploader/FileUploader';
@@ -15,6 +15,7 @@ import { apiService } from '../../../services/APIService';
 import { MUIButtonType, MUIButtonVariant, MUILayout } from '../../../misc/types/MUI';
 import { Product, ProductUpdateItem } from '../../../misc/types/Product';
 import { UploadedImage } from '../../../misc/types/UploadedImage';
+import { useTheme } from '../../contextAPI/ThemeContext';
 
 type Inputs = {
   title: string,
@@ -34,12 +35,20 @@ export default function ProductCreateOrUpdate(props: Props) {
   const navigate = useNavigate();
 
   const { product } = props;
+  const { isThemeLight } = useTheme();
   const baseCategoryId: number = product ? product.category.id : 0;
   const { loading, error } = useSelector((state: AppState) => state.productReducer);
   const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
   
   const [categoryId, setCategoryId] = useState<number>(baseCategoryId);
   const [images, setImages] = useState<File[]>([]);
+
+  const ThemeTextField = styled(TextField)({
+    '&.MuiFormControl-root > *, &.MuiFormControl-root > .MuiInputBase-root > .MuiOutlinedInput-notchedOutline': {
+      color: isThemeLight ? 'white' : 'black',
+      borderColor: isThemeLight ? 'white' : 'black'
+    }
+  });
 
   const uploadImage = async (image: File): Promise<UploadedImage> => {
     const formData = new FormData();
@@ -119,7 +128,7 @@ export default function ProductCreateOrUpdate(props: Props) {
     <CenteredContainer 
       width={'50%'}
       alignItems={MUILayout.FLEX_START}
-      sx={{ minWidth: '300px'}}>
+      sx={{ minWidth: '300px', color: isThemeLight ? 'white': 'black' }}>
       <Box 
         component="form"
         width={'100%'}
@@ -129,7 +138,7 @@ export default function ProductCreateOrUpdate(props: Props) {
         <h1>{product ? `Edit Product` : `Create Product`}</h1>
         
         <Box my={1}>
-          <TextField
+          <ThemeTextField
             {...register("title", { required: true, pattern: /^[A-Za-z0-9?.,=_@&\- ]+$/i }) }
             error={Boolean(errors.title)}
             label="Product name"
@@ -137,7 +146,7 @@ export default function ProductCreateOrUpdate(props: Props) {
             helperText={errors.title && 'Incorrect name! Accept special character only ?.,=-_@'} />   
         </Box>
         <Box my={1}>
-          <TextField
+          <ThemeTextField
             {...register("price", { required: true, 
               valueAsNumber: true,
               validate: (value) => value > 0 }) }
@@ -153,7 +162,7 @@ export default function ProductCreateOrUpdate(props: Props) {
             helperText={errors.price && 'Incorrect price! Only numbers'} />          
         </Box>
         <Box my={1}>
-          <TextField
+          <ThemeTextField
             {...register("description", { required: true, pattern: /^[A-Za-z0-9?.,=_@&!'\- ]+$/i }) }
             error={Boolean(errors.description)}
             label="Product description"
