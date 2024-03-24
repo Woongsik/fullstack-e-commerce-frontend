@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Box, Divider, Typography } from '@mui/material';
+import { Box, Divider, Stack, Typography } from '@mui/material';
 
 import CartItemCard from '../../components/cart/cartItemCard/CartItemCard';
 import CartSummary from '../../components/cart/cartSummary/CartSummary';
@@ -15,10 +15,12 @@ import { clearCart } from '../../redux/slices/CartSlice';
 import { Link } from 'react-router-dom';
 import UiButton from '../../components/ui/button/UiButton';
 import { useTheme } from '../../components/contextAPI/ThemeContext';
+import CartFavoriteCard from '../../components/cart/cartFavoriteCard.tsx/CartFavoriteCard';
+import ProductCard from '../../components/product/productCard/ProductCard';
 
 export default function Cart() {
   const [checkedout, setCheckedout] = useState<boolean>(false);
-  const { cartItems } = useSelector((state: AppState) => state.cartReducer);
+  const { cartItems, cartFavorites } = useSelector((state: AppState) => state.cartReducer);
   useUserSession();
 
   const dispatch = useAppDispatch();
@@ -51,7 +53,7 @@ export default function Cart() {
           <CenteredContainer width={'50%'} justifyContent={MUILayout.FLEX_START} sx={{ minWidth: '300px', maxWidth: '450px', marginBottom: '30px'}}>
             <Box width={'100%'}>
               <Typography fontSize={22} fontWeight={'bold'}>
-                Cart
+                Cart {cartItems.length > 0 && `(${cartItems.length})`}
               </Typography>
               <Divider sx={{ borderColor: isThemeLight ? 'white' : 'black' }}/>
               {cartItems.map((cartItem: CartItem, index: number) =>
@@ -71,6 +73,26 @@ export default function Cart() {
           </CenteredContainer>
         </CenteredContainer>
       }
+
+      <CenteredContainer alignItems={MUILayout.FLEX_START} justifyContent={MUILayout.FLEX_START} width={'75%'} sx={{ maxWidth: '1000px'}} margin='50px 0'>
+        <CenteredContainer width={'100%'} justifyContent={MUILayout.FLEX_START}>
+          <Box width={'100%'}>
+            <Typography fontSize={22} fontWeight={'bold'}>
+              Favorites {cartFavorites.length > 0 && `(${cartFavorites.length})`}
+            </Typography>
+            <Divider sx={{ borderColor: isThemeLight ? 'white' : 'black' }}/>
+            <Stack direction="row" spacing={2} overflow={'auto'} display={'-webkit-box'} padding={'10px 15px 10px 0'}>
+              {cartFavorites.map((cartItem: CartItem, index: number) =>
+              <CartFavoriteCard  
+                key={cartItem.item.id}
+                cartItem={cartItem}
+              />               
+              )}
+            </Stack>
+            {cartFavorites.length === 0 && <h4>No favorite items yet...</h4>}
+          </Box>
+        </CenteredContainer>    
+      </CenteredContainer>
     </GridContainer>
   )
 }

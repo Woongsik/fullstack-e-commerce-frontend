@@ -23,6 +23,18 @@ export default function CartSummary(props: Props) {
     borderColor: isThemeLight ? 'white' : 'black'
   });
 
+  const SummaryItem = styled(Box)({
+    marginTop: '15px',
+    marginBottom: '15px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  });
+
+  const SummaryPromo = styled(SummaryItem)({
+    display: 'block'
+  });
+
   return (
     <Box justifyContent={'center'} width={'100%'}>
       <Typography fontSize={22} fontWeight={'bold'}> 
@@ -31,7 +43,7 @@ export default function CartSummary(props: Props) {
 
       <ThemeDivider />
       
-      <Box my={2} display={'block'} justifyContent={'space-between'} alignItems={'center'}>
+      <SummaryPromo>
         <Box>Do you have a promo code? </Box> 
         <Box>
           <Input fullWidth sx={{
@@ -41,19 +53,19 @@ export default function CartSummary(props: Props) {
             }
           }}/>
         </Box>
-      </Box>
-      <Box my={2} display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
+      </SummaryPromo>
+      <SummaryItem>
         <Box>Sub total: </Box> <Box> € { subTotal }</Box>
-      </Box>
-      <Box my={2} display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
+      </SummaryItem>
+      <SummaryItem>
         <Box>Esitmated delivery & handling: </Box> <Box> € {deliveryFee}</Box>
-      </Box>
+      </SummaryItem>
 
       <ThemeDivider />
 
-      <Box my={2} display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
+      <SummaryItem>
         <Box>Total:</Box> <Box>€ {total}</Box>
-      </Box>
+      </SummaryItem>
 
       <Box component={'div'} display={'inline-grid'} justifyContent={'center'} width={'100%'}
             my={5}>

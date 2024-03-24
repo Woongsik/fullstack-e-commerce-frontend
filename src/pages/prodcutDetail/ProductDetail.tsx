@@ -25,6 +25,7 @@ import CartSliceUtil from '../../redux/utils/CartSliceUtil';
 import { useUserSession } from '../../hooks/useUserSession';
 import Filter from '../../misc/types/Filter';
 import { useTheme } from '../../components/contextAPI/ThemeContext';
+import UiSnackbar from '../../components/ui/snackbar/UiSnackbar';
 
 export default function ProudctDetail() {
   const { id } = useParams(); // product id
@@ -33,11 +34,9 @@ export default function ProudctDetail() {
   const [editMode, setEditMode] = useState<boolean>(false);
   const [showSnackBar, setShowSnackBar] = useState<boolean>(false);
   const [snackBarMessage, setSnackBarMessage] = useState<string>('');
-  const [snackBarTarget, setSnackBarTarget] = useState<'cart' | 'favorite'>('cart');
   const [showDialog, setShowDialog] = useState<boolean>(false);
   const [showDeletedMessage, setShowDeletedMessage] = useState<boolean>(false);
   const { isThemeLight } = useTheme();
-
 
   useUserSession();
   useEffect(() => {
@@ -54,8 +53,7 @@ export default function ProudctDetail() {
     color: isThemeLight ? 'white': 'black'
   });
 
-  const showSnakcBarMessage = (message: string, target: 'cart' | 'favorite') => {
-    setSnackBarTarget(target);
+  const showSnakcBarMessage = (message: string) => {
     setSnackBarMessage(message);
     setShowSnackBar(true);
   }
@@ -73,7 +71,7 @@ export default function ProudctDetail() {
         message = `Added to Cart! (${product.title})`;
       } 
 
-      showSnakcBarMessage(message, 'cart');
+      showSnakcBarMessage(message);
     }
   }
 
@@ -91,7 +89,7 @@ export default function ProudctDetail() {
         message = `Added to Favorites! (${product.title})`;
       } 
 
-      showSnakcBarMessage(message, 'favorite');
+      showSnakcBarMessage(message);
     }
   }
 
@@ -251,38 +249,34 @@ export default function ProudctDetail() {
         )}
     </Box>
 
-    <Snackbar
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        open={showSnackBar}
-        onClose={onSnackbarClose}
-        message={snackBarMessage}
-        autoHideDuration={3000}
-        key={'top' + 'right'}
-        sx={{ marginTop: '60px' }}
-        action={snackbarAction()}
-      />
+    <UiSnackbar 
+      show={showSnackBar}
+      onClose={onSnackbarClose}
+      message={snackBarMessage}
+      action={snackbarAction()}
+    />
 
-      <UiDialog 
-        show={showDialog}
-        title={dialogTitle(product?.title)}
-        cancelTitle='Cancel'
-        proceedTitle='Delete'
-        proceedColor='red'
-        onClose={handleDelete}/>
+    <UiDialog 
+      show={showDialog}
+      title={dialogTitle(product?.title)}
+      cancelTitle='Cancel'
+      proceedTitle='Delete'
+      proceedColor='red'
+      onClose={handleDelete}/>
 
-      <LoadingBackdrop loading={loading} />
-      { (error || showDeletedMessage) && 
-      <CenteredContainer margin={'-150px 0 0 0'}>
-        <InfoOutlined sx={{ fontSize: 60 }} />
-        <Typography fontWeight={'bold'} fontSize={22} width={'100%'} textAlign={'center'}>
-            {showDeletedMessage ? 'Successfully Product removed!' : 'Something went wrong or prodcut not existed!'}
-        </Typography>
-        <Link to={'/home'}>
-            <UiButton variant={MUIButtonVariant.CONTAINED} color={MUIColor.PRIMARY} customStyle={{ margin: '15px' }}>
-              Back home
-            </UiButton>
-          </Link>     
-      </CenteredContainer>}
+    <LoadingBackdrop loading={loading} />
+    { (error || showDeletedMessage) && 
+    <CenteredContainer margin={'-150px 0 0 0'}>
+      <InfoOutlined sx={{ fontSize: 60 }} />
+      <Typography fontWeight={'bold'} fontSize={22} width={'100%'} textAlign={'center'}>
+          {showDeletedMessage ? 'Successfully Product removed!' : 'Something went wrong or prodcut not existed!'}
+      </Typography>
+      <Link to={'/home'}>
+          <UiButton variant={MUIButtonVariant.CONTAINED} color={MUIColor.PRIMARY} customStyle={{ margin: '15px' }}>
+            Back home
+          </UiButton>
+        </Link>     
+    </CenteredContainer>}
   </GridContainer>
   )
 }

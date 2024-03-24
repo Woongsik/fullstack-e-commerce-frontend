@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Box, ButtonGroup, Divider, Typography } from '@mui/material';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { Link } from 'react-router-dom';
@@ -10,12 +12,13 @@ import UiButton from '../../ui/button/UiButton';
 import UiDialog from '../../ui/UiDialog';
 import UiImage from '../../ui/image/UiImage';
 import UiNoImage from '../../ui/image/UiNoImage';
-import { useAppDispatch } from '../../../redux/store';
-import { removeFromCart, updateQuantityInCart } from '../../../redux/slices/CartSlice';
+import { AppState, useAppDispatch } from '../../../redux/store';
+import { addToFavorites, removeFromCart, removeFromFavorites, updateQuantityInCart } from '../../../redux/slices/CartSlice';
 import { MUIButtonVariant, MUIColor, MUILayout, MUISize } from '../../../misc/types/MUI';
 import CartItem from '../../../misc/types/CartItem';
 import { Product } from '../../../misc/types/Product';
 import { useTheme } from '../../contextAPI/ThemeContext';
+import UiSnackbar from '../../ui/snackbar/UiSnackbar';
 
 type Props = {
   cartItem: CartItem;
@@ -25,38 +28,68 @@ type Props = {
 export default function CartItemCard(props: Props) {
   const dispatch = useAppDispatch();
   const [showDeleteDialog, setShowDeleteDialog] = useState<boolean>(false);
+  const [showSnackBar, setShowSnackBar] = useState<boolean>(false);
+  const [snackBarMessage, setSnackBarMessage] = useState<string>('');
   const { item, quantity } = props.cartItem;
   const { showDivider } = props;
   const { isThemeLight } = useTheme();
+  const { cartFavorites } = useSelector((state: AppState) => state.cartReducer);
   
   let quantityItems: {key: number}[] = [];
   for (let i = 0; i < 10; i++) {
     quantityItems[i] = { key: (i+1) };
   }
   
-  const handleDeleteItem = () => {
+  const handleDeleteItem = (): void => {
     setShowDeleteDialog(true);
   }
 
-  const handleClose = (shouldDelete: boolean = false) => {
+  const handleClose = (shouldDelete: boolean = false): void => {
     setShowDeleteDialog(false);
     if (shouldDelete) {
       dispatch(removeFromCart(props.cartItem));
     }
   }
 
-  const handleQuantityChanges = (value: string) => {
+  const handleQuantityChanges = (value: string): void => {
     dispatch(updateQuantityInCart({
       ...props.cartItem,
       quantity: parseInt(value)
     }));
   }
 
-  const dialogTitle = (item: Product) => (
+  const dialogTitle = (item: Product): ReactNode => (
     <span>Remove
-      <span style={{ fontWeight: 'bold'}}> {item.title} </span> from cart?
+      <span style={{ fontWeight: 'bold'}}> {item.title} </span> from 
+      <span style={{ fontWeight: 'bold'}}> Cart </span>?
     </span>
   );
+
+  const isFavorited = (): boolean => {
+    return cartFavorites.some((favorite: CartItem) => favorite.item.id === item.id);
+  }
+
+  const onSnackbarClose = (event: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setShowSnackBar(false);
+  };
+
+  const toggleFavorite = () => {
+    let message = `Add to Favorites! (${item.title})`;
+
+    if (isFavorited()) {
+      message = `Remove from Favorites! (${item.title})`;
+      dispatch(removeFromFavorites(props.cartItem));
+    } else {
+      dispatch(addToFavorites(props.cartItem));
+    }
+
+    setSnackBarMessage(message);
+    setShowSnackBar(true)
+  }
 
   return (
     <>
@@ -107,8 +140,12 @@ export default function CartItemCard(props: Props) {
             <UiButton 
               variant={MUIButtonVariant.TEXT}
               size={MUISize.SMALL}
-              color={MUIColor.PRIMARY}>
-              <FavoriteBorderIcon sx={{ color: (isThemeLight ? 'white' : 'black') }} />
+              color={MUIColor.PRIMARY}
+              onClick={toggleFavorite}>
+              {isFavorited() ? 
+              <FavoriteIcon sx={{ color: 'red' }} />
+              : <FavoriteBorderIcon sx={{ color: isFavorited() ? 'red': (isThemeLight ? 'white' : 'black') }} />
+              }
             </UiButton>
             <UiButton 
               variant={MUIButtonVariant.TEXT}
@@ -120,6 +157,12 @@ export default function CartItemCard(props: Props) {
           </ButtonGroup>
         </Box>
       </Box>
+
+      <UiSnackbar 
+        show={showSnackBar}
+        onClose={onSnackbarClose}
+        message={snackBarMessage}
+      />
     </Box>
 
     <UiDialog 
