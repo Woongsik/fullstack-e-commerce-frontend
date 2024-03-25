@@ -111,7 +111,7 @@ export default function Home() {
   }
 
   const FilterIndicator = () => (
-    <CenteredContainer height={'50px'}  width={'100%'} sx={{ position: 'sticky', top: 0}}>
+    <CenteredContainer height={'50px'}  width={'100%'} sx={{ position: 'sticky', top: 0, zIndex: 100}}>
       <CenteredContainer  sx={{ backgroundColor: isThemeLight ? 'white' : 'black', borderRadius: '30px' }} margin={'5px'}>
         <CenteredContainer sx={{ color: isThemeLight ? 'black' : 'white', padding: '5px 20px'}}>
           <CenteredContainer onClick={() => toggleDrawer(true)} sx={{ cursor: 'pointer', marginRight: 1 }}>
