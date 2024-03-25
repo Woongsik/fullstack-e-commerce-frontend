@@ -52,44 +52,54 @@ export default function Home() {
   }, [filter, dispatch]);
   
   const onTextChanged = (text: string): void => {
-    setFilter({
-      ...filter,
-      title: text,
-      page: basePage
-    });
+    if (filter.title !== text) {
+      setFilter({
+        ...filter,
+        title: text,
+        page: basePage
+      });
+    }
   };
 
   const onCategoryChanged = (categoryId: number): void => {
-    setFilter({
-      ...filter,
-      categoryId: categoryId,
-      page: basePage
-    });
+    if (filter.categoryId !== categoryId) {
+      setFilter({
+        ...filter,
+        categoryId: categoryId,
+        page: basePage
+      });
+    }
   };
 
   const onPageChanged = (page: number): void => {
-    setFilter({
-      ...filter,
-      page: page
-    });
+    if (filter.page !== page) {
+      setFilter({
+        ...filter,
+        page: page
+      });
+    }
   };
 
   const onItemsPerPageChanged = (itemsPerPage: number): void => {
-    setFilter({
-      ...filter,
-      itemsPerPage: itemsPerPage,
-      page: basePage
-    });
+    if (filter.itemsPerPage !== itemsPerPage) {
+      setFilter({
+        ...filter,
+        itemsPerPage: itemsPerPage,
+        page: basePage
+      });
+    }
   };
 
   const onPriceRangeChanged = (range: number[]) => {
-    setFilter({
-      ...filter,
-      price_min: range[0],
-      price_max: range[1],
-      price: undefined,
-      page: basePage
-    }); 
+    if (filter.price_min !== range[0] || filter.price_max !== range[1]) {
+      setFilter({
+        ...filter,
+        price_min: range[0],
+        price_max: range[1],
+        price: undefined,
+        page: basePage
+      });
+    }
   }
 
   const toggleDrawer = (open: boolean) => {
