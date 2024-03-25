@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Box, Divider, Stack, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 
 import CartItemCard from '../../components/cart/cartItemCard/CartItemCard';
 import CartSummary from '../../components/cart/cartSummary/CartSummary';
@@ -10,9 +12,7 @@ import { useUserSession } from '../../hooks/useUserSession';
 import GridContainer from '../../components/ui/layout/GridContainer';
 import CenteredContainer from '../../components/ui/layout/CenteredContainer';
 import { MUIButtonVariant, MUIColor, MUILayout } from '../../misc/types/MUI';
-import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import { clearCart } from '../../redux/slices/CartSlice';
-import { Link } from 'react-router-dom';
 import UiButton from '../../components/ui/button/UiButton';
 import { useTheme } from '../../components/contextAPI/ThemeContext';
 import CartFavoriteCard from '../../components/cart/cartFavoriteCard.tsx/CartFavoriteCard';

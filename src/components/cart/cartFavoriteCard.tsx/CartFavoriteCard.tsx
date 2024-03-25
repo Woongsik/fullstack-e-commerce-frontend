@@ -1,7 +1,9 @@
 import { ReactNode, useState } from 'react';
 import { Box, ButtonGroup, Typography, styled } from '@mui/material';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { ShoppingCart, ShoppingCartCheckout } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import UiButton from '../../ui/button/UiButton';
 import UiDialog from '../../ui/UiDialog';
@@ -13,8 +15,6 @@ import { MUIButtonVariant, MUIColor, MUILayout, MUISize } from '../../../misc/ty
 import CartItem from '../../../misc/types/CartItem';
 import { Product } from '../../../misc/types/Product';
 import { useTheme } from '../../contextAPI/ThemeContext';
-import { ShoppingCart, ShoppingCartCheckout, ShoppingCartOutlined } from '@mui/icons-material';
-import { useSelector } from 'react-redux';
 
 type Props = {
   cartItem: CartItem;

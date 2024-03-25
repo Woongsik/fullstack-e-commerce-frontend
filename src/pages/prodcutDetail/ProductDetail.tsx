@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Box, Typography,Chip, Snackbar, Divider, IconButton, Breadcrumbs, Link as MUILink, styled } from '@mui/material';
+import { Box, Typography, Divider, IconButton, Breadcrumbs, Link as MUILink, styled } from '@mui/material';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
