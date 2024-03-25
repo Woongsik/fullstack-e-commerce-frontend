@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Box, Divider, Stack, Typography } from '@mui/material';
 
@@ -16,7 +16,6 @@ import { Link } from 'react-router-dom';
 import UiButton from '../../components/ui/button/UiButton';
 import { useTheme } from '../../components/contextAPI/ThemeContext';
 import CartFavoriteCard from '../../components/cart/cartFavoriteCard.tsx/CartFavoriteCard';
-import ProductCard from '../../components/product/productCard/ProductCard';
 
 export default function Cart() {
   const [checkedout, setCheckedout] = useState<boolean>(false);
@@ -29,6 +28,10 @@ export default function Cart() {
   const handleCheckout = () => {
     setCheckedout(true);
     dispatch(clearCart());
+  }
+
+  const addToCartFromFavorite = () => {
+    setCheckedout(false);
   }
 
   return (
@@ -66,7 +69,7 @@ export default function Cart() {
             </Box>
           </CenteredContainer>
 
-          <CenteredContainer width={'40%'} sx={{ minWidth: '300px', maxWidth: '400px'}}>
+          <CenteredContainer width={'40%'} sx={{ minWidth: '300px', maxWidth: '400px', position: 'sticky', top: '0'}}>
             <CartSummary 
               cartItems={cartItems}
               onCheckout={handleCheckout} />
@@ -86,6 +89,7 @@ export default function Cart() {
               <CartFavoriteCard  
                 key={cartItem.item.id}
                 cartItem={cartItem}
+                onAddToCart={addToCartFromFavorite}
               />               
               )}
             </Stack>

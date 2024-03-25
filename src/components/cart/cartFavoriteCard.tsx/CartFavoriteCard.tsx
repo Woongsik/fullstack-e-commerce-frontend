@@ -1,5 +1,5 @@
 import { ReactNode, useState } from 'react';
-import { Box, ButtonGroup, Typography } from '@mui/material';
+import { Box, ButtonGroup, Typography, styled } from '@mui/material';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { Link } from 'react-router-dom';
 
@@ -18,7 +18,15 @@ import { useSelector } from 'react-redux';
 
 type Props = {
   cartItem: CartItem;
+  onAddToCart: () => void
 }
+
+const TitleComponent = styled(Typography)({
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  display: 'block'
+});
 
 export default function CartFavoriteCard(props: Props) {
   const dispatch = useAppDispatch();
@@ -34,6 +42,7 @@ export default function CartFavoriteCard(props: Props) {
   const handleAddItem = () => {
     if(!isInCart()) {
       dispatch(addToCart(props.cartItem));
+      props.onAddToCart();
     } else {
       alert('Already added to the cart!');
     }
@@ -59,7 +68,7 @@ export default function CartFavoriteCard(props: Props) {
 
   return (
     <>
-    <Box minHeight={200} sx={{ color: isThemeLight ? 'white' : 'black'}}>
+    <Box minHeight={200} width={200} sx={{ color: isThemeLight ? 'white' : 'black'}}>
       <Box width={200} height={200}>
         <Link to={`/product/${item.id}`}>
         {(item.images && item.images[0]) ?
@@ -72,13 +81,13 @@ export default function CartFavoriteCard(props: Props) {
       <Box>
         <Box width={'100%'}>
           <Link to={`/product/${item.id}`} style={{ textDecoration: 'none'}}>
-            <Typography fontSize={18} color={isThemeLight ? 'white' : 'black'}>
+            <TitleComponent fontSize={18} color={isThemeLight ? 'white' : 'black'}>
               {item.title}
-            </Typography>
+            </TitleComponent>
           </Link>
-          <Typography fontSize={15} sx={{ color: 'gray'}}>
+          <TitleComponent fontSize={15} sx={{ color: 'gray'}}>
             {item.category.name}
-          </Typography>
+          </TitleComponent>
         </Box>
         <Box display={'flex'} justifyContent={MUILayout.FLEX_END} width={'100%'} alignItems={'center'}>
           <ButtonGroup variant="text" aria-label="Basic button group">
