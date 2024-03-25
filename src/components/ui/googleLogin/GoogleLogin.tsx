@@ -26,7 +26,7 @@ const ErrorMessage = styled('h5')({
 export default function GoogleLogin() {
   const { isThemeLight } = useTheme();
   const dispatch = useAppDispatch();
-  const [showError, setShowError] = useState<boolean>(true);
+  const [showError, setShowError] = useState<boolean>(false);
 
   const url: string = 'https://www.googleapis.com/oauth2/v1/userinfo?access_token';
   const loginWithGoolgle = useGoogleLogin({
