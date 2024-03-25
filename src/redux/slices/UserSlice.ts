@@ -49,6 +49,9 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
+    addUser: (state, actions: PayloadAction<User>) => {
+      state.user = actions.payload;
+    },
     logout: (state) => {
       userSlicerUtil.removeTokensFromLocalStorage();
       state.user = null;
@@ -121,7 +124,8 @@ const userSlice = createSlice({
 });
 
 export const { 
-  logout
+  logout,
+  addUser
 } = userSlice.actions;
 
 const userReducer = userSlice.reducer;

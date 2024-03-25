@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Box, IconButton, InputAdornment, Switch, TextField } from '@mui/material';
+import { Box, IconButton, InputAdornment, Switch, TextField, styled } from '@mui/material';
 import { InfoOutlined, Visibility, VisibilityOff } from '@mui/icons-material';
 
 import GridContainer from '../../components/ui/layout/GridContainer';
@@ -15,6 +15,8 @@ import { MUIButtonType, MUIButtonVariant, MUILayout } from '../../misc/types/MUI
 import { UserRole, UserToken } from '../../misc/types/User';
 import { useUserSession } from '../../hooks/useUserSession';
 import { userSlicerUtil } from '../../redux/utils/UserSlicerUtil';
+import GoogleLogin from '../../components/ui/googleLogin/GoogleLogin';
+import { useTheme } from '../../components/contextAPI/ThemeContext';
 
 type Inputs = {
   name: string
@@ -23,7 +25,7 @@ type Inputs = {
   admin: boolean
 }
 
-enum PageMode {
+export enum PageMode {
   LOGIN = 'login',
   SIGNIN = 'signin'
 }
@@ -36,8 +38,15 @@ export default function Login() {
   const { register, handleSubmit, resetField, formState: { errors } } = useForm<Inputs>();
   const dispatch = useAppDispatch();
   const { loading, error, user } = useSelector((state: AppState) => state.userReducer);
-
+  const { isThemeLight } = useTheme();
   useUserSession();
+
+  const ThemeTextField = styled(TextField)({
+    '&.MuiFormControl-root > *, &.MuiFormControl-root > .MuiInputBase-root > .MuiOutlinedInput-notchedOutline': {
+      color: isThemeLight ? 'white' : 'black',
+      borderColor: isThemeLight ? 'white' : 'black'
+    }
+  })
 
   const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
     if (pageMode === PageMode.LOGIN) {
@@ -79,7 +88,7 @@ export default function Login() {
   }
 
   return (
-    <GridContainer>
+    <GridContainer sx={{ color: isThemeLight ? 'white' : 'black' }}>
       <CenteredContainer alignItems={MUILayout.FLEX_START} width={'75%'} sx={{ minWidth: '300px', maxWidth: '400px'}}>
         <Box
           component="form"
@@ -89,7 +98,7 @@ export default function Login() {
           
           {pageMode === PageMode.SIGNIN &&
           <Box>
-            <TextField
+            <ThemeTextField
               {...register("name", { required: true, pattern: /^[A-Za-z0-9]+$/i }) }
               error={Boolean(errors.name)}
               label="Name"
@@ -98,7 +107,7 @@ export default function Login() {
           }
 
           <Box>
-            <TextField
+            <ThemeTextField
               {...register("email", { required: true, pattern: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/ }) }
               error={Boolean(errors.email)}
               label="Email"
@@ -106,7 +115,7 @@ export default function Login() {
           </Box>
 
           <Box>
-            <TextField
+            <ThemeTextField
               {...register("password", { required: true, pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/ }) }
               error={Boolean(errors.password)}
               label="Password"
@@ -129,7 +138,10 @@ export default function Login() {
             <Switch 
               {...register("admin", { required: false }) }
               color="primary" 
-            />
+              sx={{
+                '&.MuiSwitch-root > .MuiSwitch-track': {
+                  backgroundColor: isThemeLight ? 'white': 'black'
+              }}}/>
             <Box>I am Admin!</Box>
           </Box>
           }
@@ -140,13 +152,17 @@ export default function Login() {
             type={MUIButtonType.SUBMIT}
             margin={'20px 0'}>
             {pageMode === PageMode.LOGIN ? 'Log in' : 'Sign in'}
-
           </UiRoundButton>
 
           <CenteredContainer justifyContent={MUILayout.FLEX_END}>
             <UiButton 
               variant={MUIButtonVariant.TEXT}
-              onClick={togglePageMode}>
+              onClick={togglePageMode}
+              customStyle={{
+                '&:hover': {
+                  fontWeight: 'bold'
+                }
+              }}>
               {pageMode === PageMode.LOGIN ? 'Create new account?' : 'Need to login?'}
             </UiButton>
           </CenteredContainer>
@@ -156,9 +172,11 @@ export default function Login() {
             <Box component={'span'} color={error ? 'red' : (showSubmittedMessage ? 'blue' : 'black')}>
               {loading && 'Loading...'}
               {(!loading && error) &&  'Your info is not valid! Please login or signin again...'}
-              {(!loading && showSubmittedMessage) && 'Successfully registered! You can login to continue!..'}
+              {(!loading && !error && showSubmittedMessage) && 'Successfully registered! You can login to continue!..'}
             </Box>
           </CenteredContainer>
+
+          <GoogleLogin />
         </Box>
       </CenteredContainer>
     </GridContainer> 

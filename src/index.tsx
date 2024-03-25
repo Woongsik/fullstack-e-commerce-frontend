@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 import App from './App';
 import ThemeContext from './components/contextAPI/ThemeContext'; 
@@ -9,6 +10,8 @@ import reportWebVitals from './reportWebVitals';
 import store from './redux/store';
 import './index.css';
 
+const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID as string;
+console.log('client id', clientId);
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
@@ -17,7 +20,9 @@ root.render(
     <Provider store={store}>
       <BrowserRouter>
         <ThemeContext>
-          <App />
+          <GoogleOAuthProvider clientId={clientId}>
+            <App />
+          </GoogleOAuthProvider>
         </ThemeContext>
       </BrowserRouter>
     </Provider>

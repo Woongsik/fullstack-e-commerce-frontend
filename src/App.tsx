@@ -9,7 +9,7 @@ import Cart from "./pages/cart/Cart";
 import Login from "./pages/login/Login";
 import Footer from './components/contextAPI/footer/Footer';
 
-function App() {
+function App() { 
   return (
     <div>
       <Navbar />

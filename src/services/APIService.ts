@@ -5,6 +5,7 @@ import Category from '../misc/types/Category';
 import { LoginUserInfo, RegisterUserInfo, User, UserToken } from '../misc/types/User';
 import { UploadedImage } from '../misc/types/UploadedImage';
 import axios, { AxiosResponse } from 'axios';
+import { GoogleLoginResult } from '../components/ui/googleLogin/GoogleLogin';
 
 class ApiService {
   readonly baseURL: string = `${host}/${api}`;
@@ -144,6 +145,10 @@ class ApiService {
     return this.request('DELETE', url);
   }
 
+  public loginWithGoogle(url: string, access_token: string): Promise<GoogleLoginResult> {
+    const googleUrl: string = `${url}=${access_token}`;
+    return this.request('get', googleUrl);
+  }
 }
 
 export const apiService: ApiService = new ApiService();
