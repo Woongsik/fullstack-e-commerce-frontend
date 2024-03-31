@@ -28,12 +28,19 @@ export default function SearchInput(props: Props) {
     const { value } = e.target;
     setSearchPhrase(value);
     debouncedFunction(value);
-  }
+  };
 
   const clear = () => {
     setSearchPhrase('');
     props.onTextChanged('');
-  }
+  };
+
+  const textFieldCss = {
+    '&.MuiFormControl-root > *': {
+      color: isThemeLight ? 'white': 'black',
+      borderColor: isThemeLight ? 'black': 'white',
+    }
+  };
 
   return (
     <FormControl fullWidth sx={{ color: 'white'}}>
@@ -46,12 +53,7 @@ export default function SearchInput(props: Props) {
           variant="standard" 
           value={searchPhrase}
           onChange={handleChange}
-          sx={{
-            '&.MuiFormControl-root > *': {
-              color: isThemeLight ? 'white': 'black',
-              borderColor: isThemeLight ? 'black': 'white',
-            }
-          }} />
+          sx={textFieldCss} />
 
         <IconButton 
           onClick={clear}

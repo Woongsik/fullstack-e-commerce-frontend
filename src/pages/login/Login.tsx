@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Box, IconButton, InputAdornment, Switch, TextField, styled } from '@mui/material';
+import { Box, IconButton, InputAdornment, Switch, TextField } from '@mui/material';
 import { InfoOutlined, Visibility, VisibilityOff } from '@mui/icons-material';
 
 import GridContainer from '../../components/ui/layout/GridContainer';
@@ -41,12 +41,13 @@ export default function Login() {
   const { isThemeLight } = useTheme();
   useUserSession();
 
-  const ThemeTextField = styled(TextField)({
+  // If use styled(), TextField trigger out of focus
+  const textFieldCss = {
     '&.MuiFormControl-root > *, &.MuiFormControl-root > .MuiInputBase-root > .MuiOutlinedInput-notchedOutline': {
       color: isThemeLight ? 'white' : 'black',
       borderColor: isThemeLight ? 'white' : 'black'
-    }
-  })
+    }    
+  };
 
   const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
     if (pageMode === PageMode.LOGIN) {
@@ -98,29 +99,32 @@ export default function Login() {
           
           {pageMode === PageMode.SIGNIN &&
           <Box>
-            <ThemeTextField
+            <TextField
               {...register("name", { required: true, pattern: /^[A-Za-z0-9]+$/i }) }
               error={Boolean(errors.name)}
               label="Name"
-              helperText={errors.name && 'No special characters'} />
+              helperText={errors.name && 'No special characters'}
+              sx={textFieldCss} />
           </Box> 
           }
 
           <Box>
-            <ThemeTextField
+            <TextField
               {...register("email", { required: true, pattern: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/ }) }
               error={Boolean(errors.email)}
               label="Email"
-              helperText={errors.email && 'Incorrect address!'} />
+              helperText={errors.email && 'Incorrect address!'}
+              sx={textFieldCss} />
           </Box>
 
           <Box>
-            <ThemeTextField
+            <TextField
               {...register("password", { required: true, pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/ }) }
               error={Boolean(errors.password)}
               label="Password"
               type={showPassword ? 'text' : 'password'}
               helperText={errors.password && 'Minimum 8 characters, at least 1 letter & 1 number!'}
+              sx={textFieldCss}
               InputProps={{
                 endAdornment: <InputAdornment position="end">
                 <IconButton

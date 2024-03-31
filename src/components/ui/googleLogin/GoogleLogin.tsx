@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import GoogleIcon from '@mui/icons-material/Google';
 import { styled } from '@mui/material';
-import { TokenResponse, useGoogleLogin, GoogleLogin as LoginGoogle } from '@react-oauth/google';
+import { TokenResponse, useGoogleLogin } from '@react-oauth/google';
 
 import { MUIButtonVariant } from '../../../misc/types/MUI';
 import CenteredContainer from '../layout/CenteredContainer';

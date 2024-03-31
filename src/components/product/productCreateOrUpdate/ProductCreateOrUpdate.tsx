@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Box, TextField, styled } from '@mui/material';
+import { Box, TextField } from '@mui/material';
 
 import Categories from '../../cateogries/Categories';
 import FileUploader from '../../ui/fileUploader/FileUploader';
@@ -43,12 +43,13 @@ export default function ProductCreateOrUpdate(props: Props) {
   const [categoryId, setCategoryId] = useState<number>(baseCategoryId);
   const [images, setImages] = useState<File[]>([]);
 
-  const ThemeTextField = styled(TextField)({
+  // If use styled(), TextField trigger out of focus
+  const textFieldCss = {
     '&.MuiFormControl-root > *, &.MuiFormControl-root > .MuiInputBase-root > .MuiOutlinedInput-notchedOutline': {
       color: isThemeLight ? 'white' : 'black',
       borderColor: isThemeLight ? 'white' : 'black'
-    }
-  });
+    }    
+  };
 
   const uploadImage = async (image: File): Promise<UploadedImage> => {
     const formData = new FormData();
@@ -138,15 +139,16 @@ export default function ProductCreateOrUpdate(props: Props) {
         <h1>{product ? `Edit Product` : `Create Product`}</h1>
         
         <Box my={1}>
-          <ThemeTextField
+          <TextField
             {...register("title", { required: true, pattern: /^[A-Za-z0-9?.,=_@&\- ]+$/i }) }
             error={Boolean(errors.title)}
             label="Product name"
             defaultValue={product ? product.title : ''}
-            helperText={errors.title && 'Incorrect name! Accept special character only ?.,=-_@'} />   
+            helperText={errors.title && 'Incorrect name! Accept special character only ?.,=-_@'}
+            sx={textFieldCss} />   
         </Box>
         <Box my={1}>
-          <ThemeTextField
+          <TextField
             {...register("price", { required: true, 
               valueAsNumber: true,
               validate: (value) => value > 0 }) }
@@ -159,17 +161,19 @@ export default function ProductCreateOrUpdate(props: Props) {
                 min: 0 
               }
             }}
-            helperText={errors.price && 'Incorrect price! Only numbers'} />          
+            helperText={errors.price && 'Incorrect price! Only numbers'}
+            sx={textFieldCss} />          
         </Box>
         <Box my={1}>
-          <ThemeTextField
+          <TextField
             {...register("description", { required: true, pattern: /^[A-Za-z0-9?.,=_@&!'\- ]+$/i }) }
             error={Boolean(errors.description)}
             label="Product description"
             multiline
             minRows={4}
             defaultValue={product ? product.description : ''}
-            helperText={errors.description && 'Incorrect description! Accept special character only ?.,=-_@&!'} />       
+            helperText={errors.description && 'Incorrect description! Accept special character only ?.,=-_@&!'}
+            sx={textFieldCss} />       
         </Box>
         <Box my={1} marginLeft={1}>
           <Categories 
