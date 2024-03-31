@@ -15,6 +15,7 @@ import { MUIButtonVariant, MUIColor, MUILayout, MUISize } from '../../../misc/ty
 import CartItem from '../../../misc/types/CartItem';
 import { Product } from '../../../misc/types/Product';
 import { useTheme } from '../../contextAPI/ThemeContext';
+import UiSnackbar from '../../ui/snackbar/UiSnackbar';
 
 type Props = {
   cartItem: CartItem;
@@ -31,6 +32,8 @@ const TitleComponent = styled(Typography)({
 export default function CartFavoriteCard(props: Props) {
   const dispatch = useAppDispatch();
   const [showDeleteDialog, setShowDeleteDialog] = useState<boolean>(false);
+  const [showSnackBar, setShowSnackBar] = useState<boolean>(false);
+  const [snackBarMessage, setSnackBarMessage] = useState<string>('');
   const { item } = props.cartItem;
   const { isThemeLight } = useTheme();
   const { cartItems } = useSelector((state: AppState) => state.cartReducer);
@@ -39,13 +42,25 @@ export default function CartFavoriteCard(props: Props) {
     return cartItems.some((cartItem: CartItem) => cartItem.item.id === item.id);
   }
 
+  const onSnackbarClose = (event: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setShowSnackBar(false);
+  };
+
   const handleAddItem = () => {
+    let message = `Add to Cart! (${item.title})`;
     if(!isInCart()) {
       dispatch(addToCart(props.cartItem));
       props.onAddToCart();
     } else {
-      alert('Already added to the cart!');
+      message = `Already added to Cart! (${item.title})`;
     }
+
+    setSnackBarMessage(message);
+    setShowSnackBar(true);
   }
 
   const handleDeleteItem = (): void => {
@@ -113,6 +128,12 @@ export default function CartFavoriteCard(props: Props) {
         </Box>
       </Box>
     </Box>
+
+    <UiSnackbar 
+      show={showSnackBar}
+      onClose={onSnackbarClose}
+      message={snackBarMessage}
+    />
 
     <UiDialog 
       show={showDeleteDialog}
