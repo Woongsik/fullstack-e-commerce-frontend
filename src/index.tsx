@@ -11,7 +11,6 @@ import store from './redux/store';
 import './index.css';
 
 const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID as string;
-console.log('client id', clientId);
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );

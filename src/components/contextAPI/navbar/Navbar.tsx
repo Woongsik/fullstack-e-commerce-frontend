@@ -159,7 +159,6 @@ export default function Navbar() {
   };
 
   const handleClose = (targetPage?: Pages) => {
-    console.log('handle clsoe',targetPage);
     setAnchorEl(null);
 
     if (targetPage) {

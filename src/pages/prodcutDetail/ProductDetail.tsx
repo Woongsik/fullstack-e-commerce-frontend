@@ -76,7 +76,6 @@ export default function ProudctDetail() {
   }
 
   const handleAddToFavorites = () => {
-    console.log('add to favorite');
     if (product) {
       const cartItem: CartItem = {
         item: product,
@@ -130,7 +129,6 @@ export default function ProudctDetail() {
   }
 
   const handleCategoryClick = (categoryId: number) => {
-    console.log('category id', categoryId);
     const newFilter: Filter = {
       categoryId: categoryId,
       page: 1,
