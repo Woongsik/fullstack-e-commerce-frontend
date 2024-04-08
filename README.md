@@ -8,7 +8,7 @@
    JWT is used for user session, the access token is valid for 20 days, and the refresh token is valid for 10 hours.
    Once you are logged in, JWT token is saved in localStroage and will be used for user session.
 
-   You can check out here [Live link](https://awesome-shopping.netlify.app/)
+   You can check out here [Live link](https://awesome-shopping.netlify.app/) for fullstack
 
 <a name="table_of_contents"></a>
 ## Table of Contents
