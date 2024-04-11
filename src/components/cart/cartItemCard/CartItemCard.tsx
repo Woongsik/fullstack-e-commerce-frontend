@@ -66,7 +66,7 @@ export default function CartItemCard(props: Props) {
   );
 
   const isFavorited = (): boolean => {
-    return cartFavorites.some((favorite: CartItem) => favorite.item.id === item.id);
+    return cartFavorites.some((favorite: CartItem) => favorite.item._id === item._id);
   }
 
   const onSnackbarClose = (event: React.SyntheticEvent | Event, reason?: string) => {
@@ -96,7 +96,7 @@ export default function CartItemCard(props: Props) {
     {showDivider && <Divider sx={{ borderColor: isThemeLight ? 'white' : 'black'}}/>}
     <Box display={'flex'} my={1} width={'100%'} minHeight={130} sx={{ color: isThemeLight ? 'white' : 'black'}}>
       <Box width={130}>
-        <Link to={`/product/${item.id}`}>
+        <Link to={`/product/${item._id}`}>
         {(item.images && item.images[0]) ?
           <UiImage 
               src={item.images[0]}
@@ -107,7 +107,7 @@ export default function CartItemCard(props: Props) {
       <Box component={'div'} marginLeft={2} width={'65%'}
             display={'flex'} flexWrap={'wrap'} alignContent={'space-between'}>
         <Box width={'100%'}>
-          <Link to={`/product/${item.id}`} style={{ textDecoration: 'none'}}>
+          <Link to={`/product/${item._id}`} style={{ textDecoration: 'none'}}>
             <Typography fontSize={18} color={isThemeLight ? 'white' : 'black'}>
               {item.title}
             </Typography>

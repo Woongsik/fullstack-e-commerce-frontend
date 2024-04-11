@@ -1,14 +1,18 @@
-import { host, api } from '../misc/utils/Urls';
-import Filter from '../misc/types/Filter';
-import { Product, ProductRegister, ProductUpdateItem } from '../misc/types/Product';
+import axios, { AxiosResponse } from 'axios';
+
+import { Filter } from '../misc/types/Filter';
+import { Product, ProductRegister, ProductsList } from '../misc/types/Product';
 import Category from '../misc/types/Category';
 import { LoginUserInfo, RegisterUserInfo, User, UserToken } from '../misc/types/User';
 import { UploadedImage } from '../misc/types/UploadedImage';
-import axios, { AxiosResponse } from 'axios';
 import { GoogleLoginResult } from '../components/ui/googleLogin/GoogleLogin';
 
+// TODO put it to env
+const REACT_APP_BASE_URL = 'http://localhost:8080';
+const REACT_APP_BASE_URL_FRAGMENT = 'api/v1';
+
 class ApiService {
-  readonly baseURL: string = `${host}/${api}`;
+  readonly baseURL: string = `${REACT_APP_BASE_URL}/${REACT_APP_BASE_URL_FRAGMENT}`;
   
   private generateUrl = (fragment: string) => {
     return `${this.baseURL}/${fragment}`;
@@ -38,6 +42,7 @@ class ApiService {
 
     /* Originally used axios
        since msw is not supporting axios */
+       console.log('requ', url, method, data, headers);
     const response: AxiosResponse = await axios({
       method: method,
       url: url,
@@ -48,10 +53,10 @@ class ApiService {
     return response.data;
   }
 
-  public getProducts(filter: Filter): Promise<Product[]> {
+  public getProducts(filter: Partial<Filter>): Promise<ProductsList> {
     let url: string = this.generateUrl("products");
     let separator: string = "/?";
-    const { title, categoryId, price, price_min, price_max, page, itemsPerPage } = filter;
+    const { title, categoryId, min_price, max_price, page, itemsPerPage } = filter;
 
     if (title) {
       url += `${separator}title=${title}`;
@@ -62,19 +67,14 @@ class ApiService {
       url += `${separator}categoryId=${categoryId}`;
       separator = "&";
     }
-
-    if (price) {
-      url += `${separator}price=${price}`;
-      separator = "&";
-    }
     
-    if (price_min) {
-      url += `${separator}price_min=${price_min}`;
+    if (min_price) {
+      url += `${separator}min_price=${min_price}`;
       separator = "&";
     }
 
-    if (price_max) {
-      url += `${separator}price_max=${price_max}`;
+    if (max_price) {
+      url += `${separator}max_price=${max_price}`;
       separator = "&";
     }
     
@@ -86,7 +86,7 @@ class ApiService {
       url += `${separator}offset=${(page - 1) * itemsPerPage}&limit=${itemsPerPage}`;
     }
     
-    return this.request<Product[]>('GET', url); 
+    return this.request<ProductsList>('GET', url); 
   }
 
   public getProduct(productId: string): Promise<Product> {
@@ -135,13 +135,13 @@ class ApiService {
     return this.request('POST', url, product);
   }
 
-  public updateProduct(product: ProductUpdateItem, productId: string): Promise<Product> {
+  public updateProduct(product: Partial<Product>, productId: string): Promise<Product> {
     const url: string = this.generateUrl(`products/${productId}`);
     return this.request('PUT', url, product);
   }
 
   public deleteProduct(product: Product): Promise<boolean> {
-    const url: string = this.generateUrl(`products/${product.id}`);
+    const url: string = this.generateUrl(`products/${product._id}`);
     return this.request('DELETE', url);
   }
 

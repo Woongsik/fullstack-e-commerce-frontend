@@ -13,9 +13,10 @@ import { AppState, useAppDispatch } from '../../../redux/store';
 import { registerProduct, updateProduct } from '../../../redux/slices/ProductSlice';
 import { apiService } from '../../../services/APIService';
 import { MUIButtonType, MUIButtonVariant, MUILayout } from '../../../misc/types/MUI';
-import { Product, ProductUpdateItem } from '../../../misc/types/Product';
+import { Product } from '../../../misc/types/Product';
 import { UploadedImage } from '../../../misc/types/UploadedImage';
 import { useTheme } from '../../contextAPI/ThemeContext';
+import { Size } from '../../../misc/types/Size';
 
 type Inputs = {
   title: string,
@@ -64,12 +65,13 @@ export default function ProductCreateOrUpdate(props: Props) {
       price: data.price,
       description: data.description,
       categoryId: data.categoryId,
-      images: uploadedImages
+      images: uploadedImages,
+      sizes: [Size.Large, Size.Small]
     }));
 
     const newProduct: Product = result.payload as Product;
     if (!error && newProduct) {
-      navigate(`/product/${newProduct.id}`);
+      navigate(`/product/${newProduct._id}`);
     }
   }
 
@@ -90,16 +92,16 @@ export default function ProductCreateOrUpdate(props: Props) {
   }
 
   const updateProductInfo = async (data: Inputs) => {
-    const productUpdateItem: ProductUpdateItem = {
+    const productUpdateItem: Partial<Product> = {
       title: data.title,
       price: data.price,
       description: data.description,
-      categoryId: data.categoryId
+      // categories: data.categoryId
     }
 
     if (product) {
       await dispatch(updateProduct({
-        id: product.id,
+        id: product._id,
         item: productUpdateItem      
        }));
 

@@ -7,34 +7,30 @@ import {
 import { apiService } from "../../services/APIService";
 import ProductSliceUtils from "../utils/ProductSliceUtils";
 
-import { FilteredProducts, Product, ProductRegister, ProductUpdate } from "../../misc/types/Product";
-import Filter from "../../misc/types/Filter";
-import Sort from "../../misc/types/Sort";
+import { MinMaxPrice, Product, ProductRegister, ProductUpdate, ProductsList } from "../../misc/types/Product";
+import { Filter } from "../../misc/types/Filter";
 
 export type InitialState = {
   products: Product[];
   product: Product | null;
-  sort?: Sort;
-  sortedProducts: Product[];
   total: number;
-  minMaxPrice: number[];
-  filter?: Filter;
+  minMaxPrice: MinMaxPrice;
+  filter?: Partial<Filter>;
   loading: boolean;
   error?: string;
 }
 
 export const initialState: InitialState = {
   products: [],
-  sortedProducts: [],
   product: null,
   loading: false,
   total: 0,
-  minMaxPrice: []
+  minMaxPrice: { min: 0, max: 0 }
 };
 
 export const fetchProducts = createAsyncThunk(
   "fetchProducts", // get all products, by categories, by page, by itemsPerPage
-  async (filter: Filter, { rejectWithValue }) => {
+  async (filter: Partial<Filter>, { rejectWithValue }) => {
     try {
       return apiService.getProducts(filter);
     } catch (e) {
@@ -86,30 +82,28 @@ const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
-    sortBy: (state, actions: PayloadAction<Sort>) => {
-      state.sort = actions.payload;
-      state.sortedProducts = ProductSliceUtils.sortProducts(state.products, actions.payload);
-    },
-    updateFilter: (state, actions: PayloadAction<Filter>) => {
+    updateFilter: (state, actions: PayloadAction<Partial<Filter>>) => {
       state.filter = actions.payload;
     }
   },
   extraReducers(builder: ActionReducerMapBuilder<InitialState>) {
       builder.addCase(fetchProducts.fulfilled, (state, action) => {
-        const filteredProducts: FilteredProducts = ProductSliceUtils.getTotalAndImageCheckedProducts(action.payload, state.filter, state.total, state.minMaxPrice);
+        console.log('fullfilled', action.payload);
+
+        // const filteredProducts: FilteredProducts = ProductSliceUtils.getTotalAndImageCheckedProducts(action.payload, state.filter, state.total, state.minMaxPrice);
+        const produtsList: ProductsList = action.payload;
+
         return {
           ...state,
-          products: filteredProducts.products,
-          sortedProducts: ProductSliceUtils.sortProducts(filteredProducts.products, state.sort),
-          total: filteredProducts.total,
-          minMaxPrice: filteredProducts.minMaxPrice,
+          products: produtsList.products,
+          total: produtsList.total,
+          minMaxPrice: produtsList.maxMinPrice,
           loading: false     
         }
       }).addCase(fetchProducts.pending, (state, action) => {
         return {
           ...state,
           products: [],
-          sortedProducts: [],
           loading: true,
           error: undefined
         }
@@ -211,7 +205,6 @@ const productSlice = createSlice({
 });
 
 export const { 
-  sortBy,
   updateFilter
 } = productSlice.actions;
 

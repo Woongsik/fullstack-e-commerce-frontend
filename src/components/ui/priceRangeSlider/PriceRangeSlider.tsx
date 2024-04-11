@@ -15,8 +15,8 @@ type Props = {
 export default function PriceRangeSlider(props: Props) {
   const { minPrice, maxPrice } = props;
   const { minMaxPrice } = useSelector((state: AppState) => state.productReducer);
-  const baseMinPrice: number = minPrice ?? minMaxPrice[0];
-  const baseMaxPrice: number = maxPrice ?? minMaxPrice[1];
+  const baseMinPrice: number = minPrice ?? minMaxPrice.min;
+  const baseMaxPrice: number = maxPrice ?? minMaxPrice.max;
   const [value, setValue] = useState<number[]>([baseMinPrice, baseMaxPrice]);
   
   // Optimization with useCallback & debounce
@@ -42,8 +42,8 @@ export default function PriceRangeSlider(props: Props) {
             value={value}
             onChange={handleChange}
             valueLabelDisplay="auto"
-            min={minMaxPrice[0]}
-            max={minMaxPrice[1]} />
+            min={minMaxPrice.min}
+            max={minMaxPrice.max} />
         </CenteredContainer> 
     </Box>
     

@@ -56,7 +56,7 @@ export default function Navbar() {
     if (listInfo.to) {
       return (<Link to={listInfo.to} title={listInfo.title} key={`nav_item_${index}`}>
         <ListItem disablePadding sx={{ marginLeft: 2, color: isThemeLight ? 'black' : 'white' }}>
-        {listInfo.item}
+          {listInfo.item}
         </ListItem>
       </Link>);
     } 

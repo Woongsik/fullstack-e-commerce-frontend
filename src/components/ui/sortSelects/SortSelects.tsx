@@ -3,26 +3,28 @@ import { Box } from '@mui/material';
 
 import UiFormSelects from '../form/UiFormSelects';
 import { AppState, useAppDispatch } from '../../../redux/store';
-import { sortBy } from '../../../redux/slices/ProductSlice';
-import Sort from '../../../misc/types/Sort';
+import { SortCreated } from '../../../misc/types/Sort';
 
 export default function SortSelects() {
   const dispatch = useAppDispatch();
   
-  const selectedSortType: Sort | undefined = useSelector((state: AppState) => state.productReducer.sort);
-  const items: { key: string }[] = Object.keys(Sort)
+  const filter = useSelector((state: AppState) => state.productReducer.filter);
+  console.log('sort', filter);
+
+  const selectedSortType: SortCreated = SortCreated.ASC;
+  const items: { key: string }[] = Object.keys(SortCreated)
     .map((key: string) => ({ key: key }));
-  items.unshift({ key: 'All'});
+  items.unshift({ key: 'None'});
   
   const handleSelectChange = (value: string) => {
-    dispatch(sortBy(value as Sort));
+    
   }
 
   return (
     <Box width={'100%'}>
       <UiFormSelects 
-        title='Sort by'
-        selectedValue={selectedSortType ?? 'All'}
+        title='Sort by Price'
+        selectedValue={selectedSortType ?? 'None'}
         items={items}
         displayKey='key'
         valueKey='key'

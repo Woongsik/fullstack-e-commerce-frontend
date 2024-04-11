@@ -39,7 +39,7 @@ export default function CartFavoriteCard(props: Props) {
   const { cartItems } = useSelector((state: AppState) => state.cartReducer);
 
   const isInCart = (): boolean => {
-    return cartItems.some((cartItem: CartItem) => cartItem.item.id === item.id);
+    return cartItems.some((cartItem: CartItem) => cartItem.item._id === item._id);
   }
 
   const onSnackbarClose = (event: React.SyntheticEvent | Event, reason?: string) => {
@@ -85,7 +85,7 @@ export default function CartFavoriteCard(props: Props) {
     <>
     <Box minHeight={200} width={200} sx={{ color: isThemeLight ? 'white' : 'black'}}>
       <Box width={200} height={200}>
-        <Link to={`/product/${item.id}`}>
+        <Link to={`/product/${item._id}`}>
         {(item.images && item.images[0]) ?
           <UiImage 
               src={item.images[0]}
@@ -95,7 +95,7 @@ export default function CartFavoriteCard(props: Props) {
       </Box>
       <Box>
         <Box width={'100%'}>
-          <Link to={`/product/${item.id}`} style={{ textDecoration: 'none'}}>
+          <Link to={`/product/${item._id}`} style={{ textDecoration: 'none'}}>
             <TitleComponent fontSize={18} color={isThemeLight ? 'white' : 'black'}>
               {item.title}
             </TitleComponent>

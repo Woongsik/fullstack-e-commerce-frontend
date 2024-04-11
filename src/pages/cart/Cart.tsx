@@ -61,7 +61,7 @@ export default function Cart() {
               <Divider sx={{ borderColor: isThemeLight ? 'white' : 'black' }}/>
               {cartItems.map((cartItem: CartItem, index: number) =>
                 <CartItemCard 
-                  key={cartItem.item.id} 
+                  key={cartItem.item._id} 
                   cartItem={cartItem}
                   showDivider={index !== 0} />   
               )}
@@ -87,7 +87,7 @@ export default function Cart() {
             <Stack direction="row" spacing={2} overflow={'auto'} display={'-webkit-box'} padding={'10px 15px 10px 0'}>
               {cartFavorites.map((cartItem: CartItem, index: number) =>
               <CartFavoriteCard  
-                key={cartItem.item.id}
+                key={cartItem.item._id}
                 cartItem={cartItem}
                 onAddToCart={addToCartFromFavorite}
               />               

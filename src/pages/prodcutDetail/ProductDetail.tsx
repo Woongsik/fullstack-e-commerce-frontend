@@ -23,7 +23,7 @@ import { User, UserRole } from '../../misc/types/User';
 import CartItem from '../../misc/types/CartItem';
 import CartSliceUtil from '../../redux/utils/CartSliceUtil';
 import { useUserSession } from '../../hooks/useUserSession';
-import Filter from '../../misc/types/Filter';
+import { Filter } from '../../misc/types/Filter';
 import { useTheme } from '../../components/contextAPI/ThemeContext';
 import UiSnackbar from '../../components/ui/snackbar/UiSnackbar';
 
@@ -129,7 +129,7 @@ export default function ProudctDetail() {
   }
 
   const handleCategoryClick = (categoryId: number) => {
-    const newFilter: Filter = {
+    const newFilter: Partial<Filter> = {
       categoryId: categoryId,
       page: 1,
       itemsPerPage: filter?.itemsPerPage    
@@ -205,7 +205,7 @@ export default function ProudctDetail() {
                     color="inherit"
                     href="#"
                     onClick={() => handleCategoryClick(product.category.id)}>
-                    {product.category.name}
+                    {product.category.title}
                   </MUILink>
                   <Typography color="text.primary" sx={{ color: 'inherit'}}>{product.title}</Typography>
                 </Breadcrumbs>

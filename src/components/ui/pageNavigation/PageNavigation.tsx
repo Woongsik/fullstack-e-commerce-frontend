@@ -8,13 +8,15 @@ import { useTheme } from '../../contextAPI/ThemeContext';
 
 type Props = {
   page: number;
+  itemsPerPage: number;
   onPageChanged: (page: number) => void;
 }
 
 export default function PageNavigation(props: Props) {
-  const { page } = props;
+  const { page, itemsPerPage } = props;
   const { isThemeLight } = useTheme();
-  const totalPage: number = useSelector((state: AppState) => state.productReducer.total);
+  const total: number = useSelector((state: AppState) => state.productReducer.total);
+  const totalPage = Math.ceil(total / itemsPerPage);
 
   const handlePageChange = (e: ChangeEvent<unknown>, value: number) => {
     props.onPageChanged(value);

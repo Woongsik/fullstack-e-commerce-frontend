@@ -19,7 +19,7 @@ import { useAppDispatch, AppState } from '../../redux/store';
 import { fetchProducts, updateFilter } from '../../redux/slices/ProductSlice';
 import { useUserSession } from '../../hooks/useUserSession';
 import { Product } from '../../misc/types/Product';
-import Filter from '../../misc/types/Filter';
+import { Filter } from '../../misc/types/Filter';
 import { MUIButtonVariant, MUIColor, MUILayout } from '../../misc/types/MUI';
 import { useTheme } from '../../components/contextAPI/ThemeContext';
 
@@ -28,22 +28,21 @@ export default function Home() {
   const basePage: number = 1; // MUI pagination started from 1
   const baseItemsPerPage: number = 30;
 
-  const initialFilter: Filter = {
+  const initialFilter: Partial<Filter> = {
     title: '',
     categoryId: baseCategoryId,
     page: basePage,
     itemsPerPage: baseItemsPerPage
   }
 
-  const filterFromStore: Filter | undefined = useSelector((state: AppState) => state.productReducer.filter);
-  const [filter, setFilter] = useState<Filter>(filterFromStore ?? initialFilter);
+  const filterFromStore: Partial<Filter> | undefined = useSelector((state: AppState) => state.productReducer.filter);
+  const [filter, setFilter] = useState<Partial<Filter>>(filterFromStore ?? initialFilter);
   const [openDrawer, setOpenDrawer] = useState<boolean>(false);
 
   const dispatch = useAppDispatch();
   const { isThemeLight } = useTheme();
   
-  const products: Product[] = useSelector((state: AppState): Product[] => 
-    state.productReducer.sort ? state.productReducer.sortedProducts : state.productReducer.products);
+  const products: Product[] = useSelector((state: AppState): Product[] => state.productReducer.products);
   
   useUserSession();
   useEffect(() => { // For the filter changed
@@ -91,12 +90,11 @@ export default function Home() {
   };
 
   const onPriceRangeChanged = (range: number[]) => {
-    if (filter.price_min !== range[0] || filter.price_max !== range[1]) {
+    if (filter.min_price !== range[0] || filter.max_price !== range[1]) {
       setFilter({
         ...filter,
-        price_min: range[0],
-        price_max: range[1],
-        price: undefined,
+        min_price: range[0],
+        max_price: range[1],
         page: basePage
       });
     }
@@ -132,6 +130,7 @@ export default function Home() {
         <ProductList products={products} />
         <PageNavigation 
           page={filter.page ?? basePage}
+          itemsPerPage={filter.itemsPerPage ?? baseItemsPerPage}
           onPageChanged={onPageChanged}
         />
       </CenteredContainer>
@@ -167,8 +166,8 @@ export default function Home() {
             <SortSelects />
           </Box>
           <PriceRangeSlider 
-            minPrice={filter.price_min}
-            maxPrice={filter.price_max}
+            minPrice={filter.min_price}
+            maxPrice={filter.max_price}
             onPriceRangeChanged={onPriceRangeChanged} />
           <Box my={3}>
             <PageCounter itemsPerPage={filter.itemsPerPage ?? baseItemsPerPage} onItemsPerPageChanged={onItemsPerPageChanged} />

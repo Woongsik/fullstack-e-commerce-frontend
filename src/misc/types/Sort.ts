@@ -1,10 +1,14 @@
-enum Sort {
-  LOWEST_PRICES = "LOWEST_PRICES",
-  HIGHEST_PRICES = "HIGHEST_PRICES",
-  LATEST_UPDATED = "LATEST_UPDATED",
-  OLDEST_UPDATED = "OLDEST_UPDATED",
-  LATEST_CREATED = "LATEST_CREATED",
-  OLDEST_CREATED = "OLDEST_CREATED"
+export enum SortCreated {
+  ASC = 'ASC',
+  DESC = 'DESC'
 }
 
-export default Sort;
+export enum SortPrice {
+  ASC = 'ASC',
+  DECS = 'DECS'
+}
+
+export enum SortTitle {
+  ASC = 'ASC',
+  DECS = 'DECS'
+}

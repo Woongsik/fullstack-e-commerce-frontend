@@ -19,11 +19,11 @@ export default function ProductList(props: Props) {
     <Box component={'div'} margin={1}> 
       <Grid container spacing={2} justifyContent={'center'} minHeight={'50vh'}>
         {products.map((product: Product) => 
-        <Grid item key={product.id}>
+        <Grid item key={product._id}>
           <ProductCard product={product} />
         </Grid>
         )}
-        {(!loading && minMaxPrice && minMaxPrice.length > 0 && products.length === 0) &&
+        {(!loading && minMaxPrice && minMaxPrice.max > 0 && products.length === 0) &&
           <CenteredContainer>
             <SearchOffIcon sx={{ fontSize: 35, marginRight: 1 }} />
             <h2> No items found!</h2> 
