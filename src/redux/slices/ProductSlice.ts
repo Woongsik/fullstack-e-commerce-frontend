@@ -5,9 +5,7 @@ import {
   createSlice } from "@reduxjs/toolkit";
 
 import { apiService } from "../../services/APIService";
-import ProductSliceUtils from "../utils/ProductSliceUtils";
-
-import { MinMaxPrice, Product, ProductRegister, ProductUpdate, ProductsList } from "../../misc/types/Product";
+import { MinMaxPrice, Product, ProductInfo, ProductUpdate, ProductsList } from "../../misc/types/Product";
 import { Filter } from "../../misc/types/Filter";
 
 export type InitialState = {
@@ -29,7 +27,7 @@ export const initialState: InitialState = {
 };
 
 export const fetchProducts = createAsyncThunk(
-  "fetchProducts", // get all products, by categories, by page, by itemsPerPage
+  "fetchProducts",
   async (filter: Partial<Filter>, { rejectWithValue }) => {
     try {
       return apiService.getProducts(filter);
@@ -39,7 +37,7 @@ export const fetchProducts = createAsyncThunk(
 });
 
 export const fetchProduct = createAsyncThunk(
-  "fetchProduct", // get a product
+  "fetchProduct",
   async (productId: string, { rejectWithValue }) => {
     try {
       return apiService.getProduct(productId);
@@ -50,7 +48,7 @@ export const fetchProduct = createAsyncThunk(
 
 export const registerProduct = createAsyncThunk(
   "registerProduct",
-  async (product: ProductRegister, { rejectWithValue }) => {
+  async (product: ProductInfo, { rejectWithValue }) => {
     try {
       return apiService.registerProduct(product);
     } catch (e) {
@@ -62,7 +60,7 @@ export const updateProduct = createAsyncThunk(
   "updateProduct",
   async (productUpdate: ProductUpdate, { rejectWithValue }) => {
     try {
-      return apiService.updateProduct(productUpdate.item, productUpdate.id);
+      return apiService.updateProduct(productUpdate.item, productUpdate._id);
     } catch (e) {
       return rejectWithValue(e);
     }
@@ -88,16 +86,13 @@ const productSlice = createSlice({
   },
   extraReducers(builder: ActionReducerMapBuilder<InitialState>) {
       builder.addCase(fetchProducts.fulfilled, (state, action) => {
-        console.log('fullfilled', action.payload);
-
-        // const filteredProducts: FilteredProducts = ProductSliceUtils.getTotalAndImageCheckedProducts(action.payload, state.filter, state.total, state.minMaxPrice);
         const produtsList: ProductsList = action.payload;
 
         return {
           ...state,
           products: produtsList.products,
           total: produtsList.total,
-          minMaxPrice: produtsList.maxMinPrice,
+          minMaxPrice: produtsList.minMaxPrice,
           loading: false     
         }
       }).addCase(fetchProducts.pending, (state, action) => {
@@ -116,11 +111,9 @@ const productSlice = createSlice({
       });
 
       builder.addCase(fetchProduct.fulfilled, (state, action) => {
-        const imageCheckedProduct: Product = ProductSliceUtils.checkImagesForProduct(action.payload)
-
         return {
           ...state,
-          product: imageCheckedProduct,
+          product: action.payload,
           loading: false
         }
       }).addCase(fetchProduct.pending, (state, action) => {
@@ -139,10 +132,9 @@ const productSlice = createSlice({
       });
 
       builder.addCase(registerProduct.fulfilled, (state, action: PayloadAction<Product>) => {
-        const imageCheckedProduct: Product = ProductSliceUtils.checkImagesForProduct(action.payload)
         return {
           ...state,
-          product: imageCheckedProduct,
+          product: action.payload,
           loading: false
         }
       }).addCase(registerProduct.pending, (state, action) => {
@@ -161,10 +153,9 @@ const productSlice = createSlice({
       });
 
       builder.addCase(updateProduct.fulfilled, (state, action) => {
-        const imageCheckedProduct: Product = ProductSliceUtils.checkImagesForProduct(action.payload)
         return {
           ...state,
-          product: imageCheckedProduct,
+          product: action.payload,
           loading: false
         }
       }).addCase(updateProduct.pending, (state, action) => {

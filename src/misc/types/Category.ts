@@ -1,10 +1,7 @@
 type Category = {
-  id: number;
-  name: string;
-  title?: string;
+  _id: string;
+  title: string;
   image: string;
-  creationAt: string;
-  updatedAt: string;
 }
 
 export default Category;

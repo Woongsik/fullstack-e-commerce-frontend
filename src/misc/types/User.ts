@@ -4,18 +4,18 @@ export enum UserRole {
 }
 
 export type LoginUserInfo = {
-  email: string,
-  password: string
+  email: string;
+  password: string;
 }
 
 export type RegisterUserInfo = LoginUserInfo & {
-  name: string,
-  avatar: string,
-  role: UserRole
+  name: string;
+  avatar: string;
+  role: UserRole;
 }
 
 export type User = RegisterUserInfo & {
-  id: number
+  _id: number;
 }
 
 export type UserToken = {

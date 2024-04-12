@@ -16,35 +16,15 @@ export type Product = ProductBase & {
   createdAt: Date;
 }
 
-export type ProductRegister = ProductBase & {
-  categoryId: number;
+export type ProductInfo = ProductBase & {
+  categoryId: string;
 }
 
 export type ProductUpdate = {
-  id: string;
-  item: Partial<Product>
+  _id: string;
+  item: Partial<ProductInfo>
 }
 
-export type FilteredProducts = {
-  products: Product[],
-  total: number,
-  minMaxPrice: number[]
-}
-
-type FilterProduct = {
-  title: string;
-  size: Size;
-  categoryId: number;
-  min_price: number;
-  max_price: number;
-  sort_created: SortCreated;
-  sort_title: SortTitle;
-  sort_price: SortPrice;
-  page: number;
-  itemsPerPage: number;
-}
-
-// From backend
 export type MinMaxPrice = {
   min: number;
   max: number;
@@ -53,5 +33,5 @@ export type MinMaxPrice = {
 export type ProductsList = {
   total: number;
   products: Product[];
-  maxMinPrice: MinMaxPrice;
+  minMaxPrice: MinMaxPrice;
 };

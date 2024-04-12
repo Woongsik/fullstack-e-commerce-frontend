@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 
 import { Filter } from '../misc/types/Filter';
-import { Product, ProductRegister, ProductsList } from '../misc/types/Product';
+import { Product, ProductInfo, ProductsList } from '../misc/types/Product';
 import Category from '../misc/types/Category';
 import { LoginUserInfo, RegisterUserInfo, User, UserToken } from '../misc/types/User';
 import { UploadedImage } from '../misc/types/UploadedImage';
@@ -42,7 +42,6 @@ class ApiService {
 
     /* Originally used axios
        since msw is not supporting axios */
-       console.log('requ', url, method, data, headers);
     const response: AxiosResponse = await axios({
       method: method,
       url: url,
@@ -55,15 +54,16 @@ class ApiService {
 
   public getProducts(filter: Partial<Filter>): Promise<ProductsList> {
     let url: string = this.generateUrl("products");
-    let separator: string = "/?";
-    const { title, categoryId, min_price, max_price, page, itemsPerPage } = filter;
+    let separator: string = "?";
+    const { title, categoryId, min_price, max_price, page, itemsPerPage, 
+      sort_created, sort_price, sort_title } = filter;
 
     if (title) {
       url += `${separator}title=${title}`;
       separator = "&";
     }
 
-    if (categoryId) {
+    if (categoryId && categoryId !== '0') {
       url += `${separator}categoryId=${categoryId}`;
       separator = "&";
     }
@@ -77,11 +77,26 @@ class ApiService {
       url += `${separator}max_price=${max_price}`;
       separator = "&";
     }
+
+    if (sort_created) {
+      url += `${separator}sort_created=${sort_created}`;
+      separator = "&";
+    }
+
+    if (sort_price) {
+      url += `${separator}sort_price=${sort_price}`;
+      separator = "&";
+    }
+
+    if (sort_title) {
+      url += `${separator}sort_title=${sort_title}`;
+      separator = "&";
+    }
     
     /* In order to have the toal page correctly,
       page = 0 try to get the whole products 
     */
-    if (page && page > 1 && itemsPerPage) {
+    if (page && itemsPerPage) {
       // page starated from 1, so need to be 0 
       url += `${separator}offset=${(page - 1) * itemsPerPage}&limit=${itemsPerPage}`;
     }
@@ -130,7 +145,7 @@ class ApiService {
     return this.request('POST', url, formData, headers);
   }
 
-  public registerProduct(product: ProductRegister): Promise<Product> {
+  public registerProduct(product: ProductInfo): Promise<Product> {
     const url: string = this.generateUrl("products");
     return this.request('POST', url, product);
   }

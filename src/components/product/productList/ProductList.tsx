@@ -7,13 +7,8 @@ import { Product } from '../../../misc/types/Product';
 import { AppState } from '../../../redux/store';
 import CenteredContainer from '../../ui/layout/CenteredContainer';
 
-type Props = {
-  products: Product[];
-}
-
-export default function ProductList(props: Props) {
-  const { products } = props;
-  const { minMaxPrice, loading } = useSelector((state: AppState) => state.productReducer);
+export default function ProductList() {
+  const { products, minMaxPrice, loading } = useSelector((state: AppState) => state.productReducer);
 
   return (
     <Box component={'div'} margin={1}> 

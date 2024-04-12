@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import * as lodash from 'lodash';
 import { Box, Slider, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
@@ -18,6 +18,10 @@ export default function PriceRangeSlider(props: Props) {
   const baseMinPrice: number = minPrice ?? minMaxPrice.min;
   const baseMaxPrice: number = maxPrice ?? minMaxPrice.max;
   const [value, setValue] = useState<number[]>([baseMinPrice, baseMaxPrice]);
+
+  useEffect(() => {
+    setValue([minMaxPrice.min, minMaxPrice.max]);
+  }, [minMaxPrice]);
   
   // Optimization with useCallback & debounce
   const debouce = lodash.debounce((value: number[]) => props.onPriceRangeChanged(value), 1000);

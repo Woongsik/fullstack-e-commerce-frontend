@@ -101,7 +101,7 @@ export default function CartFavoriteCard(props: Props) {
             </TitleComponent>
           </Link>
           <TitleComponent fontSize={15} sx={{ color: 'gray'}}>
-            {item.category.name}
+            {item.category.title}
           </TitleComponent>
         </Box>
         <Box display={'flex'} justifyContent={MUILayout.FLEX_END} width={'100%'} alignItems={'center'}>

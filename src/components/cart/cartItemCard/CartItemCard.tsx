@@ -113,7 +113,7 @@ export default function CartItemCard(props: Props) {
             </Typography>
           </Link>
           <Typography fontSize={15} sx={{ color: 'gray'}}>
-            {item.category.name}
+            {item.category.title}
           </Typography>
           <CenteredContainer justifyContent={MUILayout.SPACE_BETWEEN} width={'100%'}>
             <Typography fontSize={13}>

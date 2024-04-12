@@ -2,7 +2,7 @@ import { SortCreated, SortPrice, SortTitle } from "./Sort";
 
 export type Filter = {
   title: string;
-  categoryId: number;
+  categoryId: string;
   min_price: number;
   max_price: number;
   page: number;

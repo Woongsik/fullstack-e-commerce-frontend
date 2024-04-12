@@ -1,3 +1,9 @@
+export enum SortType {
+  CREATED = 'sort_created',
+  PRICE = 'sort_price',
+  TITLE = 'sort_title',
+}
+
 export enum SortCreated {
   ASC = 'ASC',
   DESC = 'DESC'

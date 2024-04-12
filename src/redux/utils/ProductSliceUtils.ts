@@ -1,7 +1,6 @@
 import { Filter } from "../../misc/types/Filter";
-import { FilteredProducts, Product } from "../../misc/types/Product";
+import { Product } from "../../misc/types/Product";
 import { SortCreated } from "../../misc/types/Sort";
-import DateUtil from "../../misc/utils/DateUtil";
 
 const sortProducts = (products: Product[], sortType?: SortCreated): Product[] => {
   const duplicatedProducts = [...products];
@@ -57,32 +56,32 @@ const checkImagesForProduct = (product: Product): Product => {
   return product;
 }
 
-const getTotalAndImageCheckedProducts = (products: Product[], filter?: Filter, previousTotal: number = 0, previousMinMaxPrice: number[] = []): FilteredProducts => {
-  const itemsPerPage: number = (filter && filter.itemsPerPage) ? filter.itemsPerPage : 10;
-  const imageCheckedProducts: Product[] = checkImagesForProducts(products.slice(0, itemsPerPage));
+// const getTotalAndImageCheckedProducts = (products: Product[], filter?: Filter, previousTotal: number = 0, previousMinMaxPrice: number[] = []): FilteredProducts => {
+//   const itemsPerPage: number = (filter && filter.itemsPerPage) ? filter.itemsPerPage : 10;
+//   const imageCheckedProducts: Product[] = checkImagesForProducts(products.slice(0, itemsPerPage));
 
-  let total: number = previousTotal;
-  let minMaxPrice: number[] = previousMinMaxPrice;
-  if (filter && filter.page === 1) {
-    total = Math.ceil(products.length / itemsPerPage);
+//   let total: number = previousTotal;
+//   let minMaxPrice: number[] = previousMinMaxPrice;
+//   if (filter && filter.page === 1) {
+//     total = Math.ceil(products.length / itemsPerPage);
     
-    if (minMaxPrice.length === 0) { // Only set one time
-      const newProducts: Product[] = [...products];
-      newProducts.sort((a, b) => a.price > b.price ? 1 : -1);
-      minMaxPrice = [newProducts[0].price, newProducts[newProducts.length -1].price];
-    }
-  }
+//     if (minMaxPrice.length === 0) { // Only set one time
+//       const newProducts: Product[] = [...products];
+//       newProducts.sort((a, b) => a.price > b.price ? 1 : -1);
+//       minMaxPrice = [newProducts[0].price, newProducts[newProducts.length -1].price];
+//     }
+//   }
 
-  return { 
-    products: imageCheckedProducts, 
-    total: total,
-    minMaxPrice: minMaxPrice
-  };
-}
+//   return { 
+//     products: imageCheckedProducts, 
+//     total: total,
+//     minMaxPrice: minMaxPrice
+//   };
+// }
 
 export default {
   sortProducts,
   checkImagesForProduct,
   checkImagesForProducts,
-  getTotalAndImageCheckedProducts
+  // getTotalAndImageCheckedProducts
 }

@@ -13,7 +13,7 @@ import { AppState, useAppDispatch } from '../../../redux/store';
 import { registerProduct, updateProduct } from '../../../redux/slices/ProductSlice';
 import { apiService } from '../../../services/APIService';
 import { MUIButtonType, MUIButtonVariant, MUILayout } from '../../../misc/types/MUI';
-import { Product } from '../../../misc/types/Product';
+import { Product, ProductInfo } from '../../../misc/types/Product';
 import { UploadedImage } from '../../../misc/types/UploadedImage';
 import { useTheme } from '../../contextAPI/ThemeContext';
 import { Size } from '../../../misc/types/Size';
@@ -22,7 +22,7 @@ type Inputs = {
   title: string,
   price: number,
   description: string,
-  categoryId: number,
+  categoryId: string,
   images: string[]
 }
 
@@ -37,11 +37,11 @@ export default function ProductCreateOrUpdate(props: Props) {
 
   const { product } = props;
   const { isThemeLight } = useTheme();
-  const baseCategoryId: number = product ? product.category.id : 0;
+  const baseCategoryId: string = product ? product.category._id : '';
   const { loading, error } = useSelector((state: AppState) => state.productReducer);
   const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
   
-  const [categoryId, setCategoryId] = useState<number>(baseCategoryId);
+  const [categoryId, setCategoryId] = useState<string>(baseCategoryId);
   const [images, setImages] = useState<File[]>([]);
 
   // If use styled(), TextField trigger out of focus
@@ -92,17 +92,17 @@ export default function ProductCreateOrUpdate(props: Props) {
   }
 
   const updateProductInfo = async (data: Inputs) => {
-    const productUpdateItem: Partial<Product> = {
+    const productUpdateInfo: Partial<ProductInfo> = {
       title: data.title,
       price: data.price,
       description: data.description,
-      // categories: data.categoryId
+      categoryId: data.categoryId
     }
 
     if (product) {
       await dispatch(updateProduct({
-        id: product._id,
-        item: productUpdateItem      
+        _id: product._id,
+        item: productUpdateInfo      
        }));
 
        if (props.onUpdate) {
@@ -119,7 +119,7 @@ export default function ProductCreateOrUpdate(props: Props) {
     }
   }
   
-  const onCategoryChanged = (categoryId: number) => {
+  const onCategoryChanged = (categoryId: string) => {
     setCategoryId(categoryId);
   }
 

@@ -128,7 +128,7 @@ export default function ProudctDetail() {
     navigate('/cart');
   }
 
-  const handleCategoryClick = (categoryId: number) => {
+  const handleCategoryClick = (categoryId: string) => {
     const newFilter: Partial<Filter> = {
       categoryId: categoryId,
       page: 1,
@@ -204,7 +204,7 @@ export default function ProudctDetail() {
                     underline="hover"
                     color="inherit"
                     href="#"
-                    onClick={() => handleCategoryClick(product.category.id)}>
+                    onClick={() => handleCategoryClick(product.category._id)}>
                     {product.category.title}
                   </MUILink>
                   <Typography color="text.primary" sx={{ color: 'inherit'}}>{product.title}</Typography>

@@ -9,8 +9,8 @@ import Category from '../../misc/types/Category';
 import UiFormSelects from '../ui/form/UiFormSelects';
 
 type Props = {
-  selectedCategoryId?: number;
-  onCategoryChanged: (categoryId: number) => void;
+  selectedCategoryId?: string;
+  onCategoryChanged: (categoryId: string) => void;
   register?: any;
   error?: boolean;
   helpertext?: string;
@@ -26,17 +26,15 @@ export default function Categories(props: Props) {
 
   const { categories, loading } = useSelector((state: AppState) => state.categoryReducer);
   const allCategory: Category = {
-    id: 0,
-    name: 'All',
-    image: '',
-    creationAt: '',
-    updatedAt: ''
+    _id: '0',
+    title: 'All',
+    image: ''
   }
 
   const fixedCategories: Category[] = [allCategory, ...categories];
 
   const handleChange = (value: string) => {
-    props.onCategoryChanged(parseInt(value));
+    props.onCategoryChanged(value);
   }
 
   return (
@@ -49,8 +47,8 @@ export default function Categories(props: Props) {
         title='Categories'
         selectedValue={selectedCategoryId?.toString()}
         items={fixedCategories}
-        displayKey='name'
-        valueKey='id'
+        displayKey='title'
+        valueKey='_id'
         size='medium'
         fullWidth={true}
         onChange={handleChange} />

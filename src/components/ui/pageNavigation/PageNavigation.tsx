@@ -2,24 +2,28 @@ import { ChangeEvent } from 'react';
 import { Pagination } from '@mui/material';
 import { useSelector } from 'react-redux';
 
-import { AppState } from '../../../redux/store';
+import { AppState, useAppDispatch } from '../../../redux/store';
 import CenteredContainer from '../layout/CenteredContainer';
 import { useTheme } from '../../contextAPI/ThemeContext';
+import { updateFilter, fetchProducts } from '../../../redux/slices/ProductSlice';
+import { Filter } from '../../../misc/types/Filter';
 
-type Props = {
-  page: number;
-  itemsPerPage: number;
-  onPageChanged: (page: number) => void;
-}
+export const basePage: number = 1; // MUI pagination started from 1
+export const baseItemsPerPage: number = 30;
 
-export default function PageNavigation(props: Props) {
-  const { page, itemsPerPage } = props;
+export default function PageNavigation() {
   const { isThemeLight } = useTheme();
-  const total: number = useSelector((state: AppState) => state.productReducer.total);
+  const dispatch = useAppDispatch();
+  const { total, filter } = useSelector((state: AppState) => state.productReducer);
+
+  const page: number = filter?.page ?? basePage;
+  const itemsPerPage: number = filter?.itemsPerPage ?? baseItemsPerPage;
   const totalPage = Math.ceil(total / itemsPerPage);
 
   const handlePageChange = (e: ChangeEvent<unknown>, value: number) => {
-    props.onPageChanged(value);
+    const newFilter: Partial<Filter> = { ...filter, page: value };
+    dispatch(updateFilter(newFilter));
+    dispatch(fetchProducts(newFilter));
   };
 
   return (

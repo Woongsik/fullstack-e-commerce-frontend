@@ -40,7 +40,7 @@ export default function GoogleLogin() {
           avatar: result.picture,
           email: result.email,
           password: '',
-          id: 0,
+          _id: 0,
           role: UserRole.CUSTOMER
         }
 

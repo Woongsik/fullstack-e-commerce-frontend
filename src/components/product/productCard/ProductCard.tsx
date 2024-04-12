@@ -105,7 +105,7 @@ export default function ProductCard(props: Props) {
           
           <Box>
             {productInfoTitle(product.title)}
-            {productInfoText(product.category.title ?? '', 'gray')}
+            {productInfoText(product.category.title, 'gray')}
             {productInfoText(`€ ${product.price}`)}
           </Box>
         </Box>
