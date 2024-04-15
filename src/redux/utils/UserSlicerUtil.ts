@@ -1,4 +1,4 @@
-import { UserToken } from "../../misc/types/User";
+import { LoggedUserInfo, UserToken } from "../../misc/types/User";
 
 class UserSlicerUtil {
   readonly hostsName = "platziStore";
@@ -23,9 +23,10 @@ class UserSlicerUtil {
     }
   }
 
-  public setTokensToLocalStorage(tokens: UserToken): void {
+  public setTokensToLocalStorage(loggedUserInfo: LoggedUserInfo): void {
     try {
-      const rawTokens: string = JSON.stringify(tokens);
+      const userTokens: UserToken = loggedUserInfo.tokens;
+      const rawTokens: string = JSON.stringify(userTokens);
       localStorage.setItem(this.localStorageName, rawTokens);
     } catch (e: any) {
       console.log('Set tokens to localstorage failed:', e);

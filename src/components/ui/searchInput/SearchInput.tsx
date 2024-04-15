@@ -37,8 +37,8 @@ export default function SearchInput(props: Props) {
 
   const textFieldCss = {
     '&.MuiFormControl-root > *': {
-      color: isThemeLight ? 'white': 'black',
-      borderColor: isThemeLight ? 'black': 'white',
+      color: isThemeLight ? 'white': '',
+      borderColor: isThemeLight ? 'black': '',
     }
   };
 

@@ -248,7 +248,7 @@ export default function ProudctDetail() {
                 </DetailInfoText>
 
                 <Box my={2}>
-                  {product.sizes.map((size: Size) => <Chip label={size} sx={{ marginRight: 1 }} />)}
+                  {product.sizes.map((size: Size) => <Chip key={size} label={size} sx={{ marginRight: 1 }} />)}
                 </Box>
                 
                 <DetailInfoText variant='h5' my={2}>

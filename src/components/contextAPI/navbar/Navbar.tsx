@@ -98,7 +98,7 @@ export default function Navbar() {
           aria-expanded={Boolean(anchorEl) ? 'true' : undefined}
           onClick={handleClick}>
         {user ? 
-        <Avatar src={user.avatar} alt={user.name} sx={{ height: '30px', width: '30px', backgroundColor: 'white' }}/>
+        <Avatar src={user.avatar} alt={user.username} sx={{ height: '30px', width: '30px', backgroundColor: 'white' }}/>
         : 
         <AccountCircleIcon sx={{ color: isThemeLight ? 'black' : 'white' }} />}
       </IconButton>

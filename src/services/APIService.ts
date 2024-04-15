@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from 'axios';
 import { Filter } from '../misc/types/Filter';
 import { Product, ProductInfo, ProductsList } from '../misc/types/Product';
 import Category from '../misc/types/Category';
-import { LoginUserInfo, RegisterUserInfo, User, UserToken } from '../misc/types/User';
+import { LoggedUserInfo, LoginInfo, RegisterUserInfo, User, UserToken } from '../misc/types/User';
 import { UploadedImage } from '../misc/types/UploadedImage';
 import { GoogleLoginResult } from '../components/ui/googleLogin/GoogleLogin';
 
@@ -42,14 +42,19 @@ class ApiService {
 
     /* Originally used axios
        since msw is not supporting axios */
-    const response: AxiosResponse = await axios({
-      method: method,
-      url: url,
-      data: data,
-      headers: headers
-    });
-
-    return response.data;
+       try {
+        const response: AxiosResponse = await axios({
+          method: method,
+          url: url,
+          data: data,
+          headers: headers
+        });
+        
+        return response.data;
+       } catch (e) {
+        // console.log('e', e);
+        throw new Error((e as any).response.data.message);
+       }
   }
 
   public getProducts(filter: Partial<Filter>): Promise<ProductsList> {
@@ -124,13 +129,13 @@ class ApiService {
     return this.request<User>('POST', url, userInfo);
   }
 
-  public loginUser(loginInfo: LoginUserInfo): Promise<UserToken> {
-    const url: string = this.generateUrl("auth/login/");
-    return this.request<UserToken>('post', url, loginInfo);
+  public login(loginInfo: LoginInfo): Promise<LoggedUserInfo> {
+    const url: string = this.generateUrl("users/login");
+    return this.request<LoggedUserInfo>('post', url, loginInfo);
   }
 
   public getUserWithSession(tokens: UserToken): Promise<User> {
-    const url: string = this.generateUrl("auth/profile");
+    const url: string = this.generateUrl("users/profile");
     const headers = {
       Authorization : `Bearer ${tokens?.access_token ?? ''}`
     }

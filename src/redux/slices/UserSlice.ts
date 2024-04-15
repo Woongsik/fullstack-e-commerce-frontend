@@ -1,6 +1,6 @@
 import { ActionReducerMapBuilder, PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import { LoginUserInfo, RegisterUserInfo, User, UserToken } from "../../misc/types/User";
+import { LoginInfo, RegisterUserInfo, User, UserToken } from "../../misc/types/User";
 import { apiService } from "../../services/APIService";
 import { userSlicerUtil } from "../utils/UserSlicerUtil";
 
@@ -27,9 +27,9 @@ export const registerUser = createAsyncThunk(
 
 export const loginUser = createAsyncThunk(
   "loginUser",
-  async (userInfo: LoginUserInfo, { rejectWithValue }) => {
+  async (userInfo: LoginInfo, { rejectWithValue }) => {
     try {
-      return apiService.loginUser(userInfo);
+      return apiService.login(userInfo);
     } catch (e) {
       return rejectWithValue(e);
     }
@@ -83,6 +83,7 @@ const userSlice = createSlice({
 
       return {
         ...state,
+        user: action.payload.user,
         loading: false      
       }
     }).addCase(loginUser.pending, (state, action) => {

@@ -13,9 +13,13 @@ import { addUser, logout } from '../../../redux/slices/UserSlice';
 import { User, UserRole } from '../../../misc/types/User';
 
 export type GoogleLoginResult = {
-  name: string;
   email: string;
+  email_verified: string;
+  name: string;
   picture: string;
+  given_name: string;
+  family_name: string;
+  locale: string;
 }
 
 const ErrorMessage = styled('h5')({
@@ -35,16 +39,18 @@ export default function GoogleLogin() {
         const result: GoogleLoginResult = await apiService.loginWithGoogle(url, token.access_token);       
         await dispatch(logout());
 
-        const newUser: User = {
-          name: result.name,
-          avatar: result.picture,
-          email: result.email,
-          password: '',
-          _id: 0,
-          role: UserRole.CUSTOMER
-        }
+        // const newUser: User = {
+        //   firstname: result.firstname,
+        //   lastname: result.lastname,
+        //   username: result.name,
+        //   avatar: result.picture,
+        //   email: result.email,
+        //   password: '',
+        //   _id: 0,
+        //   role: UserRole.CUSTOMER
+        // }
 
-        await dispatch(addUser(newUser));
+        // await dispatch(addUser(newUser));
       } catch (e) {
         setShowError(true);
       }

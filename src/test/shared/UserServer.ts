@@ -2,7 +2,7 @@
 // mocking the server
 // import { http, HttpResponse } from "msw";
 // import { setupServer } from "msw/node";
-// import { LoginUserInfo, RegisterUserInfo, UserToken } from "../../misc/types/User";
+// import { LoginInfo, RegisterUserInfo, UserToken } from "../../misc/types/User";
 // import { registeredInfo, registerInfo, userToken } from "../redux/UserReducer.test";
 // import { userSlicerUtil } from "../../redux/utils/UserSlicerUtil";
 
@@ -18,7 +18,7 @@
 //     return HttpResponse.json(null, { status: 404 });  
 //   }),
 //   http.post('https://api.escuelajs.co/api/v1/auth/login/', async ({ request }) => { 
-//     const loginInfo = await request.json() as LoginUserInfo;
+//     const loginInfo = await request.json() as LoginInfo;
 //     if (loginInfo) {
 //       return HttpResponse.json(userToken, { status: 200 });
 //     }

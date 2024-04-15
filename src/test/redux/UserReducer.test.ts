@@ -1,4 +1,4 @@
-// import { LoginUserInfo, RegisterUserInfo, User, UserRole, UserToken } from "../../misc/types/User";
+// import { LoginInfo, RegisterUserInfo, User, UserRole, UserToken } from "../../misc/types/User";
 // import userReducer, { getUserWithSession, initialState, InitialState, loginUser, registerUser } from "../../redux/slices/UserSlice";
 // import { userSlicerUtil } from "../../redux/utils/UserSlicerUtil";
 
@@ -15,7 +15,7 @@
 //   id: 1
 // }
 
-// export const loginInfo: LoginUserInfo = {
+// export const loginInfo: LoginInfo = {
 //   email: 'testUserEmail@mail.com',
 //   password: 'testUserPassword'
 // }

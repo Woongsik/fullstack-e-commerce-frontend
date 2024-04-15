@@ -47,8 +47,8 @@ export default function ProductCreateOrUpdate(props: Props) {
   // If use styled(), TextField trigger out of focus
   const textFieldCss = {
     '&.MuiFormControl-root > *, &.MuiFormControl-root > .MuiInputBase-root > .MuiOutlinedInput-notchedOutline': {
-      color: isThemeLight ? 'white' : 'black',
-      borderColor: isThemeLight ? 'white' : 'black'
+      color: isThemeLight ? 'white' : '',
+      borderColor: isThemeLight ? 'white' : ''
     }    
   };
 

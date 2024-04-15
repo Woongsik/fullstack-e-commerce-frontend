@@ -26,7 +26,7 @@ const Wrapper = styled(Box)({
 });
 
 const ItemWrapper = styled(Box)({
-  padding: '5px 20px', 
+  padding: '5px 10px', 
   display: 'flex', 
   alignItems: 'center'
 });
@@ -36,29 +36,35 @@ const SearchSection = styled(Box)({
   marginRight: 1,
   display: 'flex',
   alignItems: 'center',
-  padding: '5px 10px'
+  padding: '0 5px'
 });
 
 const ClearSection = styled(Box)({
   cursor: 'pointer', 
   marginLeft: 1,
-  padding: '5px'
+  padding: '0 5px'
 });
 
 export default function FilterIndicator(props: Props) {
   const { isThemeLight } = useTheme();
+  const themeColor = {
+    color: isThemeLight ? 'black' : 'white'
+  };
+  const themeBackgroundColor = {
+    backgroundColor: isThemeLight ? 'white' : 'black'
+  };
 
   return (
     <FilterIndicatorContainer>
-      <Wrapper sx={{ backgroundColor: isThemeLight ? 'white' : 'black' }}>
+      <Wrapper sx={themeBackgroundColor}>
         <ItemWrapper 
-          sx={{ color: isThemeLight ? 'black' : 'white' }}>
+          sx={themeColor}>
           <SearchSection onClick={() => props.onOpen()}>
             <SearchIcon /> Search
           </SearchSection>
           <ClearSection
             onClick={() => props.onClear()}>
-            <CancelIcon sx={{ color: isThemeLight ? 'black' : 'white' }}/>
+            <CancelIcon sx={themeColor}/>
           </ClearSection>
         </ItemWrapper>
       </Wrapper>

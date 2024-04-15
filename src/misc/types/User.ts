@@ -3,22 +3,31 @@ export enum UserRole {
   ADMIN = "admin"
 }
 
-export type LoginUserInfo = {
+export type LoginInfo = {
   email: string;
   password: string;
 }
 
-export type RegisterUserInfo = LoginUserInfo & {
-  name: string;
+export type RegisterUserInfo = LoginInfo & {
+  firstname: string;
+  lastname: string;
+  username: string;
+  address: string;
   avatar: string;
-  role: UserRole;
 }
 
 export type User = RegisterUserInfo & {
   _id: number;
+  role: UserRole,
+  active: boolean
 }
 
 export type UserToken = {
   access_token: string,
   refresh_token: string
+}
+
+export type LoggedUserInfo = {
+  user: User;
+  tokens: UserToken;
 }
