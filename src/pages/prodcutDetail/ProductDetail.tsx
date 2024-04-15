@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Box, Typography, Divider, IconButton, Breadcrumbs, Link as MUILink, styled } from '@mui/material';
+import { Box, Typography, Divider, IconButton, Breadcrumbs, Link as MUILink, styled, Chip } from '@mui/material';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
@@ -26,6 +26,33 @@ import { useUserSession } from '../../hooks/useUserSession';
 import { Filter } from '../../misc/types/Filter';
 import { useTheme } from '../../components/contextAPI/ThemeContext';
 import UiSnackbar from '../../components/ui/snackbar/UiSnackbar';
+import { Size } from '../../misc/types/Size';
+
+const UiButtonGroup = styled(Box)({
+  display: 'inline-grid',
+  justifyContent: 'center',
+  width: '100%',
+  position: 'sticky', 
+  bottom: 0
+});
+
+const InfoText = styled(Typography)({
+  fontWeight: 'bold',
+  fontSize: 22,
+  width: '100%',
+  textAlign: 'center'
+});
+
+const ImageContainer = styled(Box)({
+  width: '50%',
+  minWidth: '300px'
+});
+
+const BreadcrumbsContainer = styled(Box)({
+  overflow: 'auto',
+  width: '40%',
+  minWidth: '300px'
+});
 
 export default function ProudctDetail() {
   const { id } = useParams(); // product id
@@ -149,16 +176,20 @@ export default function ProudctDetail() {
     )
   }
 
+  const dialogTitle = (title?: string) =>  {
+    return (<span>Remove <span style={{ fontWeight: 'bold'}}>{title}</span> permanantly? You cannot make it back...</span>);
+  }
+
   return (
     <GridContainer alignItems={MUILayout.FLEX_START}>
       <Box width={'100%'}>
-        <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'} width={'100%'}>
+        <CenteredContainer justifyContent={MUILayout.SPACE_BETWEEN} width={'100%'}>
           <IconButton onClick={() => handleBack()}>
             <ArrowCircleLeftIcon sx={{ fontSize: 40, color: isThemeLight ? 'white' : 'black' }} />
           </IconButton>
 
           {(user && user.role === UserRole.ADMIN) && product &&
-          <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'} margin={'0 10px'}>
+          <CenteredContainer justifyContent={MUILayout.SPACE_BETWEEN} margin={'0 10px'}>
             <UiButton
               variant={isThemeLight ? MUIButtonVariant.CONTAINED : MUIButtonVariant.OUTLINED}
               color={MUIColor.ERROR}
@@ -173,9 +204,9 @@ export default function ProudctDetail() {
               onClick={() => toggleEdit()}>
               {editMode ? 'Cancel Edit' : 'Edit'}
             </UiButton>
-          </Box>
+          </CenteredContainer>
           }
-        </Box>
+        </CenteredContainer>
 
         <Divider sx={{ my: 1 }} />
         
@@ -189,12 +220,12 @@ export default function ProudctDetail() {
         :
         <CenteredContainer>
           <CenteredContainer alignItems={MUILayout.FLEX_START} justifyContent={MUILayout.SPACE_BETWEEN} margin={'0 10px'}  width='75%'>
-            <Box width={'50%'} minWidth={'300px'}>
+            <ImageContainer>
               <UiCarousel 
                 images={product.images}
                 alt={product.title} />
-            </Box>
-            <Box component={'div'} overflow={'auto'} width={'40%'} minWidth={'300px'}>
+            </ImageContainer>
+            <BreadcrumbsContainer>
               <Box width='100%' margin='0 0 15px 0'>
                 <Breadcrumbs aria-label="breadcrumb" sx={{ color: isThemeLight ? 'white' : 'black' }}>
                   <MUILink underline="hover" color="inherit" href="/">
@@ -211,11 +242,16 @@ export default function ProudctDetail() {
                 </Breadcrumbs>
               </Box>
 
-              <Box component={'div'}>              
+              <Box>              
                 <DetailInfoText variant='h4'>
                   {product.title}
                 </DetailInfoText>
-                <DetailInfoText variant='h5' >
+
+                <Box my={2}>
+                  {product.sizes.map((size: Size) => <Chip label={size} sx={{ marginRight: 1 }} />)}
+                </Box>
+                
+                <DetailInfoText variant='h5' my={2}>
                   € {product.price}
                 </DetailInfoText>
                 
@@ -224,8 +260,7 @@ export default function ProudctDetail() {
                 </DetailInfoText>
               </Box>
 
-              <Box component={'div'} display={'inline-grid'} justifyContent={'center'} width={'100%'}
-                  position={'sticky'} bottom={0}>
+              <UiButtonGroup>
                 <UiRoundButton
                   variant={MUIButtonVariant.CONTAINED}
                   theme='black'
@@ -240,8 +275,8 @@ export default function ProudctDetail() {
                   onClick={() => handleAddToFavorites()}>
                   Favorite <FavoriteIcon sx={{ marginLeft: 1}}/>
                 </UiRoundButton>
-              </Box>
-            </Box>
+              </UiButtonGroup>
+            </BreadcrumbsContainer>
           </CenteredContainer>
         </CenteredContainer>
         )}
@@ -266,9 +301,9 @@ export default function ProudctDetail() {
     { (error || showDeletedMessage) && 
     <CenteredContainer margin={'-150px 0 0 0'}>
       <InfoOutlined sx={{ fontSize: 60 }} />
-      <Typography fontWeight={'bold'} fontSize={22} width={'100%'} textAlign={'center'}>
+      <InfoText>
           {showDeletedMessage ? 'Successfully Product removed!' : 'Something went wrong or prodcut not existed!'}
-      </Typography>
+      </InfoText>
       <Link to={'/home'}>
           <UiButton variant={MUIButtonVariant.CONTAINED} color={MUIColor.PRIMARY} customStyle={{ margin: '15px' }}>
             Back home
@@ -277,8 +312,4 @@ export default function ProudctDetail() {
     </CenteredContainer>}
   </GridContainer>
   )
-}
-
-const dialogTitle = (title?: string) =>  {
-  return (<span>Remove <span style={{ fontWeight: 'bold'}}>{title}</span> permanantly? You cannot make it back...</span>);
 }

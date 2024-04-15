@@ -20,7 +20,7 @@ export default function SortButton(props: Props) {
   };
 
   return (
-    <CenteredContainer justifyContent={MUILayout.SPACE_BETWEEN} sx={{ my: 2 }}>
+    <CenteredContainer justifyContent={MUILayout.SPACE_BETWEEN}>
      {title && <Typography>{title}</Typography>}
       <ToggleButtonGroup
         value={value}

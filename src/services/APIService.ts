@@ -56,7 +56,7 @@ class ApiService {
     let url: string = this.generateUrl("products");
     let separator: string = "?";
     const { title, categoryId, min_price, max_price, page, itemsPerPage, 
-      sort_created, sort_price, sort_title } = filter;
+      size, sort_created, sort_price, sort_title } = filter;
 
     if (title) {
       url += `${separator}title=${title}`;
@@ -75,6 +75,11 @@ class ApiService {
 
     if (max_price) {
       url += `${separator}max_price=${max_price}`;
+      separator = "&";
+    }
+
+    if (size) {
+      url += `${separator}size=${size}`;
       separator = "&";
     }
 

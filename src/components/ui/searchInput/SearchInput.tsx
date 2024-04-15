@@ -43,8 +43,8 @@ export default function SearchInput(props: Props) {
   };
 
   return (
-    <FormControl fullWidth sx={{ color: 'white'}}>
-      <Box sx={{ display: 'flex', alignItems: 'center', margin: '5px 10px', color: 'white' }}>
+    <FormControl fullWidth>
+      <Box sx={{ display: 'flex', alignItems: 'center', color: 'white' }}>
         <SearchIcon 
           sx={{ color: isThemeLight ? 'white' : 'action.active', mr: 2, mt: 1.5 }} />
         <TextField 

@@ -4,3 +4,17 @@ export enum Size {
   Large = 'L',
   OneSize = 'OneSize'
 }
+
+export enum SizeColor {
+  S = 'primary',
+  M = 'warning',
+  L = 'error',
+  OneSize = 'secondary'
+}
+
+export enum SizeLabel {
+  S = 'Small',
+  M = 'Medium',
+  L = 'Large',
+  OneSize = 'One'
+}

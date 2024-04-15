@@ -2,26 +2,28 @@ import { useEffect, useState } from 'react'
 import { Box, Drawer, IconButton, styled } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 
-import { useTheme } from '../../contextAPI/ThemeContext';
-import { MUILayout, MUIColor, MUIButtonVariant, MUISize } from '../../../misc/types/MUI';
-import { SortCreated, SortType, SortPrice, SortTitle } from '../../../misc/types/Sort';
-import Categories from '../../cateogries/Categories';
-import SortButton from '../button/SortButton/SortButton';
-import UiButton from '../button/UiButton';
-import CenteredContainer from '../layout/CenteredContainer';
-import PageCounter from '../pageCounter/PageCounter';
-import PriceRangeSlider from '../priceRangeSlider/PriceRangeSlider';
-import SearchInput from '../searchInput/SearchInput';
-import SortSelects from '../sortSelects/SortSelects';
-import { Filter } from '../../../misc/types/Filter';
+import { useTheme } from '../../../contextAPI/ThemeContext';
+import { MUILayout, MUIColor, MUIButtonVariant, MUISize } from '../../../../misc/types/MUI';
+import { SortCreated, SortType, SortPrice, SortTitle } from '../../../../misc/types/Sort';
+import Categories from '../../../cateogries/Categories';
+import SortButton from '../../button/SortButton/SortButton';
+import UiButton from '../../button/UiButton';
+import CenteredContainer from '../../layout/CenteredContainer';
+import PageCounter from '../../pageCounter/PageCounter';
+import PriceRangeSlider from '../../priceRangeSlider/PriceRangeSlider';
+import SearchInput from '../../searchInput/SearchInput';
+import { Filter } from '../../../../misc/types/Filter';
 import { useSelector } from 'react-redux';
-import { updateFilter, fetchProducts } from '../../../redux/slices/ProductSlice';
-import { AppState, useAppDispatch } from '../../../redux/store';
-import { baseItemsPerPage, basePage } from '../pageNavigation/PageNavigation';
+import { updateFilter, fetchProducts } from '../../../../redux/slices/ProductSlice';
+import { AppState, useAppDispatch } from '../../../../redux/store';
+import { baseItemsPerPage, basePage } from '../../pageNavigation/PageNavigation';
+import Sizes from '../../../sizes/Sizes';
+import { Size } from '../../../../misc/types/Size';
 
 type Props = {
   clear: boolean;
-  open: boolean
+  open: boolean;
+  onClose: () => void;
 }
 const FilterWrapper = styled(Box)({
   position: 'relative',
@@ -74,7 +76,9 @@ export default function FilterDrawer(props: Props) {
   }, [clear]);
 
   useEffect(() => {
-    toggleDrawer(true);
+    if (open) {
+      toggleDrawer(open);
+    }
   }, [open]);
 
   const onTextChanged = (text: string): void => {
@@ -92,6 +96,16 @@ export default function FilterDrawer(props: Props) {
       setFilter({
         ...filter,
         categoryId: categoryId,
+        page: basePage
+      });
+    }
+  };
+
+  const onSizeChanged = (size?: Size): void => {
+    if (filter.size !== size) {
+      setFilter({
+        ...filter,
+        size: size,
         page: basePage
       });
     }
@@ -129,6 +143,10 @@ export default function FilterDrawer(props: Props) {
 
   const toggleDrawer = (open: boolean) => {
     setOpenDrawer(open);
+
+    if (!open) {
+      props.onClose();
+    }
   }
 
   const clearFilter = () => {
@@ -162,8 +180,11 @@ export default function FilterDrawer(props: Props) {
             selectedCategoryId={filter.categoryId} 
             onCategoryChanged={onCategoryChanged} />
         </FilterItem>
+
         <FilterItem>
-          <SortSelects />
+          <Sizes 
+            selectedSize={filter.size}
+            onSizeChanged={onSizeChanged}/>
         </FilterItem>
         <PriceRangeSlider 
           minPrice={filter.min_price}
@@ -185,13 +206,13 @@ export default function FilterDrawer(props: Props) {
               values={Object.values(SortCreated)}
               selectedValue={filter.sort_created}
               onChange={(value) => onSortChanged(value, SortType.CREATED)} />
-
-            <SortButton 
-              title={'Price'}
-              values={Object.values(SortPrice)}
-              selectedValue={filter.sort_price}
-              onChange={(value) => onSortChanged(value, SortType.PRICE)}/>
-
+            <Box my={2}>
+              <SortButton 
+                title={'Price'}
+                values={Object.values(SortPrice)}
+                selectedValue={filter.sort_price}
+                onChange={(value) => onSortChanged(value, SortType.PRICE)} />
+            </Box>
             <SortButton 
               title={'Title'}
               values={Object.values(SortTitle)}

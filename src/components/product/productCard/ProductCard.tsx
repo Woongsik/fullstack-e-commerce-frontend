@@ -1,12 +1,15 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Box, Typography } from '@mui/material';
+import { Box, Chip, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 
 import UiImage from '../../ui/image/UiImage';
 import UiNoImage from '../../ui/image/UiNoImage';
 import { Product } from '../../../misc/types/Product';
 import { useTheme } from '../../contextAPI/ThemeContext';
+import { Size, SizeColor, SizeLabel } from '../../../misc/types/Size';
+import { MUILayout } from '../../../misc/types/MUI';
+import CenteredContainer from '../../ui/layout/CenteredContainer';
 
 type Props = {
   product: Product
@@ -56,6 +59,11 @@ const ProductDetailIndicator = styled('div')({
   color: 'black'
 });
 
+const ProductCateogryTitle = styled(Box)({
+  minWidth: '10%',
+  maxWidth: '90%'
+});
+
 export default function ProductCard(props: Props) {
   const { product } = props;
   const { isThemeLight } = useTheme();
@@ -68,9 +76,17 @@ export default function ProductCard(props: Props) {
       </TitleComponent>
     )
   }
-  const productInfoText = (text: string, color?: string) => {
+
+  const productInfoText = (text: string, color?: string, ellipsis: boolean = false) => {
     return (
-      <Typography sx={{ color: color ?? (isThemeLight ? 'white' : 'black')}}>
+      ellipsis ?
+      <TitleComponent 
+        sx={{ color: color ?? (isThemeLight ? 'white' : 'black')}}>
+        {text}
+      </TitleComponent>
+      : 
+      <Typography 
+        sx={{ color: color ?? (isThemeLight ? 'white' : 'black')}}>
         {text}
       </Typography>
     )
@@ -105,8 +121,20 @@ export default function ProductCard(props: Props) {
           
           <Box>
             {productInfoTitle(product.title)}
-            {productInfoText(product.category.title, 'gray')}
+            <CenteredContainer justifyContent={MUILayout.SPACE_BETWEEN} width={'100%'}>
+              <ProductCateogryTitle>{productInfoText(product.category.title, 'gray', true)}</ProductCateogryTitle>
+              <Box display={'flex'}>
+                {product.sizes.map((size: Size, index: number) => 
+                  <Chip
+                    key={size}
+                    label={SizeLabel[size]} 
+                    color={SizeColor[size]}
+                    variant='outlined'
+                    sx={{ marginRight: (index !== product.sizes.length - 1) ? 1 : 0 }} />)}
+              </Box>
+            </CenteredContainer>
             {productInfoText(`€ ${product.price}`)}
+            {productInfoText(`€ ${product.createdAt}`)}
           </Box>
         </Box>
       </ProductCardLink>
