@@ -11,9 +11,8 @@ export function useUserSession() {
   const { user } = useSelector((state: AppState) => state.userReducer);
 
   useEffect(() => { // For the user sessoion if no user 
-    const tokens: UserToken | null = userSlicerUtil.getTokensToLocalStorage();
-    if (!user && tokens) {
-      dispatch(getUserWithSession(tokens));
+    if (!user) {
+      dispatch(getUserWithSession());
     }  
   }, [dispatch]);
 }

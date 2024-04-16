@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Box, TextField } from '@mui/material';
+import { Box, FormHelperText, TextField, styled } from '@mui/material';
 
 import Categories from '../../cateogries/Categories';
 import FileUploader from '../../ui/fileUploader/FileUploader';
@@ -17,12 +17,14 @@ import { Product, ProductInfo } from '../../../misc/types/Product';
 import { UploadedImage } from '../../../misc/types/UploadedImage';
 import { useTheme } from '../../contextAPI/ThemeContext';
 import { Size } from '../../../misc/types/Size';
+import SizeButtons from '../../ui/button/SizeButtons/SizeButtons';
 
 type Inputs = {
   title: string,
   price: number,
   description: string,
   categoryId: string,
+  sizes: Size[],
   images: string[]
 }
 
@@ -30,6 +32,25 @@ type Props = {
   product?: Product,
   onUpdate?: () => void
 }
+
+const FormContainer = styled(Box)({
+  width: '100%',
+  '& .MuiTextField-root': { 
+    margin: '10px', 
+    width: '100%' 
+  }
+});
+
+const InfoWapper = styled(Box)({
+  marginTop: '10px',
+  marginBottom: '10px'
+});
+
+const FileUploaderWrapper = styled(InfoWapper)({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center'
+});
 
 export default function ProductCreateOrUpdate(props: Props) {
   const dispatch = useAppDispatch();
@@ -39,12 +60,12 @@ export default function ProductCreateOrUpdate(props: Props) {
   const { isThemeLight } = useTheme();
   const baseCategoryId: string = product ? product.category._id : '';
   const { loading, error } = useSelector((state: AppState) => state.productReducer);
-  const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
+  const { register, handleSubmit, setValue, clearErrors, formState: { errors } } = useForm<Inputs>();
   
   const [categoryId, setCategoryId] = useState<string>(baseCategoryId);
   const [images, setImages] = useState<File[]>([]);
+  const [sizes, setSizes] = useState<Size[]>([]);
 
-  // If use styled(), TextField trigger out of focus
   const textFieldCss = {
     '&.MuiFormControl-root > *, &.MuiFormControl-root > .MuiInputBase-root > .MuiOutlinedInput-notchedOutline': {
       color: isThemeLight ? 'white' : '',
@@ -66,29 +87,29 @@ export default function ProductCreateOrUpdate(props: Props) {
       description: data.description,
       categoryId: data.categoryId,
       images: uploadedImages,
-      sizes: [Size.Large, Size.Small]
+      sizes: data.sizes
     }));
 
     const newProduct: Product = result.payload as Product;
-    if (!error && newProduct) {
+    if (!error && newProduct) { // TODO Chek new product and check updated product
       navigate(`/product/${newProduct._id}`);
     }
   }
 
   const createNewProduct = async (data: Inputs) => {
     const uploadedImages: string[] = [];
-    if (images.length > 0) {
-      images.forEach(async (image: File, index: number) => {
-        const uploadedImage: UploadedImage = await uploadImage(image);
-        uploadedImages.push(uploadedImage.location);
+    // if (images.length > 0) {
+    //   images.forEach(async (image: File, index: number) => {
+    //     const uploadedImage: UploadedImage = await uploadImage(image);
+    //     uploadedImages.push(uploadedImage.location);
 
-        if (index === (images.length - 1)) {
-          fetchToRegisterProduct(data, uploadedImages);
-        }
-      });   
-    } else {
+    //     if (index === (images.length - 1)) {
+    //       fetchToRegisterProduct(data, uploadedImages);
+    //     }
+    //   });   
+    // } else {
       fetchToRegisterProduct(data, uploadedImages);
-    }
+    //}
   }
 
   const updateProductInfo = async (data: Inputs) => {
@@ -96,7 +117,8 @@ export default function ProductCreateOrUpdate(props: Props) {
       title: data.title,
       price: data.price,
       description: data.description,
-      categoryId: data.categoryId
+      categoryId: data.categoryId,
+      sizes: data.sizes
     }
 
     if (product) {
@@ -120,6 +142,11 @@ export default function ProductCreateOrUpdate(props: Props) {
   }
   
   const onCategoryChanged = (categoryId: string) => {
+    if (categoryId !== '0') {
+      clearErrors('categoryId');
+    }
+
+    setValue('categoryId', categoryId);
     setCategoryId(categoryId);
   }
 
@@ -127,20 +154,26 @@ export default function ProductCreateOrUpdate(props: Props) {
     setImages(files);
   }
 
+  const handleSizeChanges = (sizes: Size[]) => {
+    if (sizes.length > 0) {
+      clearErrors('sizes');
+    }
+    
+    setValue('sizes', sizes);
+    setSizes(sizes);
+  }
+
   return (
     <CenteredContainer 
       width={'50%'}
       alignItems={MUILayout.FLEX_START}
       sx={{ minWidth: '300px', color: isThemeLight ? 'white': 'black' }}>
-      <Box 
-        component="form"
-        width={'100%'}
-        sx={{'& .MuiTextField-root': { m: 1, width: '100%' } }}
+      <FormContainer component="form"
         onSubmit={handleSubmit(onSubmit)}>
 
         <h1>{product ? `Edit Product` : `Create Product`}</h1>
         
-        <Box my={1}>
+        <InfoWapper>
           <TextField
             {...register("title", { required: true, pattern: /^[A-Za-z0-9?.,=_@&\- ]+$/i }) }
             error={Boolean(errors.title)}
@@ -148,8 +181,8 @@ export default function ProductCreateOrUpdate(props: Props) {
             defaultValue={product ? product.title : ''}
             helperText={errors.title && 'Incorrect name! Accept special character only ?.,=-_@'}
             sx={textFieldCss} />   
-        </Box>
-        <Box my={1}>
+        </InfoWapper>
+        <InfoWapper>
           <TextField
             {...register("price", { required: true, 
               valueAsNumber: true,
@@ -165,8 +198,8 @@ export default function ProductCreateOrUpdate(props: Props) {
             }}
             helperText={errors.price && 'Incorrect price! Only numbers'}
             sx={textFieldCss} />          
-        </Box>
-        <Box my={1}>
+        </InfoWapper>
+        <InfoWapper>
           <TextField
             {...register("description", { required: true, pattern: /^[A-Za-z0-9?.,=_@&!'\- ]+$/i }) }
             error={Boolean(errors.description)}
@@ -176,20 +209,27 @@ export default function ProductCreateOrUpdate(props: Props) {
             defaultValue={product ? product.description : ''}
             helperText={errors.description && 'Incorrect description! Accept special character only ?.,=-_@&!'}
             sx={textFieldCss} />       
-        </Box>
-        <Box my={1} marginLeft={1}>
+        </InfoWapper>
+        <InfoWapper margin={'20px 0 !important'}>
           <Categories 
             selectedCategoryId={categoryId}
             onCategoryChanged={onCategoryChanged}
             helpertext={'Please select a category'}
             register={{...register("categoryId", { required: true, min: 1, max: 99 }) }}
             error={Boolean(errors.categoryId)} />
-        </Box>
+        </InfoWapper>
+
+        <InfoWapper margin={'20px 5px !important'} display={'flex'} alignItems={'center'}>
+          Sizes: <SizeButtons onChange={handleSizeChanges}/>
+        </InfoWapper>
+        <TextField {...register("sizes", { required: true })} value={sizes} sx={{ display: 'none' }}/>
+        {errors.sizes && <FormHelperText sx={{ color: '#d32f2f', marginLeft: 2 }}>Choose one of sizes, at least one!</FormHelperText>}
+          
 
         { !product && 
-          <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'} my={1}>
+          <FileUploaderWrapper>
             <FileUploader onChange={onFileChange}/>
-          </Box> 
+          </FileUploaderWrapper> 
         }
 
         <UiRoundButton 
@@ -199,7 +239,7 @@ export default function ProductCreateOrUpdate(props: Props) {
           margin={'30px 0'}>
             Submit
         </UiRoundButton>
-      </Box>
+      </FormContainer>
 
       <LoadingBackdrop loading={loading} />
       { error && <h1>Error: {error} </h1>}

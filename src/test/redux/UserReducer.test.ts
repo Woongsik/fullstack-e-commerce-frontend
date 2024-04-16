@@ -21,8 +21,8 @@
 // }
 
 // export const userToken: UserToken = {
-//   access_token: 'access_token',
-//   refresh_token: 'refresh_token'
+//   accessToken: 'accessToken',
+//   refreshToken: 'refreshToken'
 // }
 
 // describe("User reducer: register user", () => {

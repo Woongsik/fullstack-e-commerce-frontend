@@ -46,7 +46,6 @@ export default function SizeButtons(props: Props) {
       }
     }
 
-    console.log(previousSizes)
     props.onChange(previousSizes);
   }
 

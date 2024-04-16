@@ -29,7 +29,7 @@
 //   http.get('https://api.escuelajs.co/api/v1/auth/profile', async ({ request }) => { 
 //     // Check token is saved in localStroage
 //     const savedTokens: UserToken | null = userSlicerUtil.getTokensToLocalStorage();
-//     if (savedTokens && savedTokens.access_token) {
+//     if (savedTokens && savedTokens.accessToken) {
 //       // User info is passed correctly
 //       return HttpResponse.json(registeredInfo, { status: 200 }); 
 //     }

@@ -6,6 +6,7 @@ import Category from '../misc/types/Category';
 import { LoggedUserInfo, LoginInfo, RegisterUserInfo, User, UserToken } from '../misc/types/User';
 import { UploadedImage } from '../misc/types/UploadedImage';
 import { GoogleLoginResult } from '../components/ui/googleLogin/GoogleLogin';
+import { userSlicerUtil } from '../redux/utils/UserSlicerUtil';
 
 // TODO put it to env
 const REACT_APP_BASE_URL = 'http://localhost:8080';
@@ -16,6 +17,14 @@ class ApiService {
   
   private generateUrl = (fragment: string) => {
     return `${this.baseURL}/${fragment}`;
+  }
+
+  private getAccessToken = (): string => {
+    const tokens: UserToken | null = userSlicerUtil.getTokensToLocalStorage();
+    if (tokens && tokens.accessToken) {
+      return tokens.accessToken;
+    }
+    return '';
   }
 
   public async request<T>(method: string, url: string, data?: any, headers?: any): Promise<T> {
@@ -47,7 +56,9 @@ class ApiService {
           method: method,
           url: url,
           data: data,
-          headers: headers
+          headers: {
+            Authorization : `Bearer ${this.getAccessToken()}`
+          }
         });
         
         return response.data;
@@ -134,16 +145,9 @@ class ApiService {
     return this.request<LoggedUserInfo>('post', url, loginInfo);
   }
 
-  public getUserWithSession(tokens: UserToken): Promise<User> {
-    const url: string = this.generateUrl("users/profile");
-    const headers = {
-      Authorization : `Bearer ${tokens?.access_token ?? ''}`
-    }
-    
-    if (tokens) {
-      return this.request<User>('GET', url, undefined, headers);
-    }
-    return Promise.reject(new Error('User session is not valid'));
+  public getUserWithSession(): Promise<User> {
+    const url: string = this.generateUrl("users/session");
+    return this.request<User>('GET', url);
   }
 
   public fetchProductImages(formData: FormData): Promise<UploadedImage> {
@@ -170,8 +174,8 @@ class ApiService {
     return this.request('DELETE', url);
   }
 
-  public loginWithGoogle(url: string, access_token: string): Promise<GoogleLoginResult> {
-    const googleUrl: string = `${url}=${access_token}`;
+  public loginWithGoogle(url: string, accessToken: string): Promise<GoogleLoginResult> {
+    const googleUrl: string = `${url}=${accessToken}`;
     return this.request('get', googleUrl);
   }
 }

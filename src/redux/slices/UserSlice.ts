@@ -37,9 +37,9 @@ export const loginUser = createAsyncThunk(
 
 export const getUserWithSession = createAsyncThunk(
   "getUserWithSession",
-  async (tokens: UserToken, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
-      return apiService.getUserWithSession(tokens);
+      return apiService.getUserWithSession();
     } catch (e) {
       return rejectWithValue(e);
     }

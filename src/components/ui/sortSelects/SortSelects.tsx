@@ -6,11 +6,7 @@ import { AppState, useAppDispatch } from '../../../redux/store';
 import { SortCreated } from '../../../misc/types/Sort';
 
 export default function SortSelects() {
-  const dispatch = useAppDispatch();
-  
   const filter = useSelector((state: AppState) => state.productReducer.filter);
-  console.log('sort', filter);
-
   const selectedSortType: SortCreated = SortCreated.ASC;
   const items: { key: string }[] = Object.keys(SortCreated)
     .map((key: string) => ({ key: key }));

@@ -50,16 +50,11 @@ export default function Login() {
   };
 
   const onSubmit: SubmitHandler<RegisterUserInfo> = async (data: RegisterUserInfo) => {
-    
-    console.log('submit', data);
-
     if (pageMode === PageMode.LOGIN) {
-      const response = await dispatch(loginUser({
+      await dispatch(loginUser({
         email: data.email,
         password: data.password
       }));
-
-      console.log('response', response.payload as LoggedUserInfo);
     } else {
       const response = await dispatch(registerUser({
         firstname: data.firstname,

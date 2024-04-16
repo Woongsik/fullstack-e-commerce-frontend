@@ -17,7 +17,7 @@ export type Product = ProductBase & {
 }
 
 export type ProductInfo = ProductBase & {
-  categoryId: string;
+  categoryId: string; // For backend ref
 }
 
 export type ProductUpdate = {
