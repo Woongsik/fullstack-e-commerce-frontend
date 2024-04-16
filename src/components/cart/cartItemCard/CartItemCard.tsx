@@ -1,6 +1,6 @@
 import { ReactNode, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Box, ButtonGroup, Chip, Divider, Typography, styled } from '@mui/material';
+import { Box, ButtonGroup, Divider, Typography, styled } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
@@ -31,6 +31,28 @@ const TitleComponent = styled(Typography)({
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   display: 'block'
+});
+
+const CartItemContainer = styled(Box)({
+  display: 'flex',
+  margin: '10px 0',
+  width: '100%',
+  minHeight: '130px'
+});
+
+const CartItemWrapper = styled(Box)({
+  marginLeft: '20px',
+  width: '65%',
+  display: 'flex',
+  flexWrap: 'wrap',
+  alignContent: 'space-between'
+});
+
+const SizeContainer = styled(Typography)({
+  fontSize: '12px',
+  margin: '5px 0',
+  border: '1px solid gray', 
+  padding: '5px 10px'
 });
 
 export default function CartItemCard(props: Props) {
@@ -102,7 +124,7 @@ export default function CartItemCard(props: Props) {
   return (
     <>
     {showDivider && <Divider sx={{ borderColor: isThemeLight ? 'white' : ''}}/>}
-    <Box display={'flex'} my={1} width={'100%'} minHeight={130} sx={{ color: isThemeLight ? 'white' : 'black'}}>
+    <CartItemContainer sx={{ color: isThemeLight ? 'white' : 'black'}}>
       <Box width={130}>
         <Link to={`/product/${item._id}`}>
         {(item.images && item.images[0]) ?
@@ -112,8 +134,7 @@ export default function CartItemCard(props: Props) {
         : <UiNoImage />}
         </Link>
       </Box>
-      <Box component={'div'} marginLeft={2} width={'65%'}
-            display={'flex'} flexWrap={'wrap'} alignContent={'space-between'}>
+      <CartItemWrapper component={'div'}>
         <Box width={'100%'}>
           <Link to={`/product/${item._id}`} style={{ textDecoration: 'none'}}>
             <TitleComponent fontSize={18} color={isThemeLight ? 'white' : 'black'}>
@@ -134,9 +155,9 @@ export default function CartItemCard(props: Props) {
         </Box>
 
         <Box>
-          <Typography 
-            fontSize={12}
-            sx={{ border: '1px solid gray', padding: '5px 10px' }}>{size}</Typography>
+          <SizeContainer>
+              {size}
+          </SizeContainer>
         </Box>
 
         <Box display={'flex'} justifyContent={'space-between'} width={'100%'} alignItems={'center'}>
@@ -175,14 +196,14 @@ export default function CartItemCard(props: Props) {
             </a>
           </ButtonGroup>
         </Box>
-      </Box>
+      </CartItemWrapper>
 
       <UiSnackbar 
         show={showSnackBar}
         onClose={onSnackbarClose}
         message={snackBarMessage}
       />
-    </Box>
+    </CartItemContainer>
 
     <UiDialog 
       show={showDeleteDialog}

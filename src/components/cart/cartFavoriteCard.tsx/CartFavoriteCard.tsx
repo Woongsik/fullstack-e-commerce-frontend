@@ -94,7 +94,7 @@ export default function CartFavoriteCard(props: Props) {
         <Box display={'flex'} justifyContent={MUILayout.FLEX_END} width={'100%'} alignItems={'center'}>
           <ButtonGroup variant="text" aria-label="Basic button group">
             {isInCart() && 
-            <a title='Item in cart!'>
+            <a title='Item in the cart!'>
               <UiButton 
                 variant={MUIButtonVariant.TEXT}
                 size={MUISize.SMALL}
@@ -103,7 +103,7 @@ export default function CartFavoriteCard(props: Props) {
               <ShoppingCart sx={{ color: 'gray', cursor: 'not-allowed' }} />
               </UiButton>
             </a>}
-            <a title='Delete'>
+            <a title='Remove from favorites'>
               <UiButton 
                 variant={MUIButtonVariant.TEXT}
                 size={MUISize.SMALL}

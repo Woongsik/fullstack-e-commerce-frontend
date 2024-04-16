@@ -7,9 +7,10 @@ import UiImage from '../../ui/image/UiImage';
 import UiNoImage from '../../ui/image/UiNoImage';
 import { Product } from '../../../misc/types/Product';
 import { useTheme } from '../../contextAPI/ThemeContext';
-import { Size, SizeColor, SizeLabel } from '../../../misc/types/Size';
+import { Size } from '../../../misc/types/Size';
 import { MUILayout } from '../../../misc/types/MUI';
 import CenteredContainer from '../../ui/layout/CenteredContainer';
+import { convertDateToString } from '../../../misc/utils/DateUtil';
 
 type Props = {
   product: Product
@@ -59,10 +60,21 @@ const ProductDetailIndicator = styled('div')({
   color: 'black'
 });
 
-const ProductCateogryTitle = styled(Box)({
+const ProductCateogryTitleWrapper = styled(Box)({
   minWidth: '10%',
   maxWidth: '90%'
 });
+
+const SizeContainer = styled(Typography)({
+  fontSize: '12px',
+  border: '1px solid gray', 
+  padding: '2px 5px'
+});
+
+const ProductDate = styled(Typography)({
+  fontSize: '12px',
+  color: 'gray'
+})
 
 export default function ProductCard(props: Props) {
   const { product } = props;
@@ -92,7 +104,7 @@ export default function ProductCard(props: Props) {
     )
   }
 
-  const handleHover = (hover: boolean) => {
+  const handleHover = (hover: boolean): void => {
     setHovered(hover);
   }
 
@@ -100,6 +112,10 @@ export default function ProductCard(props: Props) {
     opacity: 0.7, 
     height: '130%',
     width: '130%'
+  }
+
+  const convertedDate = (): string => {
+    return convertDateToString(product.createdAt);
   }
 
   return (
@@ -122,19 +138,26 @@ export default function ProductCard(props: Props) {
           <Box>
             {productInfoTitle(product.title)}
             <CenteredContainer justifyContent={MUILayout.SPACE_BETWEEN} width={'100%'}>
-              <ProductCateogryTitle>{productInfoText(product.category.title, 'gray', true)}</ProductCateogryTitle>
+              
               <Box display={'flex'}>
                 {product.sizes.map((size: Size, index: number) => 
-                  <Chip
+                  <SizeContainer 
                     key={size}
-                    label={SizeLabel[size]} 
-                    color={SizeColor[size]}
-                    variant='outlined'
-                    sx={{ marginRight: (index !== product.sizes.length - 1) ? 1 : 0 }} />)}
+                    sx={{ marginRight: (index !== product.sizes.length - 1) ? 1 : 0,
+                      color: isThemeLight ? 'white' : 'black' 
+                    }}>
+                    {size}
+                  </SizeContainer>
+                )}
               </Box>
+              <ProductCateogryTitleWrapper>
+                {productInfoText(product.category.title, 'gray', true)}
+              </ProductCateogryTitleWrapper>
             </CenteredContainer>
-            {productInfoText(`€ ${product.price}`)}
-            {productInfoText(`€ ${product.createdAt}`)}
+            <CenteredContainer justifyContent={MUILayout.SPACE_BETWEEN} width={'100%'}>
+              {productInfoText(`€ ${product.price}`)}
+              <ProductDate>{convertedDate()}</ProductDate>
+            </CenteredContainer>
           </Box>
         </Box>
       </ProductCardLink>
