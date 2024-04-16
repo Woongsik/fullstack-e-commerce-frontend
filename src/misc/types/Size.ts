@@ -16,5 +16,5 @@ export enum SizeLabel {
   S = 'Small',
   M = 'Medium',
   L = 'Large',
-  OneSize = 'One'
+  OneSize = 'OneSize'
 }

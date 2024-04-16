@@ -59,13 +59,16 @@ export default function ProductCreateOrUpdate(props: Props) {
   const { product } = props;
   const { isThemeLight } = useTheme();
   const baseCategoryId: string = product ? product.category._id : '';
+  const baseSizes: Size[] = product ? product.sizes : [];
+  console.log('baseSize', baseSizes);
+
   const { loading, error } = useSelector((state: AppState) => state.productReducer);
   const { register, handleSubmit, setValue, clearErrors, formState: { errors } } = useForm<Inputs>();
   
   const [categoryId, setCategoryId] = useState<string>(baseCategoryId);
+  const [sizes, setSizes] = useState<Size[]>(baseSizes);
   const [images, setImages] = useState<File[]>([]);
-  const [sizes, setSizes] = useState<Size[]>([]);
-
+  
   const textFieldCss = {
     '&.MuiFormControl-root > *, &.MuiFormControl-root > .MuiInputBase-root > .MuiOutlinedInput-notchedOutline': {
       color: isThemeLight ? 'white' : '',
@@ -87,7 +90,7 @@ export default function ProductCreateOrUpdate(props: Props) {
       description: data.description,
       categoryId: data.categoryId,
       images: uploadedImages,
-      sizes: data.sizes
+      sizes: sizes
     }));
 
     const newProduct: Product = result.payload as Product;
@@ -113,12 +116,14 @@ export default function ProductCreateOrUpdate(props: Props) {
   }
 
   const updateProductInfo = async (data: Inputs) => {
+    console.log('updated', data);
+
     const productUpdateInfo: Partial<ProductInfo> = {
       title: data.title,
       price: data.price,
       description: data.description,
       categoryId: data.categoryId,
-      sizes: data.sizes
+      sizes: sizes // if we get it from data.sizes, it will be converted as string. Use array from useState
     }
 
     if (product) {
@@ -170,9 +175,7 @@ export default function ProductCreateOrUpdate(props: Props) {
       sx={{ minWidth: '300px', color: isThemeLight ? 'white': 'black' }}>
       <FormContainer component="form"
         onSubmit={handleSubmit(onSubmit)}>
-
         <h1>{product ? `Edit Product` : `Create Product`}</h1>
-        
         <InfoWapper>
           <TextField
             {...register("title", { required: true, pattern: /^[A-Za-z0-9?.,=_@&\- ]+$/i }) }
@@ -190,7 +193,7 @@ export default function ProductCreateOrUpdate(props: Props) {
             error={Boolean(errors.price)}
             type="number"
             label="Product price"
-            defaultValue={product ? product.price : 0}
+            defaultValue={product ? product.price : undefined}
             InputProps={{
               inputProps: { 
                 min: 0 
@@ -210,7 +213,7 @@ export default function ProductCreateOrUpdate(props: Props) {
             helperText={errors.description && 'Incorrect description! Accept special character only ?.,=-_@&!'}
             sx={textFieldCss} />       
         </InfoWapper>
-        <InfoWapper margin={'20px 0 !important'}>
+        <InfoWapper margin={'20px -8px 20px 8px !important'}>
           <Categories 
             selectedCategoryId={categoryId}
             onCategoryChanged={onCategoryChanged}
@@ -220,12 +223,16 @@ export default function ProductCreateOrUpdate(props: Props) {
         </InfoWapper>
 
         <InfoWapper margin={'20px 5px !important'} display={'flex'} alignItems={'center'}>
-          Sizes: <SizeButtons onChange={handleSizeChanges}/>
+          Sizes: <SizeButtons 
+            selectedValues={product ? product.sizes : []}
+            onChange={handleSizeChanges}/>
         </InfoWapper>
-        <TextField {...register("sizes", { required: true })} value={sizes} sx={{ display: 'none' }}/>
+        <TextField 
+          {...register("sizes", { required: true })} 
+          value={sizes}
+          sx={{ display: 'none' }}/>
         {errors.sizes && <FormHelperText sx={{ color: '#d32f2f', marginLeft: 2 }}>Choose one of sizes, at least one!</FormHelperText>}
           
-
         { !product && 
           <FileUploaderWrapper>
             <FileUploader onChange={onFileChange}/>

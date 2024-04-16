@@ -26,7 +26,8 @@ import { useUserSession } from '../../hooks/useUserSession';
 import { Filter } from '../../misc/types/Filter';
 import { useTheme } from '../../components/contextAPI/ThemeContext';
 import UiSnackbar from '../../components/ui/snackbar/UiSnackbar';
-import { Size } from '../../misc/types/Size';
+import { Size, SizeLabel } from '../../misc/types/Size';
+import SizeButtons from '../../components/ui/button/SizeButtons/SizeButtons';
 
 const UiButtonGroup = styled(Box)({
   display: 'inline-grid',
@@ -180,6 +181,10 @@ export default function ProudctDetail() {
     return (<span>Remove <span style={{ fontWeight: 'bold'}}>{title}</span> permanantly? You cannot make it back...</span>);
   }
 
+  const handleSizeChanges = (sizes: Size[]) => {
+    console.log('handle', sizes)
+  }
+
   return (
     <GridContainer alignItems={MUILayout.FLEX_START}>
       <Box width={'100%'}>
@@ -248,7 +253,12 @@ export default function ProudctDetail() {
                 </DetailInfoText>
 
                 <Box my={2}>
-                  {product.sizes.map((size: Size) => <Chip key={size} label={size} sx={{ marginRight: 1 }} />)}
+                  <SizeButtons 
+                    items={product.sizes.map((size: Size) => SizeLabel[size])}
+                    selectedValues={[]}
+                    multiple={false}
+                    justifyContent={MUILayout.FLEX_START}
+                    onChange={handleSizeChanges}/>
                 </Box>
                 
                 <DetailInfoText variant='h5' my={2}>

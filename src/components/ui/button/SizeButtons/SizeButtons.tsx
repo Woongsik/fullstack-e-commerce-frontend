@@ -2,13 +2,19 @@ import { ButtonGroup, Button } from '@mui/material'
 import { useState } from 'react'
 import { Size } from '../../../../misc/types/Size'
 import CenteredContainer from '../../layout/CenteredContainer';
+import { MUILayout } from '../../../../misc/types/MUI';
 
 type Props = {
-  onChange: (sizes: Size[]) => void
+  items?: string[];
+  selectedValues?: Size[];
+  multiple?: boolean;
+  justifyContent?: MUILayout;
+  onChange: (sizes: Size[]) => void;
 }
 
 export default function SizeButtons(props: Props) {
-  const [sizes, setSizes] = useState<Size[]>([]);
+  const { selectedValues = [], items = Object.keys(Size), multiple = true, justifyContent = MUILayout.CENTER } = props;
+  const [sizes, setSizes] = useState<Size[]>(selectedValues);
 
   const isSelected = (key: string): boolean => {
     // @ts-ignore
@@ -19,6 +25,13 @@ export default function SizeButtons(props: Props) {
     let previousSizes: Size[] = [...sizes];
     // @ts-ignore
     const index: number = sizes.indexOf(Size[key]);
+
+    if (!multiple) {
+      // @ts-ignore
+      previousSizes = [Size[key]];
+      setSizes(previousSizes);
+      return props.onChange(previousSizes);
+    }
 
     if (key === Size.OneSize) {
       // If onesize, then remove all the sizes
@@ -54,21 +67,26 @@ export default function SizeButtons(props: Props) {
   }
 
   return (
-    <CenteredContainer width={'100%'}>
+    <CenteredContainer width={'100%'} justifyContent={justifyContent}>
       <ButtonGroup aria-label="Size button group">
-        {Object.keys(Size).map((key: string) => 
-            (key !== Size.OneSize && <Button 
+        {items.map((key: string) => 
+          (key !== Size.OneSize && 
+            <Button 
               key={key}
               variant={checkVariant(key)} 
-              onClick={() => handleClick(key)}>{key}</Button>
-            )
+              onClick={() => handleClick(key)}>
+              {key}
+            </Button>
+          )
         )}
       </ButtonGroup>
-      <ButtonGroup aria-label="One Size button group" sx={{ marginLeft: 2 }}>
+    {items.indexOf(Size.OneSize) > -1 && 
+      <ButtonGroup aria-label="One Size button group" sx={{ marginLeft: items.length === 1 ? 0 : 2 }}>
         <Button 
           variant={checkVariant(Size.OneSize)} 
           onClick={() => handleClick(Size.OneSize)}>{Size.OneSize}</Button>
       </ButtonGroup>
+    }
     </CenteredContainer>
   )
 }
