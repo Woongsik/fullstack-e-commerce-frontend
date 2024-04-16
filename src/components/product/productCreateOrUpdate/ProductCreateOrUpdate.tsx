@@ -18,6 +18,7 @@ import { UploadedImage } from '../../../misc/types/UploadedImage';
 import { useTheme } from '../../contextAPI/ThemeContext';
 import { Size } from '../../../misc/types/Size';
 import SizeButtons from '../../ui/button/SizeButtons/SizeButtons';
+import HelperText from '../../ui/helperText/HelperText';
 
 type Inputs = {
   title: string,
@@ -231,7 +232,7 @@ export default function ProductCreateOrUpdate(props: Props) {
           {...register("sizes", { required: true })} 
           value={sizes}
           sx={{ display: 'none' }}/>
-        {errors.sizes && <FormHelperText sx={{ color: '#d32f2f', marginLeft: 2 }}>Choose one of sizes, at least one!</FormHelperText>}
+          <HelperText show={Boolean(errors.sizes)} text={'Choose one of sizes, at least one!'} margin={'0 0 0 20px'} />
           
         { !product && 
           <FileUploaderWrapper>

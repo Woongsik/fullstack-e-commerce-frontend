@@ -1,6 +1,6 @@
 import { ReactNode, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Box, ButtonGroup, Divider, Typography } from '@mui/material';
+import { Box, ButtonGroup, Chip, Divider, Typography, styled } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
@@ -15,22 +15,30 @@ import UiNoImage from '../../ui/image/UiNoImage';
 import { AppState, useAppDispatch } from '../../../redux/store';
 import { addToFavorites, removeFromCart, removeFromFavorites, updateQuantityInCart } from '../../../redux/slices/CartSlice';
 import { MUIButtonVariant, MUIColor, MUILayout, MUISize } from '../../../misc/types/MUI';
-import CartItem from '../../../misc/types/CartItem';
+import { CartItem, CartItemBase } from '../../../misc/types/CartItem';
 import { Product } from '../../../misc/types/Product';
 import { useTheme } from '../../contextAPI/ThemeContext';
 import UiSnackbar from '../../ui/snackbar/UiSnackbar';
+import { SizeColor, SizeLabel } from '../../../misc/types/Size';
 
 type Props = {
   cartItem: CartItem;
   showDivider: boolean;
 }
 
+const TitleComponent = styled(Typography)({
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  display: 'block'
+});
+
 export default function CartItemCard(props: Props) {
   const dispatch = useAppDispatch();
   const [showDeleteDialog, setShowDeleteDialog] = useState<boolean>(false);
   const [showSnackBar, setShowSnackBar] = useState<boolean>(false);
   const [snackBarMessage, setSnackBarMessage] = useState<string>('');
-  const { item, quantity } = props.cartItem;
+  const { item, quantity, size } = props.cartItem;
   const { showDivider } = props;
   const { isThemeLight } = useTheme();
   const { cartFavorites } = useSelector((state: AppState) => state.cartReducer);
@@ -66,7 +74,7 @@ export default function CartItemCard(props: Props) {
   );
 
   const isFavorited = (): boolean => {
-    return cartFavorites.some((favorite: CartItem) => favorite.item._id === item._id);
+    return cartFavorites.some((favorite: CartItemBase) => favorite.item._id === item._id);
   }
 
   const onSnackbarClose = (event: React.SyntheticEvent | Event, reason?: string) => {
@@ -93,7 +101,7 @@ export default function CartItemCard(props: Props) {
 
   return (
     <>
-    {showDivider && <Divider sx={{ borderColor: isThemeLight ? 'white' : 'black'}}/>}
+    {showDivider && <Divider sx={{ borderColor: isThemeLight ? 'white' : ''}}/>}
     <Box display={'flex'} my={1} width={'100%'} minHeight={130} sx={{ color: isThemeLight ? 'white' : 'black'}}>
       <Box width={130}>
         <Link to={`/product/${item._id}`}>
@@ -108,9 +116,9 @@ export default function CartItemCard(props: Props) {
             display={'flex'} flexWrap={'wrap'} alignContent={'space-between'}>
         <Box width={'100%'}>
           <Link to={`/product/${item._id}`} style={{ textDecoration: 'none'}}>
-            <Typography fontSize={18} color={isThemeLight ? 'white' : 'black'}>
+            <TitleComponent fontSize={18} color={isThemeLight ? 'white' : 'black'}>
               {item.title}
-            </Typography>
+            </TitleComponent>
           </Link>
           <Typography fontSize={15} sx={{ color: 'gray'}}>
             {item.category.title}
@@ -124,9 +132,16 @@ export default function CartItemCard(props: Props) {
             </Typography>
           </CenteredContainer>
         </Box>
+
+        <Box>
+          <Typography 
+            fontSize={12}
+            sx={{ border: '1px solid gray', padding: '5px 10px' }}>{size}</Typography>
+        </Box>
+
         <Box display={'flex'} justifyContent={'space-between'} width={'100%'} alignItems={'center'}>
           <Box display={'flex'} alignItems={'center'}>
-            Quantity:
+            <Box sx={{ marginRight: 2 }}>Quantity:</Box>
             <UiFormSelects 
               items={quantityItems}  
               displayKey={'key'} 
@@ -137,23 +152,27 @@ export default function CartItemCard(props: Props) {
           </Box>
 
           <ButtonGroup variant="text" aria-label="Basic button group">
-            <UiButton 
-              variant={MUIButtonVariant.TEXT}
-              size={MUISize.SMALL}
-              color={MUIColor.PRIMARY}
-              onClick={toggleFavorite}>
-              {isFavorited() ? 
-              <FavoriteIcon sx={{ color: 'red' }} />
-              : <FavoriteBorderIcon sx={{ color: isFavorited() ? 'red': (isThemeLight ? 'white' : 'black') }} />
-              }
-            </UiButton>
-            <UiButton 
-              variant={MUIButtonVariant.TEXT}
-              size={MUISize.SMALL}
-              color={MUIColor.PRIMARY}
-              onClick={handleDeleteItem}>
-              <DeleteOutlineIcon sx={{ color: (isThemeLight ? 'white' : 'black') }} />
-            </UiButton>
+            <a title={isFavorited() ? 'Remove from favorites' : 'Add to favorites' }>
+              <UiButton 
+                variant={MUIButtonVariant.TEXT}
+                size={MUISize.SMALL}
+                color={MUIColor.PRIMARY}
+                onClick={toggleFavorite}>
+                {isFavorited() ? 
+                <FavoriteIcon sx={{ color: 'red' }} />
+                : <FavoriteBorderIcon sx={{ color: isFavorited() ? 'red': (isThemeLight ? 'white' : 'black') }} />
+                }
+              </UiButton>
+            </a>
+            <a title='Remove from Cart'>
+              <UiButton 
+                variant={MUIButtonVariant.TEXT}
+                size={MUISize.SMALL}
+                color={MUIColor.PRIMARY}
+                onClick={handleDeleteItem}>
+                <DeleteOutlineIcon sx={{ color: (isThemeLight ? 'white' : 'black') }} />
+              </UiButton>
+            </a>
           </ButtonGroup>
         </Box>
       </Box>

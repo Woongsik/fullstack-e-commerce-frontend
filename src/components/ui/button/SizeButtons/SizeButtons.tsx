@@ -27,8 +27,13 @@ export default function SizeButtons(props: Props) {
     const index: number = sizes.indexOf(Size[key]);
 
     if (!multiple) {
-      // @ts-ignore
-      previousSizes = [Size[key]];
+      if (index > -1) {
+        previousSizes = [];
+      } else {
+        // @ts-ignore
+        previousSizes = [Size[key]];
+      }
+
       setSizes(previousSizes);
       return props.onChange(previousSizes);
     }

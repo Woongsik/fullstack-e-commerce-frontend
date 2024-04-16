@@ -1,4 +1,4 @@
-import CartItem from '../../../misc/types/CartItem'
+import { CartItem } from '../../../misc/types/CartItem'
 import { Box, Divider, Input, Typography, styled } from '@mui/material'
 import { MUIButtonVariant } from '../../../misc/types/MUI'
 import UiRoundButton from '../../ui/button/UiRoundButton'
@@ -22,6 +22,13 @@ export default function CartSummary(props: Props) {
   const ThemeDivider = styled(Divider)({
     borderColor: isThemeLight ? 'white' : 'black'
   });
+  
+  const textFieldCss = {
+    '&.MuiFormControl-root > *': {
+      color: isThemeLight ? 'white': '',
+      borderColor: isThemeLight ? 'black': '',
+    }
+  };
 
   const SummaryItem = styled(Box)({
     marginTop: '15px',
@@ -47,9 +54,9 @@ export default function CartSummary(props: Props) {
         <Box>Do you have a promo code? </Box> 
         <Box>
           <Input fullWidth sx={{
-            color: isThemeLight ? 'white' : 'black',
+            color: isThemeLight ? 'white' : '',
             '&.MuiInputBase-root': {
-              borderBottom: isThemeLight ? '1px solid white': '1px solid black'
+              borderBottom: isThemeLight ? '1px solid white': ''
             }
           }}/>
         </Box>

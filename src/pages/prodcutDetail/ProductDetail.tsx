@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Box, Typography, Divider, IconButton, Breadcrumbs, Link as MUILink, styled, Chip } from '@mui/material';
+import { Box, Typography, Divider, IconButton, Breadcrumbs, Link as MUILink, styled, Chip, FormHelperText } from '@mui/material';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
@@ -20,7 +20,7 @@ import { deleteProduct, fetchProduct, updateFilter } from '../../redux/slices/Pr
 import { addToCart, addToFavorites } from '../../redux/slices/CartSlice';
 import { MUIButtonVariant, MUIColor, MUILayout } from '../../misc/types/MUI';
 import { User, UserRole } from '../../misc/types/User';
-import CartItem from '../../misc/types/CartItem';
+import { CartItem, CartItemBase } from '../../misc/types/CartItem';
 import CartSliceUtil from '../../redux/utils/CartSliceUtil';
 import { useUserSession } from '../../hooks/useUserSession';
 import { Filter } from '../../misc/types/Filter';
@@ -28,6 +28,7 @@ import { useTheme } from '../../components/contextAPI/ThemeContext';
 import UiSnackbar from '../../components/ui/snackbar/UiSnackbar';
 import { Size, SizeLabel } from '../../misc/types/Size';
 import SizeButtons from '../../components/ui/button/SizeButtons/SizeButtons';
+import HelperText from '../../components/ui/helperText/HelperText';
 
 const UiButtonGroup = styled(Box)({
   display: 'inline-grid',
@@ -76,6 +77,8 @@ export default function ProudctDetail() {
   const { product, filter, loading, error }= useSelector((state: AppState) => state.productReducer);
   const user: User | null = useSelector((state: AppState) => state.userReducer.user);
   const { cartItems, cartFavorites } = useSelector((state: AppState) => state.cartReducer); 
+  const [size, setSize] = useState<Size | undefined>(undefined);
+  const [showSizeError, setShowSizeError] = useState<boolean>(false);
 
   const DetailInfoText = styled(Typography)({
     color: isThemeLight ? 'white': 'black'
@@ -87,9 +90,14 @@ export default function ProudctDetail() {
   }
 
   const handleAddToCart = async () => {
-    if (product) {
+    if (!size) {
+      return setShowSizeError(true);
+    }
+
+    if (product && size) {
       const cartItem: CartItem = {
         item: product,
+        size: size,
         quantity: 1
       };
 
@@ -105,14 +113,14 @@ export default function ProudctDetail() {
 
   const handleAddToFavorites = () => {
     if (product) {
-      const cartItem: CartItem = {
+      const favoriteItem: CartItemBase = {
         item: product,
         quantity: 1
       };
 
       let message = `Already added to Favorites! (${product.title})`;
-      if (!CartSliceUtil.checkIfAlreadyAdded(cartFavorites, cartItem)) {
-        dispatch(addToFavorites(cartItem));
+      if (!CartSliceUtil.checkIfAlreadyAddedInFavorite(cartFavorites, favoriteItem)) {
+        dispatch(addToFavorites(favoriteItem));
         message = `Added to Favorites! (${product.title})`;
       } 
 
@@ -182,7 +190,10 @@ export default function ProudctDetail() {
   }
 
   const handleSizeChanges = (sizes: Size[]) => {
-    console.log('handle', sizes)
+    if (sizes && sizes.length > 0) {
+      setSize(sizes[0]);
+      setShowSizeError(false);
+    } 
   }
 
   return (
@@ -259,6 +270,8 @@ export default function ProudctDetail() {
                     multiple={false}
                     justifyContent={MUILayout.FLEX_START}
                     onChange={handleSizeChanges}/>
+
+                  <HelperText show={showSizeError} text={'Select one of sizes'} />
                 </Box>
                 
                 <DetailInfoText variant='h5' my={2}>

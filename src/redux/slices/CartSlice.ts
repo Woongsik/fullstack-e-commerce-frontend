@@ -1,10 +1,10 @@
 import { ActionReducerMapBuilder, PayloadAction, createSlice } from "@reduxjs/toolkit";
 import CartSliceUtil from "../utils/CartSliceUtil";
-import CartItem from "../../misc/types/CartItem";
+import { CartItem, CartItemBase } from "../../misc/types/CartItem";
 
 export type InitialState = {
   cartItems: CartItem[];
-  cartFavorites: CartItem[];
+  cartFavorites: CartItemBase[];
   error?: string;
 }
 
@@ -41,15 +41,15 @@ const cartSlice = createSlice({
     clearCart: (state) => {
       state.cartItems = [];
     },
-    addToFavorites: (state, actions: PayloadAction<CartItem>) => { 
-      const cartItem: CartItem = actions.payload;
-      if (!CartSliceUtil.checkIfAlreadyAdded(state.cartFavorites, cartItem)) {
+    addToFavorites: (state, actions: PayloadAction<CartItemBase>) => { 
+      const cartItem: CartItemBase = actions.payload;
+      if (!CartSliceUtil.checkIfAlreadyAddedInFavorite(state.cartFavorites, cartItem)) {
         state.cartFavorites.push(cartItem);
       };
     },
-    removeFromFavorites: (state, actions: PayloadAction<CartItem>) => { 
-      const cartItem: CartItem = actions.payload;      
-      const foundIndex: number = CartSliceUtil.findIndex(state.cartFavorites, cartItem);
+    removeFromFavorites: (state, actions: PayloadAction<CartItemBase>) => { 
+      const favorite: CartItemBase = actions.payload;      
+      const foundIndex: number = CartSliceUtil.findIndexInFavorite(state.cartFavorites, favorite);
       if (foundIndex > -1) {
         state.cartFavorites.splice(foundIndex, 1);
       }

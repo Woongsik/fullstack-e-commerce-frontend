@@ -31,10 +31,10 @@ export default function UiFormSelects(props: Props) {
         labelId="form-select-label"
         value={selectedValue?.toString()}
         label={title}
-        sx={{ color: isThemeLight ? 'white' : 'black',
+        sx={{ color: isThemeLight ? 'white' : '',
           '&.MuiInputBase-root > *': {
-            color: isThemeLight ? 'white' : 'black',
-            borderColor: isThemeLight ? 'white !important' : 'black'
+            color: isThemeLight ? 'white' : '',
+            borderColor: isThemeLight ? 'white !important' : ''
           }
         }}
         onChange={handleSelectChange}>

@@ -6,7 +6,7 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 
 import CartItemCard from '../../components/cart/cartItemCard/CartItemCard';
 import CartSummary from '../../components/cart/cartSummary/CartSummary';
-import CartItem from '../../misc/types/CartItem';
+import { CartItem, CartItemBase } from '../../misc/types/CartItem';
 import { AppState, useAppDispatch } from '../../redux/store';
 import { useUserSession } from '../../hooks/useUserSession';
 import GridContainer from '../../components/ui/layout/GridContainer';
@@ -61,7 +61,7 @@ export default function Cart() {
               <Divider sx={{ borderColor: isThemeLight ? 'white' : 'black' }}/>
               {cartItems.map((cartItem: CartItem, index: number) =>
                 <CartItemCard 
-                  key={cartItem.item._id} 
+                  key={`${cartItem.item._id}_${cartItem.size}`} 
                   cartItem={cartItem}
                   showDivider={index !== 0} />   
               )}
@@ -85,9 +85,9 @@ export default function Cart() {
             </Typography>
             <Divider sx={{ borderColor: isThemeLight ? 'white' : 'black' }}/>
             <Stack direction="row" spacing={2} overflow={'auto'} display={'-webkit-box'} padding={'10px 15px 10px 0'}>
-              {cartFavorites.map((cartItem: CartItem, index: number) =>
+              {cartFavorites.map((cartItem: CartItemBase, index: number) =>
               <CartFavoriteCard  
-                key={cartItem.item._id}
+                key={`${cartItem.item._id}`}
                 cartItem={cartItem}
                 onAddToCart={addToCartFromFavorite}
               />               

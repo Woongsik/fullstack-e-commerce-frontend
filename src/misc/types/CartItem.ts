@@ -1,8 +1,11 @@
 import { Product } from "./Product";
+import { Size } from "./Size";
 
-type CartItem = {
+export type CartItemBase = {
   item: Product;
   quantity: number;
 }
 
-export default CartItem;
+export type CartItem = CartItemBase & {
+  size: Size;
+}

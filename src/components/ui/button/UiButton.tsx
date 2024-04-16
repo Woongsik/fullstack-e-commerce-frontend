@@ -11,16 +11,18 @@ type Props = {
   customStyle?: Object;
   type?: MUIButtonType;
   children: ReactNode;
+  disabled?: boolean;
   onClick?: () => void 
 }
 
 export default function UiButton(props: Props) {
-  const { variant, size, color, fontSize, borderRadius, customStyle, type, children } = props;
+  const { variant, size, color, fontSize, borderRadius, customStyle, type, children, disabled = false } = props;
   
   return (
     <MUIButton
       disableRipple
       disableTouchRipple
+      disabled={disabled}
       variant={variant}
       size={size}
       color={color} 

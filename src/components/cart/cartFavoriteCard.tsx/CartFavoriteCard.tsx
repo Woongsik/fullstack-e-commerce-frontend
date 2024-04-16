@@ -12,13 +12,13 @@ import UiNoImage from '../../ui/image/UiNoImage';
 import { AppState, useAppDispatch } from '../../../redux/store';
 import { addToCart, removeFromFavorites } from '../../../redux/slices/CartSlice';
 import { MUIButtonVariant, MUIColor, MUILayout, MUISize } from '../../../misc/types/MUI';
-import CartItem from '../../../misc/types/CartItem';
+import { CartItem, CartItemBase } from '../../../misc/types/CartItem';
 import { Product } from '../../../misc/types/Product';
 import { useTheme } from '../../contextAPI/ThemeContext';
 import UiSnackbar from '../../ui/snackbar/UiSnackbar';
 
 type Props = {
-  cartItem: CartItem;
+  cartItem: CartItemBase;
   onAddToCart: () => void
 }
 
@@ -39,7 +39,7 @@ export default function CartFavoriteCard(props: Props) {
   const { cartItems } = useSelector((state: AppState) => state.cartReducer);
 
   const isInCart = (): boolean => {
-    return cartItems.some((cartItem: CartItem) => cartItem.item._id === item._id);
+    return cartItems.some((cartItem: CartItemBase) => cartItem.item._id === item._id);
   }
 
   const onSnackbarClose = (event: React.SyntheticEvent | Event, reason?: string) => {
@@ -49,19 +49,6 @@ export default function CartFavoriteCard(props: Props) {
 
     setShowSnackBar(false);
   };
-
-  const handleAddItem = () => {
-    let message = `Add to Cart! (${item.title})`;
-    if(!isInCart()) {
-      dispatch(addToCart(props.cartItem));
-      props.onAddToCart();
-    } else {
-      message = `Already added to Cart! (${item.title})`;
-    }
-
-    setSnackBarMessage(message);
-    setShowSnackBar(true);
-  }
 
   const handleDeleteItem = (): void => {
     setShowDeleteDialog(true);
@@ -106,17 +93,17 @@ export default function CartFavoriteCard(props: Props) {
         </Box>
         <Box display={'flex'} justifyContent={MUILayout.FLEX_END} width={'100%'} alignItems={'center'}>
           <ButtonGroup variant="text" aria-label="Basic button group">
-            <UiButton 
+            {isInCart() && 
+            <a title='Item in cart!'>
+              <UiButton 
                 variant={MUIButtonVariant.TEXT}
                 size={MUISize.SMALL}
                 color={MUIColor.PRIMARY}
-                onClick={handleAddItem}>
-                {isInCart() ? <ShoppingCart sx={{ color: 'red' }} />
-                :  <ShoppingCartCheckout sx={{ color: (isThemeLight ? 'white' : 'black') }} />
-              }
-                
+                disabled={true}>
+              <ShoppingCart sx={{ color: 'gray', cursor: 'not-allowed' }} />
               </UiButton>
-
+            </a>}
+            <a title='Delete'>
               <UiButton 
                 variant={MUIButtonVariant.TEXT}
                 size={MUISize.SMALL}
@@ -124,6 +111,7 @@ export default function CartFavoriteCard(props: Props) {
                 onClick={handleDeleteItem}>
                 <DeleteOutlineIcon sx={{ color: (isThemeLight ? 'white' : 'black') }} />
               </UiButton>
+            </a>
           </ButtonGroup>
         </Box>
       </Box>
