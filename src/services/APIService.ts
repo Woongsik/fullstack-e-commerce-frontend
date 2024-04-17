@@ -8,6 +8,7 @@ import { UploadedImage } from '../misc/types/UploadedImage';
 import { GoogleLoginResult } from '../components/ui/googleLogin/GoogleLogin';
 import { userSlicerUtil } from '../redux/utils/UserSlicerUtil';
 import { StripeSecret } from '../misc/types/StripeSecret';
+import { Order, OrderRegistesr } from '../misc/types/Order';
 
 // TODO put it to env
 const REACT_APP_BASE_URL = 'http://localhost:8080';
@@ -181,8 +182,13 @@ class ApiService {
   }
 
   public getStripeClient(): Promise<StripeSecret> {
-    const url: string = this.generateUrl(`orders/stripe`);
+    const url: string = this.generateUrl('orders/stripe');
     return this.request('POST', url, {});
+  }
+
+  public registerOrder(orderInfo: OrderRegistesr): Promise<Order> {
+    const url: string = this.generateUrl('orders');
+    return this.request('POST', url, orderInfo);
   }
 }
 

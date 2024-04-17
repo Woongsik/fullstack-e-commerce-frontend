@@ -18,7 +18,6 @@ import { useTheme } from '../../components/contextAPI/ThemeContext';
 import CartFavoriteCard from '../../components/cart/cartFavoriteCard.tsx/CartFavoriteCard';
 import UiDialog from '../../components/ui/dialog/UiDialog';
 import PaymentDialog from '../../components/ui/dialog/PaymentDialog';
-import { Address } from '../../misc/types/Address';
 
 export default function Cart() {
   const navigate = useNavigate();
@@ -29,7 +28,6 @@ export default function Cart() {
   
   const { cartItems, cartFavorites } = useSelector((state: AppState) => state.cartReducer);
   const { user } = useSelector((state: AppState) => state.userReducer);
-
   useUserSession();
 
   const dispatch = useAppDispatch();
@@ -59,14 +57,10 @@ export default function Cart() {
     }
   }
 
-  const handlePaymentClose = (paid: boolean, address?: Address) => {
-    console.log('payment close, paid', paid, address);
-
+  const handlePaymentClose = async (paid: boolean) => {
     if (paid) {
-      // save into db  
-
-      // setCheckedout(true);
-      // dispatch(clearCart());  
+      setCheckedout(true);
+      dispatch(clearCart());    
     }
     
     setShowPaymentDialog(false);
@@ -74,8 +68,7 @@ export default function Cart() {
 
   return (
     <GridContainer alignItems={checkedout ? MUILayout.CENTER : MUILayout.FLEX_START} sx={{ color: isThemeLight ? 'white' : 'black' }}>
-      {
-        checkedout ? 
+      { checkedout ? 
         <CenteredContainer width={'75%'}>
           <CenteredContainer>
             <LocalShippingIcon sx={{ fontSize: 60 }}/>

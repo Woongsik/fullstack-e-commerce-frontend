@@ -11,9 +11,13 @@ export type OrderItem = CartItem & {
   product: string; // product id
 }
 
-export type Order = {
-  items: OrderItem[],
+export type OrderRegistesr = {
+  items: OrderItem[];
+  totalPrice: number;
   shippingAddress: Address;
   payment: boolean;
+}
+
+export type Order = OrderRegistesr & {
   status: OrderStatus;
 }

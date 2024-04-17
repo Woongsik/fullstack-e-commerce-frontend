@@ -12,7 +12,7 @@ import { Address } from '../../../misc/types/Address';
 
 type Props = {
   pay: boolean;
-  onPaymentResult: (paid: boolean, address?: Address) => void
+  onPaymentResult: (paid: boolean, address: Address) => void
 }
 
 const TotalTitile = styled('h3')({
@@ -41,7 +41,9 @@ export default function PaymentCheckout(props: Props) {
   };
 
   useEffect(() => {
-    hiddenInput.current?.click();
+    if (pay) {
+      hiddenInput.current?.click();
+    }
   }, [pay]);
   
   const onSubmit: SubmitHandler<Address> = async (data: Address) => {
@@ -69,7 +71,6 @@ export default function PaymentCheckout(props: Props) {
         redirect: 'if_required'
       });
 
-      console.log('payment response', response);
       if (response.paymentIntent && response.paymentIntent.status === 'succeeded') {
         return true;
       } else if (response.error) {
