@@ -12,7 +12,7 @@ import CenteredContainer from '../../components/ui/layout/CenteredContainer';
 import UiCarousel from '../../components/ui/carousel/UiCarousel';
 import UiRoundButton from '../../components/ui/button/UiRoundButton';
 import UiButton from '../../components/ui/button/UiButton';
-import UiDialog from '../../components/ui/UiDialog';
+import UiDialog from '../../components/ui/dialog/UiDialog';
 import LoadingBackdrop from '../../components/ui/loading/LoadingBackdrop';
 import GridContainer from '../../components/ui/layout/GridContainer';
 import { AppState, useAppDispatch } from '../../redux/store';
@@ -317,7 +317,7 @@ export default function ProudctDetail() {
       title={dialogTitle(product?.title)}
       cancelTitle='Cancel'
       proceedTitle='Delete'
-      proceedColor='red'
+      proceedColor={MUIColor.ERROR}
       onClose={handleDelete}/>
 
     <LoadingBackdrop loading={loading} />

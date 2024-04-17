@@ -2,7 +2,7 @@ import React, { ChangeEvent, useRef, useState } from 'react';
 import { Box, IconButton } from '@mui/material';
 import AddAPhotoRounded from '@mui/icons-material/AddAPhotoRounded';
 
-import UiDialog from '../UiDialog';
+import UiDialog from '../dialog/UiDialog';
 import { MUIColor, MUISize } from '../../../misc/types/MUI';
 import UiThumb from '../image/UiThumb';
 
@@ -97,7 +97,7 @@ export default function FileUploader(props: Props) {
         title={<span>Remove the picutre <span style={{ fontWeight: 'bold'}}>{files[deleteApplicantIndex]?.name}</span>?</span>}
         cancelTitle='Cancel'
         proceedTitle='Remove'
-        proceedColor='red'
+        proceedColor={MUIColor.ERROR}
         onClose={proceedDelete} />
     </Box>
   )

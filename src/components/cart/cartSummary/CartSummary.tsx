@@ -3,6 +3,8 @@ import { Box, Divider, Input, Typography, styled } from '@mui/material'
 import { MUIButtonVariant } from '../../../misc/types/MUI'
 import UiRoundButton from '../../ui/button/UiRoundButton'
 import { useTheme } from '../../contextAPI/ThemeContext'
+import { useSelector } from 'react-redux'
+import { AppState } from '../../../redux/store'
 
 type Props = {
   cartItems: CartItem[],
@@ -11,13 +13,7 @@ type Props = {
 
 export default function CartSummary(props: Props) {
   const { isThemeLight } = useTheme();
-  const subTotal: number = props.cartItems.reduce((acc, cartItem) => {
-    acc += (cartItem.item.price * cartItem.quantity);
-    return acc;
-  }, 0);
-
-  const deliveryFee: number = subTotal > 0 ? 5 : 0;
-  const total: number = deliveryFee + subTotal;
+  const { total, deliveryFee } = useSelector((state: AppState) => state.cartReducer);
 
   const ThemeDivider = styled(Divider)({
     borderColor: isThemeLight ? 'white' : 'black'
@@ -62,7 +58,7 @@ export default function CartSummary(props: Props) {
         </Box>
       </SummaryPromo>
       <SummaryItem>
-        <Box>Sub total: </Box> <Box> € { subTotal }</Box>
+        <Box>Sub total: </Box> <Box> € { total > 0 ? (total - deliveryFee) : 0 }</Box>
       </SummaryItem>
       <SummaryItem>
         <Box>Esitmated delivery & handling: </Box> <Box> € {deliveryFee}</Box>

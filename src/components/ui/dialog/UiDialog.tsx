@@ -1,20 +1,23 @@
 import { 
   Dialog as MDialog, 
-  DialogTitle, DialogActions } from "@mui/material";
-import UiButton from './button/UiButton';
-import { MUIButtonVariant, MUIColor, MUISize } from '../../misc/types/MUI';
+  DialogTitle, 
+  DialogActions 
+} from "@mui/material";
+
+import UiButton from '../button/UiButton';
+import { MUIButtonVariant, MUIColor, MUISize } from '../../../misc/types/MUI';
 
 type Props = {
   show: boolean,
   title: string | any,
   cancelTitle: string;
   proceedTitle: string;
-  proceedColor: string;
+  proceedColor: MUIColor;
   onClose: (proceed: boolean) => void
 }
 
 export default function UiDialog(props: Props) {
-  const { show, title, cancelTitle, proceedTitle } = props;
+  const { show, title, cancelTitle, proceedTitle, proceedColor = MUIColor.ERROR } = props;
   return (
     <MDialog
         open={show}
@@ -36,7 +39,7 @@ export default function UiDialog(props: Props) {
           <UiButton 
             variant={MUIButtonVariant.CONTAINED}
             size={MUISize.SMALL}
-            color={MUIColor.ERROR}
+            color={proceedColor}
             fontSize={12}
             borderRadius={15}
             onClick={() => props.onClose(true)}>

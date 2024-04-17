@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Box, Divider, Stack, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 
 import CartItemCard from '../../components/cart/cartItemCard/CartItemCard';
@@ -16,22 +16,60 @@ import { clearCart } from '../../redux/slices/CartSlice';
 import UiButton from '../../components/ui/button/UiButton';
 import { useTheme } from '../../components/contextAPI/ThemeContext';
 import CartFavoriteCard from '../../components/cart/cartFavoriteCard.tsx/CartFavoriteCard';
+import UiDialog from '../../components/ui/dialog/UiDialog';
+import PaymentDialog from '../../components/ui/dialog/PaymentDialog';
+import { Address } from '../../misc/types/Address';
 
 export default function Cart() {
+  const navigate = useNavigate();
+
   const [checkedout, setCheckedout] = useState<boolean>(false);
+  const [showDialog, setShowDialog] = useState<boolean>(false);
+  const [showPaymentDialog, setShowPaymentDialog] = useState<boolean>(false);
+  
   const { cartItems, cartFavorites } = useSelector((state: AppState) => state.cartReducer);
+  const { user } = useSelector((state: AppState) => state.userReducer);
+
   useUserSession();
 
   const dispatch = useAppDispatch();
   const { isThemeLight } = useTheme();
 
   const handleCheckout = () => {
-    setCheckedout(true);
-    dispatch(clearCart());
+    if (cartItems && cartItems.length === 0) {
+      return alert('Select items first!');
+    }
+
+    if (user) {
+      setShowPaymentDialog(true);
+    } else {
+      setShowDialog(true);
+    }
   }
 
   const addToCartFromFavorite = () => {
     setCheckedout(false);
+  }
+
+  const handleDialogClose = (proceed: boolean) => {
+    setShowDialog(false);
+
+    if (proceed) {
+      navigate('/login');    
+    }
+  }
+
+  const handlePaymentClose = (paid: boolean, address?: Address) => {
+    console.log('payment close, paid', paid, address);
+
+    if (paid) {
+      // save into db  
+
+      // setCheckedout(true);
+      // dispatch(clearCart());  
+    }
+    
+    setShowPaymentDialog(false);
   }
 
   return (
@@ -97,6 +135,17 @@ export default function Cart() {
           </Box>
         </CenteredContainer>    
       </CenteredContainer>
+
+      <UiDialog 
+        show={showDialog}
+        onClose={handleDialogClose}
+        title={'You need Login to checkout! Login now?'}
+        cancelTitle='Cancel'
+        proceedTitle='Login'
+        proceedColor={MUIColor.PRIMARY} />
+
+      <PaymentDialog show={showPaymentDialog}
+        onClose={handlePaymentClose} />
     </GridContainer>
   )
 }

@@ -7,6 +7,7 @@ import { LoggedUserInfo, LoginInfo, RegisterUserInfo, User, UserToken } from '..
 import { UploadedImage } from '../misc/types/UploadedImage';
 import { GoogleLoginResult } from '../components/ui/googleLogin/GoogleLogin';
 import { userSlicerUtil } from '../redux/utils/UserSlicerUtil';
+import { StripeSecret } from '../misc/types/StripeSecret';
 
 // TODO put it to env
 const REACT_APP_BASE_URL = 'http://localhost:8080';
@@ -177,6 +178,11 @@ class ApiService {
   public loginWithGoogle(url: string, accessToken: string): Promise<GoogleLoginResult> {
     const googleUrl: string = `${url}=${accessToken}`;
     return this.request('get', googleUrl);
+  }
+
+  public getStripeClient(): Promise<StripeSecret> {
+    const url: string = this.generateUrl(`orders/stripe`);
+    return this.request('POST', url, {});
   }
 }
 

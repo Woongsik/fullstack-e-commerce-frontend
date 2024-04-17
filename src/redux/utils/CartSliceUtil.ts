@@ -18,10 +18,21 @@ const checkIfAlreadyAddedInFavorite = (favorites: CartItemBase[], item: CartItem
   return (findIndexInFavorite(favorites, item) > -1);
 }
 
+const calculateTotal = (cartItems: CartItem[], deliveryFee: number): number => {
+  if (cartItems && cartItems.length > 0) {
+    return cartItems.reduce((acc, cartItem) => {
+      acc += (cartItem.item.price * cartItem.quantity);
+      return acc;
+    }, deliveryFee);
+  }
+
+  return 0;
+}
 
 export default {
   checkIfAlreadyAdded,
   findIndex,
   findIndexInFavorite,
-  checkIfAlreadyAddedInFavorite
+  checkIfAlreadyAddedInFavorite,
+  calculateTotal
 }

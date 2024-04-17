@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import CenteredContainer from '../../ui/layout/CenteredContainer';
 import UiFormSelects from '../../ui/form/UiFormSelects';
 import UiButton from '../../ui/button/UiButton';
-import UiDialog from '../../ui/UiDialog';
+import UiDialog from '../../ui/dialog/UiDialog';
 import UiImage from '../../ui/image/UiImage';
 import UiNoImage from '../../ui/image/UiNoImage';
 import { AppState, useAppDispatch } from '../../../redux/store';
