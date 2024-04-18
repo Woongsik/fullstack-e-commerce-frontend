@@ -4,6 +4,7 @@ import { Box, Divider } from '@mui/material';
 import Orders from '../orders/Orders';
 import Account from '../account/Account';
 import AddCategory from '../add_category/AddCategory';
+import Password from '../password/Password';
 
 type Props = {
   selectedMenu: Menu
@@ -20,6 +21,7 @@ export default function ProfileContent(props: Props) {
       <Box my={1}>
         {selectedMenu === Menu.ORDER && <Orders />}
         {selectedMenu === Menu.ACCOUNT && <Account />}
+        {selectedMenu === Menu.PASSWORD && <Password />}
 
         {selectedMenu === Menu.ADD_CATEGORY && <AddCategory />}
       </Box>

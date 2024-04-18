@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { Box, Button, Chip, CircularProgress, List, ListItem, ListItemButton, ListItemIcon, ListItemText, TextField, Typography, styled } from '@mui/material';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Box, Button, Chip, CircularProgress, TextField, Typography, styled } from '@mui/material';
 
 import { AppState, useAppDispatch } from '../../../redux/store';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -67,15 +67,15 @@ export default function Account() {
         (<CenteredContainer key={key} width={'100%'} justifyContent={MUILayout.SPACE_BETWEEN} sx={{ minWidth: '300px', margin: '10px 0'}}>
           <Box width={'30%'} minWidth={'100px'}><Chip label={key} variant="outlined"/></Box>
           <Box width={'65%'} minWidth={'200px'} sx={{ textWrap: 'wrap', overflowWrap: 'break-word' }}>
-            <Typography>
+            <span>
               {value}
-            </Typography>
+            </span>
           </Box>
         </CenteredContainer>)
       )}
       </Box>
 
-      <CenteredContainer width={'100%'} margin='10px 0'>
+      <CenteredContainer width={'100%'} margin='20px 0'>
         <Button 
           onClick={toggleMode}
           variant={MUIButtonVariant.CONTAINED} 
@@ -136,7 +136,7 @@ export default function Account() {
           sx={textFieldCss} />
       </Box>
 
-      <CenteredContainer width={'100%'}>
+      <CenteredContainer width={'100%'} margin={'20px 0'}>
         <Button onClick={toggleMode} variant={MUIButtonVariant.OUTLINED} color={MUIColor.ERROR}>Cancel</Button>
 
         <Button variant={MUIButtonVariant.CONTAINED} color={MUIColor.PRIMARY} type={'submit'} sx={{ marginLeft: 2}}>Update</Button>
@@ -145,7 +145,7 @@ export default function Account() {
   }
 
   { loading && <CircularProgress sx={{ position: 'absolute', top: '50%' }}/> }
-  { <Typography sx={{ color: 'red', margin: '10px' }}>{error}</Typography>}
+  { (!loading && error) && <Typography sx={{ color: 'red', margin: '10px' }}>{error}</Typography>}
   </CenteredContainer>
 )
 }

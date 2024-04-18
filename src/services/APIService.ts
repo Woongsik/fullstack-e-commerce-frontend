@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from 'axios';
 import { Filter } from '../misc/types/Filter';
 import { Product, ProductInfo, ProductsList } from '../misc/types/Product';
 import Category from '../misc/types/Category';
-import { LoggedUserInfo, LoginInfo, RegisterUserInfo, User, UserToken } from '../misc/types/User';
+import { LoggedUserInfo, LoginInfo, PasswordUpdate, RegisterUserInfo, User, UserToken } from '../misc/types/User';
 import { UploadedImage } from '../misc/types/UploadedImage';
 import { GoogleLoginResult } from '../components/ui/googleLogin/GoogleLogin';
 import { userSlicerUtil } from '../redux/utils/UserSlicerUtil';
@@ -145,6 +145,11 @@ class ApiService {
   public updateUser(userInfo: Partial<RegisterUserInfo>): Promise<User> {
     const url: string = this.generateUrl('users/');
     return this.request<User>('PUT', url, userInfo);
+  }
+
+  public updateUserPassword(passwordInfo: PasswordUpdate): Promise<User> {
+    const url: string = this.generateUrl('users/update-password');
+    return this.request<User>('PUT', url, passwordInfo);
   }
 
   public login(loginInfo: LoginInfo): Promise<LoggedUserInfo> {

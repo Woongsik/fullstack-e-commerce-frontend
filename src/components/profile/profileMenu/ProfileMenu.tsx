@@ -9,6 +9,7 @@ import {
 } from '@mui/material'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import PasswordIcon from '@mui/icons-material/Password';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import { useSelector } from 'react-redux';
 
@@ -20,6 +21,7 @@ import styled from '@emotion/styled';
 export enum Menu {
   ORDER = 'ORDERS',
   ACCOUNT = 'ACCOUNT',
+  PASSWORD = 'PASSWORD',
   ADD_PRODUCT = 'ADD_PRODUCT',
   ADD_CATEGORY = 'ADD_CATEGORY'
 }
@@ -46,6 +48,11 @@ const userItems: MenuItem[] = [
     type: Menu.ACCOUNT,
     icon: <ManageAccountsIcon />,
     title: 'My account'
+  },
+  {
+    type: Menu.PASSWORD,
+    icon: <PasswordIcon />,
+    title: 'Change Password'
   }
 ]
 
@@ -105,6 +112,7 @@ export default function ProfileMenu(props: Props) {
       { (user && user.role === UserRole.ADMIN) && 
       <>
         <Divider />
+        
         <nav aria-label="secondary mailbox folders">
           <List>
           {adminItems.map((adminItem: MenuItem) => 

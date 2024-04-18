@@ -1,6 +1,6 @@
 import { ActionReducerMapBuilder, PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import { LoginInfo, RegisterUserInfo, User, UserToken } from "../../misc/types/User";
+import { LoginInfo, PasswordUpdate, RegisterUserInfo, User, UserToken } from "../../misc/types/User";
 import { apiService } from "../../services/APIService";
 import { userSlicerUtil } from "../utils/UserSlicerUtil";
 
@@ -30,6 +30,16 @@ export const updateUser = createAsyncThunk(
   async (userInfo: Partial<RegisterUserInfo>, { rejectWithValue }) => {
     try {
       return apiService.updateUser(userInfo);
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+});
+
+export const updateUserPassword = createAsyncThunk(
+  "updateUser",
+  async (passwordInfo: PasswordUpdate, { rejectWithValue }) => {
+    try {
+      return apiService.updateUserPassword(passwordInfo);
     } catch (e) {
       return rejectWithValue(e);
     }

@@ -31,3 +31,8 @@ export type LoggedUserInfo = {
   user: User;
   tokens: UserToken;
 }
+
+export type PasswordUpdate = {
+  oldPassword: string;
+  newPassword: string;
+}
