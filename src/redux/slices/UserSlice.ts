@@ -25,6 +25,16 @@ export const registerUser = createAsyncThunk(
     }
 });
 
+export const updateUser = createAsyncThunk(
+  "updateUser",
+  async (userInfo: Partial<RegisterUserInfo>, { rejectWithValue }) => {
+    try {
+      return apiService.updateUser(userInfo);
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+});
+
 export const loginUser = createAsyncThunk(
   "loginUser",
   async (userInfo: LoginInfo, { rejectWithValue }) => {
@@ -73,6 +83,26 @@ const userSlice = createSlice({
       return {
         ...state,
         user: null,
+        loading: false,
+        error: action.error.message ?? "Unkown error..."
+      }
+    });
+
+    builder.addCase(updateUser.fulfilled, (state, action) => {
+      return {
+        ...state,
+        user: action.payload,
+        loading: false      
+      }
+    }).addCase(updateUser.pending, (state, action: PayloadAction) => {
+      return {
+        ...state,
+        loading: true,
+        error: undefined
+      }
+    }).addCase(updateUser.rejected, (state, action) => {
+      return {
+        ...state,
         loading: false,
         error: action.error.message ?? "Unkown error..."
       }

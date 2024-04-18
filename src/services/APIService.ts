@@ -142,6 +142,11 @@ class ApiService {
     return this.request<User>('POST', url, userInfo);
   }
 
+  public updateUser(userInfo: Partial<RegisterUserInfo>): Promise<User> {
+    const url: string = this.generateUrl('users/');
+    return this.request<User>('PUT', url, userInfo);
+  }
+
   public login(loginInfo: LoginInfo): Promise<LoggedUserInfo> {
     const url: string = this.generateUrl("users/login");
     return this.request<LoggedUserInfo>('post', url, loginInfo);

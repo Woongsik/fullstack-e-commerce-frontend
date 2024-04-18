@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import CenteredContainer from '../ui/layout/CenteredContainer';
+import CenteredContainer from '../../ui/layout/CenteredContainer';
 import { Box, CircularProgress, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-import { apiService } from '../../services/APIService';
-import { Order } from '../../misc/types/Order';
+import { apiService } from '../../../services/APIService';
+import { Order } from '../../../misc/types/Order';
 import { OrderDetailRow } from './OrderDetailRow';
 
 export default function Orders() {
