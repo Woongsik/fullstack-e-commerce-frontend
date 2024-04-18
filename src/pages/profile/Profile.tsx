@@ -7,30 +7,43 @@ import { useUserSession } from '../../hooks/useUserSession';
 import GridContainer from '../../components/ui/layout/GridContainer';
 import CenteredContainer from '../../components/ui/layout/CenteredContainer';
 import { MUILayout } from '../../misc/types/MUI';
+import ProfileMenu, { Menu } from '../../components/profile/profileMenu/ProfileMenu';
+import ProfileContent from '../../components/profile/profileContent/ProfileContent';
+import { useState } from 'react';
 
-
-const UserInfoItem = styled(Box)({
-  margin: '20px 0',
+const BoxFullWidth = styled(Box)({
   width: '100%'
 });
 
-const TitleChip = styled(Chip)({
-  minWidth: '100px', 
-  color: 'black', 
-  backgroundColor: 'white', 
-  marginRight: '10px'
+const BoxItem = styled(Box)({
+  border: '1px solid', 
+  minWidth: '300px'
+});
+
+const MenuContainer = styled(BoxItem)({
+  width: '30%'
+});
+
+const ContentContainer = styled(BoxItem)({
+  width: '65%'
 });
 
 export default function Profile() {
+  const [selectedMenu, setSelectedMenu] = useState<Menu>(Menu.ORDER);
+
   useUserSession();
-  const { user, loading } = useSelector((state: AppState) => state.userReducer);
+  const { user } = useSelector((state: AppState) => state.userReducer);
   
+  const handleMenuItem = (menu: Menu) => {
+    setSelectedMenu(menu);
+  }
+
   return (
     <GridContainer alignItems={MUILayout.FLEX_START}>
       <CenteredContainer width={'75%'} alignItems={MUILayout.FLEX_START} margin={'50px 0'}>
-        <Box width={'100%'}>
+        <BoxFullWidth>
           {user && 
-          <Box width={'100%'}>
+          <BoxFullWidth>
             <CenteredContainer width={'100%'}>
               <Avatar 
                 alt={user.username} 
@@ -38,39 +51,33 @@ export default function Profile() {
                 sx={{ height: '120px', width: '120px'}} />              
             </CenteredContainer>
 
-            <Card sx={{ marginTop: '-50px', display: 'flex', minWidth: '300px', justifyContent: 'center'}}>
-              <CenteredContainer width={'30%'} sx={{ minWidth: '300px', margin: '50px 30px' }}>
-                <CenteredContainer width={'100%'}>
-                  <h1>Moi, {user.username}!</h1>
-                </CenteredContainer>
-                <CenteredContainer width={'100%'} justifyContent={MUILayout.FLEX_START}>
-                  <UserInfoItem>
-                    <TitleChip label={'Username'} variant="outlined" /> {user.username}
-                  </UserInfoItem>
-                  <UserInfoItem>
-                    <TitleChip label={'Contact'} variant="outlined" /> {user.email}
-                  </UserInfoItem>
-                  <UserInfoItem>
-                    <TitleChip label={'Role'} variant="outlined" /> {user.role.toUpperCase()}
-                  </UserInfoItem>
-                  <UserInfoItem>
-                  <TitleChip label={'Avatar'} variant="outlined" /> {user.avatar}
-                  </UserInfoItem>
-                </CenteredContainer>
-              </CenteredContainer>
-            </Card>
-          </Box>
+            <BoxFullWidth>
+              <h3 style={{ textAlign: 'center'}}>Moi, {user.username}!</h3>
+            </BoxFullWidth>
+
+            <CenteredContainer width={'100%'} alignItems={MUILayout.FLEX_START} justifyContent={MUILayout.SPACE_BETWEEN}>
+              <MenuContainer>
+                <ProfileMenu 
+                  selectedMenu={selectedMenu} 
+                  onMenuItem={handleMenuItem} />
+              </MenuContainer>
+              <ContentContainer>
+                <ProfileContent selectedMenu={selectedMenu} />
+              </ContentContainer>
+            </CenteredContainer>
+          </BoxFullWidth>
           }
           
-          {loading && <Typography>Loading...</Typography>}
-          {(!loading && !user) && 
-          <Box> 
+        {!user && 
+          <CenteredContainer> 
             You need to login!
             <Link to="/login">
               Go to Log in
             </Link>
-          </Box>}
-        </Box>
+          </CenteredContainer>
+        }
+
+        </BoxFullWidth>
       </CenteredContainer>
     </GridContainer>
   )
