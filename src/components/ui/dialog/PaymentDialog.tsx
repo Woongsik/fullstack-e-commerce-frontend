@@ -15,7 +15,7 @@ import PaymentCheckout from '../paymentCheckout/PaymentCheckout';
 import { StripeSecret } from '../../../misc/types/StripeSecret';
 import { apiService } from '../../../services/APIService';
 import { Address } from '../../../misc/types/Address';
-import { Order, OrderItem, OrderRegistesr } from '../../../misc/types/Order';
+import { Order, OrderRegistesr, OrderRegistesrItem } from '../../../misc/types/Order';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../../redux/store';
 import { CartItem } from '../../../misc/types/CartItem';
@@ -42,7 +42,7 @@ export default function PaymentDialog(props: Props) {
 
   const getStripeClient = async () => {
     try {
-      const stripeSecret: StripeSecret = await apiService.getStripeClient();
+      const stripeSecret: StripeSecret = await apiService.getStripeClient(total);
       setClientSecret(stripeSecret.clientSecret);
     } catch (e) {
       setError('Connecting to payment system failed! Please try again later!')
@@ -61,7 +61,7 @@ export default function PaymentDialog(props: Props) {
   }
 
   const registerOrder = async (paid: boolean, address: Address) => {
-    const orderItems: OrderItem[] = cartItems.map((item: CartItem) => ({
+    const orderItems: OrderRegistesrItem[] = cartItems.map((item: CartItem) => ({
       ...item,
       product: item.item._id
     }));

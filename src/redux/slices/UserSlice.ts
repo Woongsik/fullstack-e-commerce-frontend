@@ -114,6 +114,8 @@ const userSlice = createSlice({
         error: undefined
       }
     }).addCase(getUserWithSession.rejected, (state, action) => {
+      userSlicerUtil.removeTokensFromLocalStorage();
+      
       return {
         ...state,
         user: null,

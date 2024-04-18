@@ -1,6 +1,7 @@
-import { Avatar, Box, Card, Chip, Typography, styled } from '@mui/material';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { Avatar, Box, styled } from '@mui/material';
 
 import { AppState } from '../../redux/store';
 import { useUserSession } from '../../hooks/useUserSession';
@@ -9,19 +10,18 @@ import CenteredContainer from '../../components/ui/layout/CenteredContainer';
 import { MUILayout } from '../../misc/types/MUI';
 import ProfileMenu, { Menu } from '../../components/profile/profileMenu/ProfileMenu';
 import ProfileContent from '../../components/profile/profileContent/ProfileContent';
-import { useState } from 'react';
 
 const BoxFullWidth = styled(Box)({
   width: '100%'
 });
 
 const BoxItem = styled(Box)({
-  border: '1px solid', 
   minWidth: '300px'
 });
 
 const MenuContainer = styled(BoxItem)({
-  width: '30%'
+  width: '30%',
+  minWidth: '200px'
 });
 
 const ContentContainer = styled(BoxItem)({

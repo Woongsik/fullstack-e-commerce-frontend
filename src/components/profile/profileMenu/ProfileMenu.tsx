@@ -15,9 +15,10 @@ import { useSelector } from 'react-redux';
 import { AppState } from '../../../redux/store';
 import { UserRole } from '../../../misc/types/User';
 import { ReactNode, useState } from 'react';
+import styled from '@emotion/styled';
 
 export enum Menu {
-  ORDER = 'ORDER',
+  ORDER = 'ORDERS',
   ACCOUNT = 'ACCOUNT',
   ADD_PRODUCT = 'ADD_PRODUCT',
   ADD_CATEGORY = 'ADD_CATEGORY'
@@ -28,6 +29,12 @@ type MenuItem = {
   icon: ReactNode;
   title: string;
 }
+
+const MenuContainer = styled(Box)({
+  width: '100%',
+  border: '1px solid',
+  borderRadius: '10px'
+});
 
 const userItems: MenuItem[] = [
   {
@@ -76,7 +83,7 @@ export default function ProfileMenu(props: Props) {
   }
 
   return (
-    <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
+    <MenuContainer>
       <nav aria-label="main mailbox folders">
         <List>
           {userItems.map((userItem: MenuItem) => 
@@ -116,6 +123,6 @@ export default function ProfileMenu(props: Props) {
         </nav>
       </>
       }
-    </Box>
+    </MenuContainer>
   )
 }

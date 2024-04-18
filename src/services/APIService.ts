@@ -181,14 +181,21 @@ class ApiService {
     return this.request('get', googleUrl);
   }
 
-  public getStripeClient(): Promise<StripeSecret> {
+  public getStripeClient(totalAmount: number): Promise<StripeSecret> {
     const url: string = this.generateUrl('orders/stripe');
-    return this.request('POST', url, {});
+    return this.request('POST', url, {
+      totalAmount
+    });
   }
 
   public registerOrder(orderInfo: OrderRegistesr): Promise<Order> {
     const url: string = this.generateUrl('orders');
     return this.request('POST', url, orderInfo);
+  }
+
+  public getOrders(): Promise<Order[]> {
+    const url: string = this.generateUrl('orders');
+    return this.request('GET', url);
   }
 }
 
