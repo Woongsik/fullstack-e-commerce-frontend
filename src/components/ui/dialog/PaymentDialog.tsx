@@ -45,7 +45,8 @@ export default function PaymentDialog(props: Props) {
       const stripeSecret: StripeSecret = await apiService.getStripeClient(total);
       setClientSecret(stripeSecret.clientSecret);
     } catch (e) {
-      setError('Connecting to payment system failed! Please try again later!')
+      const error = e as Error;
+      setError(`Connecting to payment system failed, ${error.message}`);
     }
   }
 
@@ -82,8 +83,8 @@ export default function PaymentDialog(props: Props) {
         const newOrder: Order = await registerOrder(paid, address);
         props.onClose(paid);
       } catch (e) {
-        console.log(e as Error);
-        setError((e as Error).message ?? 'Create order in db failed!');
+        const error = e as Error;
+        setError(`Cannot create order, ${error.message}`);
       }
     }
   }

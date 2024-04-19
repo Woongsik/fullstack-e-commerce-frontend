@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Box, FormHelperText, TextField, styled } from '@mui/material';
 
-import Categories from '../../cateogries/Categories';
+import CategoriesSelector from '../../ui/cateogriesSelector/CategoriesSelector';
 import FileUploader from '../../ui/fileUploader/FileUploader';
 import CenteredContainer from '../../ui/layout/CenteredContainer';
 import UiRoundButton from '../../ui/button/UiRoundButton';
@@ -61,7 +61,6 @@ export default function ProductCreateOrUpdate(props: Props) {
   const { isThemeLight } = useTheme();
   const baseCategoryId: string = product ? product.category._id : '';
   const baseSizes: Size[] = product ? product.sizes : [];
-  console.log('baseSize', baseSizes);
 
   const { loading, error } = useSelector((state: AppState) => state.productReducer);
   const { register, handleSubmit, setValue, clearErrors, formState: { errors } } = useForm<Inputs>();
@@ -215,7 +214,7 @@ export default function ProductCreateOrUpdate(props: Props) {
             sx={textFieldCss} />       
         </InfoWapper>
         <InfoWapper margin={'20px -8px 20px 8px !important'}>
-          <Categories 
+          <CategoriesSelector 
             selectedCategoryId={categoryId}
             onCategoryChanged={onCategoryChanged}
             helpertext={'Please select a category'}

@@ -6,7 +6,7 @@
 // import { mockProducts } from "../redux/ProductsReducer.test";
 // import { mockCategories } from "../redux/CategoryReducer.test";
 // import { Product, ProductRegister, ProductUpdateItem } from "../../misc/types/Product";
-// import Category from "../../misc/types/Category";
+// import { Category } from "../../misc/types/Category";
 // import { getUrlAsObject } from "../../misc/utils/Urls";
 
 // export const handler = [

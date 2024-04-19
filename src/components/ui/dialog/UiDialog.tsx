@@ -12,7 +12,7 @@ type Props = {
   title: string | any,
   cancelTitle: string;
   proceedTitle: string;
-  proceedColor: MUIColor;
+  proceedColor?: MUIColor;
   onClose: (proceed: boolean) => void
 }
 

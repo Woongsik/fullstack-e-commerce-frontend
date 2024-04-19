@@ -5,7 +5,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import { useTheme } from '../../../contextAPI/ThemeContext';
 import { MUILayout, MUIColor, MUIButtonVariant, MUISize } from '../../../../misc/types/MUI';
 import { SortCreated, SortType, SortPrice, SortTitle } from '../../../../misc/types/Sort';
-import Categories from '../../../cateogries/Categories';
+import CategoriesSelector from '../../cateogriesSelector/CategoriesSelector';
 import SortButton from '../../button/SortButton/SortButton';
 import UiButton from '../../button/UiButton';
 import CenteredContainer from '../../layout/CenteredContainer';
@@ -176,7 +176,7 @@ export default function FilterDrawer(props: Props) {
             onTextChanged={onTextChanged}/>  
         </FilterItem>
         <FilterItem> 
-          <Categories 
+          <CategoriesSelector 
             selectedCategoryId={filter.categoryId} 
             onCategoryChanged={onCategoryChanged} />
         </FilterItem>

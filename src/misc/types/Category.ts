@@ -1,7 +1,8 @@
-type Category = {
-  _id: string;
+export type CategoryBase = {
   title: string;
   image: string;
 }
 
-export default Category;
+export type Category = CategoryBase & {
+  _id: string;
+}

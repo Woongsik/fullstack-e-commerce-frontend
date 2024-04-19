@@ -1,4 +1,4 @@
-// import Category from "../../misc/types/Category";
+// import { Category } from "../../misc/types/Category";
 // import Filter from "../../misc/types/Filter";
 // // import { productMockServer } from "../shared/ProductServer";
 // import { Product, ProductRegister, ProductUpdate, ProductUpdateItem } from "../../misc/types/Product";

@@ -11,6 +11,7 @@ import CenteredContainer from '../../ui/layout/CenteredContainer';
 import { AppState, useAppDispatch } from '../../../redux/store';
 import { useTheme } from '../../contextAPI/ThemeContext';
 import { updateUserPassword } from '../../../redux/slices/UserSlice';
+import LoadingAndMessage from '../../ui/loadingAndMessage/LoadingAndMessage';
 
 const FormContainer = styled(Box)({
   '& .MuiTextField-root': { 
@@ -53,13 +54,13 @@ export default function Password() {
       reset();
     } catch(e) {
       console.log('Update user passwword failed', e);
+      // Error message from userSlice 
     }
   }
 
   return (
-    <CenteredContainer alignItems={MUILayout.FLEX_START} width={'75%'} sx={{ minWidth: '300px', maxWidth: '400px'}}>
+    <CenteredContainer width={'75%'} sx={{ minWidth: '300px', maxWidth: '400px'}}>
       <FormContainer component={'form'} onSubmit={handleSubmit(onSubmit)}>
-          
           <Box>
             <TextField
               {...register("oldPassword", { required: true, pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,}$/ }) }  
@@ -107,9 +108,7 @@ export default function Password() {
           </CenteredContainer>
       </FormContainer>
 
-      { loading && <CircularProgress sx={{ position: 'absolute', top: '50%' }}/>}
-      { (!loading && error) && <Typography sx={{ color: 'red', margin: '10px' }}>{error}</Typography>}
-      { (!loading && message) && <Typography sx={{ color: 'blue', margin: '10px' }}>{message}</Typography>}       
+      <LoadingAndMessage loading={loading} error={error} message={message} />
     </CenteredContainer>
   )
 }

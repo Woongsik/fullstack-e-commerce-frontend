@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 
 import { Filter } from '../misc/types/Filter';
 import { Product, ProductInfo, ProductsList } from '../misc/types/Product';
-import Category from '../misc/types/Category';
+import { Category, CategoryBase } from '../misc/types/Category';
 import { LoggedUserInfo, LoginInfo, PasswordUpdate, RegisterUserInfo, User, UserToken } from '../misc/types/User';
 import { UploadedImage } from '../misc/types/UploadedImage';
 import { GoogleLoginResult } from '../components/ui/googleLogin/GoogleLogin';
@@ -139,6 +139,21 @@ class ApiService {
   public getCategories(): Promise<Category[]> {
     const url: string = this.generateUrl("categories");
     return this.request<Category[]>('GET', url); 
+  }
+
+  public registerCategory(categoryInfo: CategoryBase): Promise<Category> {
+    const url: string = this.generateUrl("categories");
+    return this.request<Category>('POST', url, categoryInfo); 
+  }
+
+  public updateCategory(categoryId: string, categoryInfo: CategoryBase): Promise<Category> {
+    const url: string = this.generateUrl(`categories/${categoryId}`);
+    return this.request<Category>('PUT', url, categoryInfo); 
+  }
+
+  public deleteCategory(categoryId: string): Promise<void> {
+    const url: string = this.generateUrl(`categories/${categoryId}`);
+    return this.request<void>('DELETE', url); 
   }
 
   public registerUser(userInfo: RegisterUserInfo): Promise<User> {

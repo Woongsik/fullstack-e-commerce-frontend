@@ -1,4 +1,4 @@
-// import Category from "../../misc/types/Category";
+// import { Category } from "../../misc/types/Category";
 // import categoryReducer, { fetchAllCategoriesAsync, initialState, InitialState } from "../../redux/slices/CategorySlice";
 
 // export const mockCategories: Category[] = [

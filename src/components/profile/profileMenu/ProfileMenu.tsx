@@ -11,6 +11,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import PasswordIcon from '@mui/icons-material/Password';
 import AddBoxIcon from '@mui/icons-material/AddBox';
+import CategoryIcon from '@mui/icons-material/Category';
 import { useSelector } from 'react-redux';
 
 import { AppState } from '../../../redux/store';
@@ -22,8 +23,8 @@ export enum Menu {
   ORDER = 'ORDERS',
   ACCOUNT = 'ACCOUNT',
   PASSWORD = 'PASSWORD',
-  ADD_PRODUCT = 'ADD_PRODUCT',
-  ADD_CATEGORY = 'ADD_CATEGORY'
+  PRODUCTS = 'PRODUCTS',
+  CATEGORIES = 'CATEGORIES'
 }
 
 type MenuItem = {
@@ -58,14 +59,14 @@ const userItems: MenuItem[] = [
 
 const adminItems: MenuItem[] = [
   {
-    type: Menu.ADD_PRODUCT,
+    type: Menu.PRODUCTS,
     icon: <AddBoxIcon />,
-    title: 'Add Product'
+    title: 'Products'
   },
   {
-    type: Menu.ADD_CATEGORY,
-    icon: <AddBoxIcon />,
-    title: 'Add Category'
+    type: Menu.CATEGORIES,
+    icon: <CategoryIcon />,
+    title: 'Categories'
   },
 ]
 

@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+
 import CenteredContainer from '../../ui/layout/CenteredContainer';
-import { Box, CircularProgress, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { apiService } from '../../../services/APIService';
 import { Order } from '../../../misc/types/Order';
 import { OrderDetailRow } from './OrderDetailRow';
+import LoadingAndMessage from '../../ui/loadingAndMessage/LoadingAndMessage';
 
 export default function Orders() {
   const [orders, setOrders] = useState<Order[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
 
   useEffect(() => {
@@ -20,8 +22,8 @@ export default function Orders() {
       const orders: Order[] = await apiService.getOrders();
       setOrders(orders);
     } catch (e) {
-      console.log(e);
-      setError((e as Error).message);
+      const error = e as Error;
+      setError(`Cannot get categories, ${error.message}`);
     }
 
     setLoading(false);
@@ -50,15 +52,9 @@ export default function Orders() {
       </TableContainer>
     }
 
-    { loading &&
-      <CircularProgress />
-    }
+    {(!loading && orders && orders.length === 0) &&  <h1>No orders yet...</h1>}
 
-    { (!loading && error) &&
-      <Box>
-        {error}
-      </Box>
-    }
+    <LoadingAndMessage loading={loading} error={error} />
     </CenteredContainer>
   );  
 }

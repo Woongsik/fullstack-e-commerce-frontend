@@ -3,7 +3,7 @@ import { Menu } from '../profileMenu/ProfileMenu'
 import { Box, Divider } from '@mui/material';
 import Orders from '../orders/Orders';
 import Account from '../account/Account';
-import AddCategory from '../add_category/AddCategory';
+import Categories from '../categories/Categories';
 import Password from '../password/Password';
 
 type Props = {
@@ -12,7 +12,6 @@ type Props = {
 
 export default function ProfileContent(props: Props) {
   const { selectedMenu } = props;
-  
   
   return (
     <Box>
@@ -23,7 +22,7 @@ export default function ProfileContent(props: Props) {
         {selectedMenu === Menu.ACCOUNT && <Account />}
         {selectedMenu === Menu.PASSWORD && <Password />}
 
-        {selectedMenu === Menu.ADD_CATEGORY && <AddCategory />}
+        {selectedMenu === Menu.CATEGORIES && <Categories />}
       </Box>
     </Box>
   )

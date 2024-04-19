@@ -158,7 +158,6 @@ export default function Login() {
           <>
           <Box>
             <TextField
-              // {...register("avatar", { required: true, pattern: /^[A-Za-z0-9://.]+$/i }) }
               {...register("avatar", { value: "https://picsum.photos/800", pattern: /[A-Za-z0-9]+[://]+[A-Za-z0-9-]+[\/.]/ }) }                                                          
               error={Boolean(errors.avatar)}
               label="Avatar"

@@ -1,6 +1,5 @@
-import Category from "./Category";
+import { Category } from "./Category";
 import { Size } from "./Size";
-import { SortCreated, SortTitle, SortPrice } from "./Sort";
 
 export type ProductBase = {
   title: string;
