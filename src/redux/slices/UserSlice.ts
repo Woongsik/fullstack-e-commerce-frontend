@@ -1,6 +1,6 @@
 import { ActionReducerMapBuilder, PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import { LoginInfo, PasswordUpdate, RegisterUserInfo, User, UserToken } from "../../misc/types/User";
+import { LoginInfo, PasswordUpdate, RegisterUserInfo, User } from "../../misc/types/User";
 import { apiService } from "../../services/APIService";
 import { userSlicerUtil } from "../utils/UserSlicerUtil";
 

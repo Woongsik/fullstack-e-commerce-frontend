@@ -1,5 +1,6 @@
-import { Menu } from '../profileMenu/ProfileMenu'
 import { Box, Divider } from '@mui/material';
+
+import { Menu } from '../profileMenu/ProfileMenu'
 import Orders from '../orders/Orders';
 import Account from '../account/Account';
 import Categories from '../categories/Categories';

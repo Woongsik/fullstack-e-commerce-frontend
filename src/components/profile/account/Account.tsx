@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Box, Button, Chip, CircularProgress, TextField, Typography, styled } from '@mui/material';
+import { Box, Button, Chip, TextField, styled } from '@mui/material';
 
 import { AppState, useAppDispatch } from '../../../redux/store';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -119,7 +119,7 @@ export default function Account() {
 
       <Box>
         <TextField
-          {...register("avatar", { value: "https://picsum.photos/800", pattern: /[A-Za-z0-9]+[://]+[A-Za-z0-9-]+[\/.]/ }) }                                                          
+          {...register("avatar", { value: "https://picsum.photos/800", pattern: /[A-Za-z0-9]+[://]+[A-Za-z0-9-]+[.]/ }) }                                                          
           error={Boolean(errors.avatar)}
           label="Avatar"
           helperText={errors.avatar && 'Only valid URL accepted'}
@@ -132,7 +132,7 @@ export default function Account() {
           {...register("address", { required: true, pattern: /^[A-Za-z0-9?.,=_@&\- ]+$/i }) }
           error={Boolean(errors.address)}
           label="Address"
-          helperText={errors.avatar && 'Special characters (?.,=_@&\-) accepted'}
+          helperText={errors.avatar && 'Special characters (?.,=_@&-) accepted'}
           defaultValue={user.address}
           sx={textFieldCss} />
       </Box>
