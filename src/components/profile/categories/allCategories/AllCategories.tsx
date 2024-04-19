@@ -2,12 +2,12 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
 
-import { AppState, useAppDispatch } from '../../../redux/store';
-import CenteredContainer from '../../ui/layout/CenteredContainer';
-import LoadingAndMessage from '../../ui/loadingAndMessage/LoadingAndMessage';
-import { Category } from '../../../misc/types/Category';
-import CategoryDetailsRow from './CategoryDetailsRow';
-import { fetchAllCategoriesAsync } from '../../../redux/slices/CategorySlice';
+import { AppState, useAppDispatch } from '../../../../redux/store';
+import CenteredContainer from '../../../ui/layout/CenteredContainer';
+import LoadingAndMessage from '../../../ui/loadingAndMessage/LoadingAndMessage';
+import { Category } from '../../../../misc/types/Category';
+import CategoryDetailsRow from './categoryDetail/CategoryDetailsRow';
+import { fetchAllCategoriesAsync } from '../../../../redux/slices/CategorySlice';
 
 export default function AllCategories() {
   const dispatch = useAppDispatch();

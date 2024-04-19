@@ -4,14 +4,15 @@ type Props = {
   show: boolean;
   text: string;
   margin?: string;
+  textAlign?: 'left' | 'center' | 'right';
 }
 
 export default function HelperText(props: Props) {
-  const { show = false, text, margin } = props;
+  const { show = false, text, margin, textAlign } = props;
   return (
     <>
     { show && 
-    <FormHelperText sx={{ color: '#d32f2f', margin: {margin} }}>{text}</FormHelperText>} 
+    <FormHelperText sx={{ color: '#d32f2f', margin: {margin}, textAlign: {textAlign} }}>{text}</FormHelperText>} 
     </>
   )
 }

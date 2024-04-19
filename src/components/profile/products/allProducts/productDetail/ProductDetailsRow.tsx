@@ -7,12 +7,12 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import SaveIcon from '@mui/icons-material/Save';
 import LaunchIcon from '@mui/icons-material/Launch';
 
-import UiDialog from '../../ui/dialog/UiDialog';
-import { apiService } from '../../../services/APIService';
-import LoadingAndMessage from '../../ui/loadingAndMessage/LoadingAndMessage';
-import { MUIColor } from '../../../misc/types/MUI';
-import { Product } from '../../../misc/types/Product';
-import AddProduct from './AddProduct';
+import UiDialog from '../../../../ui/dialog/UiDialog';
+import { apiService } from '../../../../../services/APIService';
+import LoadingAndMessage from '../../../../ui/loadingAndMessage/LoadingAndMessage';
+import { MUIColor } from '../../../../../misc/types/MUI';
+import { Product } from '../../../../../misc/types/Product';
+import AddProduct from '../../addProduct/AddProduct';
 
 type Props = {
   product: Product;
@@ -91,9 +91,12 @@ export default function ProductDetailsRow(props: Props) {
           <TableCell align='right'>
             {product.price}
           </TableCell>
+          <TableCell align='center'>
+            {product.category.title}
+          </TableCell>
         </>
       : 
-        <TableCell colSpan={3}>
+        <TableCell colSpan={4}>
           <AddProduct
             product={product}
             update={update}

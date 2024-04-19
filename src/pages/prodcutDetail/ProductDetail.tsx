@@ -1,25 +1,22 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Box, Typography, Divider, IconButton, Breadcrumbs, Link as MUILink, styled, Chip, FormHelperText } from '@mui/material';
+import { Box, Typography, Divider, IconButton, Breadcrumbs, Link as MUILink, styled } from '@mui/material';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import { InfoOutlined } from '@mui/icons-material';
 
-import ProductCreateOrUpdate from '../../components/product/productCreateOrUpdate/ProductCreateOrUpdate';
 import CenteredContainer from '../../components/ui/layout/CenteredContainer';
 import UiCarousel from '../../components/ui/carousel/UiCarousel';
 import UiRoundButton from '../../components/ui/button/UiRoundButton';
 import UiButton from '../../components/ui/button/UiButton';
-import UiDialog from '../../components/ui/dialog/UiDialog';
 import LoadingBackdrop from '../../components/ui/loading/LoadingBackdrop';
 import GridContainer from '../../components/ui/layout/GridContainer';
 import { AppState, useAppDispatch } from '../../redux/store';
-import { deleteProduct, fetchProduct, updateFilter } from '../../redux/slices/ProductSlice';
+import { fetchProduct, updateFilter } from '../../redux/slices/ProductSlice';
 import { addToCart, addToFavorites } from '../../redux/slices/CartSlice';
 import { MUIButtonVariant, MUIColor, MUILayout } from '../../misc/types/MUI';
-import { User, UserRole } from '../../misc/types/User';
 import { CartItem, CartItemBase } from '../../misc/types/CartItem';
 import CartSliceUtil from '../../redux/utils/CartSliceUtil';
 import { useUserSession } from '../../hooks/useUserSession';
@@ -60,13 +57,13 @@ export default function ProudctDetail() {
   const { id } = useParams(); // product id
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [editMode, setEditMode] = useState<boolean>(false);
-  const [showSnackBar, setShowSnackBar] = useState<boolean>(false);
-  const [snackBarMessage, setSnackBarMessage] = useState<string>('');
-  const [showDialog, setShowDialog] = useState<boolean>(false);
-  const [showDeletedMessage, setShowDeletedMessage] = useState<boolean>(false);
   const { isThemeLight } = useTheme();
 
+  const [showSnackBar, setShowSnackBar] = useState<boolean>(false);
+  const [snackBarMessage, setSnackBarMessage] = useState<string>('');
+  const [size, setSize] = useState<Size | undefined>(undefined);
+  const [showSizeError, setShowSizeError] = useState<boolean>(false);
+  
   useUserSession();
   useEffect(() => {
     if (id) {
@@ -74,11 +71,9 @@ export default function ProudctDetail() {
     }
   }, [id, dispatch]);
 
-  const { product, filter, loading, error }= useSelector((state: AppState) => state.productReducer);
-  const user: User | null = useSelector((state: AppState) => state.userReducer.user);
+  const { product, filter, loading, error } = useSelector((state: AppState) => state.productReducer);
   const { cartItems, cartFavorites } = useSelector((state: AppState) => state.cartReducer); 
-  const [size, setSize] = useState<Size | undefined>(undefined);
-  const [showSizeError, setShowSizeError] = useState<boolean>(false);
+
 
   const DetailInfoText = styled(Typography)({
     color: isThemeLight ? 'white': 'black'
@@ -140,26 +135,6 @@ export default function ProudctDetail() {
     navigate("/home");
   }
 
-  const askToDelete = () => {
-    setShowDialog(true);
-  }
-
-  const handleDelete = async (proceed: boolean) => {
-    setShowDialog(false);
-    if (proceed && product) {
-      await dispatch(deleteProduct(product._id));
-      setShowDeletedMessage(true);
-    }
-  }
-
-  const toggleEdit = () => {
-    setEditMode(!editMode);
-  }
-
-  const handleUpdateDone = () => {
-    setEditMode(false);
-  }
-
   const navigateToCart = () => {
     navigate('/cart');
   }
@@ -185,15 +160,14 @@ export default function ProudctDetail() {
     )
   }
 
-  const dialogTitle = (title?: string) =>  {
-    return (<span>Remove <span style={{ fontWeight: 'bold'}}>{title}</span> permanantly? You cannot make it back...</span>);
-  }
-
   const handleSizeChanges = (sizes: Size[]) => {
     if (sizes && sizes.length > 0) {
       setSize(sizes[0]);
       setShowSizeError(false);
-    } 
+    } else {
+      setSize(undefined);
+      setShowSizeError(true);
+    }
   }
 
   return (
@@ -203,37 +177,11 @@ export default function ProudctDetail() {
           <IconButton onClick={() => handleBack()}>
             <ArrowCircleLeftIcon sx={{ fontSize: 40, color: isThemeLight ? 'white' : 'black' }} />
           </IconButton>
-
-          {(user && user.role === UserRole.ADMIN) && product &&
-          <CenteredContainer justifyContent={MUILayout.SPACE_BETWEEN} margin={'0 10px'}>
-            <UiButton
-              variant={isThemeLight ? MUIButtonVariant.CONTAINED : MUIButtonVariant.OUTLINED}
-              color={MUIColor.ERROR}
-              customStyle={{ margin: '0 10px' }}
-              onClick={() => askToDelete()}>
-              Delete 
-            </UiButton>
-
-            <UiButton
-              variant={MUIButtonVariant.CONTAINED}
-              color={MUIColor.INFO}
-              onClick={() => toggleEdit()}>
-              {editMode ? 'Cancel Edit' : 'Edit'}
-            </UiButton>
-          </CenteredContainer>
-          }
         </CenteredContainer>
 
         <Divider sx={{ my: 1 }} />
         
       {product &&
-        (editMode ? 
-          <CenteredContainer margin={'0 10px'} alignItems={MUILayout.FLEX_START}>
-            <ProductCreateOrUpdate 
-              product={product}
-              onUpdate={handleUpdateDone}/> 
-          </CenteredContainer>
-        :
         <CenteredContainer>
           <CenteredContainer alignItems={MUILayout.FLEX_START} justifyContent={MUILayout.SPACE_BETWEEN} margin={'0 10px'}  width='75%'>
             <ImageContainer>
@@ -269,9 +217,8 @@ export default function ProudctDetail() {
                     selectedValues={[]}
                     multiple={false}
                     justifyContent={MUILayout.FLEX_START}
-                    onChange={handleSizeChanges}/>
-
-                  <HelperText show={showSizeError} text={'Select one of sizes'} />
+                    onChange={handleSizeChanges} />
+                    <HelperText show={showSizeError} text={'Select one of sizes'} textAlign={'center'}/>
                 </Box>
                 
                 <DetailInfoText variant='h5' my={2}>
@@ -302,36 +249,27 @@ export default function ProudctDetail() {
             </BreadcrumbsContainer>
           </CenteredContainer>
         </CenteredContainer>
-        )}
+      }
     </Box>
 
     <UiSnackbar 
       show={showSnackBar}
       onClose={onSnackbarClose}
       message={snackBarMessage}
-      action={snackbarAction()}
-    />
-
-    <UiDialog 
-      show={showDialog}
-      title={dialogTitle(product?.title)}
-      cancelTitle='Cancel'
-      proceedTitle='Delete'
-      proceedColor={MUIColor.ERROR}
-      onClose={handleDelete}/>
+      action={snackbarAction()} />
 
     <LoadingBackdrop loading={loading} />
-    { (error || showDeletedMessage) && 
+    { error && 
     <CenteredContainer margin={'-150px 0 0 0'}>
       <InfoOutlined sx={{ fontSize: 60 }} />
       <InfoText>
-          {showDeletedMessage ? 'Successfully Product removed!' : 'Something went wrong or prodcut not existed!'}
+          Something went wrong, {error}
       </InfoText>
       <Link to={'/home'}>
-          <UiButton variant={MUIButtonVariant.CONTAINED} color={MUIColor.PRIMARY} customStyle={{ margin: '15px' }}>
-            Back home
-          </UiButton>
-        </Link>     
+        <UiButton variant={MUIButtonVariant.CONTAINED} color={MUIColor.PRIMARY} customStyle={{ margin: '15px' }}>
+          Back home
+        </UiButton>
+      </Link>     
     </CenteredContainer>}
   </GridContainer>
   )

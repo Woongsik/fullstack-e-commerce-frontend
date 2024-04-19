@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
 
-import CenteredContainer from '../../ui/layout/CenteredContainer';
-import LoadingAndMessage from '../../ui/loadingAndMessage/LoadingAndMessage';
-import { Product, ProductsList } from '../../../misc/types/Product';
-import ProductDetailsRow from './ProductDetailsRow';
-import { apiService } from '../../../services/APIService';
+import CenteredContainer from '../../../ui/layout/CenteredContainer';
+import LoadingAndMessage from '../../../ui/loadingAndMessage/LoadingAndMessage';
+import { Product, ProductsList } from '../../../../misc/types/Product';
+import ProductDetailsRow from './productDetail/ProductDetailsRow';
+import { apiService } from '../../../../services/APIService';
 
 export default function AllProducts() {
   const [error, setError] = useState<string>('');
@@ -59,6 +59,7 @@ export default function AllProducts() {
               <TableCell />
               <TableCell align="center">Title</TableCell>
               <TableCell align="center">Price</TableCell>
+              <TableCell align="center">Category</TableCell>
               <TableCell align="center">Actions</TableCell>
             </TableRow>
           </TableHead>

@@ -3,20 +3,20 @@ import { useSelector } from 'react-redux';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Box, Button, TextField, styled } from '@mui/material';
 
-import CategoriesSelector from '../../ui/cateogriesSelector/CategoriesSelector';
-import FileUploader from '../../ui/fileUploader/FileUploader';
-import CenteredContainer from '../../ui/layout/CenteredContainer';
-import { AppState, useAppDispatch } from '../../../redux/store';
-import { registerProduct, updateProduct } from '../../../redux/slices/ProductSlice';
-import { apiService } from '../../../services/APIService';
-import { MUIButtonVariant, MUIColor } from '../../../misc/types/MUI';
-import { Product, ProductInfo } from '../../../misc/types/Product';
-import { UploadedImage } from '../../../misc/types/UploadedImage';
-import { useTheme } from '../../contextAPI/ThemeContext';
-import { Size } from '../../../misc/types/Size';
-import SizeButtons from '../../ui/button/SizeButtons/SizeButtons';
-import HelperText from '../../ui/helperText/HelperText';
-import LoadingAndMessage from '../../ui/loadingAndMessage/LoadingAndMessage';
+import CategoriesSelector from '../../../ui/cateogriesSelector/CategoriesSelector';
+import FileUploader from '../../../ui/fileUploader/FileUploader';
+import CenteredContainer from '../../../ui/layout/CenteredContainer';
+import { AppState, useAppDispatch } from '../../../../redux/store';
+import { registerProduct, updateProduct } from '../../../../redux/slices/ProductSlice';
+import { apiService } from '../../../../services/APIService';
+import { MUIButtonVariant, MUIColor } from '../../../../misc/types/MUI';
+import { Product, ProductInfo } from '../../../../misc/types/Product';
+import { UploadedImage } from '../../../../misc/types/UploadedImage';
+import { useTheme } from '../../../contextAPI/ThemeContext';
+import { Size } from '../../../../misc/types/Size';
+import SizeButtons from '../../../ui/button/SizeButtons/SizeButtons';
+import HelperText from '../../../ui/helperText/HelperText';
+import LoadingAndMessage from '../../../ui/loadingAndMessage/LoadingAndMessage';
 
 type Inputs = {
   title: string,
@@ -177,7 +177,7 @@ export default function AddProduct(props: Props) {
   } 
 
   return (
-    <CenteredContainer width={'75%'} sx={{ minWidth: '300px', maxWidth: '400px'}}>
+    <CenteredContainer width={'100%'} sx={{ minWidth: '300px'}}>
       <FormContainer component={'form'} onSubmit={handleSubmit(onSubmit)}>
         <Box>
           <TextField

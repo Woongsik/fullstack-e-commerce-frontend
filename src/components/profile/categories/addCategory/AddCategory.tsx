@@ -3,12 +3,12 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import styled from '@emotion/styled';
 import { Box, Button, TextField } from '@mui/material';
 
-import { MUIButtonVariant, MUIColor } from '../../../misc/types/MUI';
-import CenteredContainer from '../../ui/layout/CenteredContainer';
-import { useTheme } from '../../contextAPI/ThemeContext';
-import { CategoryBase } from '../../../misc/types/Category';
-import LoadingAndMessage from '../../ui/loadingAndMessage/LoadingAndMessage';
-import { apiService } from '../../../services/APIService';
+import { MUIButtonVariant, MUIColor } from '../../../../misc/types/MUI';
+import CenteredContainer from '../../../ui/layout/CenteredContainer';
+import { useTheme } from '../../../contextAPI/ThemeContext';
+import { CategoryBase } from '../../../../misc/types/Category';
+import LoadingAndMessage from '../../../ui/loadingAndMessage/LoadingAndMessage';
+import { apiService } from '../../../../services/APIService';
 
 const FormContainer = styled(Box)({
   '& .MuiTextField-root': { 

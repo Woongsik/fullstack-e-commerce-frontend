@@ -12,14 +12,15 @@ import {
   Menu,
   MenuItem,
   ToggleButton,
-  ToggleButtonGroup
+  ToggleButtonGroup,
+  styled
 } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import Brightness6Icon from '@mui/icons-material/Brightness6';
-import AddBoxIcon from '@mui/icons-material/AddBox';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { Home } from '@mui/icons-material';
 
 import CenteredContainer from '../../ui/layout/CenteredContainer';
 import UiImage from '../../ui/image/UiImage';
@@ -27,13 +28,10 @@ import { useTheme } from '../ThemeContext';
 import { AppState, useAppDispatch } from '../../../redux/store';
 import { logout } from '../../../redux/slices/UserSlice';
 import { MUIColor, MUILayout } from '../../../misc/types/MUI';
-import { Home } from '@mui/icons-material';
-import { UserRole } from '../../../misc/types/User';
 
 enum Pages {
   LOGIN = "login",
   PROFILE = 'profile',
-  PRODUCT_CREATION = 'productUpdate',
   LOGOUT = 'logout'
 }
 
@@ -42,6 +40,17 @@ type ListItemInfo = {
   title: string,
   item: ReactNode
 }
+
+const NavList = styled(List)({
+  display: 'flex', 
+  justifyContent: 'space-between', 
+  alignItems: 'center'
+});
+
+const ThemeListItem = styled(ListItem)({
+  marginLeft: '20px',
+  padding: 0
+});
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -52,19 +61,25 @@ export default function Navbar() {
   const { user } = useSelector((state: AppState) => state.userReducer);
   const { cartItems } = useSelector((state: AppState) => state.cartReducer);
 
+  const themeColor = { color: isThemeLight ? 'black' : 'white' };
+  const themeBackgroundAndBorder = { 
+    backgroundColor: isThemeLight ? 'white' : 'black', 
+    borderBottom: isThemeLight ? '1px solid lightgray' : '' 
+  };
+
   const listItem = (listInfo: ListItemInfo, index: number) => {
     if (listInfo.to) {
       return (<Link to={listInfo.to} title={listInfo.title} key={`nav_item_${index}`}>
-        <ListItem disablePadding sx={{ marginLeft: 2, color: isThemeLight ? 'black' : 'white' }}>
+        <ThemeListItem sx={themeColor}>
           {listInfo.item}
-        </ListItem>
+        </ThemeListItem>
       </Link>);
     } 
     
     return (
-      <ListItem disablePadding sx={{ marginLeft: 2, color: isThemeLight ? 'black' : 'white' }} key={`nav_item_${index}`}>
+      <ThemeListItem sx={themeColor} key={`nav_item_${index}`}>
         {listInfo.item}
-      </ListItem>
+      </ThemeListItem>
     );
   };
 
@@ -100,7 +115,7 @@ export default function Navbar() {
         {user ? 
         <Avatar src={user.avatar} alt={user.username} sx={{ height: '30px', width: '30px', backgroundColor: 'white' }}/>
         : 
-        <AccountCircleIcon sx={{ color: isThemeLight ? 'black' : 'white' }} />}
+        <AccountCircleIcon sx={themeColor} />}
       </IconButton>
       <Menu
         id="basic-menu"
@@ -115,11 +130,6 @@ export default function Navbar() {
           <MenuItem onClick={() => handleClose(Pages.PROFILE)}>
             <AccountBoxIcon sx={{ margin: '0 5px'}}/> Profile 
           </MenuItem>
-        {user.role === UserRole.ADMIN && 
-          <MenuItem onClick={() => handleClose(Pages.PRODUCT_CREATION)}>
-            <AddBoxIcon sx={{ margin: '0 5px'}}/> Product
-          </MenuItem>
-        }
           <Divider />
           <MenuItem onClick={() => handleClose(Pages.LOGOUT)}>
             <LogoutIcon sx={{ margin: '0 5px'}}/> Logout 
@@ -176,9 +186,7 @@ export default function Navbar() {
       <CenteredContainer 
         justifyContent={MUILayout.SPACE_BETWEEN}
         padding={'0 10px'}
-        sx={{ 
-          backgroundColor: isThemeLight ? 'white' : 'black', 
-          borderBottom: isThemeLight ? '1px solid lightgray' : '' }}>
+        sx={themeBackgroundAndBorder}>
         <CenteredContainer height={'75px'}>
           <Link to="/" style={{ textDecoration: 'none', color: 'white' }}>
             <CenteredContainer>
@@ -186,16 +194,16 @@ export default function Navbar() {
                 <UiImage src={"https://fakeapi.platzi.com/_astro/logo.aa139940.png"} alt="logo" />
               </Box>
               <Box component={'h3'} marginLeft={1} 
-                sx={{ color: isThemeLight ? 'black' : 'white' }}>
+                sx={themeColor}>
                 Platzi store
               </Box> 
             </CenteredContainer>
           </Link>
         </CenteredContainer>
 
-        <List sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} disablePadding>
+        <NavList disablePadding>
           {listItems.map((item, index) => listItem(item(), index)) }
-        </List>
+        </NavList>
       </CenteredContainer>
     </header>
   )
