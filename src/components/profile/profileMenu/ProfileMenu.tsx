@@ -112,7 +112,7 @@ export default function ProfileMenu(props: Props) {
       { (user && user.role === UserRole.ADMIN) && 
       <>
         <Divider />
-        
+        <h3 style={{ margin: '10px 0 0 20px' }}>Admin menu</h3>
         <nav aria-label="secondary mailbox folders">
           <List>
           {adminItems.map((adminItem: MenuItem) => 

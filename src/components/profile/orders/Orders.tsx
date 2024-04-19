@@ -28,7 +28,7 @@ export default function Orders() {
   }
 
   return (
-    <CenteredContainer>
+    <CenteredContainer width='100%'>
     {(orders && orders.length > 0) &&
       <TableContainer component={Paper}>
         <Table aria-label="collapsible table">

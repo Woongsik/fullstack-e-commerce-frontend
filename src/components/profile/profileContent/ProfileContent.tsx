@@ -18,7 +18,7 @@ export default function ProfileContent(props: Props) {
     <Box>
       <h3>{selectedMenu}</h3>
       <Divider />
-      <Box my={1}>
+      <Box my={1} display={'flex'} justifyContent={'center'}>
         {selectedMenu === Menu.ORDER && <Orders />}
         {selectedMenu === Menu.ACCOUNT && <Account />}
         {selectedMenu === Menu.PASSWORD && <Password />}

@@ -21,12 +21,15 @@ class ApiService {
     return `${this.baseURL}/${fragment}`;
   }
 
-  private getAccessToken = (): string => {
+  private getAccessToken = (): {} => {
+    const authHeader: any = {};
     const tokens: UserToken | null = userSlicerUtil.getTokensToLocalStorage();
     if (tokens && tokens.accessToken) {
-      return tokens.accessToken;
+      // return tokens.accessToken;
+      authHeader.Authorization = `Bearer ${tokens.accessToken}`
     }
-    return '';
+
+    return authHeader;
   }
 
   public async request<T>(method: string, url: string, data?: any, headers?: any): Promise<T> {
@@ -54,12 +57,13 @@ class ApiService {
     /* Originally used axios
        since msw is not supporting axios */
        try {
+        const accessToken: {} = this.getAccessToken();
         const response: AxiosResponse = await axios({
           method: method,
           url: url,
           data: data,
           headers: {
-            Authorization : `Bearer ${this.getAccessToken()}`
+            ...accessToken
           }
         });
         
