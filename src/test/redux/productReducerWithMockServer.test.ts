@@ -171,7 +171,7 @@
 //   const targetProduct: Product = mockProducts[mockProducts.length - 1]; 
 
 //   test("should get the product as null", async () => {
-//     await store.dispatch(deleteProduct(targetProduct));
+//     await store.dispatch(deleteProduct(targetProduct._id));
 //     const { product, error, loading } = store.getState().productReducer;
 
 //     expect(product).toBeNull();

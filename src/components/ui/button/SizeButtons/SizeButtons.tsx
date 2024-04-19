@@ -1,4 +1,4 @@
-import { ButtonGroup, Button } from '@mui/material'
+import { ButtonGroup, Button, Divider, Box } from '@mui/material'
 import { useState } from 'react'
 import { Size } from '../../../../misc/types/Size'
 import CenteredContainer from '../../layout/CenteredContainer';
@@ -9,11 +9,17 @@ type Props = {
   selectedValues?: Size[];
   multiple?: boolean;
   justifyContent?: MUILayout;
+  editMode?: boolean;
   onChange: (sizes: Size[]) => void;
 }
 
 export default function SizeButtons(props: Props) {
-  const { selectedValues = [], items = Object.keys(Size), multiple = true, justifyContent = MUILayout.CENTER } = props;
+  const { 
+    selectedValues = [], 
+    items = Object.keys(Size), 
+    multiple = true, 
+    justifyContent = MUILayout.CENTER,
+    editMode = false } = props;
   const [sizes, setSizes] = useState<Size[]>(selectedValues);
 
   const isSelected = (key: string): boolean => {
@@ -73,24 +79,33 @@ export default function SizeButtons(props: Props) {
 
   return (
     <CenteredContainer width={'100%'} justifyContent={justifyContent}>
-      <ButtonGroup aria-label="Size button group">
-        {items.map((key: string) => 
-          (key !== Size.OneSize && 
-            <Button 
-              key={key}
-              variant={checkVariant(key)} 
-              onClick={() => handleClick(key)}>
-              {key}
-            </Button>
-          )
-        )}
-      </ButtonGroup>
+      <CenteredContainer width={'100%'}>
+        <ButtonGroup aria-label="Size button group">
+          {items.map((key: string) => 
+            (key !== Size.OneSize && 
+              <Button 
+                key={key}
+                variant={checkVariant(key)} 
+                onClick={() => handleClick(key)}>
+                {key}
+              </Button>
+            )
+          )}
+        </ButtonGroup>
+      </CenteredContainer>
+      
     {items.indexOf(Size.OneSize) > -1 && 
-      <ButtonGroup aria-label="One Size button group" sx={{ marginLeft: items.length === 1 ? 0 : 2 }}>
-        <Button 
-          variant={checkVariant(Size.OneSize)} 
-          onClick={() => handleClick(Size.OneSize)}>{Size.OneSize}</Button>
-      </ButtonGroup>
+      <Box width={'100%'} marginTop={ editMode ? '15px' : ''}>        
+        {editMode && <Divider />}
+
+        <CenteredContainer width='100%' margin={editMode ? '15px 0 0 0' : ''}>
+          <ButtonGroup aria-label="One Size button group">
+            <Button 
+              variant={checkVariant(Size.OneSize)} 
+              onClick={() => handleClick(Size.OneSize)}>{Size.OneSize}</Button>
+          </ButtonGroup>
+        </CenteredContainer>
+      </Box>
     }
     </CenteredContainer>
   )

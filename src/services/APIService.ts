@@ -200,8 +200,8 @@ class ApiService {
     return this.request('PUT', url, product);
   }
 
-  public deleteProduct(product: Product): Promise<boolean> {
-    const url: string = this.generateUrl(`products/${product._id}`);
+  public deleteProduct(productId: string): Promise<boolean> {
+    const url: string = this.generateUrl(`products/${productId}`);
     return this.request('DELETE', url);
   }
 

@@ -68,9 +68,9 @@ export const updateProduct = createAsyncThunk(
 
 export const deleteProduct = createAsyncThunk(
   "deleteProduct",
-  async (product: Product, { rejectWithValue }) => {
+  async (productId: string, { rejectWithValue }) => {
     try {
-      return apiService.deleteProduct(product);
+      return apiService.deleteProduct(productId);
     } catch (e) {
       return rejectWithValue(e);
     }

@@ -138,32 +138,6 @@ export default function CategoryDetailsRow(props: Props) {
           </Box>
         </TableCell>
       }
-      {/* <TableCell component="th" scope="row">
-      { mode === Mode.READ ? 
-        <img src={category.image} height={'50px'} width={'50px'} />
-          :
-        <TextField
-          {...register("title", { required: true, pattern: /^[A-Za-z0-9?.,=_@&\- ]+$/i }) }
-          error={Boolean(errors.title)}
-          label="Category title"
-          helperText={errors.title && 'No special characters, only (?.,=_@&\-) accepted'}
-          defaultValue={category.title}
-          sx={textFieldCss} />
-      }
-      </TableCell>
-      <TableCell align="center">
-      { mode === Mode.READ ? 
-        <span>{category.title}</span>
-        :
-        <TextField
-          {...register("image", { value: "https://picsum.photos/800", pattern: /[A-Za-z0-9]+[://]+[A-Za-z0-9-]+[\/.]/ }) }                                                          
-          error={Boolean(errors.image)}
-          label="Category image"
-          helperText={errors.image && 'Only valid URL accepted'}
-          defaultValue={category.image}
-          sx={textFieldCss} />
-      }
-      </TableCell> */}
       <TableCell align="center">
         { mode === Mode.READ ? 
         <ButtonGroup>

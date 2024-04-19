@@ -147,7 +147,7 @@ export default function ProudctDetail() {
   const handleDelete = async (proceed: boolean) => {
     setShowDialog(false);
     if (proceed && product) {
-      await dispatch(deleteProduct(product));
+      await dispatch(deleteProduct(product._id));
       setShowDeletedMessage(true);
     }
   }
