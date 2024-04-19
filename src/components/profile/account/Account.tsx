@@ -9,6 +9,7 @@ import { useTheme } from '../../contextAPI/ThemeContext';
 import CenteredContainer from '../../ui/layout/CenteredContainer';
 import { MUIButtonVariant, MUIColor, MUILayout } from '../../../misc/types/MUI';
 import { updateUser } from '../../../redux/slices/UserSlice';
+import LoadingAndMessage from '../../ui/loadingAndMessage/LoadingAndMessage';
 
 enum Mode {
   Edit = 'Edit',
@@ -144,8 +145,9 @@ export default function Account() {
     </FormContainer>
   }
 
-  { loading && <CircularProgress sx={{ position: 'absolute', top: '50%' }}/> }
-  { (!loading && error) && <Typography sx={{ color: 'red', margin: '10px' }}>{error}</Typography>}
+    <LoadingAndMessage 
+      loading={loading} 
+      error={error} />
   </CenteredContainer>
 )
 }

@@ -65,6 +65,16 @@ export const getUserWithSession = createAsyncThunk(
     }
 });
 
+export const loginWithGoogle = createAsyncThunk(
+  "loginWithGoogle",
+  async (credential: string, { rejectWithValue }) => {
+    try {
+      return apiService.loginWithGoogle(credential);
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+});
+
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -133,6 +143,29 @@ const userSlice = createSlice({
         error: undefined
       }
     }).addCase(loginUser.rejected, (state, action) => {
+      return {
+        ...state,
+        user: null,
+        loading: false,
+        error: action.error.message ?? "Unkown error..."
+      }
+    });
+
+    builder.addCase(loginWithGoogle.fulfilled, (state, action) => {
+      userSlicerUtil.setTokensToLocalStorage(action.payload);
+
+      return {
+        ...state,
+        user: action.payload.user,
+        loading: false      
+      }
+    }).addCase(loginWithGoogle.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+        error: undefined
+      }
+    }).addCase(loginWithGoogle.rejected, (state, action) => {
       return {
         ...state,
         user: null,

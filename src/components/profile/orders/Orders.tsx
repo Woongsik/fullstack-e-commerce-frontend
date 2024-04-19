@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 
 import CenteredContainer from '../../ui/layout/CenteredContainer';
 import { apiService } from '../../../services/APIService';
@@ -23,7 +23,7 @@ export default function Orders() {
       setOrders(orders);
     } catch (e) {
       const error = e as Error;
-      setError(`Cannot get categories, ${error.message}`);
+      setError(`${error.message}`);
     }
 
     setLoading(false);
@@ -51,8 +51,6 @@ export default function Orders() {
         </Table>
       </TableContainer>
     }
-
-    {(!loading && orders && orders.length === 0) &&  <h1>No orders yet...</h1>}
 
     <LoadingAndMessage loading={loading} error={error} />
     </CenteredContainer>

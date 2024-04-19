@@ -5,7 +5,6 @@ import { Product, ProductInfo, ProductsList } from '../misc/types/Product';
 import { Category, CategoryBase } from '../misc/types/Category';
 import { LoggedUserInfo, LoginInfo, PasswordUpdate, RegisterUserInfo, User, UserToken } from '../misc/types/User';
 import { UploadedImage } from '../misc/types/UploadedImage';
-import { GoogleLoginResult } from '../components/ui/googleLogin/GoogleLogin';
 import { userSlicerUtil } from '../redux/utils/UserSlicerUtil';
 import { StripeSecret } from '../misc/types/StripeSecret';
 import { Order, OrderRegistesr } from '../misc/types/Order';
@@ -205,9 +204,11 @@ class ApiService {
     return this.request('DELETE', url);
   }
 
-  public loginWithGoogle(url: string, accessToken: string): Promise<GoogleLoginResult> {
-    const googleUrl: string = `${url}=${accessToken}`;
-    return this.request('get', googleUrl);
+  public loginWithGoogle(credential: string): Promise<LoggedUserInfo> {
+    const url: string = this.generateUrl('users/google-login');
+    return this.request('POST', url, {
+      id_token:  credential
+    });
   }
 
   public getStripeClient(totalAmount: number): Promise<StripeSecret> {
