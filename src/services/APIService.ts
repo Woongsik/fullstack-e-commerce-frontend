@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 
 import { Filter } from '../misc/types/Filter';
 import { Product, ProductInfo, ProductsList } from '../misc/types/Product';
@@ -32,30 +32,36 @@ class ApiService {
   }
 
   public async request<T>(method: string, url: string, data?: any, headers?: any): Promise<T> {
-    /* Use fetch for testing and mocking server with msw
-       Please remove comment for testing */
-       
-    // try { 
-    //   const response: Response = await fetch(url, {
-    //     method: method,
-    //     headers: headers,
-    //     body: data ? JSON.stringify(data) : ''
-    //   });
-      
-    //   const jsonResult = await response.json(); 
-    //   if (!response.ok) { // error handling
-    //     throw Error(jsonResult);
-    //   }
+    const testMode: boolean = true; // Set to true for testing with msw
+    
+    if (testMode) {
+      try {
+        const accessToken: {} = this.getAccessToken();
+        const response: Response = await fetch(url, {
+          method: method,
+          headers: {
+            ...headers,
+            ...accessToken
+          },
+          body: data ? JSON.stringify(data) : undefined
+        });
 
-    //   return jsonResult;
-    // } catch(e) {
-    //   const error = e as Error;
-    //   throw new Error(error.message);
-    // }
+        if (!response.ok) { // error handling
+          console.log('response', response);
+          const responseText: any = await response.text();
+          const message = JSON.parse(JSON.stringify(responseText));
+          console.log('message', message, message.message);
+          throw Error(message.message);
+        }
 
-    /* Originally used axios
-       since msw is not supporting axios */
-       try {
+        const jsonResult = await response.json(); 
+        return jsonResult;
+      } catch(e) {
+        const error = e as Error;
+        throw new Error(error.message);
+      }
+    } else {
+      try {
         const accessToken: {} = this.getAccessToken();
         const response: AxiosResponse = await axios({
           method: method,
@@ -68,9 +74,9 @@ class ApiService {
         
         return response.data;
        } catch (e) {
-        // console.log('e', e);
         throw new Error((e as any).response.data.message);
        }
+    }     
   }
 
   public getProducts(filter: Partial<Filter>): Promise<ProductsList> {
@@ -172,7 +178,7 @@ class ApiService {
 
   public login(loginInfo: LoginInfo): Promise<LoggedUserInfo> {
     const url: string = this.generateUrl("users/login");
-    return this.request<LoggedUserInfo>('post', url, loginInfo);
+    return this.request<LoggedUserInfo>('POST', url, loginInfo);
   }
 
   public getUserWithSession(): Promise<User> {
