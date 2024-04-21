@@ -1,5 +1,5 @@
 import { createNewStore } from "../../redux/store";
-import { fetchAllCategoriesAsync } from "../../redux/slices/CategorySlice";
+import { fetchAllCategoriesAsync, initialState } from "../../redux/slices/CategorySlice";
 import { categoryServer } from "../shared/CategoryServer";
 import { Category, CategoryBase } from "../../misc/types/Category";
 import { apiService } from "../../services/APIService";
@@ -22,7 +22,8 @@ afterAll(() => {
 describe("Category reducer with mocking server: fetch all categories", () => {
   // check init
   test('should return initial state', () => {
-    expect(store.getState().categoryReducer.categories).toEqual([]);
+    const categoryState = store.getState().categoryReducer;
+    expect(categoryState).toEqual(initialState);
   }); 
   
   test("should get all categories", async () => {

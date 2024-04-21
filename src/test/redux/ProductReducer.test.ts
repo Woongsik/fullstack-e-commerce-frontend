@@ -2,7 +2,7 @@ import { Category } from "../../misc/types/Category";
 import { Filter } from "../../misc/types/Filter";
 import { Product, ProductInfo, ProductUpdate } from "../../misc/types/Product";
 import { Size } from "../../misc/types/Size";
-import { deleteProduct, fetchProduct, fetchProducts, registerProduct, updateProduct } from "../../redux/slices/ProductSlice";
+import { deleteProduct, fetchProduct, fetchProducts, initialState, registerProduct, updateProduct } from "../../redux/slices/ProductSlice";
 import { createNewStore } from "../../redux/store";
 import ProductSliceUtils from "../../redux/utils/ProductSliceUtils";
 import { mockCategories } from "../shared/CategoryServer";
@@ -30,7 +30,8 @@ const filter: Partial<Filter> = {
 describe("Products reducer with mocking server: fetch all product", () => {
   // check init
   test('should return initial state', () => {
-    expect(store.getState().productReducer.products).toHaveLength(0);
+    const productState = store.getState().productReducer;
+    expect(productState).toEqual(initialState);    
   }); 
 
   test("should get all products", async () => {
