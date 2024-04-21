@@ -1,43 +1,86 @@
-// mswjs.io
-// mocking the server
-// import { http, HttpResponse } from "msw";
-// import { setupServer } from "msw/node";
-// import { LoginInfo, RegisterUserInfo, UserToken } from "../../misc/types/User";
-// import { registeredInfo, registerInfo, userToken } from "../redux/UserReducer.test";
-// import { userSlicerUtil } from "../../redux/utils/UserSlicerUtil";
+import { http, HttpResponse } from "msw";
+import { setupServer } from "msw/node";
+import { LoggedUserInfo, LoginInfo, PasswordUpdate, RegisterUserInfo, User, UserRole, UserToken } from "../../misc/types/User";
+import { userSlicerUtil } from "../../redux/utils/UserSlicerUtil";
+import { baseUrl } from "./ServerUtil";
+import { customerInfo, store } from "../redux/UserReducerWithMockingServer.test";
 
-// export const handler = [
-//   http.post('https://api.escuelajs.co/api/v1/users/', async ({ request }) => { 
-//     const passedRegisterInfo = await request.json() as RegisterUserInfo;
-//     if (passedRegisterInfo) { // Checking if the info is passed correctly
-//       passedRegisterInfo.name === registerInfo.name;
-//       return HttpResponse.json(null, { status: 200 });
-//     }
+export const userToken: UserToken = {
+  accessToken: 'accessToken',
+  refreshToken: 'refreshToken'
+}
 
-//     // User info is passed correctly
-//     return HttpResponse.json(null, { status: 404 });  
-//   }),
-//   http.post('https://api.escuelajs.co/api/v1/auth/login/', async ({ request }) => { 
-//     const loginInfo = await request.json() as LoginInfo;
-//     if (loginInfo) {
-//       return HttpResponse.json(userToken, { status: 200 });
-//     }
+export const handler = [
+  http.post(`${baseUrl}/api/v1/users/`, async ({ request }) => { 
+    const userRegisterInfo: RegisterUserInfo = await request.json() as RegisterUserInfo;
+    if (userRegisterInfo) {
+      const role: UserRole = userRegisterInfo.email === 'admin@mail.com' ? UserRole.ADMIN : UserRole.CUSTOMER;
+      const newUser: User = {
+        ...userRegisterInfo,
+        _id: `user_1`,
+        role: role,
+        active: true
+      }
 
-//     // User info is passed correctly
-//     return HttpResponse.json(null, { status: 404 });  
-//   }),
-//   http.get('https://api.escuelajs.co/api/v1/auth/profile', async ({ request }) => { 
-//     // Check token is saved in localStroage
-//     const savedTokens: UserToken | null = userSlicerUtil.getTokensToLocalStorage();
-//     if (savedTokens && savedTokens.accessToken) {
-//       // User info is passed correctly
-//       return HttpResponse.json(registeredInfo, { status: 200 }); 
-//     }
+      return HttpResponse.json(newUser, { status: 200 });
+    }
 
-//     // if no tokens, then error
-//     return HttpResponse.json(null, { status: 404 });       
-//   })
-// ];
+    return HttpResponse.json(null, { status: 404 });  
+  }),
+  http.put(`${baseUrl}/api/v1/users/`, async ({ request }) => { 
+    const user: User | null = store.getState().userReducer.user;
+    if (user) {
+      const updateInfo: Partial<User> = await request.json() as Partial<User>;
+      if (updateInfo) {
+        const updatedUser: User = {
+          ...user,
+          ...updateInfo
+        }
+  
+        return HttpResponse.json(updatedUser, { status: 201 });
+      }
+    }
+    
+    return HttpResponse.json(null, { status: 404 });  
+  }),
+  http.put(`${baseUrl}/api/v1/users/update-password`, async ({ request }) => { 
+    const user: User | null = store.getState().userReducer.user;
+    const passwordInfo: PasswordUpdate = await request.json() as PasswordUpdate;
+    if (user && passwordInfo) {
+      if (user.password === passwordInfo.oldPassword) {
+        const updatedUser: User = {
+          ...user,
+          password: passwordInfo.newPassword
+        }
 
-// export const userServer = setupServer(...handler);
-export const userServer = '';
+        return HttpResponse.json(updatedUser, { status: 201});    
+      }
+
+      return HttpResponse.json(null, { status: 400 }); // password not matched      
+    }
+
+    return HttpResponse.json(null, { status: 404 });       
+  }),
+  http.post(`${baseUrl}/api/v1/users/login`, async ({ request }) => { 
+    const loginInfo = await request.json() as LoginInfo;
+    if (loginInfo) {
+      const customerUser: User = {
+        ...customerInfo,
+        _id: `user_1`,
+        role: UserRole.CUSTOMER,
+        active: true
+      }
+
+      const loggeduserInfo: LoggedUserInfo = {
+        user: customerUser,
+        tokens: userToken
+      }
+
+      return HttpResponse.json(loggeduserInfo, { status: 200 });
+    }
+
+    return HttpResponse.json(null, { status: 404 });  
+  })
+];
+
+export const userServer = setupServer(...handler);

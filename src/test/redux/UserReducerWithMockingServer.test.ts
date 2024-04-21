@@ -1,80 +1,153 @@
-// import { createNewStore } from "../../redux/store";
-// import { userServer } from "../shared/UserServer";
-// import { getUserWithSession, loginUser, registerUser } from "../../redux/slices/UserSlice";
-// import { loginInfo, registerInfo, registeredInfo, userToken } from "./UserReducer.test";
-// import { userSlicerUtil } from "../../redux/utils/UserSlicerUtil";
-// import { UserToken } from "../../misc/types/User";
+import { createNewStore } from "../../redux/store";
+import { userServer, userToken } from "../shared/UserServer";
+import { getUserWithSession, initialState, loginUser, registerUser, updateUser, updateUserPassword } from "../../redux/slices/UserSlice";
+import { userSlicerUtil } from "../../redux/utils/UserSlicerUtil";
+import { LoginInfo, PasswordUpdate, RegisterUserInfo, User, UserRole, UserToken } from "../../misc/types/User";
 
-// let store = createNewStore();
+export let store = createNewStore();
 
-// beforeAll(() => {
-//   userServer.listen();
-// });
+beforeAll(() => {
+  userServer.listen();
+});
 
-// beforeEach(() => {
-//   store = createNewStore();
-// });
+beforeEach(() => {
+  store = createNewStore();
+});
 
-// afterAll(() => {
-//   userServer.close();
-// });
+afterAll(() => {
+  userServer.close();
+});
 
+export const loginInfo: LoginInfo = {
+  email: 'customer@mail.com',
+  password: 'userPassword'
+}
 
-// describe("User reducer with mocking server: register user", () => {
-//   // check init
-//   test('should return initial state', () => {
-//     expect(store.getState().userReducer.user).toBeNull();
-//   }); 
+export const adminInfo: RegisterUserInfo = {
+  ...loginInfo,
+  firstname: 'firstname',
+  lastname: 'lastname',
+  username: 'username',
+  address: 'somewhere in Helsinki, 00100, Finland',
+  avatar: 'http://user.png',
+  email: 'admin@mail.com'
+}
+
+export const customerInfo: RegisterUserInfo = {
+  ...adminInfo,
+  email: 'customer@mail.com'
+}
+
+describe("User reducer with mocking server: Create user", () => {
+  // check init
+  test('should return initial state', () => {
+    const userState = store.getState().userReducer;
+    expect(userState).toEqual(initialState);
+  }); 
 
   
-//   test("should get no error if user successfully registered", async () => {
-//     await store.dispatch(registerUser(registerInfo));
-//     const { user, error, loading } = store.getState().userReducer;
+  test("should get no error if user successfully registered", async () => {
+    // Create a Admin
+    const responseForAdmin = await store.dispatch(registerUser(adminInfo));
+    const newAdmin: User = responseForAdmin.payload as User;
 
-//     expect(user).toBeNull();
-//     expect(error).toBeUndefined();
-//     expect(loading).toBeFalsy(); 
-//   });
-// });
+    expect(newAdmin.role).toBe(UserRole.ADMIN);
 
-// describe("User reducer with mocking server: login user", () => {
-//   // check init
-//   test('should return initial state', () => {
-//     expect(store.getState().userReducer.user).toBeNull();
-//   }); 
+    // Create a Cutsomer user
+    const responseForCustomer = await store.dispatch(registerUser(customerInfo));
+    const newUser: User = responseForCustomer.payload as User;
 
-//   test("should get user token with the login", async () => {
-//     await store.dispatch(loginUser(loginInfo));
-//     const { user, error, loading } = store.getState().userReducer;
+    expect(newUser.role).toBe(UserRole.CUSTOMER);
+    
+    // We don't handle the user info
+    const { user, error, loading } = store.getState().userReducer;
 
-//     expect(user).toBeNull();
-//     expect(error).toBeUndefined();
-//     expect(loading).toBeFalsy(); 
+    expect(user).toBeNull();
+    expect(error).toBeUndefined();
+    expect(loading).toBeFalsy(); 
+  });
+});
 
-//     // Check token is saved in localStroage
-//     const savedTokens: UserToken | null = userSlicerUtil.getTokensToLocalStorage();
-//     expect(savedTokens).toEqual(userToken);
-//   });
-// });
+describe("User reducer with mocking server: Login user", () => {
+  // check init
+  test('should return initial state', () => {
+    expect(store.getState().userReducer.user).toBeNull();
+  }); 
 
-//   describe("User reducer with mocking server: get user session", () => {
-//     // check init
-//     test('should return initial state', () => {
-//       expect(store.getState().userReducer.user).toBeNull();
-//     }); 
+  test("should get user token with the login", async () => {
+    await store.dispatch(loginUser(loginInfo));
+    const { user, error, loading } = store.getState().userReducer;
+
+    const customerUser: User = {
+      ...customerInfo,
+      _id: `user_1`,
+      role: UserRole.CUSTOMER,
+      active: true
+    };
+
+    expect(user).toEqual(customerUser);
+    expect(error).toBeUndefined();
+    expect(loading).toBeFalsy(); 
+
+    // Check token is saved in localStroage
+    const savedTokens: UserToken | null = userSlicerUtil.getTokensToLocalStorage();
+    expect(savedTokens).toEqual(userToken);
+  });
+});
+
+describe("User reducer with mocking server: Update user", () => {
+  // check init
+  test('should return initial state', () => {
+    expect(store.getState().userReducer.user).toBeNull();
+  }); 
+
+  test("should get updated user", async () => {
+    await store.dispatch(loginUser(loginInfo));
+    const loggedUser: User | null = store.getState().userReducer.user;
+
+    if (loggedUser) {
+      const updateInfo: Partial<RegisterUserInfo> = {
+        firstname: 'updatedName'
+      }
+
+      await store.dispatch(updateUser(updateInfo));
+      const { user, loading, error } = store.getState().userReducer;
+
+      const expectedUser: User = {
+        ...loggedUser,
+        ...updateInfo
+      }
+
+      expect(expectedUser).toEqual(user);
+      expect(error).toBeUndefined();
+      expect(loading).toBeFalsy(); 
+    }
+  });
+});
+
+describe("User reducer with mocking server: Update userpassword", () => {
+  // check init
+  test('should return initial state', () => {
+    expect(store.getState().userReducer.user).toBeNull();
+  }); 
+
+  test("should get update password", async () => {
+    // Create a Cutsomer user
+    await store.dispatch(loginUser(loginInfo));
+    const loggedUser: User | null = store.getState().userReducer.user;
+
+    if (loggedUser) {
+      const updateInfo: PasswordUpdate = {
+        oldPassword: customerInfo.password,
+        newPassword: 'somethingNewPassword'
+      };
   
-//     test("should get user by sending token", async () => {
-//       // Check token is saved in localStroage
-//       const savedTokens: UserToken | null = userSlicerUtil.getTokensToLocalStorage();
-//       expect(savedTokens).toEqual(userToken);
-
-//       await store.dispatch(getUserWithSession(userToken));
-//       const { user, error, loading } = store.getState().userReducer;
-
-//       expect(user).toEqual(registeredInfo);
-//       expect(error).toBeUndefined();
-//       expect(loading).toBeFalsy(); 
-//     })
-//   });
-
-export const userReducerWithMockingServer = '';
+      await store.dispatch(updateUserPassword(updateInfo));
+      const { loading, error, user } = store.getState().userReducer;
+  
+      expect(user?.password).toEqual(updateInfo.newPassword);
+      expect(error).toBeUndefined();
+      expect(loading).toBeFalsy(); 
+    }
+  });
+});

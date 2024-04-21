@@ -17,7 +17,7 @@ export type RegisterUserInfo = LoginInfo & {
 }
 
 export type User = RegisterUserInfo & {
-  _id: number;
+  _id: string;
   role: UserRole,
   active: boolean
 }
