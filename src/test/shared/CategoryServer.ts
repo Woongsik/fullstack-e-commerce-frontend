@@ -1,6 +1,7 @@
 import { http, HttpResponse } from "msw";
 import { setupServer } from "msw/node";
 import { Category, CategoryBase } from "../../misc/types/Category";
+import { baseUrl } from "./ServerUtil";
 
 export const mockCategories: Category[] = [
   {
@@ -21,10 +22,10 @@ export const mockCategories: Category[] = [
 ] 
 
 export const handler = [
-  http.get('http://localhost:8080/api/v1/categories', async () => {   
+  http.get(`${baseUrl}/api/v1/categories`, async () => {   
     return HttpResponse.json(mockCategories, { status: 200 });  
   }),
-  http.post('http://localhost:8080/api/v1/categories', async ({ request }) => {
+  http.post(`${baseUrl}/api/v1/categories`, async ({ request }) => {
     const categoryInfo = await request.json() as CategoryBase;
     const newCategory: Category = {
       ...categoryInfo,
@@ -33,7 +34,7 @@ export const handler = [
 
     return HttpResponse.json(newCategory, { status: 200 });  
   }),
-  http.put('http://localhost:8080/api/v1/categories/:categoryId', async ({ request, params }) => {   
+  http.put(`${baseUrl}/api/v1/categories/:categoryId`, async ({ request, params }) => {   
     const categoryId: string = params.categoryId as string;
     const categoryInfo: CategoryBase = await request.json() as CategoryBase;
 
@@ -44,7 +45,7 @@ export const handler = [
 
     return HttpResponse.json(updatedCategory, { status: 201 });  
   }),
-  http.delete('http://localhost:8080/api/v1/categories/:categoryId', async ({ params }) => {   
+  http.delete(`${baseUrl}/api/v1/categories/:categoryId`, async ({ params }) => {   
     const categoryId: string = params.categoryId as string;
     const index: number = mockCategories.findIndex((c: Category) => c._id === categoryId);
     mockCategories.splice(index, 1);
