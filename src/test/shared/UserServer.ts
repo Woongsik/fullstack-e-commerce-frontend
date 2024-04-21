@@ -3,7 +3,7 @@ import { setupServer } from "msw/node";
 import { LoggedUserInfo, LoginInfo, PasswordUpdate, RegisterUserInfo, User, UserRole, UserToken } from "../../misc/types/User";
 import { userSlicerUtil } from "../../redux/utils/UserSlicerUtil";
 import { baseUrl } from "./ServerUtil";
-import { customerInfo, store } from "../redux/UserReducerWithMockingServer.test";
+import { customerInfo, store } from "../redux/UserReducer.test";
 
 export const userToken: UserToken = {
   accessToken: 'accessToken',

@@ -1,184 +1,153 @@
-// import { LoginInfo, RegisterUserInfo, User, UserRole, UserToken } from "../../misc/types/User";
-// import userReducer, { getUserWithSession, initialState, InitialState, loginUser, registerUser } from "../../redux/slices/UserSlice";
-// import { userSlicerUtil } from "../../redux/utils/UserSlicerUtil";
+import { createNewStore } from "../../redux/store";
+import { userServer, userToken } from "../shared/UserServer";
+import { getUserWithSession, initialState, loginUser, registerUser, updateUser, updateUserPassword } from "../../redux/slices/UserSlice";
+import { userSlicerUtil } from "../../redux/utils/UserSlicerUtil";
+import { LoginInfo, PasswordUpdate, RegisterUserInfo, User, UserRole, UserToken } from "../../misc/types/User";
 
-// export const registerInfo: RegisterUserInfo = {
-//   name: 'testUserName',
-//   email: 'testUserEmail@mail.com',
-//   password: 'testUserPassword',
-//   avatar: 'testUserAvatar',
-//   role: UserRole.CUSTOMER
-// }
+export let store = createNewStore();
 
-// export const registeredInfo: User = {
-//   ...registerInfo,
-//   id: 1
-// }
+beforeAll(() => {
+  userServer.listen();
+});
 
-// export const loginInfo: LoginInfo = {
-//   email: 'testUserEmail@mail.com',
-//   password: 'testUserPassword'
-// }
+beforeEach(() => {
+  store = createNewStore();
+});
 
-// export const userToken: UserToken = {
-//   accessToken: 'accessToken',
-//   refreshToken: 'refreshToken'
-// }
+afterAll(() => {
+  userServer.close();
+});
 
-// describe("User reducer: register user", () => {
-//   // inital state
-//   test("should return initial state", () => {
-//     const state = userReducer(undefined, { type: ""});
-//     expect(state).toEqual(initialState);
-//   });
+export const loginInfo: LoginInfo = {
+  email: 'customer@mail.com',
+  password: 'userPassword'
+}
 
-//   test("should register a user, return no error", () => {
-//     const state: InitialState = userReducer(
-//       initialState,
-//       registerUser.fulfilled(registeredInfo, 'registerUser', registerInfo)
-//     );
+export const adminInfo: RegisterUserInfo = {
+  ...loginInfo,
+  firstname: 'firstname',
+  lastname: 'lastname',
+  username: 'username',
+  address: 'somewhere in Helsinki, 00100, Finland',
+  avatar: 'http://user.png',
+  email: 'admin@mail.com'
+}
 
-//     expect(state).toEqual({
-//       user: null,
-//       loading: false
-//     });
-//   });
+export const customerInfo: RegisterUserInfo = {
+  ...adminInfo,
+  email: 'customer@mail.com'
+}
 
-//   // test: registerUser.pending
-//   test("should have loading truthy when it is pending", () => {
-//     const state = userReducer(
-//       initialState,
-//       registerUser.pending('registerUser', registerInfo)
-//     );
+describe("User reducer with mocking server: Create user", () => {
+  // check init
+  test('should return initial state', () => {
+    const userState = store.getState().userReducer;
+    expect(userState).toEqual(initialState);
+  }); 
 
-//     expect(state).toEqual({
-//       user: null,
-//       loading: true,
-//       error: undefined
-//     });
-//   });
+  
+  test("should get no error if user successfully registered", async () => {
+    // Create a Admin
+    const responseForAdmin = await store.dispatch(registerUser(adminInfo));
+    const newAdmin: User = responseForAdmin.payload as User;
 
-//   // test: registerUser.reject
-//   test("should have an error", () => {
-//     const error: Error = new Error('error'); 
-//     const state = userReducer(
-//       initialState,
-//       registerUser.rejected(error, 'fetchProducts', registerInfo)
-//     );
+    expect(newAdmin.role).toBe(UserRole.ADMIN);
 
-//     expect(state).toEqual({
-//       user: null,
-//       loading: false,
-//       error: error.message
-//     });
-//   });
-// });
+    // Create a Cutsomer user
+    const responseForCustomer = await store.dispatch(registerUser(customerInfo));
+    const newUser: User = responseForCustomer.payload as User;
 
-// describe("User reducer: login user", () => {
-//   // inital state
-//   test("should return initial state", () => {
-//     const state = userReducer(undefined, { type: ""});
-//     expect(state).toEqual(initialState);
-//   });
-
-//   test("should login and get token", () => {
-//     const state: InitialState = userReducer(
-//       initialState,
-//       loginUser.fulfilled(userToken, 'loginUser', loginInfo)
-//     );
-
-//     // Token is saved in localStroage
-//     // In reducer, not handling it
-//     expect(state).toEqual({
-//       user: null,
-//       loading: false
-//     });
-
-//     // Check token is saved in localStroage
-//     const savedTokens: UserToken | null = userSlicerUtil.getTokensToLocalStorage();
-//     expect(savedTokens).toEqual(userToken);
-//   });
-
-//   // test: registerUser.pending
-//   test("should have loading truthy when it is pending", () => {
-//     const state = userReducer(
-//       initialState,
-//       loginUser.pending('loginUser', loginInfo)
-//     );
-
-//     expect(state).toEqual({
-//       user: null,
-//       loading: true,
-//       error: undefined
-//     });
-//   });
-
-//   // test: loginUser.reject
-//   test("should have an error", () => {
-//     const error: Error = new Error('error'); 
-//     const state = userReducer(
-//       initialState,
-//       loginUser.rejected(error, 'loginUser', loginInfo)
-//     );
-
-//     expect(state).toEqual({
-//       user: null,
-//       loading: false,
-//       error: error.message
-//     });
-//   });
-// });
-
-// describe("User reducer:  user with session", () => {
-//   // inital state
-//   test("should return initial state", () => {
-//     const state = userReducer(undefined, { type: ""});
-//     expect(state).toEqual(initialState);
-//   });
-
-//   test("should get a user with session token", () => {
-//     // Check token is saved in localStroage
-//     const savedTokens: UserToken | null = userSlicerUtil.getTokensToLocalStorage();
-//     expect(savedTokens).toEqual(userToken);
+    expect(newUser.role).toBe(UserRole.CUSTOMER);
     
-//     const state: InitialState = userReducer(
-//       initialState,
-//       getUserWithSession.fulfilled(registeredInfo, 'getUserWithSession', userToken)
-//     );
+    // We don't handle the user info
+    const { user, error, loading } = store.getState().userReducer;
 
-//     expect(state).toEqual({
-//       user: registeredInfo,
-//       loading: false
-//     });
-//   });
+    expect(user).toBeNull();
+    expect(error).toBeUndefined();
+    expect(loading).toBeFalsy(); 
+  });
+});
 
-//   // test: getUserWithSession.pending
-//   test("should have loading truthy when it is pending", () => {
-//     const state = userReducer(
-//       initialState,
-//       getUserWithSession.pending('getUserWithSession', userToken)
-//     );
+describe("User reducer with mocking server: Login user", () => {
+  // check init
+  test('should return initial state', () => {
+    expect(store.getState().userReducer.user).toBeNull();
+  }); 
 
-//     expect(state).toEqual({
-//       user: null,
-//       loading: true,
-//       error: undefined
-//     });
-//   });
+  test("should get user token with the login", async () => {
+    await store.dispatch(loginUser(loginInfo));
+    const { user, error, loading } = store.getState().userReducer;
 
-//   // test: getUserWithSession.reject
-//   test("should have an error", () => {
-//     const error: Error = new Error('error'); 
-//     const state = userReducer(
-//       initialState,
-//       getUserWithSession.rejected(error, 'getUserWithSession', userToken)
-//     );
+    const customerUser: User = {
+      ...customerInfo,
+      _id: `user_1`,
+      role: UserRole.CUSTOMER,
+      active: true
+    };
 
-//     expect(state).toEqual({
-//       user: null,
-//       loading: false,
-//       error: error.message
-//     });
-//   });
-// });
-export const userReducerWithMockingServer = '';
+    expect(user).toEqual(customerUser);
+    expect(error).toBeUndefined();
+    expect(loading).toBeFalsy(); 
+
+    // Check token is saved in localStroage
+    const savedTokens: UserToken | null = userSlicerUtil.getTokensToLocalStorage();
+    expect(savedTokens).toEqual(userToken);
+  });
+});
+
+describe("User reducer with mocking server: Update user", () => {
+  // check init
+  test('should return initial state', () => {
+    expect(store.getState().userReducer.user).toBeNull();
+  }); 
+
+  test("should get updated user", async () => {
+    await store.dispatch(loginUser(loginInfo));
+    const loggedUser: User | null = store.getState().userReducer.user;
+
+    if (loggedUser) {
+      const updateInfo: Partial<RegisterUserInfo> = {
+        firstname: 'updatedName'
+      }
+
+      await store.dispatch(updateUser(updateInfo));
+      const { user, loading, error } = store.getState().userReducer;
+
+      const expectedUser: User = {
+        ...loggedUser,
+        ...updateInfo
+      }
+
+      expect(expectedUser).toEqual(user);
+      expect(error).toBeUndefined();
+      expect(loading).toBeFalsy(); 
+    }
+  });
+});
+
+describe("User reducer with mocking server: Update userpassword", () => {
+  // check init
+  test('should return initial state', () => {
+    expect(store.getState().userReducer.user).toBeNull();
+  }); 
+
+  test("should get update password", async () => {
+    // Create a Cutsomer user
+    await store.dispatch(loginUser(loginInfo));
+    const loggedUser: User | null = store.getState().userReducer.user;
+
+    if (loggedUser) {
+      const updateInfo: PasswordUpdate = {
+        oldPassword: customerInfo.password,
+        newPassword: 'somethingNewPassword'
+      };
+  
+      await store.dispatch(updateUserPassword(updateInfo));
+      const { loading, error, user } = store.getState().userReducer;
+  
+      expect(user?.password).toEqual(updateInfo.newPassword);
+      expect(error).toBeUndefined();
+      expect(loading).toBeFalsy(); 
+    }
+  });
+});
