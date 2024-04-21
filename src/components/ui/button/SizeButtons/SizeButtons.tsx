@@ -85,7 +85,7 @@ export default function SizeButtons(props: Props) {
             (key !== Size.OneSize && 
               <Button 
                 key={key}
-                variant={checkVariant(key)} 
+                variant={checkVariant(key)}
                 onClick={() => handleClick(key)}>
                 {key}
               </Button>

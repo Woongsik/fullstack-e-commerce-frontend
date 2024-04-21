@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 
-import UiFormSelects from '../ui/form/UiFormSelects';
-import { Size } from '../../misc/types/Size';
+import UiFormSelects from '../form/UiFormSelects';
+import { Size } from '../../../misc/types/Size';
 
 type Props = {
   selectedSize?: Size;

@@ -17,7 +17,7 @@ import { useSelector } from 'react-redux';
 import { updateFilter, fetchProducts } from '../../../../redux/slices/ProductSlice';
 import { AppState, useAppDispatch } from '../../../../redux/store';
 import { baseItemsPerPage, basePage } from '../../pageNavigation/PageNavigation';
-import Sizes from '../../../sizes/Sizes';
+import Sizes from '../../sizes/Sizes';
 import { Size } from '../../../../misc/types/Size';
 
 type Props = {
