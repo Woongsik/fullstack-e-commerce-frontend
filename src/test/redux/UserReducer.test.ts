@@ -1,7 +1,7 @@
 import { createNewStore } from "../../redux/store";
 import { userServer, userToken } from "../shared/UserServer";
-import { getUserWithSession, initialState, loginUser, registerUser, updateUser, updateUserPassword } from "../../redux/slices/UserSlice";
-import { userSlicerUtil } from "../../redux/utils/UserSlicerUtil";
+import { initialState, loginUser, registerUser, updateUser, updateUserPassword } from "../../redux/slices/UserSlice";
+import { localStorageUtil } from "../../redux/utils/LocalStrorageUtil";
 import { LoginInfo, PasswordUpdate, RegisterUserInfo, User, UserRole, UserToken } from "../../misc/types/User";
 
 export let store = createNewStore();
@@ -90,7 +90,7 @@ describe("User reducer with mocking server: Login user", () => {
     expect(loading).toBeFalsy(); 
 
     // Check token is saved in localStroage
-    const savedTokens: UserToken | null = userSlicerUtil.getTokensToLocalStorage();
+    const savedTokens: UserToken | null = localStorageUtil.getTokens();
     expect(savedTokens).toEqual(userToken);
   });
 });

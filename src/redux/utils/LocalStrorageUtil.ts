@@ -1,15 +1,15 @@
 import { LoggedUserInfo, UserToken } from "../../misc/types/User";
 
-class UserSlicerUtil {
-  readonly hostsName = "platziStore";
-  readonly sessionName = "userSession";
+class LocalStorageUtil {
+  readonly mainName = "awsomeShopping";
+  readonly sectionName = "userTokens";
   localStorageName;
 
   constructor() {
-    this.localStorageName = `${this.hostsName}_${this.sessionName}`;
+    this.localStorageName = `${this.mainName}_${this.sectionName}`;
   }
   
-  public getTokensToLocalStorage(): UserToken | null {
+  public getTokens(): UserToken | null {
     try {
       const rawTokens: string | null = localStorage.getItem(this.localStorageName);
       if (rawTokens) {
@@ -23,7 +23,7 @@ class UserSlicerUtil {
     }
   }
 
-  public setTokensToLocalStorage(loggedUserInfo: LoggedUserInfo): void {
+  public setTokens(loggedUserInfo: LoggedUserInfo): void {
     try {
       const userTokens: UserToken = loggedUserInfo.tokens;
       const rawTokens: string = JSON.stringify(userTokens);
@@ -33,7 +33,7 @@ class UserSlicerUtil {
     }
   }
 
-  public removeTokensFromLocalStorage(): void {
+  public removeTokens(): void {
     try {
       localStorage.removeItem(this.localStorageName);
     } catch(e: any) {
@@ -42,4 +42,4 @@ class UserSlicerUtil {
   }
 }
 
-export const userSlicerUtil: UserSlicerUtil = new UserSlicerUtil();
+export const localStorageUtil: LocalStorageUtil = new LocalStorageUtil();

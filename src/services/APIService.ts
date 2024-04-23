@@ -1,11 +1,10 @@
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
 import { Filter } from '../misc/types/Filter';
 import { Product, ProductInfo, ProductsList } from '../misc/types/Product';
 import { Category, CategoryBase } from '../misc/types/Category';
 import { LoggedUserInfo, LoginInfo, PasswordUpdate, RegisterUserInfo, User, UserRoleAndActive, UserToken } from '../misc/types/User';
-import { UploadedImage } from '../misc/types/UploadedImage';
-import { userSlicerUtil } from '../redux/utils/UserSlicerUtil';
+import { localStorageUtil } from '../redux/utils/LocalStrorageUtil';
 import { StripeSecret } from '../misc/types/StripeSecret';
 import { Order, OrderRegistesr } from '../misc/types/Order';
 
@@ -22,9 +21,8 @@ class ApiService {
 
   private getAccessToken = (): {} => {
     const authHeader: any = {};
-    const tokens: UserToken | null = userSlicerUtil.getTokensToLocalStorage();
+    const tokens: UserToken | null = localStorageUtil.getTokens();
     if (tokens && tokens.accessToken) {
-      // return tokens.accessToken;
       authHeader.Authorization = `Bearer ${tokens.accessToken}`
     }
 

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Box, IconButton, InputAdornment, Switch, TextField, styled } from '@mui/material';
+import { Box, IconButton, InputAdornment, TextField, styled } from '@mui/material';
 import { InfoOutlined, Visibility, VisibilityOff } from '@mui/icons-material';
 
 import GridContainer from '../../components/ui/layout/GridContainer';
@@ -10,11 +10,10 @@ import CenteredContainer from '../../components/ui/layout/CenteredContainer';
 import UiRoundButton from '../../components/ui/button/UiRoundButton';
 import UiButton from '../../components/ui/button/UiButton';
 import { AppState, useAppDispatch } from '../../redux/store';
-import { getUserWithSession, loginUser, registerUser } from '../../redux/slices/UserSlice';
+import { loginUser, registerUser } from '../../redux/slices/UserSlice';
 import { MUIButtonType, MUIButtonVariant, MUILayout } from '../../misc/types/MUI';
-import { LoggedUserInfo, RegisterUserInfo, UserRole, UserToken } from '../../misc/types/User';
+import { RegisterUserInfo } from '../../misc/types/User';
 import { useUserSession } from '../../hooks/useUserSession';
-import { userSlicerUtil } from '../../redux/utils/UserSlicerUtil';
 import GoogleLogin from '../../components/ui/googleLogin/GoogleLogin';
 import { useTheme } from '../../components/contextAPI/ThemeContext';
 

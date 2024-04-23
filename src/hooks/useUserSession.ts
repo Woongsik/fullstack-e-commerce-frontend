@@ -3,8 +3,6 @@ import { useSelector } from "react-redux";
 
 import { getUserWithSession } from "../redux/slices/UserSlice";
 import { AppState, useAppDispatch } from "../redux/store";
-import { userSlicerUtil } from "../redux/utils/UserSlicerUtil";
-import { UserToken } from "../misc/types/User";
 
 export function useUserSession() {
   const dispatch = useAppDispatch();

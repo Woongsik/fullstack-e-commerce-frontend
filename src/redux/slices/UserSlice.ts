@@ -2,7 +2,7 @@ import { ActionReducerMapBuilder, PayloadAction, createAsyncThunk, createSlice }
 
 import { LoginInfo, PasswordUpdate, RegisterUserInfo, User } from "../../misc/types/User";
 import { apiService } from "../../services/APIService";
-import { userSlicerUtil } from "../utils/UserSlicerUtil";
+import { localStorageUtil } from "../utils/LocalStrorageUtil";
 
 export type InitialState = {
   user: User | null; // User;
@@ -83,7 +83,7 @@ const userSlice = createSlice({
       state.user = actions.payload;
     },
     logout: (state) => {
-      userSlicerUtil.removeTokensFromLocalStorage();
+      localStorageUtil.removeTokens();
       state.user = null;
     }
   },
@@ -129,7 +129,7 @@ const userSlice = createSlice({
     });
 
     builder.addCase(loginUser.fulfilled, (state, action) => {
-      userSlicerUtil.setTokensToLocalStorage(action.payload);
+      localStorageUtil.setTokens(action.payload);
 
       return {
         ...state,
@@ -152,7 +152,7 @@ const userSlice = createSlice({
     });
 
     builder.addCase(loginWithGoogle.fulfilled, (state, action) => {
-      userSlicerUtil.setTokensToLocalStorage(action.payload);
+      localStorageUtil.setTokens(action.payload);
 
       return {
         ...state,
@@ -187,7 +187,7 @@ const userSlice = createSlice({
         error: undefined
       }
     }).addCase(getUserWithSession.rejected, (state, action) => {
-      userSlicerUtil.removeTokensFromLocalStorage();
+      localStorageUtil.removeTokens();
       
       return {
         ...state,
