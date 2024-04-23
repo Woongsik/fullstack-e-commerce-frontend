@@ -34,6 +34,8 @@ export default function Account() {
   const { register, handleSubmit, formState: { errors } } = useForm<Partial<RegisterUserInfo>>();
   const { isThemeLight } = useTheme();
 
+  const doNotDisplayProperties: string[] = ['_id', '__v', 'password', 'active'];
+
   const textFieldCss = {
     '&.MuiFormControl-root > *, &.MuiFormControl-root > .MuiInputBase-root > .MuiOutlinedInput-notchedOutline': {
       color: isThemeLight ? 'white' : '',
@@ -64,11 +66,12 @@ export default function Account() {
     { (user && mode === Mode.Read) &&
     <FormContainer>
       <Box width={'100%'}>
-      {Object.entries(user).map(([key, value], index) => 
+      {Object.entries(user).map(([key, value]) =>
+        (doNotDisplayProperties.indexOf(key) === -1) &&  
         (<CenteredContainer key={key} width={'100%'} justifyContent={MUILayout.SPACE_BETWEEN} sx={{ minWidth: '300px', margin: '10px 0'}}>
-          <Box width={'30%'} minWidth={'100px'}><Chip label={key} variant="outlined"/></Box>
+          <Box width={'30%'} minWidth={'100px'}><Chip label={key} variant="outlined" sx={{ textTransform: 'capitalize', width: '100%' }}/></Box>
           <Box width={'65%'} minWidth={'200px'} sx={{ textWrap: 'wrap', overflowWrap: 'break-word' }}>
-            <span>
+            <span style={{ textTransform: (key === 'role' ? 'capitalize' : 'none' )}}>
               {value}
             </span>
           </Box>
