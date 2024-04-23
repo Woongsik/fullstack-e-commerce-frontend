@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
 
-import CenteredContainer from '../../../ui/layout/CenteredContainer';
-import LoadingAndMessage from '../../../ui/loadingAndMessage/LoadingAndMessage';
-import { Product, ProductsList } from '../../../../misc/types/Product';
+import CenteredContainer from '../../../../../ui/layout/CenteredContainer';
+import LoadingAndMessage from '../../../../../ui/loadingAndMessage/LoadingAndMessage';
+import { Product, ProductsList } from '../../../../../../misc/types/Product';
 import ProductDetailsRow from './productDetail/ProductDetailsRow';
-import { apiService } from '../../../../services/APIService';
+import { apiService } from '../../../../../../services/APIService';
 
 export default function AllProducts() {
   const [error, setError] = useState<string>('');

@@ -7,11 +7,11 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import SaveIcon from '@mui/icons-material/Save';
 import LaunchIcon from '@mui/icons-material/Launch';
 
-import UiDialog from '../../../../ui/dialog/UiDialog';
-import { apiService } from '../../../../../services/APIService';
-import LoadingAndMessage from '../../../../ui/loadingAndMessage/LoadingAndMessage';
-import { MUIColor } from '../../../../../misc/types/MUI';
-import { Product } from '../../../../../misc/types/Product';
+import UiDialog from '../../../../../../ui/dialog/UiDialog';
+import { apiService } from '../../../../../../../services/APIService';
+import LoadingAndMessage from '../../../../../../ui/loadingAndMessage/LoadingAndMessage';
+import { MUIColor } from '../../../../../../../misc/types/MUI';
+import { Product } from '../../../../../../../misc/types/Product';
 import AddProduct from '../../addProduct/AddProduct';
 
 type Props = {

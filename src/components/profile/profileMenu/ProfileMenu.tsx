@@ -12,6 +12,7 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import PasswordIcon from '@mui/icons-material/Password';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import CategoryIcon from '@mui/icons-material/Category';
+import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import { useSelector } from 'react-redux';
 
 import { AppState } from '../../../redux/store';
@@ -24,7 +25,8 @@ export enum Menu {
   ACCOUNT = 'ACCOUNT',
   PASSWORD = 'PASSWORD',
   PRODUCTS = 'PRODUCTS',
-  CATEGORIES = 'CATEGORIES'
+  CATEGORIES = 'CATEGORIES',
+  USERS = 'USERS'
 }
 
 type MenuItem = {
@@ -67,6 +69,11 @@ const adminItems: MenuItem[] = [
     type: Menu.CATEGORIES,
     icon: <CategoryIcon />,
     title: 'Categories'
+  },
+  {
+    type: Menu.USERS,
+    icon: <SupervisorAccountIcon />,
+    title: 'Users'
   },
 ]
 

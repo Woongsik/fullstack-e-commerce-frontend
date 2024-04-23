@@ -1,7 +1,7 @@
 import React, { SyntheticEvent, useState } from 'react';
 import { Box, Tabs, Tab } from '@mui/material';
 import AddCategory from './addCategory/AddCategory';
-import CenteredContainer from '../../ui/layout/CenteredContainer';
+import CenteredContainer from '../../../../ui/layout/CenteredContainer';
 import AllCategories from './allCategories/AllCategories';
 
 enum TabItem {

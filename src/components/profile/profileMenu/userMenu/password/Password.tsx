@@ -5,13 +5,13 @@ import styled from '@emotion/styled';
 import { Box, Button, CircularProgress, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
 import { InfoOutlined, Visibility, VisibilityOff } from '@mui/icons-material';
 
-import { MUIButtonVariant, MUIColor, MUILayout } from '../../../misc/types/MUI';
-import { PasswordUpdate } from '../../../misc/types/User';
-import CenteredContainer from '../../ui/layout/CenteredContainer';
-import { AppState, useAppDispatch } from '../../../redux/store';
-import { useTheme } from '../../contextAPI/ThemeContext';
-import { updateUserPassword } from '../../../redux/slices/UserSlice';
-import LoadingAndMessage from '../../ui/loadingAndMessage/LoadingAndMessage';
+import { MUIButtonVariant, MUIColor, MUILayout } from '../../../../../misc/types/MUI';
+import { PasswordUpdate } from '../../../../../misc/types/User';
+import CenteredContainer from '../../../../ui/layout/CenteredContainer';
+import { AppState, useAppDispatch } from '../../../../../redux/store';
+import { useTheme } from '../../../../contextAPI/ThemeContext';
+import { updateUserPassword } from '../../../../../redux/slices/UserSlice';
+import LoadingAndMessage from '../../../../ui/loadingAndMessage/LoadingAndMessage';
 
 const FormContainer = styled(Box)({
   '& .MuiTextField-root': { 

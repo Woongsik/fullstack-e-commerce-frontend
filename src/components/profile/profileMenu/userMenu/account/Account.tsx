@@ -2,14 +2,14 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Box, Button, Chip, TextField, styled } from '@mui/material';
 
-import { AppState, useAppDispatch } from '../../../redux/store';
+import { AppState, useAppDispatch } from '../../../../../redux/store';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { RegisterUserInfo } from '../../../misc/types/User';
-import { useTheme } from '../../contextAPI/ThemeContext';
-import CenteredContainer from '../../ui/layout/CenteredContainer';
-import { MUIButtonVariant, MUIColor, MUILayout } from '../../../misc/types/MUI';
-import { updateUser } from '../../../redux/slices/UserSlice';
-import LoadingAndMessage from '../../ui/loadingAndMessage/LoadingAndMessage';
+import { RegisterUserInfo } from '../../../../../misc/types/User';
+import { useTheme } from '../../../../contextAPI/ThemeContext';
+import CenteredContainer from '../../../../ui/layout/CenteredContainer';
+import { MUIButtonVariant, MUIColor, MUILayout } from '../../../../../misc/types/MUI';
+import { updateUser } from '../../../../../redux/slices/UserSlice';
+import LoadingAndMessage from '../../../../ui/loadingAndMessage/LoadingAndMessage';
 
 enum Mode {
   Edit = 'Edit',

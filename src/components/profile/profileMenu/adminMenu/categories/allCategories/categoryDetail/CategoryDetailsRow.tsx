@@ -6,14 +6,14 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import SaveIcon from '@mui/icons-material/Save';
 import { useDispatch } from 'react-redux';
 
-import { Category, CategoryBase } from '../../../../../misc/types/Category';
-import UiDialog from '../../../../ui/dialog/UiDialog';
-import { apiService } from '../../../../../services/APIService';
-import LoadingAndMessage from '../../../../ui/loadingAndMessage/LoadingAndMessage';
-import { MUIColor } from '../../../../../misc/types/MUI';
+import { Category, CategoryBase } from '../../../../../../../misc/types/Category';
+import UiDialog from '../../../../../../ui/dialog/UiDialog';
+import { apiService } from '../../../../../../../services/APIService';
+import LoadingAndMessage from '../../../../../../ui/loadingAndMessage/LoadingAndMessage';
+import { MUIColor } from '../../../../../../../misc/types/MUI';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useTheme } from '../../../../contextAPI/ThemeContext';
-import { deleteCategory, updateCategory } from '../../../../../redux/slices/CategorySlice';
+import { useTheme } from '../../../../../../contextAPI/ThemeContext';
+import { deleteCategory, updateCategory } from '../../../../../../../redux/slices/CategorySlice';
 
 type Props = {
   category: Category;

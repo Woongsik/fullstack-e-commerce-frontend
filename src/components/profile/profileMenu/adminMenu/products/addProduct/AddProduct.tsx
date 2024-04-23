@@ -5,19 +5,19 @@ import { Box, Button, IconButton, TextField, styled } from '@mui/material';
 import LaunchIcon from '@mui/icons-material/Launch';
 import { Link } from 'react-router-dom';
 
-import CategoriesSelector from '../../../ui/cateogriesSelector/CategoriesSelector';
-import FileUploader from '../../../ui/fileUploader/FileUploader';
-import CenteredContainer from '../../../ui/layout/CenteredContainer';
-import { AppState, useAppDispatch } from '../../../../redux/store';
-import { registerProduct, updateProduct } from '../../../../redux/slices/ProductSlice';
-import { apiService } from '../../../../services/APIService';
-import { MUIButtonVariant, MUIColor } from '../../../../misc/types/MUI';
-import { Product, ProductInfo } from '../../../../misc/types/Product';
-import { useTheme } from '../../../contextAPI/ThemeContext';
-import { Size } from '../../../../misc/types/Size';
-import SizeButtons from '../../../ui/button/SizeButtons/SizeButtons';
-import HelperText from '../../../ui/helperText/HelperText';
-import LoadingAndMessage from '../../../ui/loadingAndMessage/LoadingAndMessage';
+import CategoriesSelector from '../../../../../ui/cateogriesSelector/CategoriesSelector';
+import FileUploader from '../../../../../ui/fileUploader/FileUploader';
+import CenteredContainer from '../../../../../ui/layout/CenteredContainer';
+import { AppState, useAppDispatch } from '../../../../../../redux/store';
+import { registerProduct, updateProduct } from '../../../../../../redux/slices/ProductSlice';
+import { apiService } from '../../../../../../services/APIService';
+import { MUIButtonVariant, MUIColor } from '../../../../../../misc/types/MUI';
+import { Product, ProductInfo } from '../../../../../../misc/types/Product';
+import { useTheme } from '../../../../../contextAPI/ThemeContext';
+import { Size } from '../../../../../../misc/types/Size';
+import SizeButtons from '../../../../../ui/button/SizeButtons/SizeButtons';
+import HelperText from '../../../../../ui/helperText/HelperText';
+import LoadingAndMessage from '../../../../../ui/loadingAndMessage/LoadingAndMessage';
 
 type Inputs = {
   title: string,

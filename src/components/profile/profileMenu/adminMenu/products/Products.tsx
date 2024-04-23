@@ -1,6 +1,6 @@
 import { SyntheticEvent, useState } from 'react';
 import { Box, Tabs, Tab } from '@mui/material';
-import CenteredContainer from '../../ui/layout/CenteredContainer';
+import CenteredContainer from '../../../../ui/layout/CenteredContainer';
 import AllProducts from './allProducts/AllProducts';
 import AddProduct from './addProduct/AddProduct';
 

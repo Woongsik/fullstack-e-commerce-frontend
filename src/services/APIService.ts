@@ -3,7 +3,7 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 import { Filter } from '../misc/types/Filter';
 import { Product, ProductInfo, ProductsList } from '../misc/types/Product';
 import { Category, CategoryBase } from '../misc/types/Category';
-import { LoggedUserInfo, LoginInfo, PasswordUpdate, RegisterUserInfo, User, UserToken } from '../misc/types/User';
+import { LoggedUserInfo, LoginInfo, PasswordUpdate, RegisterUserInfo, User, UserRoleAndActive, UserToken } from '../misc/types/User';
 import { UploadedImage } from '../misc/types/UploadedImage';
 import { userSlicerUtil } from '../redux/utils/UserSlicerUtil';
 import { StripeSecret } from '../misc/types/StripeSecret';
@@ -232,6 +232,21 @@ class ApiService {
   public getOrders(): Promise<Order[]> {
     const url: string = this.generateUrl('orders');
     return this.request('GET', url);
+  }
+
+  public getUsers(): Promise<User[]> {
+    const url: string = this.generateUrl('users');
+    return this.request('GET', url);
+  }
+
+  public updateUserRoleAndActive(userId: string, updateInfo: UserRoleAndActive): Promise<User> {
+    const url: string = this.generateUrl(`admin/${userId}`);
+    return this.request('POST', url, updateInfo);
+  }
+
+  public deleteUser(userId: string): Promise<void> {
+    const url: string = this.generateUrl(`users/${userId}`);
+    return this.request('DELETE', url);
   }
 }
 

@@ -1,11 +1,12 @@
 import { Box, Divider } from '@mui/material';
 
 import { Menu } from '../profileMenu/ProfileMenu'
-import Orders from '../orders/Orders';
-import Account from '../account/Account';
-import Categories from '../categories/Categories';
-import Password from '../password/Password';
-import Products from '../products/Products';
+import Orders from '../profileMenu/userMenu/orders/Orders';
+import Account from '../profileMenu/userMenu/account/Account';
+import Categories from '../profileMenu/adminMenu/categories/Categories';
+import Password from '../profileMenu/userMenu/password/Password';
+import Products from '../profileMenu/adminMenu/products/Products';
+import Users from '../profileMenu/adminMenu/users/Users';
 
 type Props = {
   selectedMenu: Menu
@@ -26,6 +27,7 @@ export default function ProfileContent(props: Props) {
         {/* Admin menu */}
         {selectedMenu === Menu.PRODUCTS && <Products />}
         {selectedMenu === Menu.CATEGORIES && <Categories />}
+        {selectedMenu === Menu.USERS && <Users />}
       </Box>
     </Box>
   )

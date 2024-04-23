@@ -4,9 +4,9 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { useNavigate } from 'react-router-dom';
 
-import { Order, OrderItem, OrderStatus } from '../../../misc/types/Order';
-import { convertDateToString } from '../../../misc/utils/DateUtil';
-import { MUIColor } from '../../../misc/types/MUI';
+import { Order, OrderItem, OrderStatus } from '../../../../../misc/types/Order';
+import { convertDateToString } from '../../../../../misc/utils/DateUtil';
+import { MUIColor } from '../../../../../misc/types/MUI';
 
 type Props = {
   order: Order

@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 
-import CenteredContainer from '../../ui/layout/CenteredContainer';
-import { apiService } from '../../../services/APIService';
-import { Order } from '../../../misc/types/Order';
+import CenteredContainer from '../../../../ui/layout/CenteredContainer';
+import { apiService } from '../../../../../services/APIService';
+import { Order } from '../../../../../misc/types/Order';
 import { OrderDetailRow } from './OrderDetailRow';
-import LoadingAndMessage from '../../ui/loadingAndMessage/LoadingAndMessage';
+import LoadingAndMessage from '../../../../ui/loadingAndMessage/LoadingAndMessage';
 
 export default function Orders() {
   const [orders, setOrders] = useState<Order[]>([]);

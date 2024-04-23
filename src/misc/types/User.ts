@@ -36,3 +36,8 @@ export type PasswordUpdate = {
   oldPassword: string;
   newPassword: string;
 }
+
+export type UserRoleAndActive = {
+  role: UserRole;
+  active: boolean
+}
