@@ -65,9 +65,7 @@ export default function AddProduct(props: Props) {
   const [images, setImages] = useState<File[]>([]);
   const [message, setMessage] = useState<string>('');
   const [uploadImageError, setUploadImageError] = useState<string>('');
-  const [submitted, setSubmitted] = useState<boolean>(false);
   const [newProduct, setNewProduct] = useState<Product | null>(null);
-
 
   useEffect(() => {
     if (update) {
