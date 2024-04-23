@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Box, Button, TextField, styled } from '@mui/material';
+import { Box, Button, IconButton, TextField, styled } from '@mui/material';
+import LaunchIcon from '@mui/icons-material/Launch';
+import { Link } from 'react-router-dom';
 
 import CategoriesSelector from '../../../ui/cateogriesSelector/CategoriesSelector';
 import FileUploader from '../../../ui/fileUploader/FileUploader';
@@ -11,7 +13,6 @@ import { registerProduct, updateProduct } from '../../../../redux/slices/Product
 import { apiService } from '../../../../services/APIService';
 import { MUIButtonVariant, MUIColor } from '../../../../misc/types/MUI';
 import { Product, ProductInfo } from '../../../../misc/types/Product';
-import { UploadedImage } from '../../../../misc/types/UploadedImage';
 import { useTheme } from '../../../contextAPI/ThemeContext';
 import { Size } from '../../../../misc/types/Size';
 import SizeButtons from '../../../ui/button/SizeButtons/SizeButtons';
@@ -63,6 +64,10 @@ export default function AddProduct(props: Props) {
   const [sizes, setSizes] = useState<Size[]>(baseSizes);
   const [images, setImages] = useState<File[]>([]);
   const [message, setMessage] = useState<string>('');
+  const [uploadImageError, setUploadImageError] = useState<string>('');
+  const [submitted, setSubmitted] = useState<boolean>(false);
+  const [newProduct, setNewProduct] = useState<Product | null>(null);
+
 
   useEffect(() => {
     if (update) {
@@ -81,11 +86,10 @@ export default function AddProduct(props: Props) {
     }    
   };
 
-  const uploadImage = async (image: File): Promise<UploadedImage> => {
+  const uploadImage = async (image: File): Promise<string> => {
     const formData = new FormData();
     formData.append('file', image);
-    const uploadedInfo: UploadedImage = await apiService.fetchProductImages(formData);
-    return uploadedInfo;
+    return await apiService.uploadImage(formData);
   }
 
   const fetchToRegisterProduct = async (data: Inputs, uploadedImages: string[]) => {
@@ -99,23 +103,26 @@ export default function AddProduct(props: Props) {
     }));
 
     const newProduct: Product = result.payload as Product;
+    setNewProduct(newProduct);
     setMessage(`Successfully register new product "${newProduct.title}"`);
   }
 
   const createNewProduct = async (data: Inputs) => {
     const uploadedImages: string[] = [];
-    // if (images.length > 0) {
-    //   images.forEach(async (image: File, index: number) => {
-    //     const uploadedImage: UploadedImage = await uploadImage(image);
-    //     uploadedImages.push(uploadedImage.location);
+    try {
+      if (images.length > 0) {
+        for (const image of images) {
+          const uploadedUrl: string = await uploadImage(image);
+          uploadedImages.push(uploadedUrl);
+        }
+      }
 
-    //     if (index === (images.length - 1)) {
-    //       fetchToRegisterProduct(data, uploadedImages);
-    //     }
-    //   });   
-    // } else {
       fetchToRegisterProduct(data, uploadedImages);
-    //}
+    } catch (e) {
+      const error: Error = e as Error;
+      setUploadImageError(`Uploading images failed, ${error.message}`);
+    }
+    
   }
 
   const updateProductInfo = async (data: Inputs) => {
@@ -178,6 +185,7 @@ export default function AddProduct(props: Props) {
 
   return (
     <CenteredContainer width={'100%'} sx={{ minWidth: '300px'}}>
+    { !newProduct && 
       <FormContainer component={'form'} onSubmit={handleSubmit(onSubmit)}>
         <Box>
           <TextField
@@ -254,11 +262,22 @@ export default function AddProduct(props: Props) {
         </CenteredContainer>
         }
       </FormContainer>
+    }
 
       <LoadingAndMessage 
         loading={loading}
-        error={error}
+        error={error || uploadImageError}
         message={message} />
+
+    { newProduct &&
+    <>           
+      <IconButton>
+        <Link to={`/product/${newProduct._id}`}>
+          <LaunchIcon color={MUIColor.INFO} />
+        </Link>
+      </IconButton>
+    </>
+    }
     </CenteredContainer>
   )
 }

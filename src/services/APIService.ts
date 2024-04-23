@@ -32,7 +32,7 @@ class ApiService {
   }
 
   public async request<T>(method: string, url: string, data?: any, headers?: any): Promise<T> {
-    const testMode: boolean = true; // Set to true for testing with msw
+    const testMode: boolean = false; // Set to true for testing with msw
     
     if (testMode) {
       try {
@@ -186,7 +186,7 @@ class ApiService {
     return this.request<User>('GET', url);
   }
 
-  public fetchProductImages(formData: FormData): Promise<UploadedImage> {
+  public uploadImage(formData: FormData): Promise<string> {
     const url: string = this.generateUrl("files/upload");
     const headers = {
       'Content-Type': 'multipart/form-data'
