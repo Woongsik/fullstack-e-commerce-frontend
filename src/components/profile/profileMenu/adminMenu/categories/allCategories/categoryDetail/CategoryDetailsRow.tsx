@@ -89,13 +89,6 @@ export default function CategoryDetailsRow(props: Props) {
     hiddenInput.current?.click();
   }
 
-  const textFieldCss = {
-    '&.MuiFormControl-root > *, &.MuiFormControl-root > .MuiInputBase-root > .MuiOutlinedInput-notchedOutline': {
-      color: isThemeLight ? 'white' : '',
-      borderColor: isThemeLight ? 'white' : ''
-    }    
-  };
-
   return (
       <TableRow>
       {mode === Mode.READ ? 
@@ -117,8 +110,7 @@ export default function CategoryDetailsRow(props: Props) {
                 error={Boolean(errors.title)}
                 label="Category title"
                 helperText={errors.title && 'No special characters, only (?.,=_@&-) accepted'}
-                defaultValue={category.title}
-                sx={textFieldCss} />
+                defaultValue={category.title} />
             </Box>
 
             <Box minWidth={'200px'}>
@@ -128,8 +120,7 @@ export default function CategoryDetailsRow(props: Props) {
                 error={Boolean(errors.image)}
                 label="Category image"
                 helperText={errors.image && 'Only valid URL accepted'}
-                defaultValue={category.image ?? "https://picsum.photos/800" }
-                sx={textFieldCss} />
+                defaultValue={category.image ?? "https://picsum.photos/800" } />
             </Box>
             <input type='submit' ref={hiddenInput} style={{ display: 'none' }}/>
           </Box>

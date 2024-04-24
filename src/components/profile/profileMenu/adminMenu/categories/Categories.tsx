@@ -18,17 +18,16 @@ export default function Category() {
   
   return (
     <Box sx={{ width: '100%' }}>
-      <CenteredContainer>
+      <CenteredContainer sx={{ backgroundColor: 'white'}}>
         <Tabs value={tab} onChange={changeTab} aria-label="basic tabs example">
           <Tab label="All" />
           <Tab label="New Category" />
         </Tabs>
       </CenteredContainer>
-      {tab === TabItem.ALL && <AllCategories />}
-      {tab === TabItem.NEW && 
       <CenteredContainer margin='30px 0'>
-        <AddCategory />
-      </CenteredContainer>}
+      {tab === TabItem.ALL && <AllCategories />}
+      {tab === TabItem.NEW && <AddCategory />}
+      </CenteredContainer>
     </Box>
   );
 }

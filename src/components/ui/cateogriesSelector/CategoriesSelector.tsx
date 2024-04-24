@@ -14,10 +14,11 @@ type Props = {
   register?: any;
   error?: boolean;
   helpertext?: string;
+  disableTheme?: boolean;
 };
 
 export default function CategoriesSelector(props: Props) {
-  const { selectedCategoryId } = props;
+  const { selectedCategoryId, disableTheme = false } = props;
   const dispatch = useAppDispatch();
   
   useEffect(() => {
@@ -51,7 +52,8 @@ export default function CategoriesSelector(props: Props) {
         valueKey='_id'
         size='medium'
         fullWidth={true}
-        onChange={handleChange} />
+        onChange={handleChange}
+        disableTheme={disableTheme} />
       } 
     </Box>
   )

@@ -30,7 +30,7 @@ export default function Users() {
   }
 
   const handleUserDeleted = (userId: string) => {
-    const clonedUsers = [...users];
+    const clonedUsers: User[] = [...users];
     const index: number = clonedUsers.findIndex((clonedUser: User) => clonedUser._id === userId);
     if (index > -1) {
       clonedUsers.splice(index, 1);
@@ -40,7 +40,7 @@ export default function Users() {
   }
 
   const handleUserUpdated = (updatedUser: User) => {
-    const clonedUsers = [...users];
+    const clonedUsers: User[] = [...users];
     const index: number = clonedUsers.findIndex((clonedUser: User) => clonedUser._id === updatedUser._id);
     if (index > -1) {
       clonedUsers.splice(index, 1, updatedUser);
@@ -50,34 +50,35 @@ export default function Users() {
   }
 
   return (
-  <CenteredContainer width='100%' sx={{ minWidth: '300px' }}>
-    {(users && users.length > 0) &&
-      <TableContainer component={Paper}>
-        <Table aria-label="collapsible table">
-          <TableHead>
-            <TableRow>
-              <TableCell align="center">Username</TableCell>
-              <TableCell align="center">Email</TableCell>
-              <TableCell align="center">Role</TableCell>
-              <TableCell align="center">Active</TableCell>
-              <TableCell align="center">Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {users.map((user: User) => (
-              <UserDetailsRow 
-                key={user._id} 
-                user={user}
-                onUserDeleted={handleUserDeleted}
-                onUserUpdated={handleUserUpdated} />
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    }
+    <CenteredContainer width='100%' sx={{ minWidth: '300px' }}>
+      {(users && users.length > 0) &&
+        <TableContainer component={Paper}>
+          <Table aria-label="collapsible table">
+            <TableHead>
+              <TableRow>
+                <TableCell align="center">Username</TableCell>
+                <TableCell align="center">Email</TableCell>
+                <TableCell align="center">Role</TableCell>
+                <TableCell align="center">Active</TableCell>
+                <TableCell align="center">Actions</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {users.map((user: User) => (
+                <UserDetailsRow 
+                  key={user._id} 
+                  user={user}
+                  onUserDeleted={handleUserDeleted}
+                  onUserUpdated={handleUserUpdated} />
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      }
 
-    {(!loading && users && users.length === 0) &&  <h3>No Products yet...</h3>}
+      {(!loading && users && users.length === 0) && <h3>No Products yet...</h3>}
 
-    <LoadingAndMessage loading={loading} error={error} />
-  </CenteredContainer>  )
+      <LoadingAndMessage loading={loading} error={error} />
+    </CenteredContainer>
+  )
 }

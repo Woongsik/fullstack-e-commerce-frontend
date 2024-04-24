@@ -3,6 +3,7 @@ import { Box, Tabs, Tab } from '@mui/material';
 import CenteredContainer from '../../../../ui/layout/CenteredContainer';
 import AllProducts from './allProducts/AllProducts';
 import AddProduct from './addProduct/AddProduct';
+import { MUIButtonVariant, MUIColor } from '../../../../../misc/types/MUI';
 
 enum TabItem {
   ALL= 0,
@@ -18,17 +19,16 @@ export default function Products() {
   
   return (
     <Box sx={{ width: '100%' }}>
-      <CenteredContainer>
+      <CenteredContainer sx={{ backgroundColor: 'white'}}>
         <Tabs value={tab} onChange={changeTab}>
           <Tab label="All" />
           <Tab label="New Product" />
         </Tabs>
       </CenteredContainer>
-      {tab === TabItem.ALL && <AllProducts />}
-      {tab === TabItem.NEW && 
       <CenteredContainer margin='30px 0'>
-        <AddProduct />
-      </CenteredContainer>}
+        {tab === TabItem.ALL && <AllProducts />}
+        {tab === TabItem.NEW &&  <AddProduct />}
+      </CenteredContainer>
     </Box>
   );
 }

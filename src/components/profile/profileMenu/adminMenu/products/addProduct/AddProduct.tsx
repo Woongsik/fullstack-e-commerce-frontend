@@ -192,7 +192,7 @@ export default function AddProduct(props: Props) {
             label="Product name"
             defaultValue={product ? product.title : ''}
             helperText={errors.title && 'Incorrect name! Accept special character only ?.,=-_@'}
-            sx={textFieldCss} />   
+            sx={product ? {}: textFieldCss} />   
         </Box>
         <Box>
           <TextField
@@ -209,7 +209,7 @@ export default function AddProduct(props: Props) {
               }
             }}
             helperText={errors.price && 'Incorrect price! Only numbers'}
-            sx={textFieldCss} />          
+            sx={product ? {}: textFieldCss} />          
         </Box>
         <Box>
           <TextField
@@ -220,7 +220,7 @@ export default function AddProduct(props: Props) {
             minRows={4}
             defaultValue={product ? product.description : ''}
             helperText={errors.description && 'Incorrect description! Accept special character only ?.,=-_@&!'}
-            sx={textFieldCss} />       
+            sx={product ? {}: textFieldCss} />       
         </Box>
         <Box margin={'20px -8px 20px 8px !important'}>
           <CategoriesSelector 
@@ -228,7 +228,8 @@ export default function AddProduct(props: Props) {
             onCategoryChanged={onCategoryChanged}
             helpertext={'Please select a category'}
             register={{...register("categoryId", { required: true, min: 1, max: 99 }) }}
-            error={Boolean(errors.categoryId)} />
+            error={Boolean(errors.categoryId)}
+            disableTheme={true} />
         </Box>
 
         <Box margin={'20px 5px !important'} display={'flex'} alignItems={'center'}>

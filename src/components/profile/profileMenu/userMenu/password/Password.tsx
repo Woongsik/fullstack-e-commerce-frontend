@@ -36,10 +36,12 @@ export default function Password() {
     dispatch(clearError());
   }, [clearError, dispatch]);
 
+  const themeColor = { color: isThemeLight ? 'white' : '' }
+  const themeBordeColor = { borderColor: isThemeLight ? 'white' : '' }
   const textFieldCss = {
     '&.MuiFormControl-root > *, &.MuiFormControl-root > .MuiInputBase-root > .MuiOutlinedInput-notchedOutline': {
-      color: isThemeLight ? 'white' : '',
-      borderColor: isThemeLight ? 'white' : ''
+      ...themeColor,
+      ...themeBordeColor
     }    
   };
 
@@ -81,7 +83,7 @@ export default function Password() {
                 <IconButton
                   aria-label="toggle password visibility"
                   onClick={togglePassword}
-                  sx={{ color: 'black' }}>
+                  sx={themeColor}>
                   {showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
               </InputAdornment>
@@ -101,7 +103,7 @@ export default function Password() {
                 <IconButton
                   aria-label="toggle password visibility"
                   onClick={togglePassword}
-                  sx={{ color: 'black' }}>
+                  sx={themeColor}>
                   {showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
               </InputAdornment>

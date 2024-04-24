@@ -90,28 +90,28 @@ export default function UserDetailsRow(props: Props) {
         <TableCell align='center'>
           {user.email}
         </TableCell >
-        {mode === Mode.READ ? 
-        <>
-          <TableCell align='center' sx={{ textTransform: 'capitalize'}}>
-            {user.role}
-          </TableCell>
-          <TableCell align='center' sx={{ textTransform: 'capitalize'}}>
-            {user.active.toString()}
-          </TableCell>
-        </>
+      {mode === Mode.READ ? 
+      <>
+        <TableCell align='center' sx={{ textTransform: 'capitalize'}}>
+          {user.role}
+        </TableCell>
+        <TableCell align='center' sx={{ textTransform: 'capitalize'}}>
+          {user.active.toString()}
+        </TableCell>
+      </>
       : 
-        <>
-          <TableCell align='center'>
-            <FormGroup>
-              <FormControlLabel control={<Switch defaultChecked={user.role === UserRole.ADMIN}  onChange={handleUserRole} />} label="Admin" />
-            </FormGroup>
-          </TableCell>
-          <TableCell align='center'>
+      <>
+        <TableCell align='center'>
           <FormGroup>
-              <FormControlLabel control={<Switch defaultChecked={user.active}  onChange={handleUserActive}/>} label="Active" />
-            </FormGroup>
-          </TableCell>
-        </>
+            <FormControlLabel control={<Switch defaultChecked={user.role === UserRole.ADMIN}  onChange={handleUserRole} />} label="Admin" />
+          </FormGroup>
+        </TableCell>
+        <TableCell align='center'>
+          <FormGroup>
+            <FormControlLabel control={<Switch defaultChecked={user.active}  onChange={handleUserActive}/>} label="Active" />
+          </FormGroup>
+        </TableCell>
+      </>
       }
       <TableCell align="center">
         { mode === Mode.READ ? 

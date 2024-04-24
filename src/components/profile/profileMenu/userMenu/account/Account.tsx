@@ -16,6 +16,23 @@ enum Mode {
   Read = 'Read'
 }
 
+const TitleBox = styled(Box)({
+  width: '30%',
+  minWidth: '100px'
+});
+
+const TitleChip = styled(Chip)({
+  textTransform: 'capitalize', 
+  width: '100%'
+});
+
+const ContentBox = styled(Box)({
+  width: '65%',
+  minWidth: '200px',
+  textWrap: 'wrap', 
+  overflowWrap: 'break-word'
+});
+
 const FormContainer = styled(Box)({
   '& .MuiTextField-root': { 
     margin: '10px', 
@@ -40,10 +57,12 @@ export default function Account() {
   
   const doNotDisplayProperties: string[] = ['_id', '__v', 'password', 'active'];
 
+  const themeColor = { color: isThemeLight ? 'white' : '' }
+  const themeBordeColor = { borderColor: isThemeLight ? 'white' : '' }
   const textFieldCss = {
     '&.MuiFormControl-root > *, &.MuiFormControl-root > .MuiInputBase-root > .MuiOutlinedInput-notchedOutline': {
-      color: isThemeLight ? 'white' : '',
-      borderColor: isThemeLight ? 'white' : ''
+      ...themeColor,
+      ...themeBordeColor
     }    
   };
 
@@ -73,12 +92,14 @@ export default function Account() {
       {Object.entries(user).map(([key, value]) =>
         (doNotDisplayProperties.indexOf(key) === -1) &&  
         (<CenteredContainer key={key} width={'100%'} justifyContent={MUILayout.SPACE_BETWEEN} sx={{ minWidth: '300px', margin: '10px 0'}}>
-          <Box width={'30%'} minWidth={'100px'}><Chip label={key} variant="outlined" sx={{ textTransform: 'capitalize', width: '100%' }}/></Box>
-          <Box width={'65%'} minWidth={'200px'} sx={{ textWrap: 'wrap', overflowWrap: 'break-word' }}>
-            <span style={{ textTransform: (key === 'role' ? 'capitalize' : 'none' )}}>
+          <TitleBox>
+            <TitleChip label={key} variant="outlined" sx={themeColor} />
+          </TitleBox>
+          <ContentBox>
+            <span style={{...themeColor, textTransform: (key === 'role' ? 'capitalize' : 'none' )}}>
               {value}
             </span>
-          </Box>
+          </ContentBox>
         </CenteredContainer>)
       )}
       </Box>
