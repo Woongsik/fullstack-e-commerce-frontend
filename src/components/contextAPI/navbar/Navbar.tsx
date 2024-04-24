@@ -52,6 +52,12 @@ const ThemeListItem = styled(ListItem)({
   padding: 0
 });
 
+const UserAvatar = styled(Avatar)({
+  height: '30px', 
+  width: '30px', 
+  backgroundColor: 'white'
+});
+
 export default function Navbar() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -113,7 +119,7 @@ export default function Navbar() {
           aria-expanded={Boolean(anchorEl) ? 'true' : undefined}
           onClick={handleClick}>
         {user ? 
-        <Avatar src={user.avatar} alt={user.username} sx={{ height: '30px', width: '30px', backgroundColor: 'white' }}/>
+        <UserAvatar src={user.avatar} alt={user.username} />
         : 
         <AccountCircleIcon sx={themeColor} />}
       </IconButton>
@@ -195,7 +201,7 @@ export default function Navbar() {
               </Box>
               <Box component={'h3'} marginLeft={1} 
                 sx={themeColor}>
-                Platzi store
+                Awsome shopping
               </Box> 
             </CenteredContainer>
           </Link>

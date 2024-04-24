@@ -3,7 +3,6 @@ import { Box, Tabs, Tab } from '@mui/material';
 import CenteredContainer from '../../../../ui/layout/CenteredContainer';
 import AllProducts from './allProducts/AllProducts';
 import AddProduct from './addProduct/AddProduct';
-import { MUIButtonVariant, MUIColor } from '../../../../../misc/types/MUI';
 
 enum TabItem {
   ALL= 0,

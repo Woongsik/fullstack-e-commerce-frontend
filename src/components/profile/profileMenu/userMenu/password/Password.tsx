@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
-import { Box, Button, CircularProgress, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
-import { InfoOutlined, Visibility, VisibilityOff } from '@mui/icons-material';
+import { Box, Button, IconButton, InputAdornment, TextField } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
-import { MUIButtonVariant, MUIColor, MUILayout } from '../../../../../misc/types/MUI';
+import { MUIButtonVariant, MUIColor } from '../../../../../misc/types/MUI';
 import { PasswordUpdate } from '../../../../../misc/types/User';
 import CenteredContainer from '../../../../ui/layout/CenteredContainer';
 import { AppState, useAppDispatch } from '../../../../../redux/store';
@@ -34,7 +34,7 @@ export default function Password() {
 
   useEffect(() => {
     dispatch(clearError());
-  }, [clearError, dispatch]);
+  }, [dispatch]);
 
   const themeColor = { color: isThemeLight ? 'white' : '' }
   const themeBordeColor = { borderColor: isThemeLight ? 'white' : '' }

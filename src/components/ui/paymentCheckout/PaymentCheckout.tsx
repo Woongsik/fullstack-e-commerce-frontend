@@ -6,7 +6,6 @@ import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../../redux/store';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useTheme } from '../../contextAPI/ThemeContext';
 import CenteredContainer from '../layout/CenteredContainer';
 import { Address } from '../../../misc/types/Address';
 
@@ -25,20 +24,12 @@ export default function PaymentCheckout(props: Props) {
   const hiddenInput = useRef<HTMLInputElement | null>(null);
   const stripe = useStripe();
   const elements = useElements();
-  const { isThemeLight } = useTheme();
-  const { register, handleSubmit, formState: { errors } } = useForm<Address>();
 
+  const { register, handleSubmit, formState: { errors } } = useForm<Address>();
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [message, setMessage] = useState<string>('');
 
   const { total } = useSelector((state: AppState) => state.cartReducer);
-
-  const textFieldCss = {
-    '&.MuiFormControl-root > *, &.MuiFormControl-root > .MuiInputBase-root > .MuiOutlinedInput-notchedOutline': {
-      color: isThemeLight ? 'white' : '',
-      borderColor: isThemeLight ? 'white' : ''
-    }    
-  };
 
   useEffect(() => {
     if (pay) {
@@ -110,7 +101,7 @@ export default function PaymentCheckout(props: Props) {
             {...register("street", { required: true, pattern: /^[A-Za-z0-9?.,=_@&\- ]+$/i }) }
             error={Boolean(errors.street)}
             label="Street"
-            helperText={errors.street && 'Only letters, specail charater(?.,=_@&\-) accepted'} />
+            helperText={errors.street && 'Only letters, specail charater(?.,=_@&-) accepted'} />
 
           <Box my={2}>
             <TextField 

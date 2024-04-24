@@ -53,7 +53,7 @@ export default function Account() {
 
   useEffect(() => {
     dispatch(clearError());
-  }, [clearError, dispatch]);
+  }, [dispatch]);
   
   const doNotDisplayProperties: string[] = ['_id', '__v', 'password', 'active'];
 

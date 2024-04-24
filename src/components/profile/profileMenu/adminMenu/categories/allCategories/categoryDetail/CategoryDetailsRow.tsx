@@ -12,7 +12,6 @@ import { apiService } from '../../../../../../../services/APIService';
 import LoadingAndMessage from '../../../../../../ui/loadingAndMessage/LoadingAndMessage';
 import { MUIColor } from '../../../../../../../misc/types/MUI';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useTheme } from '../../../../../../contextAPI/ThemeContext';
 import { deleteCategory, updateCategory } from '../../../../../../../redux/slices/CategorySlice';
 
 type Props = {
@@ -31,7 +30,6 @@ export default function CategoryDetailsRow(props: Props) {
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const { register, handleSubmit, formState: { errors } } = useForm<CategoryBase>();
-  const { isThemeLight } = useTheme();
   const dispatch = useDispatch();
   const hiddenInput = useRef<HTMLInputElement | null>(null);
 
