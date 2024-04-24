@@ -64,6 +64,7 @@ export default function FilterDrawer(props: Props) {
 
   const [openDrawer, setOpenDrawer] = useState<boolean>(false);
   const { isThemeLight } = useTheme();
+  const themeColor = { color: isThemeLight ? 'white' : 'black' };
 
   const dispatch = useAppDispatch();
   useEffect(() => { // For the filter changed
@@ -164,7 +165,8 @@ export default function FilterDrawer(props: Props) {
       <FilterWrapper sx={{ color: isThemeLight ? 'white' : 'black' }}>
         <CenteredContainer width={'100%'} justifyContent={MUILayout.SPACE_BETWEEN}>
           <h1>Filters</h1>
-          <CloseIconButton onClick={() => toggleDrawer(false)}>
+          <CloseIconButton onClick={() => toggleDrawer(false)}
+            sx={themeColor}>
             <CancelIcon />
           </CloseIconButton>
         </CenteredContainer>

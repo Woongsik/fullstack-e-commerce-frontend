@@ -10,6 +10,7 @@ import CenteredContainer from '../../components/ui/layout/CenteredContainer';
 import { MUILayout } from '../../misc/types/MUI';
 import ProfileMenu, { Menu } from '../../components/profile/profileMenu/ProfileMenu';
 import ProfileContent from '../../components/profile/profileContent/ProfileContent';
+import { useTheme } from '../../components/contextAPI/ThemeContext';
 
 const BoxFullWidth = styled(Box)({
   width: '100%'
@@ -30,6 +31,8 @@ const ContentContainer = styled(BoxItem)({
 
 export default function Profile() {
   const [selectedMenu, setSelectedMenu] = useState<Menu>(Menu.ORDER);
+  const { isThemeLight } = useTheme();
+  const themeColor = { color:  isThemeLight ? 'white' : 'black' };
 
   useUserSession();
   const { user } = useSelector((state: AppState) => state.userReducer);
@@ -52,7 +55,7 @@ export default function Profile() {
             </CenteredContainer>
 
             <BoxFullWidth>
-              <h3 style={{ textAlign: 'center'}}>Moi, {user.username}!</h3>
+              <h3 style={{ ...themeColor, textAlign: 'center'}}>Moi, {user.username}!</h3>
             </BoxFullWidth>
 
             <CenteredContainer width={'100%'} alignItems={MUILayout.FLEX_START} justifyContent={MUILayout.SPACE_BETWEEN}>

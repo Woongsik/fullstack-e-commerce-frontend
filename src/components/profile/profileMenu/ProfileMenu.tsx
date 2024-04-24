@@ -19,6 +19,7 @@ import { AppState } from '../../../redux/store';
 import { UserRole } from '../../../misc/types/User';
 import { ReactNode, useState } from 'react';
 import styled from '@emotion/styled';
+import { useTheme } from '../../contextAPI/ThemeContext';
 
 export enum Menu {
   ORDER = 'ORDERS',
@@ -85,6 +86,9 @@ type Props = {
 export default function ProfileMenu(props: Props) {
   const { selectedMenu } = props;
   const [menu, setMenu] = useState<Menu>(selectedMenu);
+  const { isThemeLight } = useTheme();
+  const themeColor = { color:  isThemeLight ? 'white' : 'black' };
+  const themeBorderColor = { borderColor:  isThemeLight ? 'white' : '' };
 
   const { user } = useSelector((state: AppState) => state.userReducer);
 
@@ -98,7 +102,7 @@ export default function ProfileMenu(props: Props) {
   }
 
   return (
-    <MenuContainer>
+    <MenuContainer sx={themeColor}>
       <nav aria-label="main mailbox folders">
         <List>
           {userItems.map((userItem: MenuItem) => 
@@ -108,7 +112,7 @@ export default function ProfileMenu(props: Props) {
               <ListItemButton 
                 selected={isSelected(userItem.type)}
                 onClick={() => handleMenuItem(userItem.type)}>
-                <ListItemIcon>
+                <ListItemIcon sx={themeColor}>
                   {userItem.icon}
                 </ListItemIcon>
                 <ListItemText primary={userItem.title} />
@@ -119,7 +123,7 @@ export default function ProfileMenu(props: Props) {
       </nav>
       { (user && user.role === UserRole.ADMIN) && 
       <>
-        <Divider />
+        <Divider sx={themeBorderColor} />
         <h3 style={{ margin: '10px 0 0 20px' }}>Admin menu</h3>
         <nav aria-label="secondary mailbox folders">
           <List>
@@ -128,7 +132,7 @@ export default function ProfileMenu(props: Props) {
               <ListItemButton 
                 selected={isSelected(adminItem.type)}
                 onClick={() => handleMenuItem(adminItem.type)}>
-                <ListItemIcon>
+                <ListItemIcon sx={themeColor}>
                   {adminItem.icon}
                 </ListItemIcon>
                 <ListItemText primary={adminItem.title} />

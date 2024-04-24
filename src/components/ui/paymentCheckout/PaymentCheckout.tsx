@@ -110,23 +110,21 @@ export default function PaymentCheckout(props: Props) {
             {...register("street", { required: true, pattern: /^[A-Za-z0-9?.,=_@&\- ]+$/i }) }
             error={Boolean(errors.street)}
             label="Street"
-            helperText={errors.street && 'Only letters, specail charater(?.,=_@&\-) accepted'}
-            sx={textFieldCss} />
+            helperText={errors.street && 'Only letters, specail charater(?.,=_@&\-) accepted'} />
 
           <Box my={2}>
             <TextField 
               {...register("postnumber", { required: true, pattern: /^[0-9]{5,5}$/ }) }
               error={Boolean(errors.postnumber)}
               label="Post number"
-              helperText={errors.postnumber && 'Only numbers, 5 digits'}
-              sx={textFieldCss} />
+              helperText={errors.postnumber && 'Only numbers, 5 digits'} />
 
             <TextField
               {...register("city", { required: true, pattern: /^[A-Za-z0-9.,_&\- ]+$/i }) }
               error={Boolean(errors.city)}
               label="City"
               helperText={errors.city && 'Only letters but (.,_-&) accepted'}
-              sx={{...textFieldCss, marginLeft: 1}} />
+              sx={{ marginLeft: 1}} />
           </Box>
           
           <TextField fullWidth
@@ -134,8 +132,7 @@ export default function PaymentCheckout(props: Props) {
             error={Boolean(errors.country)}
             label="Country"
             defaultValue={'Finland'}
-            helperText={errors.country && 'Only letters but (.,_-&) accepted'}
-            sx={textFieldCss} />
+            helperText={errors.country && 'Only letters but (.,_-&) accepted'} />
         </Box>
         
         <input ref={hiddenInput} type={'submit'} style={{ display: 'none'}} />
