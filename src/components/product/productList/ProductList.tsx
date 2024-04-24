@@ -8,7 +8,7 @@ import { AppState } from '../../../redux/store';
 import CenteredContainer from '../../ui/layout/CenteredContainer';
 
 export default function ProductList() {
-  const { products, minMaxPrice, loading } = useSelector((state: AppState) => state.productReducer);
+  const { products, loading, error } = useSelector((state: AppState) => state.productReducer);
 
   return (
     <Box component={'div'} margin={1}> 
@@ -18,7 +18,7 @@ export default function ProductList() {
           <ProductCard product={product} />
         </Grid>
         )}
-        {(!loading && minMaxPrice && minMaxPrice.max > 0 && products.length === 0) &&
+        {(!loading && error) &&
           <CenteredContainer>
             <SearchOffIcon sx={{ fontSize: 35, marginRight: 1 }} />
             <h2> No items found!</h2> 

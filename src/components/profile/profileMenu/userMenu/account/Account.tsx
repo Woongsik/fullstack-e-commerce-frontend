@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Box, Button, Chip, TextField, styled } from '@mui/material';
 
@@ -8,7 +8,7 @@ import { RegisterUserInfo } from '../../../../../misc/types/User';
 import { useTheme } from '../../../../contextAPI/ThemeContext';
 import CenteredContainer from '../../../../ui/layout/CenteredContainer';
 import { MUIButtonVariant, MUIColor, MUILayout } from '../../../../../misc/types/MUI';
-import { updateUser } from '../../../../../redux/slices/UserSlice';
+import { clearError, updateUser } from '../../../../../redux/slices/UserSlice';
 import LoadingAndMessage from '../../../../ui/loadingAndMessage/LoadingAndMessage';
 
 enum Mode {
@@ -34,6 +34,10 @@ export default function Account() {
   const { register, handleSubmit, formState: { errors } } = useForm<Partial<RegisterUserInfo>>();
   const { isThemeLight } = useTheme();
 
+  useEffect(() => {
+    dispatch(clearError());
+  }, [clearError, dispatch]);
+  
   const doNotDisplayProperties: string[] = ['_id', '__v', 'password', 'active'];
 
   const textFieldCss = {

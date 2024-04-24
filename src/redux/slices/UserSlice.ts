@@ -82,6 +82,10 @@ const userSlice = createSlice({
     addUser: (state, actions: PayloadAction<User>) => {
       state.user = actions.payload;
     },
+    clearError: (state, actions: PayloadAction<void>) => {
+      state.error = '';
+      state.loading = false;
+    },
     logout: (state) => {
       localStorageUtil.removeTokens();
       state.user = null;
@@ -201,7 +205,8 @@ const userSlice = createSlice({
 
 export const { 
   logout,
-  addUser
+  addUser,
+  clearError
 } = userSlice.actions;
 
 const userReducer = userSlice.reducer;

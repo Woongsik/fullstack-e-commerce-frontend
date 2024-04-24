@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
@@ -10,7 +10,7 @@ import { PasswordUpdate } from '../../../../../misc/types/User';
 import CenteredContainer from '../../../../ui/layout/CenteredContainer';
 import { AppState, useAppDispatch } from '../../../../../redux/store';
 import { useTheme } from '../../../../contextAPI/ThemeContext';
-import { updateUserPassword } from '../../../../../redux/slices/UserSlice';
+import { clearError, updateUserPassword } from '../../../../../redux/slices/UserSlice';
 import LoadingAndMessage from '../../../../ui/loadingAndMessage/LoadingAndMessage';
 
 const FormContainer = styled(Box)({
@@ -32,6 +32,10 @@ export default function Password() {
   const { loading, error } = useSelector((state: AppState) => state.userReducer);
   const { register, handleSubmit, reset, formState: { errors } } = useForm<PasswordUpdate>();
 
+  useEffect(() => {
+    dispatch(clearError());
+  }, [clearError, dispatch]);
+
   const textFieldCss = {
     '&.MuiFormControl-root > *, &.MuiFormControl-root > .MuiInputBase-root > .MuiOutlinedInput-notchedOutline': {
       color: isThemeLight ? 'white' : '',
@@ -49,9 +53,12 @@ export default function Password() {
 
   const onSubmit: SubmitHandler<PasswordUpdate> = async (data: PasswordUpdate) => {    
     try {
-      await dispatch(updateUserPassword(data));
-      setMessage('Successfully changed!');
-      reset();
+      const response = await dispatch(updateUserPassword(data));
+
+      if (response && response.payload) {
+        setMessage('Successfully changed!');
+        reset();
+      }
     } catch(e) {
       console.log('Update user passwword failed', e);
       // Error message from userSlice 

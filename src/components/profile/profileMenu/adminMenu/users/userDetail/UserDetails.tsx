@@ -28,7 +28,6 @@ export default function UserDetailsRow(props: Props) {
   const [showDialog, setShowDialog] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
-  const [update, setUpdate] = useState<boolean>(false);
   const [userRole, setUserRole] = useState<boolean>(user.role === UserRole.ADMIN);
   const [userActive, setUserActive] = useState<boolean>(user.active);
 
