@@ -16,10 +16,8 @@ export type RegisterUserInfo = LoginInfo & {
   avatar: string;
 }
 
-export type User = RegisterUserInfo & {
+export type User = RegisterUserInfo & UserRoleAndActive & {
   _id: string;
-  role: UserRole,
-  active: boolean
 }
 
 export type UserToken = {
@@ -40,4 +38,8 @@ export type PasswordUpdate = {
 export type UserRoleAndActive = {
   role: UserRole;
   active: boolean
+}
+
+export type UserForgetPassword = {
+  userEmail: string;
 }

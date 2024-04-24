@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from 'axios';
 import { Filter } from '../misc/types/Filter';
 import { Product, ProductInfo, ProductsList } from '../misc/types/Product';
 import { Category, CategoryBase } from '../misc/types/Category';
-import { LoggedUserInfo, LoginInfo, PasswordUpdate, RegisterUserInfo, User, UserRoleAndActive, UserToken } from '../misc/types/User';
+import { LoggedUserInfo, LoginInfo, PasswordUpdate, RegisterUserInfo, User, UserForgetPassword, UserRoleAndActive, UserToken } from '../misc/types/User';
 import { localStorageUtil } from '../redux/utils/LocalStrorageUtil';
 import { StripeSecret } from '../misc/types/StripeSecret';
 import { Order, OrderRegistesr } from '../misc/types/Order';
@@ -245,6 +245,11 @@ class ApiService {
   public deleteUser(userId: string): Promise<void> {
     const url: string = this.generateUrl(`users/${userId}`);
     return this.request('DELETE', url);
+  }
+
+  public forgetPassword(userInfo: UserForgetPassword): Promise<void> {
+    const url: string = this.generateUrl(`users/forget-password`);
+    return this.request('POST', url, userInfo);
   }
 }
 

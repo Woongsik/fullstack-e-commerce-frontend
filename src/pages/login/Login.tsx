@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Box, IconButton, InputAdornment, TextField, styled } from '@mui/material';
 import { InfoOutlined, Visibility, VisibilityOff } from '@mui/icons-material';
@@ -151,6 +151,12 @@ export default function Login() {
                 </IconButton>
               </InputAdornment>
               }}/>
+
+              {pageMode === PageMode.LOGIN &&
+                <Link to='/forgetPassword'  target="_blank">
+                  <Box style={{ textAlign: 'right', fontSize: '15px', marginBottom: '15px' }}>Forget password?</Box>
+                </Link>    
+              }
           </Box>
 
           {pageMode === PageMode.SIGNIN &&
