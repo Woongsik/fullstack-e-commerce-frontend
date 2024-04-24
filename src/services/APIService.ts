@@ -45,10 +45,8 @@ class ApiService {
         });
 
         if (!response.ok) { // error handling
-          console.log('response', response);
           const responseText: any = await response.text();
           const message = JSON.parse(JSON.stringify(responseText));
-          console.log('message', message, message.message);
           throw Error(message.message);
         }
 

@@ -124,8 +124,6 @@ export default function AddProduct(props: Props) {
   }
 
   const updateProductInfo = async (data: Inputs) => {
-    console.log('updated', data);
-
     const productUpdateInfo: Partial<ProductInfo> = {
       title: data.title,
       price: data.price,

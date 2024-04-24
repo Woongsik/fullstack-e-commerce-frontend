@@ -28,8 +28,6 @@ export default function ForgetPassword() {
   const { register, handleSubmit, resetField, formState: { errors } } = useForm<UserForgetPassword>();
 
   const onSubmit: SubmitHandler<UserForgetPassword> = async (data: UserForgetPassword) => {
-    console.log('data', data);
-
     try {
       setLoading(true);
       await apiService.forgetPassword(data);
