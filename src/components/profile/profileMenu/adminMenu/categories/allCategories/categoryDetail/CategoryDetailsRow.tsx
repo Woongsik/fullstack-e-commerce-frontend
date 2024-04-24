@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Box, Button, ButtonGroup, IconButton, TableCell, TableRow, TextField } from '@mui/material';
+import { Box,ButtonGroup, IconButton, TableCell, TableRow, TextField } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -29,9 +29,8 @@ export default function CategoryDetailsRow(props: Props) {
   const [mode, setMode] = useState<Mode>(Mode.READ);
   const [showDialog, setShowDialog] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
-  const [message, setMessage] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<CategoryBase>();
+  const { register, handleSubmit, formState: { errors } } = useForm<CategoryBase>();
   const { isThemeLight } = useTheme();
   const dispatch = useDispatch();
   const hiddenInput = useRef<HTMLInputElement | null>(null);
@@ -46,7 +45,6 @@ export default function CategoryDetailsRow(props: Props) {
   }
 
   const onSubmit: SubmitHandler<CategoryBase> = async (data: CategoryBase) => {    
-    console.log('data', data);
     if (data.image !== category.image || data.title !== category.title) {
       try {
         setLoading(true);
@@ -100,11 +98,10 @@ export default function CategoryDetailsRow(props: Props) {
 
   return (
       <TableRow>
-
       {mode === Mode.READ ? 
         <>
           <TableCell>
-            <img src={category.image} height={'50px'} width={'50px'} />
+            <img src={category.image} height={'50px'} width={'50px'} alt={'category_image'}/>
           </TableCell>
           <TableCell align='center'>
             {category.title}
@@ -119,7 +116,7 @@ export default function CategoryDetailsRow(props: Props) {
                 {...register("title", { required: true, pattern: /^[A-Za-z0-9?.,=_@&\- ]+$/i }) }
                 error={Boolean(errors.title)}
                 label="Category title"
-                helperText={errors.title && 'No special characters, only (?.,=_@&\-) accepted'}
+                helperText={errors.title && 'No special characters, only (?.,=_@&-) accepted'}
                 defaultValue={category.title}
                 sx={textFieldCss} />
             </Box>
@@ -127,11 +124,11 @@ export default function CategoryDetailsRow(props: Props) {
             <Box minWidth={'200px'}>
               <TextField
                 fullWidth
-                {...register("image", { value: "https://picsum.photos/800", pattern: /[A-Za-z0-9]+[://]+[A-Za-z0-9-]+[\/.]/ }) }                                                          
+                {...register("image", { pattern: /[A-Za-z0-9]+[://]+[A-Za-z0-9-]+[.]/ }) }                                                          
                 error={Boolean(errors.image)}
                 label="Category image"
                 helperText={errors.image && 'Only valid URL accepted'}
-                defaultValue={category.image}
+                defaultValue={category.image ?? "https://picsum.photos/800" }
                 sx={textFieldCss} />
             </Box>
             <input type='submit' ref={hiddenInput} style={{ display: 'none' }}/>
@@ -163,12 +160,9 @@ export default function CategoryDetailsRow(props: Props) {
         <LoadingAndMessage 
           loading={loading}
           error={error}
-          message={message}
           size={25} />
-        </Box>
-        
+        </Box>        
       </TableCell>
-
 
       <UiDialog 
         show={showDialog} 
@@ -177,6 +171,5 @@ export default function CategoryDetailsRow(props: Props) {
         cancelTitle={'Cancel'} 
         onClose={handleClose} />
     </TableRow>
-
   )
 }

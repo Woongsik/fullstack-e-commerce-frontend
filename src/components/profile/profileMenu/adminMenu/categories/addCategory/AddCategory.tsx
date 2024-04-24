@@ -42,7 +42,7 @@ export default function AddCategory() {
   const onSubmit: SubmitHandler<CategoryBase> = async (data: CategoryBase) => {    
     try {
       setLoading(true);
-      const newCategory = await apiService.registerCategory(data);
+      await apiService.registerCategory(data);
       setMessage('Successfully registered!');
       reset();
     } catch(e) {
@@ -61,16 +61,17 @@ export default function AddCategory() {
             {...register("title", { required: true, pattern: /^[A-Za-z0-9?.,=_@&\- ]+$/i }) }
             error={Boolean(errors.title)}
             label="Category title"
-            helperText={errors.title && 'No special characters, only (?.,=_@&\-) accepted'}
+            helperText={errors.title && 'No special characters, only (?.,=_@&-) accepted'}
             sx={textFieldCss} />
         </Box>
         
         <Box>
             <TextField
-            {...register("image", { value: "https://picsum.photos/800", pattern: /[A-Za-z0-9]+[://]+[A-Za-z0-9-]+[\/.]/ }) }                                                          
+            {...register("image", { pattern: /[A-Za-z0-9]+[://]+[A-Za-z0-9-]+[.]/ }) }                                                          
             error={Boolean(errors.image)}
             label="Category image"
             helperText={errors.image && 'Only valid URL accepted'}
+            defaultValue={"https://picsum.photos/800"}
             sx={textFieldCss} />
         </Box>
 

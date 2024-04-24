@@ -88,7 +88,7 @@ export default function Login() {
 
   return (
     <GridContainer sx={{ color: isThemeLight ? 'white' : 'black' }}>
-      <CenteredContainer alignItems={MUILayout.FLEX_START} width={'75%'} sx={{ minWidth: '300px', maxWidth: '400px'}}>
+      <CenteredContainer alignItems={MUILayout.FLEX_START} width={'75%'} sx={{ minWidth: '300px', maxWidth: '400px', marginBottom: '50px' }}>
         <FormContainer component="form"
           onSubmit={handleSubmit(onSubmit)}>
           <h1>{ pageMode === PageMode.LOGIN ? 'Log in' : 'Sign in'}</h1>
@@ -157,10 +157,11 @@ export default function Login() {
           <>
           <Box>
             <TextField
-              {...register("avatar", { value: "https://picsum.photos/800", pattern: /[A-Za-z0-9]+[://]+[A-Za-z0-9-]+[\/.]/ }) }                                                          
+              {...register("avatar", { pattern: /[A-Za-z0-9]+[://]+[A-Za-z0-9-]+[.]/ }) }                                                          
               error={Boolean(errors.avatar)}
               label="Avatar"
               helperText={errors.avatar && 'Only valid URL accepted'}
+              defaultValue={"https://picsum.photos/800"}
               sx={textFieldCss} />
           </Box>
 
@@ -169,7 +170,7 @@ export default function Login() {
               {...register("address", { required: true, pattern: /^[A-Za-z0-9?.,=_@&\- ]+$/i }) }
               error={Boolean(errors.address)}
               label="Address"
-              helperText={errors.avatar && 'Special characters (?.,=_@&\-) accepted'}
+              helperText={errors.avatar && 'Special characters (?.,=_@&-) accepted'}
               sx={textFieldCss} />
           </Box>
           </>

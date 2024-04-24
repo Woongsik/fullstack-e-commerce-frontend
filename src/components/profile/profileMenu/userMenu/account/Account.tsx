@@ -122,11 +122,11 @@ export default function Account() {
 
       <Box>
         <TextField
-          {...register("avatar", { value: "https://picsum.photos/800", pattern: /[A-Za-z0-9]+[://]+[A-Za-z0-9-]+[.]/ }) }                                                          
+          {...register("avatar", { pattern: /[A-Za-z0-9]+[://]+[A-Za-z0-9-]+[.]/ }) }                                                          
           error={Boolean(errors.avatar)}
           label="Avatar"
           helperText={errors.avatar && 'Only valid URL accepted'}
-          defaultValue={user.avatar}
+          defaultValue={user.avatar ?? "https://picsum.photos/800"}
           sx={textFieldCss} />
       </Box>
 
