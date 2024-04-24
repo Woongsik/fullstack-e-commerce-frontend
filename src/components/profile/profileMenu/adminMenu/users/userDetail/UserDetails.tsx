@@ -10,6 +10,8 @@ import { apiService } from '../../../../../../services/APIService';
 import LoadingAndMessage from '../../../../../ui/loadingAndMessage/LoadingAndMessage';
 import { MUIColor } from '../../../../../../misc/types/MUI';
 import { User, UserRole, UserRoleAndActive } from '../../../../../../misc/types/User';
+import { useSelector } from 'react-redux';
+import { AppState } from '../../../../../../redux/store';
 
 type Props = {
   user: User;
@@ -24,6 +26,8 @@ enum Mode {
 
 export default function UserDetailsRow(props: Props) {
   const { user } = props;
+  const currentUser: User | null = useSelector((state: AppState) => state.userReducer.user);
+
   const [mode, setMode] = useState<Mode>(Mode.READ);
   const [showDialog, setShowDialog] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
@@ -115,6 +119,7 @@ export default function UserDetailsRow(props: Props) {
       }
       <TableCell align="center">
         { mode === Mode.READ ? 
+          ((user._id !== currentUser?._id) ?
         <ButtonGroup>
           <IconButton onClick={askToRemoveUser}>
             <DeleteIcon color={MUIColor.ERROR} />
@@ -123,6 +128,7 @@ export default function UserDetailsRow(props: Props) {
             <EditIcon color={MUIColor.PRIMARY} />
           </IconButton>
         </ButtonGroup>
+        : <span>Current User</span>)
         : 
         <ButtonGroup>
           <IconButton onClick={clear}>
