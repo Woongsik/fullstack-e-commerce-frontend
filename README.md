@@ -1,14 +1,17 @@
 <a name="intro"></a>
-# Introduction
-   Deveoping a e-commerce web site using open api, [platzi store](https://fakeapi.platzi.com/).
-   This api provides a wide range of stuff used in real e-commerce services,
-   ie. able to get all the products with pagination or find a product with title, price range, category parameters etc.
-   Also allow us to register/update product as admin (including file image upload to server well). 
+# Fullstack E-commerce Frontend
+  Hi, this is a frontend part of Fullstack project at Intergify 2024.
+  
+  This fronted provides nice UI/UX design according to the data from the backend to simulate E-commerce web site. 
 
-   JWT is used for user session, the access token is valid for 20 days, and the refresh token is valid for 10 hours.
-   Once you are logged in, JWT token is saved in localStroage and will be used for user session.
-
-   You can check out here [Live link](https://awesome-shopping.netlify.app/) for fullstack
+  Basically try to mimic the E-commerce site and make the site fully functional both frontend and backend side in my own way. 
+  Simulate the way of Payment, Mailing, Hosting Images, Authenticate, Google account login etc.
+  
+  I enjoyed the project with full of joy and also with lots of obstacles, but really had fun!  
+  
+  Check out the result here
+  Frontend: (https://cool-awsome-shopping.netlify.app)[https://cool-awsome-shopping.netlify.app]
+  Backend: (https://fs17-fullstack.onrender.com/api/v1/products)[https://fs17-fullstack.onrender.com/api/v1/products]
 
 <a name="table_of_contents"></a>
 ## Table of Contents
@@ -17,9 +20,12 @@
    - [Getting Started](#getting_started)
       - [Prerequisites](#prerequisites)
       - [Clone the project](#clone)
+      - [Set environment variables](#setEnv)
       - [Install and run](#install)
       - [Navgiate](#navigate)
    - [Usage](#usage)
+      - [Scripts](#scripts)
+      - [Features](#features)
       - [Architecture and Design](#architecture_design)
       - [Testing](#testing)
       - [Deployment](#deployment)
@@ -36,12 +42,17 @@
    <a name="clone"></a>
    #### 1.Clone the project:
    ```bash
-   $ git clone https://github.com/Woongsik/fs17-Frontend-project.git
-   $ cd fs17-Frontend-project
+   $ git clone https://github.com/Woongsik/fullstack-e-commerce-frontend.git
+   $ cd fullstack-e-commerce-frontend
    ```
 
+   <a name="setEnv"></a>
+   #### 2. Set envrionment variables 
+   Check the .envExample file and set variables into .env
+   !This should be done to run the the app!
+
    <a name="install"></a>
-   #### 2.Install and run:
+   #### 3.Install and run:
 
    ```bash
    $ npm install   # Install project dependencies
@@ -49,10 +60,11 @@
    ```
 
    <a name="navigate"></a>
-   #### 3. Navigate to [http://localhost:3000](http://localhost:3000)
+   #### 4. Navigate to [http://localhost:3000](http://localhost:3000)
 
 <a name="usage"></a>
 ## Usage:
+   <a name="scripts"></a>
    ### Scripts
    In the package.json, below scripts are used.
    Since _msw_ doesn't support axios, additional scripts required for test
@@ -66,21 +78,21 @@
          "eject": "react-scripts eject"
       },
    ```
-
+   <a name="features"></a>
    ### Features
    - Sending queries to server for filtering
-      - Find all products: (GET) https://api.escuelajs.co/api/v1/products
+      - Find all products: (GET) http:localhost:8080/api/v1/products
          - pagination: ?offset=0&limit=10
       - Find a product: 
-         - base url: (GET) https://api.escuelajs.co/api/v1/products
+         - base url: (GET) http:localhost:8080/api/v1/products
             - by title: /?title=Generic
             - by price range: /?price_min=900&price_max=1000
-            - by category: /?categoryId=1
-            - by joinning filters: /?title=Generic&price_min=900&price_max=1000&categoryId=1
-      - Find all categories: (GET) https://api.escuelajs.co/api/v1/categories 
+            - by category: /?category=1
+            - by joinning filters: /?title=shoes&price_min=900&price_max=1000&category=1
+      - Find all categories: (GET) http:localhost:8080/api/v1/categories 
 
    - Upload image: 
-      (POST) https://api.escuelajs.co/api/v1/files/upload
+      (POST) http:localhost:8080/api/v1/files/upload
       ```bash
       # Body
       {
@@ -90,156 +102,36 @@
 
    - Validations with React-hook-form
    - General style with Material UI
-   - JWT for session: (GET) https://api.escuelajs.co/api/v1/auth/profile
+   - JWT for session: (GET) http:localhost:8080/api/v1/users/session
       ```bash
       # Headers
       {
          "Authorization": "Bearer {your access token}"
       }
       ```
+
    ### Screenshots or GIFs
-   ![screenshot of the site home](<./src/assets/images/Screenshot_home.png>)
-   ![screenshot of the site details](<./src/assets/images/Screenshot_detail.png>)
-   ![screenshot of the site cart](<./src/assets/images/Screenshot_cart.png>)
-   ![screenshot of the site filter](<./src/assets/images/Screenshot_filter.png>)
+   ![screenshot of the site home](<./src/assets/images/Screenshot_Home.png>)
+   ![screenshot of the site filter](<./src/assets/images/Screenshot_Filter.png>)
+   ![screenshot of the site details](<./src/assets/images/Screenshot_Detail.png>)
+   ![screenshot of the site orders](<./src/assets/images/Screenshot_Orders.png>)
+   ![screenshot of the site payment](<./src/assets/images/Screenshot_Payment.png>)
+   ![screenshot of the site welcome email](<./src/assets/images/Screenshot_Email.png>)
+   ![screenshot of the site admin products](<./src/assets/images/Screenshot_Admin_products.png>)
+   ![screenshot of the site admin banUser](<./src/assets/images/Screenshot_Admin_banUser.png>)
 
    <a name="architecture_design"></a>
-   ### Architecture & Design:
-      #### Folter structure: App > Router & Store > Redux & ContextAPI > Pages > Components 
-      src
-      ┣ components
-      ┃ ┣ cart
-      ┃ ┃ ┣ cartItemCard
-      ┃ ┃ ┃ ┗ CartItemCard.tsx
-      ┃ ┃ ┗ cartSummary
-      ┃ ┃ ┃ ┗ CartSummary.tsx
-      ┃ ┣ cateogries
-      ┃ ┃ ┗ Categories.tsx
-      ┃ ┣ contextAPI
-      ┃ ┃ ┣ footer
-      ┃ ┃ ┃ ┗ Footer.tsx
-      ┃ ┃ ┣ navbar
-      ┃ ┃ ┃ ┗ Navbar.tsx
-      ┃ ┃ ┗ ThemeContext.tsx
-      ┃ ┣ product
-      ┃ ┃ ┣ productCard
-      ┃ ┃ ┃ ┗ ProductCard.tsx
-      ┃ ┃ ┣ productCreateOrUpdate
-      ┃ ┃ ┃ ┗ ProductCreateOrUpdate.tsx
-      ┃ ┃ ┣ productEdit
-      ┃ ┃ ┃ ┗ ProductEdit.tsx
-      ┃ ┃ ┗ productList
-      ┃ ┃ ┃ ┗ ProductList.tsx
-      ┃ ┗ ui // UI that make the components reusable 
-      ┃ ┃ ┣ button
-      ┃ ┃ ┃ ┣ UiButton.tsx
-      ┃ ┃ ┃ ┗ UiRoundButton.tsx
-      ┃ ┃ ┣ carousel
-      ┃ ┃ ┃ ┣ UiCarousel.css
-      ┃ ┃ ┃ ┗ UiCarousel.tsx
-      ┃ ┃ ┣ fileUploader
-      ┃ ┃ ┃ ┗ FileUploader.tsx
-      ┃ ┃ ┣ form
-      ┃ ┃ ┃ ┗ UiFormSelects.tsx
-      ┃ ┃ ┣ image
-      ┃ ┃ ┃ ┣ UiBrokenImage.tsx
-      ┃ ┃ ┃ ┣ UiImage.tsx
-      ┃ ┃ ┃ ┣ UiNoImage.tsx
-      ┃ ┃ ┃ ┗ UiThumb.tsx
-      ┃ ┃ ┣ layout
-      ┃ ┃ ┃ ┣ CenteredContainer.tsx
-      ┃ ┃ ┃ ┗ GridContainer.tsx
-      ┃ ┃ ┣ loading
-      ┃ ┃ ┃ ┗ LoadingBackdrop.tsx
-      ┃ ┃ ┣ pageCounter
-      ┃ ┃ ┃ ┗ PageCounter.tsx
-      ┃ ┃ ┣ pageNavigation
-      ┃ ┃ ┃ ┗ PageNavigation.tsx
-      ┃ ┃ ┣ priceRangeSlider
-      ┃ ┃ ┃ ┗ PriceRangeSlider.tsx
-      ┃ ┃ ┣ scrollToTop
-      ┃ ┃ ┃ ┗ ScrollToTop.tsx
-      ┃ ┃ ┣ searchInput
-      ┃ ┃ ┃ ┗ SearchInput.tsx
-      ┃ ┃ ┣ sortSelects
-      ┃ ┃ ┃ ┗ SortSelects.tsx
-      ┃ ┃ ┗ UiDialog.tsx
-      ┣ hooks
-      ┃ ┗ useUserSession.ts
-      ┣ misc
-      ┃ ┣ types
-      ┃ ┃ ┣ CartItem.ts
-      ┃ ┃ ┣ Category.ts
-      ┃ ┃ ┣ Filter.ts
-      ┃ ┃ ┣ Forms.ts
-      ┃ ┃ ┣ MUI.ts
-      ┃ ┃ ┣ Product.ts
-      ┃ ┃ ┣ Sort.ts
-      ┃ ┃ ┣ UploadedImage.ts
-      ┃ ┃ ┗ User.ts
-      ┃ ┗ utils
-      ┃ ┃ ┣ DateUtil.ts
-      ┃ ┃ ┗ Urls.ts
-      ┣ pages
-      ┃ ┣ cart
-      ┃ ┃ ┗ Cart.tsx
-      ┃ ┣ home
-      ┃ ┃ ┗ Home.tsx
-      ┃ ┣ login
-      ┃ ┃ ┗ Login.tsx
-      ┃ ┣ prodcutDetail
-      ┃ ┃ ┗ ProductDetail.tsx
-      ┃ ┣ productUpdate
-      ┃ ┃ ┗ ProdcutUpdate.tsx
-      ┃ ┗ profile
-      ┃ ┃ ┗ Profile.tsx
-      ┣ redux // Using reducers, data can go further
-      ┃ ┣ slices 
-      ┃ ┃ ┣ CartSlice.ts
-      ┃ ┃ ┣ CategorySlice.ts
-      ┃ ┃ ┣ ProductSlice.ts
-      ┃ ┃ ┗ UserSlice.ts
-      ┃ ┣ utils // Help reducers that do the dirty work behind the scene :) 
-      ┃ ┃ ┣ CartSliceUtil.ts
-      ┃ ┃ ┣ ProductSliceUtils.ts
-      ┃ ┃ ┗ UserSlicerUtil.ts
-      ┃ ┗ store.ts
-      ┣ services
-      ┃ ┗ APIService.ts // Centralized apiService
-      ┣ test  // Testing server & Reducers 
-      ┃ ┣ redux
-      ┃ ┃ ┣ CartReducer.test.ts
-      ┃ ┃ ┣ CategoryReducer.test.ts
-      ┃ ┃ ┣ CategoryReducerWithMockingServer.test.ts
-      ┃ ┃ ┣ ProductReducerWithMockServer.test.ts
-      ┃ ┃ ┣ ProductsReducer.test.ts
-      ┃ ┃ ┣ UserReducer.test.ts
-      ┃ ┃ ┗ UserReducerWithMockingServer.test.ts
-      ┃ ┗ shared
-      ┃ ┃ ┣ CategoryServer.ts
-      ┃ ┃ ┣ ProductServer.ts
-      ┃ ┃ ┗ UserServer.ts
-      ┣ App.tsx
-      ┣ index.css
-      ┣ index.tsx
-      ┣ logo.svg
-      ┣ react-app-env.d.ts
-      ┣ reportWebVitals.ts
-      ┗ setupTests.ts
+   ### Architecture & Design:   
    
    <a name="testing"></a>
    ### Testing:   
-   Testing is done by _Jest_ and _msw_. Since msw is not supporting axios, there are two types of testing code.
-   xxx.test.ts is for axios (Focused on testing reducers)
-   xxxWithMockingServer.test.ts is for fetch (Focused on testing with server)
+   Testing is done by _Jest_ and _msw_. Since msw is not supporting _Axios_, 
+   you need to use _Fetch_
 
-   To avoid, potential error, axios is used for the application.
-   In order to test with server, use fetch in src/services/apiService.ts 
-   Just comment out axios part (Remove comments line 22 to line 37 , add comment line 41 to 49 )
-   Also src/test/redux/productReducerWithMockServer.ts(line 3, 13, 21) 
+   To enable _Fetch_, please set testMode to true, line 28 in src/services/apiService.ts
 
-   Currently all the reducers are tested (productSlice, userSlice, cartSlice, categorySlice)
-   Total 132 tests runs and passed in 7 test suites.
+   All the reducers are tested (productSlice, userSlice, cartSlice, categorySlice)
+   Total 33 tests runs and passed in 4 test suites.
 
    Testing code src/test/redux
    Testing server src/test/shared
@@ -247,8 +139,9 @@
    ```bash
       $ npm test   # Testing reducers
    ```
-   ![screenshot of the testing result](<./src/assets/images/Screenshot_test.png>)
+   ![screenshot of the testing result](<./src/assets/images/Screenshot_Test.png>)
+   
    <a name="deployment"></a>
    ### Deployment:
-   One of most popular deployment [Netlify](https://www.netlify.com/) used for the deployment and hosting. 
-   Continuous integration and deploy for further fixes and improvements.
+   One of most popular deployment tool, [Netlify](https://www.netlify.com/) used. 
+   Continuous integration for potential fixes and improvements.
