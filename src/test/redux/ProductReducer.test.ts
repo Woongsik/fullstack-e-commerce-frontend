@@ -6,7 +6,9 @@ import { deleteProduct, fetchProduct, fetchProducts, initialState, registerProdu
 import { createNewStore } from "../../redux/store";
 import ProductSliceUtils from "../../redux/utils/ProductSliceUtils";
 import { mockCategories } from "../shared/CategoryServer";
-import { productServer, mockProducts } from "../shared/ProductServer";
+
+const productServer = require('../shared/ProductServer');
+const mockProducts = productServer.mockProducts;
 
 let store = createNewStore();
 
