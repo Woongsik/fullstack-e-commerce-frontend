@@ -1,17 +1,15 @@
 <a name="intro"></a>
 # Fullstack E-commerce Frontend
-  Hi, this is a frontend part of Fullstack project at Intergify 2024.
-  
+  This is a frontend part of Fullstack project at Intergify 2024.<br />
   This fronted provides nice UI/UX design according to the data from the backend to simulate E-commerce web site. 
 
-  Basically try to mimic the E-commerce site and make the site fully functional both frontend and backend side in my own way. 
+  Basically try to mimic the E-commerce site and make the site fully functional both frontend and backend side in my own way.<br />
   Simulate the way of Payment, Mailing, Hosting Images, Authenticate, Google account login etc.
   
   I enjoyed the project with full of joy and also with lots of obstacles, but really had fun!  
   
-  Check out the result here
-
-  Frontend: [https://cool-awsome-shopping.netlify.app](https://cool-awsome-shopping.netlify.app)
+  Check out the result here <br />
+  Frontend: [https://cool-awsome-shopping.netlify.app](https://cool-awsome-shopping.netlify.app)<br />
   Backend: [https://fs17-fullstack.onrender.com/api/v1/products](https://fs17-fullstack.onrender.com/api/v1/products)
 
 <a name="table_of_contents"></a>
@@ -35,85 +33,82 @@
 ## Getting Started
    <a name="prerequisites"></a>
    ### Prerequisites
-      - node `^19.2.0`
-      - npm `^9.2.0`
+   - node `^19.2.0`
+   - npm `^9.2.0`
 
-      Make sure you have [npm](https://www.npmjs.com/get-npm) installed globally.
+   Make sure you have [npm](https://www.npmjs.com/get-npm) installed globally.
 
    <a name="clone"></a>
-   #### 1.Clone the project:
-      ```bash
-         $ git clone https://github.com/Woongsik/fullstack-e-commerce-frontend.git
-         $ cd fullstack-e-commerce-frontend
-      ```
+   ### 1.Clone the project:
+   ```bash
+   $ git clone https://github.com/Woongsik/fullstack-e-commerce-frontend.git
+   $ cd fullstack-e-commerce-frontend
+   ```
 
    <a name="setEnv"></a>
-   #### 2. Set envrionment variables 
-      Check the `.envExample` file and set variables into `.env`
-
-      !!!This should be done to run the the app!!!
+   ### 2. Set envrionment variables 
+   Check the `.envExample` file and set variables into `.env`<br />
+   !Important _This should be done to run the the app_
 
    <a name="install"></a>
-   #### 3.Install and run:
-      ```bash
-         $ npm install   # Install project dependencies
-         $ npm start     # Compile and launch on local environment
-      ```
+   ### 3.Install and run:
+   ```bash
+   $ npm install   # Install project dependencies
+   $ npm start     # Compile and launch on local environment
+   ```
 
    <a name="navigate"></a>
-   #### 4. Navigate to [http://localhost:3000](http://localhost:3000)
+   ### 4. Navigate to [http://localhost:3000](http://localhost:3000)
 
 <a name="usage"></a>
 ## Usage:
    
    <a name="scripts"></a>
    ### Scripts
-      In the package.json, below scripts are used.
-      
-      Since `msw` doesn't support `axios`, additional scripts required for test
-      (For the testing purpose, use `fetch` for mocking server), otherwise `axios` is used.
+   In the package.json, below scripts are used.<br />
+   Since `msw` doesn't support `axios`, additional scripts required for test
+   (For the testing purpose, use `fetch` for mocking server), otherwise `axios` is used. <br />
+   When running test scripts, `NODE_ENV` will be set to test and it will use `fetch` automatically 
 
-      When running test scripts, `NODE_ENV` will be set to test and it will use `fetch` automatically 
-
-      ```bash
-         "scripts": {
-            "start": "react-scripts start",
-            "build": "react-scripts build",
-            "test": "NODE_ENV=test react-scripts test --transformIgnorePatterns \"node_modules/(?!@toolz/allow-react)/\" --env=jsdom",
-            "eject": "react-scripts eject"
-         },
-      ```
+   ```bash
+      "scripts": {
+         "start": "react-scripts start",
+         "build": "react-scripts build",
+         "test": "NODE_ENV=test react-scripts test --transformIgnorePatterns \"node_modules/(?!@toolz/allow-react)/\" --env=jsdom",
+         "eject": "react-scripts eject"
+      },
+   ```
    <a name="features"></a>
    ### Features
-      - Sending queries to server for filtering
-         - Find all products: (GET) http:localhost:8080/api/v1/products
-            - pagination: ?offset=0&limit=10
-         - Find a product: 
-            - base url: (GET) http:localhost:8080/api/v1/products
-               - by title: /?title=Generic
-               - by price range: /?price_min=900&price_max=1000
-               - by category: /?category=1
-               - by joinning filters: /?title=shoes&price_min=900&price_max=1000&category=1
-         - Find all categories: (GET) http:localhost:8080/api/v1/categories 
+   - Sending queries to server for filtering
+      - Find all products: (GET) http:localhost:8080/api/v1/products
+         - pagination: ?offset=0&limit=10
+      - Find a product: 
+         - base url: (GET) http:localhost:8080/api/v1/products
+            - by title: /?title=Generic
+            - by price range: /?price_min=900&price_max=1000
+            - by category: /?category=1
+            - by joinning filters: /?title=shoes&price_min=900&price_max=1000&category=1
+      - Find all categories: (GET) http:localhost:8080/api/v1/categories 
 
-      - Upload image: 
-         (POST) http:localhost:8080/api/v1/files/upload
-         ```bash
-            # Body
-            {
-               "file": "<Binary File>"
-            }
-         ```
+   - Upload image: 
+      (POST) http:localhost:8080/api/v1/files/upload
+      ```bash
+      # Body
+      {
+         "file": "<Binary File>"
+      }
+      ```
 
-      - Validations with React-hook-form
-      - General style with Material UI
-      - JWT for session: (GET) http:localhost:8080/api/v1/users/session
-         ```bash
-            # Headers
-            {
-               "Authorization": "Bearer {your access token}"
-            }
-         ```
+   - Validations with React-hook-form
+   - Style with Material UI
+   - JWT for session: (GET) http:localhost:8080/api/v1/users/session
+   ```bash
+      # Headers
+      {
+         "Authorization": "Bearer {your access token}"
+      }
+   ```
 
    ### Screenshots or GIFs
    
@@ -128,7 +123,7 @@
 
    <a name="architecture_design"></a>
    ### Architecture & Design:
-      
+
       src
       ┣ assets
       ┃ ┗ images
@@ -319,26 +314,25 @@
       ┣ react-app-env.d.ts
       ┣ reportWebVitals.ts
       ┗ setupTests.ts 
+   
    <a name="testing"></a>
    ### Testing:   
-      Testing is done by `Jest` and `msw`. Since msw is not supporting `Axios`, 
-      you need to use `Fetch`
+   Testing is done by `jest` and `msw`. Since msw is not supporting `axios`, `fetch` used for testing. <br />
+   In the script, `NODE_ENV` will set to '`test`' automatically and it will run tests with `fetch`
 
-      To enable `Fetch`, please set `testMode` to `true`, line 28 in src/services/apiService.ts
+   All the reducers are tested (productSlice, userSlice, cartSlice, categorySlice) <br />
+   Total 33 tests runs and passed in 4 test suites.
 
-      All the reducers are tested (productSlice, userSlice, cartSlice, categorySlice)
-      Total 33 tests runs and passed in 4 test suites.
+   Testing code src/test/redux <br />
+   Testing server src/test/shared
 
-      Testing code src/test/redux
-      Testing server src/test/shared
+   ```bash
+      $ npm test   # Testing reducers
+   ```
 
-      ```bash
-         $ npm test   # Testing reducers
-      ```
-
-      ![screenshot of the testing result](./src/assets/images/Screenshot_test.png)
+   ![screenshot of the testing result](./src/assets/images/Screenshot_test.png)
    
    <a name="deployment"></a>
    ### Deployment:
-      One of most popular deployment tool, [Netlify](https://www.netlify.com/) used. 
-      Continuous integration for potential fixes and improvements.
+   One of most popular deployment tool, [Netlify](https://www.netlify.com/) used. <br />
+   Continuous integration for potential fixes and improvements.
