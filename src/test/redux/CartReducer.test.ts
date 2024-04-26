@@ -1,8 +1,10 @@
+const productServer = require('../shared/ProductServer');
+const mockProducts = productServer.mockProducts;
+
 import { CartItem, CartItemBase } from "../../misc/types/CartItem";
 import { Size } from "../../misc/types/Size";
 import { initialState, addToCart, removeFromCart, updateQuantityInCart, clearCart, addToFavorites, removeFromFavorites } from "../../redux/slices/CartSlice";
 import CartSliceUtil from "../../redux/utils/CartSliceUtil";
-import { mockProducts } from "../shared/ProductServer";
 import { createNewStore } from "../../redux/store";
 
 let store = createNewStore();
