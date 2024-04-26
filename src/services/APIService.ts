@@ -8,13 +8,8 @@ import { localStorageUtil } from '../redux/utils/LocalStrorageUtil';
 import { StripeSecret } from '../misc/types/StripeSecret';
 import { Order, OrderRegistesr } from '../misc/types/Order';
 
-// TODO put it to env
-const REACT_APP_BASE_URL = 'http://localhost:8080';
-const REACT_APP_BASE_URL_FRAGMENT = 'api/v1';
-
 class ApiService {
-  readonly baseURL: string = `${REACT_APP_BASE_URL}/${REACT_APP_BASE_URL_FRAGMENT}`;
-  
+  readonly baseURL: string = `${process.env.REACT_APP_BASE_URL}/${process.env.REACT_APP_BASE_URL_FRAGMENT}`;
   private generateUrl = (fragment: string) => {
     return `${this.baseURL}/${fragment}`;
   }
