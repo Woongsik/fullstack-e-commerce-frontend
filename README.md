@@ -62,7 +62,6 @@
 
 <a name="usage"></a>
 ## Usage:
-   
    <a name="scripts"></a>
    ### Scripts
    In the package.json, below scripts are used.<br />
