@@ -19,7 +19,6 @@ import { CartItem, CartItemBase } from '../../../misc/types/CartItem';
 import { Product } from '../../../misc/types/Product';
 import { useTheme } from '../../contextAPI/ThemeContext';
 import UiSnackbar from '../../ui/snackbar/UiSnackbar';
-import { SizeColor, SizeLabel } from '../../../misc/types/Size';
 
 type Props = {
   cartItem: CartItem;
@@ -173,27 +172,23 @@ export default function CartItemCard(props: Props) {
           </Box>
 
           <ButtonGroup variant="text" aria-label="Basic button group">
-            <a title={isFavorited() ? 'Remove from favorites' : 'Add to favorites' }>
-              <UiButton 
-                variant={MUIButtonVariant.TEXT}
-                size={MUISize.SMALL}
-                color={MUIColor.PRIMARY}
-                onClick={toggleFavorite}>
-                {isFavorited() ? 
-                <FavoriteIcon sx={{ color: 'red' }} />
-                : <FavoriteBorderIcon sx={{ color: isFavorited() ? 'red': (isThemeLight ? 'white' : 'black') }} />
-                }
-              </UiButton>
-            </a>
-            <a title='Remove from Cart'>
-              <UiButton 
-                variant={MUIButtonVariant.TEXT}
-                size={MUISize.SMALL}
-                color={MUIColor.PRIMARY}
-                onClick={handleDeleteItem}>
-                <DeleteOutlineIcon sx={{ color: (isThemeLight ? 'white' : 'black') }} />
-              </UiButton>
-            </a>
+            <UiButton 
+              variant={MUIButtonVariant.TEXT}
+              size={MUISize.SMALL}
+              color={MUIColor.PRIMARY}
+              onClick={toggleFavorite}>
+              {isFavorited() ? 
+              <FavoriteIcon sx={{ color: 'red' }} />
+              : <FavoriteBorderIcon sx={{ color: isFavorited() ? 'red': (isThemeLight ? 'white' : 'black') }} />
+              }
+            </UiButton>
+            <UiButton 
+              variant={MUIButtonVariant.TEXT}
+              size={MUISize.SMALL}
+              color={MUIColor.PRIMARY}
+              onClick={handleDeleteItem}>
+              <DeleteOutlineIcon sx={{ color: (isThemeLight ? 'white' : 'black') }} />
+            </UiButton>
           </ButtonGroup>
         </Box>
       </CartItemWrapper>

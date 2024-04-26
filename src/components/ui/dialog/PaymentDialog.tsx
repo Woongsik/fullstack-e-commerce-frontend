@@ -80,7 +80,7 @@ export default function PaymentDialog(props: Props) {
   const handlePaymentResult = async (paid: boolean, address: Address) => {
     if (paid && address) {
       try {
-        const newOrder: Order = await registerOrder(paid, address);
+        await registerOrder(paid, address);
         props.onClose(paid);
       } catch (e) {
         const error = e as Error;

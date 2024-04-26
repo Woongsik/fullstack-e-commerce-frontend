@@ -18,13 +18,6 @@ export default function CartSummary(props: Props) {
   const ThemeDivider = styled(Divider)({
     borderColor: isThemeLight ? 'white' : 'black'
   });
-  
-  const textFieldCss = {
-    '&.MuiFormControl-root > *': {
-      color: isThemeLight ? 'white': '',
-      borderColor: isThemeLight ? 'black': '',
-    }
-  };
 
   const SummaryItem = styled(Box)({
     marginTop: '15px',

@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import CenteredContainer from '../../components/ui/layout/CenteredContainer'
 import GridContainer from '../../components/ui/layout/GridContainer'
 import { MUIButtonType, MUIButtonVariant, MUILayout } from '../../misc/types/MUI'
 import { Box, TextField, styled } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { User, UserForgetPassword } from '../../misc/types/User';
+import { UserForgetPassword } from '../../misc/types/User';
 import { useTheme } from '../../components/contextAPI/ThemeContext';
 import UiRoundButton from '../../components/ui/button/UiRoundButton';
 import LoadingAndMessage from '../../components/ui/loadingAndMessage/LoadingAndMessage';

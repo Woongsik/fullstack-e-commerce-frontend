@@ -1,7 +1,4 @@
 import { CircularProgress, Typography, styled } from '@mui/material';
-import { error } from 'console';
-import React from 'react'
-import { MUISize } from '../../../misc/types/MUI';
 
 type Props = {
   loading: boolean;

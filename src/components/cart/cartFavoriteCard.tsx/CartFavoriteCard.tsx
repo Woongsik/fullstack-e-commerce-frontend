@@ -1,7 +1,7 @@
 import { ReactNode, useState } from 'react';
 import { Box, ButtonGroup, Typography, styled } from '@mui/material';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { ShoppingCart, ShoppingCartCheckout } from '@mui/icons-material';
+import { ShoppingCart } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
@@ -10,9 +10,9 @@ import UiDialog from '../../ui/dialog/UiDialog';
 import UiImage from '../../ui/image/UiImage';
 import UiNoImage from '../../ui/image/UiNoImage';
 import { AppState, useAppDispatch } from '../../../redux/store';
-import { addToCart, removeFromFavorites } from '../../../redux/slices/CartSlice';
+import { removeFromFavorites } from '../../../redux/slices/CartSlice';
 import { MUIButtonVariant, MUIColor, MUILayout, MUISize } from '../../../misc/types/MUI';
-import { CartItem, CartItemBase } from '../../../misc/types/CartItem';
+import { CartItemBase } from '../../../misc/types/CartItem';
 import { Product } from '../../../misc/types/Product';
 import { useTheme } from '../../contextAPI/ThemeContext';
 import UiSnackbar from '../../ui/snackbar/UiSnackbar';
@@ -93,25 +93,21 @@ export default function CartFavoriteCard(props: Props) {
         </Box>
         <Box display={'flex'} justifyContent={MUILayout.FLEX_END} width={'100%'} alignItems={'center'}>
           <ButtonGroup variant="text" aria-label="Basic button group">
-            {isInCart() && 
-            <a title='Item in the cart!'>
-              <UiButton 
+            <UiButton 
                 variant={MUIButtonVariant.TEXT}
                 size={MUISize.SMALL}
                 color={MUIColor.PRIMARY}
-                disabled={true}>
+                disabled={isInCart()}>
               <ShoppingCart sx={{ color: 'gray', cursor: 'not-allowed' }} />
-              </UiButton>
-            </a>}
-            <a title='Remove from favorites'>
-              <UiButton 
+            </UiButton>
+            
+             <UiButton 
                 variant={MUIButtonVariant.TEXT}
                 size={MUISize.SMALL}
                 color={MUIColor.PRIMARY}
                 onClick={handleDeleteItem}>
                 <DeleteOutlineIcon sx={{ color: (isThemeLight ? 'white' : 'black') }} />
               </UiButton>
-            </a>
           </ButtonGroup>
         </Box>
       </Box>

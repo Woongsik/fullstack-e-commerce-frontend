@@ -83,7 +83,7 @@ export default function ProductDetailsRow(props: Props) {
       {mode === Mode.READ ? 
         <>
           <TableCell>
-            <img src={product.images && product.images[0]} height={'50px'} width={'50px'} />
+            <img src={product.images && product.images[0]} height={'50px'} width={'50px'} alt={'product_image'} />
           </TableCell>
           <TableCell>
             {product.title}

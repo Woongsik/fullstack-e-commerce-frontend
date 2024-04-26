@@ -1,6 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import { Category, CategoryBase } from "../../misc/types/Category";
+import { Category } from "../../misc/types/Category";
 import { apiService } from "../../services/APIService";
 
 export type InitialState = {
