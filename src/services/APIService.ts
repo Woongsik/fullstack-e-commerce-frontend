@@ -25,7 +25,7 @@ class ApiService {
   }
 
   public async request<T>(method: string, url: string, data?: any, headers?: any): Promise<T> {
-    const testMode: boolean = false; // Set to true for testing with msw
+    const testMode: boolean = process.env.NODE_ENV === 'test'; // Automatically set to true when npm test for testing with msw
     
     if (testMode) {
       try {

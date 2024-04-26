@@ -73,14 +73,14 @@
       Since _msw_ doesn't support axios, additional scripts required for test
       (For the testing purpose, use _fetch_ for mocking server), otherwise axios is used.
 
-      ```bash
+   ```bash
       "scripts": {
             "start": "react-scripts start",
             "build": "react-scripts build",
             "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!@toolz/allow-react)/\" --env=jsdom",
             "eject": "react-scripts eject"
          },
-      ```
+   ```
    <a name="features"></a>
    ### Features
       - Sending queries to server for filtering
@@ -96,25 +96,25 @@
 
       - Upload image: 
          (POST) http:localhost:8080/api/v1/files/upload
-         ```bash
+      ```bash
          # Body
          {
             "file": "<Binary File>"
          }
-         ```
+      ```
 
       - Validations with React-hook-form
       - General style with Material UI
       - JWT for session: (GET) http:localhost:8080/api/v1/users/session
-         ```bash
+      ```bash
          # Headers
          {
             "Authorization": "Bearer {your access token}"
          }
-         ```
+      ```
 
    ### Screenshots or GIFs
-   ![screenshot of the site home](./src/assets/images/Screenshot_Home.png)
+   ![screenshot of the site home](./src/assets//images/Screenshot_Home.png)
    ![screenshot of the site filter](./src/assets/images/Screenshot_Filter.png)
    ![screenshot of the site details](./src/assets/images/Screenshot_Detail.png)
    ![screenshot of the site orders](./src/assets/images/Screenshot_Orders.png)
