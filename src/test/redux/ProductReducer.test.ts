@@ -1,3 +1,4 @@
+import { productServer } from "../shared/ProductServer";
 import { Category } from "../../misc/types/Category";
 import { Filter } from "../../misc/types/Filter";
 import { Product, ProductInfo, ProductUpdate } from "../../misc/types/Product";
@@ -7,8 +8,7 @@ import { createNewStore } from "../../redux/store";
 import ProductSliceUtils from "../../redux/utils/ProductSliceUtils";
 import { mockCategories } from "../shared/CategoryServer";
 
-const productServer = require('../shared/ProductServer');
-const mockProducts = productServer.mockProducts;
+const mockProducts = require('../shared/ProductServer').mockProducts;
 
 let store = createNewStore();
 

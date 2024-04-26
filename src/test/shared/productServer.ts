@@ -1,4 +1,4 @@
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse, SetupApi } from "msw";
 import { setupServer } from "msw/node";
 
 import { mockCategories } from "./CategoryServer";
