@@ -1,6 +1,7 @@
 import { ActionReducerMapBuilder, PayloadAction, createSlice } from "@reduxjs/toolkit";
 import CartSliceUtil from "../utils/CartSliceUtil";
 import { CartItem, CartItemBase } from "../../misc/types/CartItem";
+import { localStorageUtil } from "../utils/LocalStrorageUtil";
 
 export type InitialState = {
   cartItems: CartItem[];
@@ -11,8 +12,8 @@ export type InitialState = {
 }
 
 export const initialState: InitialState = {
-  cartItems: [],
-  cartFavorites: [],
+  cartItems: localStorageUtil.getCartItemsFromLocalStorage(),
+  cartFavorites: localStorageUtil.getFavoritesFromLocalStorage(),
   total: 0,
   deliveryFee: 5
 };
@@ -29,6 +30,7 @@ const cartSlice = createSlice({
         state.total = CartSliceUtil.calculateTotal(state.cartItems, state.deliveryFee);
       };
 
+      localStorageUtil.setCartItemsToLocalStorage(state.cartItems);
     },
     removeFromCart: (state: InitialState, actions: PayloadAction<CartItem>) => {
       const cartItem: CartItem = actions.payload;      
@@ -37,6 +39,8 @@ const cartSlice = createSlice({
         state.cartItems.splice(foundIndex, 1);
         state.total = CartSliceUtil.calculateTotal(state.cartItems, state.deliveryFee);
       }
+
+      localStorageUtil.setCartItemsToLocalStorage(state.cartItems);
     },
     updateQuantityInCart: (state, actions: PayloadAction<CartItem>) => {
       const cartItem: CartItem = actions.payload;      
@@ -45,16 +49,22 @@ const cartSlice = createSlice({
         state.cartItems.splice(foundIndex, 1, cartItem);
         state.total = CartSliceUtil.calculateTotal(state.cartItems, state.deliveryFee);
       }
+
+      localStorageUtil.setCartItemsToLocalStorage(state.cartItems);
     },
     clearCart: (state) => {
       state.cartItems = [];
       state.total = CartSliceUtil.calculateTotal(state.cartItems, state.deliveryFee);
+    
+      localStorageUtil.removeCartItemsToLocalStorage();
     },
     addToFavorites: (state, actions: PayloadAction<CartItemBase>) => { 
       const cartItem: CartItemBase = actions.payload;
       if (!CartSliceUtil.checkIfAlreadyAddedInFavorite(state.cartFavorites, cartItem)) {
         state.cartFavorites.push(cartItem);
       };
+
+      localStorageUtil.setFavoritesToLocalStorage(state.cartFavorites);
     },
     removeFromFavorites: (state, actions: PayloadAction<CartItemBase>) => { 
       const favorite: CartItemBase = actions.payload;      
@@ -62,6 +72,8 @@ const cartSlice = createSlice({
       if (foundIndex > -1) {
         state.cartFavorites.splice(foundIndex, 1);
       }
+
+      localStorageUtil.removeFavoritesToLocalStorage();
     }
   },
   extraReducers(builder: ActionReducerMapBuilder<InitialState>) {
