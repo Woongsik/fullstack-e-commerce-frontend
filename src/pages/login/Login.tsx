@@ -83,7 +83,7 @@ export default function Login() {
   }
 
   if (user) {
-    return <Navigate to="/home" />
+    return <Navigate to="/" />
   }
 
   return (
@@ -153,7 +153,7 @@ export default function Login() {
               }}/>
 
               {pageMode === PageMode.LOGIN &&
-                <Link to='/forgetPassword'  target="_blank">
+                <Link to='/forgetPassword'>
                   <Box style={{ textAlign: 'right', fontSize: '15px', marginBottom: '15px' }}>Forget password?</Box>
                 </Link>    
               }

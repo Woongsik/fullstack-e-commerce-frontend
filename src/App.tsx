@@ -14,15 +14,14 @@ function App() {
     <div>
       <Navbar />
       <Routes>
-          <Route path="/home" element={<Home />}></Route>
           <Route path="/products" element={<Home />}></Route>
           <Route path="/product/:id" element={<ProductDetail />}></Route>
           <Route path="/profile" element={<Profile />}></Route>
           <Route path="/cart" element={<Cart />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/forgetPassword" element={<ForgetPassword />}></Route>
-          <Route path='/*' element={<Navigate to='/home' />} />
-          <Route path='*' element={<Navigate to='/home' />} />
+          <Route path="/" element={<Home />}></Route>
+          <Route path='*' element={<Navigate to='/' />} />
         </Routes>
       <Footer />
     </div>

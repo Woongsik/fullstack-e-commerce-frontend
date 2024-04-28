@@ -75,7 +75,7 @@ export default function Cart() {
             <Typography fontWeight={'bold'} fontSize={22} width={'100%'} textAlign={'center'}>
               Thank you for your order! We will handle it soon.
             </Typography>
-            <Link to={'/home'}>
+            <Link to={'/'}>
               <UiButton variant={MUIButtonVariant.CONTAINED} color={MUIColor.PRIMARY} customStyle={{ margin: '15px' }}>
                 Back home
               </UiButton>

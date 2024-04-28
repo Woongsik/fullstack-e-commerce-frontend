@@ -132,7 +132,7 @@ export default function ProudctDetail() {
   };
 
   const handleBack = () => {
-    navigate("/home");
+    navigate("/");
   }
 
   const navigateToCart = () => {
@@ -265,7 +265,7 @@ export default function ProudctDetail() {
       <InfoText>
           Something went wrong, {error}
       </InfoText>
-      <Link to={'/home'}>
+      <Link to={'/'}>
         <UiButton variant={MUIButtonVariant.CONTAINED} color={MUIColor.PRIMARY} customStyle={{ margin: '15px' }}>
           Back home
         </UiButton>

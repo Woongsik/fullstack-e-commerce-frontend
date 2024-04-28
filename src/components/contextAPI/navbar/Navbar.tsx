@@ -90,7 +90,7 @@ export default function Navbar() {
   };
 
   const homeItem = () => ({
-    to: '/home',
+    to: '/',
     title: 'Home',
     item: (
       <Home />
