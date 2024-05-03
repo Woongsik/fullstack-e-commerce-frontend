@@ -247,7 +247,7 @@ export default function AddProduct(props: Props) {
           <FileUploaderWrapper>
             <FileUploader onChange={onFileChange}/>
           </FileUploaderWrapper> 
-        }
+        } 
 
         {product ? 
           <input type='submit' ref={hiddenInput} style={{ display: 'none' }}/>

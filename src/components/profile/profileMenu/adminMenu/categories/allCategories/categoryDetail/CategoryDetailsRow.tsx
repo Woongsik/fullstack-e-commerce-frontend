@@ -120,6 +120,7 @@ export default function CategoryDetailsRow(props: Props) {
                 helperText={errors.image && 'Only valid URL accepted'}
                 defaultValue={category.image ?? "https://picsum.photos/800" } />
             </Box>
+
             <input type='submit' ref={hiddenInput} style={{ display: 'none' }}/>
           </Box>
         </TableCell>

@@ -9,6 +9,7 @@ import { useTheme } from '../../../../../contextAPI/ThemeContext';
 import { CategoryBase } from '../../../../../../misc/types/Category';
 import LoadingAndMessage from '../../../../../ui/loadingAndMessage/LoadingAndMessage';
 import { apiService } from '../../../../../../services/APIService';
+import FileUploader from '../../../../../ui/fileUploader/FileUploader';
 
 const FormContainer = styled(Box)({
   '& .MuiTextField-root': { 
@@ -20,10 +21,17 @@ const FormContainer = styled(Box)({
   minWidth: '300px'
 });
 
+const FileUploaderWrapper = styled(Box)({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center'
+});
+
 export default function AddCategory() {
   const [error, setError] = useState<string>('');
   const [message, setMessage] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const [images, setImages] = useState<File[]>([]);
 
   const { isThemeLight } = useTheme();
   const { register, handleSubmit, reset, formState: { errors } } = useForm<CategoryBase>();
@@ -37,12 +45,44 @@ export default function AddCategory() {
 
   const clearFields = (): void => {
     reset();
-  } 
+  }
+
+  const onFileChange = (files: File[]) => {
+    setImages(files);
+  }
+
+  const registerCategory = async (data: CategoryBase) => {
+    try {
+      await apiService.registerCategory(data);
+    } catch (e) {
+      const error = e as Error;
+      setError(`Cannot create category, ${error.message}`);
+    }
+  }
+
+  const uploadImage = async (image: File): Promise<string> => {
+    const formData = new FormData();
+    formData.append('file', image);
+    return await apiService.uploadImage(formData);
+  }
 
   const onSubmit: SubmitHandler<CategoryBase> = async (data: CategoryBase) => {    
+    const uploadedImages: string[] = [];
+
     try {
       setLoading(true);
-      await apiService.registerCategory(data);
+
+      if (images.length > 0) { 
+        const image: File = images[0]; // only 1 image allowed
+        const uploadedUrl: string = await uploadImage(image);
+        uploadedImages.push(uploadedUrl);     
+      }
+
+      await registerCategory({
+        title: data.title,
+        image: uploadedImages[0] // only 1 image allowed
+      });
+
       setMessage('Successfully registered!');
       reset();
     } catch(e) {
@@ -64,17 +104,13 @@ export default function AddCategory() {
             helperText={errors.title && 'No special characters, only (?.,=_@&-) accepted'}
             sx={textFieldCss} />
         </Box>
-        
-        <Box>
-            <TextField
-            {...register("image", { pattern: /[A-Za-z0-9]+[://]+[A-Za-z0-9-]+[.]/ }) }                                                          
-            error={Boolean(errors.image)}
-            label="Category image"
-            helperText={errors.image && 'Only valid URL accepted'}
-            defaultValue={"https://picsum.photos/800"}
-            sx={textFieldCss} />
-        </Box>
 
+        <FileUploaderWrapper>
+          <FileUploader 
+            multiple={false}
+            onChange={onFileChange} />
+        </FileUploaderWrapper> 
+        
         <CenteredContainer width={'100%'} margin={'20px 0'}>
           <Button onClick={clearFields} variant={MUIButtonVariant.OUTLINED} color={MUIColor.ERROR}>Cancel</Button>
 

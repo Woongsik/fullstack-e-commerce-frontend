@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useRef, useState } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 import { Box, IconButton } from '@mui/material';
 import AddAPhotoRounded from '@mui/icons-material/AddAPhotoRounded';
 
@@ -7,9 +7,11 @@ import { MUIColor, MUISize } from '../../../misc/types/MUI';
 import UiThumb from '../image/UiThumb';
 
 type Props = {
+  multiple?: boolean,
   onChange: (files: File[]) => void
 }
 export default function FileUploader(props: Props) {
+  const { multiple = true } = props;
   const [files, setFiles] = useState<File[]>([]);
   const [previews, setPreviews] = useState<(ArrayBuffer | string | null)[]>([]);
   const [showDialog, setShowDialog] = useState<boolean>(false);
@@ -19,7 +21,11 @@ export default function FileUploader(props: Props) {
   const preparePreview = (file: File) => {
     const preview = new FileReader();
     preview.onload = function () {
-      setPreviews((prev) => [...prev, preview.result]);
+      if (multiple) {
+        setPreviews((prev) => [...prev, preview.result]);
+      } else {
+        setPreviews([preview.result]);
+      } 
     }
 
     preview.readAsDataURL(file);
@@ -31,7 +37,10 @@ export default function FileUploader(props: Props) {
     if (e.target.files) {
       const fileList: FileList = e.target.files;
       const fileListAsArray = Array.from(fileList);
-      const bindFiles = [...files, ...fileListAsArray];
+
+      let bindFiles = multiple ? [...files] : [];
+      bindFiles.push.apply(bindFiles, fileListAsArray);
+      
       setFiles(bindFiles);
       emitFiles(bindFiles);
 
@@ -72,7 +81,7 @@ export default function FileUploader(props: Props) {
         ref={hiddenInput}
         type={'file'}
         accept={'image/jpg, image/jpeg, image/png'}
-        multiple
+        multiple={multiple}
         onChange={handleChange}
         style={{ display: 'none'}} />
 
